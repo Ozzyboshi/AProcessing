@@ -1,0 +1,54 @@
+CLEARFASTBITPLANES MACRO
+
+	; copy from fast bitplanes to slow bitplanes
+	lea SCREEN_0,a0
+	lea SCREEN_1,a4
+	
+    IFD VAMPIRE
+    move.l #5*255,d3
+	load #0,e0
+    ENDIF
+    IFND VAMPIRE
+	moveq #0,d0
+    move.l #10*255,d3
+    ENDIF
+
+	;move.l bitplane0,a1
+	;move.l bitplane1,a2
+.clearfastbitplanesmacro:
+    IFD VAMPIRE
+    store e0,(a0)+
+    ENDIF
+    IFND VAMPIRE
+    move.l d0,(a0)+
+    ENDIF
+	;load (a0),e20
+	;load (a4),e21
+	;store e20,(a1)+
+	;store e21,(a2)+
+	;store e0,(a0)+
+	;store e0,(a4)+
+	dbra d3,.clearfastbitplanesmacro
+	ENDM
+
+
+PREPARESCREEN MACRO
+
+	; copy from fast bitplanes to slow bitplanes
+	move.l #5*255,d3
+	lea SCREEN_0,a0
+	lea SCREEN_1,a4
+	
+	load #0,e0
+
+	move.l bitplane0,a1
+	move.l bitplane1,a2
+.preparescreenclearline:
+	load (a0),e20
+	load (a4),e21
+	store e20,(a1)+
+	store e21,(a2)+
+	store e0,(a0)+
+	store e0,(a4)+
+	dbra d3,.preparescreenclearline
+	ENDM

@@ -1,0 +1,73 @@
+
+	XDEF _filline_test1
+	XDEF _filline_test2
+	XDEF _filline_test3
+	XDEF _filline_test4
+
+	SECTION PROCESSING,CODE_F
+
+	include "../../libs/rasterizers/processing_bitplanes_fast.s"
+	include "../../libs/rasterizers/processing_table_plotrefs.s"
+	include "../../libs/rasterizers/processingfill.s"
+	include "../../libs/rasterizers/processingclearfunctions.s"
+
+_filline_test1:
+	CLEARFASTBITPLANES ; Clear fast bitplanes
+
+	move.w #0,AMMXFILLTABLE_CURRENT_ROW
+	move.w #0,AMMXFILLTABLE_END_ROW ; I want to fill up to first row (first row is elaborated)
+
+	lea FILL_TABLE,a1
+
+	; Fill from pixel number 15 up to 102
+    move.w #15,(a1)+
+	move.w #102,(a1)+
+	bsr.w ammx_fill_table
+	bsr.w processing_bitplanes_fast_screen0 ; returns bitplanes addr in d0
+	rts
+
+_filline_test2:
+	CLEARFASTBITPLANES ; Clear fast bitplanes
+
+	move.w #1,AMMXFILLTABLE_CURRENT_ROW ; I want to fill row 1 (second row)
+
+	; Fill from pixel number 1 up to 2
+	lea FILL_TABLE,a1
+	move.w #0,AMMXFILLTABLE_CURRENT_ROW ; I want to fill row 0 (first row)
+	move.w #0,AMMXFILLTABLE_END_ROW ; I want to fill up to first row (first row is elaborated)
+
+    move.w #1,(a1)+
+	move.w #2,(a1)+
+	bsr.w ammx_fill_table
+	bsr.w processing_bitplanes_fast_screen0 ; returns bitplanes addr in d0
+	rts
+
+_filline_test3:
+	CLEARFASTBITPLANES ; Clear fast bitplanes
+
+	move.w #1,AMMXFILLTABLE_CURRENT_ROW ; I want to fill row 1 (second row)
+	move.w #1,AMMXFILLTABLE_END_ROW ; I want to fill up to second row (second row is elaborated)
+
+	; Fill from pixel number 1 up to 2
+	lea FILL_TABLE+4,a1
+
+    move.w #1,(a1)+
+	move.w #2,(a1)+
+	bsr.w ammx_fill_table
+	bsr.w processing_bitplanes_fast_screen0 ; returns bitplanes addr in d0
+	rts
+
+_filline_test4:
+	CLEARFASTBITPLANES ; Clear fast bitplanes
+
+	move.w #0,AMMXFILLTABLE_CURRENT_ROW ; I want to fill row 0 (first row)
+	move.w #0,AMMXFILLTABLE_END_ROW ; I want to fill up to first row (first row is elaborated)
+
+	; Fill from pixel number 1 up to 2
+	lea FILL_TABLE,a1
+    move.w #0,(a1)+
+	move.w #319,(a1)+
+	bsr.w ammx_fill_table
+	bsr.w processing_bitplanes_fast_screen0 ; returns bitplanes addr in d0
+	rts
+
