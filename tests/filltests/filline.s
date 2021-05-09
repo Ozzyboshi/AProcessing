@@ -3,6 +3,8 @@
 	XDEF _filline_test2
 	XDEF _filline_test3
 	XDEF _filline_test4
+	XDEF _filline_test5
+	XDEF _filline_test6
 
 	SECTION PROCESSING,CODE_F
 
@@ -63,7 +65,7 @@ _filline_test4:
 	move.w #0,AMMXFILLTABLE_CURRENT_ROW ; I want to fill row 0 (first row)
 	move.w #0,AMMXFILLTABLE_END_ROW ; I want to fill up to first row (first row is elaborated)
 
-	; Fill from pixel number 1 up to 2
+	; Fill first line
 	lea FILL_TABLE,a1
     move.w #0,(a1)+
 	move.w #319,(a1)+
@@ -71,3 +73,34 @@ _filline_test4:
 	bsr.w processing_bitplanes_fast_screen0 ; returns bitplanes addr in d0
 	rts
 
+_filline_test5:
+	CLEARFASTBITPLANES ; Clear fast bitplanes
+
+	move.w #0,AMMXFILLTABLE_CURRENT_ROW ; I want to fill row 0 (first row)
+	move.w #1,AMMXFILLTABLE_END_ROW ; I want to fill up to second row (second row is elaborated)
+
+	; Fill first and second line
+	lea FILL_TABLE,a1
+    move.w #0,(a1)+
+	move.w #319,(a1)+
+	move.w #0,(a1)+
+	move.w #319,(a1)+
+	bsr.w ammx_fill_table
+	bsr.w processing_bitplanes_fast_screen0 ; returns bitplanes addr in d0
+	rts
+
+_filline_test6:
+	CLEARFASTBITPLANES ; Clear fast bitplanes
+
+	move.w #0,AMMXFILLTABLE_CURRENT_ROW ; I want to fill row 1 (second row)
+	move.w #0,AMMXFILLTABLE_END_ROW ; I want to fill up to second row (second row is elaborated)
+
+	; Fill first bit
+	lea FILL_TABLE,a1
+    move.w #0,(a1)+
+	move.w #0,(a1)+
+	move.w #0,(a1)+
+	move.w #0,(a1)+
+	bsr.w ammx_fill_table
+	bsr.w processing_bitplanes_fast_screen0 ; returns bitplanes addr in d0
+	rts
