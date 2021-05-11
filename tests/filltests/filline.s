@@ -12,6 +12,7 @@
 	include "../../libs/rasterizers/processing_table_plotrefs.s"
 	include "../../libs/rasterizers/processingfill.s"
 	include "../../libs/rasterizers/processingclearfunctions.s"
+	include "../../libs/rasterizers/globaloptions.s"
 
 _filline_test1:
 	CLEARFASTBITPLANES ; Clear fast bitplanes

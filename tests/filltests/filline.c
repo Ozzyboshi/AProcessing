@@ -29,10 +29,10 @@ unsigned char *filline_test6();
 
 struct _test TESTS[] = {
     {.testId = 1, .test_function = filline_test1, .title = "From px 15 to 102 first row"}, // Pixel 15 up to 102 first line (line number 0)
-    {.testId = 2, .test_function = filline_test2, .title = ""}, // Pixel 1 up to 2 first line (line number 0)
-    {.testId = 3, .test_function = filline_test3, .title = ""}, // Pixel 1 up to 2 second line (line number 1)
-    {.testId = 4, .test_function = filline_test4,  .title = ""}, // Whole first line
-    {.testId = 5, .test_function = filline_test5, .title = "First 2 rows"}, // Whole first line
+    {.testId = 2, .test_function = filline_test2, .title = " Pixel 1 up to 2 first line"}, // Pixel 1 up to 2 first line (line number 0)
+    {.testId = 3, .test_function = filline_test3, .title = " Pixel 1 up to 2 second line"}, // Pixel 1 up to 2 second line (line number 1)
+    {.testId = 4, .test_function = filline_test4,  .title = "Whole first line"}, // Whole first line
+    {.testId = 5, .test_function = filline_test5, .title = "First 2 rows"}, // Whole first 2 rows
     {.testId = 6, .test_function = filline_test6, .title = "First bit of first row"},
 
     {.testId = 0, .test_function = NULL}
@@ -118,7 +118,7 @@ int make_test(unsigned char *(*test_function)(void), const char *file)
     if (verbose)
         printf("File %s open\n", file);
 
-    for (bitplane = 0; error == 0 && bitplane < 1; bitplane++)
+    for (bitplane = 0; error == 0 && bitplane < 2; bitplane++)
     {
         if (verbose)
             printf("Processing bitplane %d\n", bitplane);

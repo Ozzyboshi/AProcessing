@@ -7,6 +7,13 @@ AMMXFILLTABLE_CURRENT_ROW:
 AMMXFILLTABLE_END_ROW:
 	dc.w 0
 
+	IFND VAMPIRE 
+AMMXFILLTABLE_FILLDATA_BPL_0:
+	dc.l 0
+AMMXFILLTABLE_FILLDATA_BPL_1:
+	dc.l 0
+	ENDIF
+
 ammx_fill_table:
 	movem.l d0-d7/a0-a1,-(sp) ; stack save
 	;move.w #0,AMMXFILLTABLE_CURRENT_ROW
@@ -46,7 +53,7 @@ ammx_fill_table_end:
 	rts
 
 ammx_fill_table_single_line:
-	movem.l d0-d7/a0-a1,-(sp) ; stack save
+	movem.l d0-d7/a0-a2,-(sp) ; stack save
 
 	
 
@@ -112,14 +119,47 @@ ammx_fill_table_single_line:
 	not d5
 	lsr.b d5,d3
 	lsl.b d5,d3
+
+	btst #1,STROKE_DATA
+	beq.s ammx_fill_table_no_special_1
+	or.b d3,256*40*1(a0) ; Plot points bpl1!!
+ammx_fill_table_no_special_1
+	btst #0,STROKE_DATA
+	beq.s ammx_fill_table_no_special_0
 	or.b d3,(a0)+ ; Plot points!!
-	movem.l (sp)+,d0-d7/a0-a1
+ammx_fill_table_no_special_0:
+	movem.l (sp)+,d0-d7/a0-a2
 	rts
 
 ammx_fill_table_no_special_case:
     ; end special case
+
+	; reset bitplane data
+	IFND VAMPIRE
+	move.l #$00000000,AMMXFILLTABLE_FILLDATA_BPL_0
+	move.l #$00000000,AMMXFILLTABLE_FILLDATA_BPL_1
+	ENDIF
     
+	btst #1,STROKE_DATA
+	beq.s ammx_fill_table_no_firstbyte_1
+	or.b d3,256*40*1(a0) ; Plot points bpl1!!
+	IFND VAMPIRE
+	move.l #$FFFFFFFF,AMMXFILLTABLE_FILLDATA_BPL_1
+	ENDIF
+	IFD VAMPIRE
+	load #$FFFFFFFFFFFFFFFF,e1
+	ENDIF
+ammx_fill_table_no_firstbyte_1:
+	btst #0,STROKE_DATA
+	beq.s ammx_fill_table_no_firstbyte_0
     or.b d3,(a0)+ ; Plot points!!
+	IFND VAMPIRE
+	move.l #$FFFFFFFF,AMMXFILLTABLE_FILLDATA_BPL_0
+	ENDIF
+	IFD VAMPIRE
+	load #$FFFFFFFFFFFFFFFF,e0
+	ENDIF
+ammx_fill_table_no_firstbyte_0:
     ; ALESSIO END MODIFICA
 
 
@@ -138,22 +178,51 @@ ammx_fill_table_startiter:
 	bcs.w ammx_fill_table_no64 ; branch if lower (it will continue if we have at least 64 bits to fill)
 	; here starts the code to fill 64 bits
 	IFD VAMPIRE
-	load #$FFFFFFFFFFFFFFFF,e0
-	store e0,(a0)+
+	move.l a0,a2
+	add.l #256*40,a2
+	store e1,(a2)+ ; second bitplane
+	store e0,(a0)+ ; first bitplane
 	ENDIF
-	IFND VAMPIRE	
+	IFND VAMPIRE
+	
 	move.l a0,d0
 	btst #0,d0
 	beq.s ammx_fill_table_64_even
-	move.b #$FF,(a0)+
-	move.l  #$FFFFFFFF,(a0)+
-    move.w  #$FFFF,(a0)+
-    move.b #$FF,(a0)+
+	;move.b #$FF,(a0)+
+	;move.l  #$FFFFFFFF,(a0)+
+    ;move.w  #$FFFF,(a0)+
+    ;move.b #$FF,(a0)+
+	
+	move.l AMMXFILLTABLE_FILLDATA_BPL_1,d0
+	move.l a0,a2
+	add.l #256*40,a2
+	or.b d0,(a2)+
+	or.b d0,(a2)+
+	or.w d0,(a2)+
+    or.b d0,(a2)+
+
+	move.l AMMXFILLTABLE_FILLDATA_BPL_0,d0
+	or.b d0,(a0)+
+	or.l  d0,(a0)+
+    or.w  d0,(a0)+
+    or.b d0,(a0)+
+
     subi.w #64,d5
 	bra.w ammx_fill_table_check_if_other
  ammx_fill_table_64_even:
-    move.l  #$FFFFFFFF,(a0)+
-	move.l  #$FFFFFFFF,(a0)+
+    ;move.l  #$FFFFFFFF,(a0)+
+	;move.l  #$FFFFFFFF,(a0)+
+
+	move.l AMMXFILLTABLE_FILLDATA_BPL_1,d0
+	move.l a0,a2
+	add.l #256*40,a2
+	or.l  d0,(a2)+
+	or.l  d0,(a2)+
+
+	move.l AMMXFILLTABLE_FILLDATA_BPL_0,d0
+	or.l  d0,(a0)+
+	or.l  d0,(a0)+
+
 	subi.w #64,d5
 	bra.w ammx_fill_table_check_if_other
 
@@ -203,7 +272,7 @@ ammx_fill_table_check_if_other;
 	bhi.w ammx_fill_table_startiter
 
 
-	movem.l (sp)+,d0-d7/a0-a1
+	movem.l (sp)+,d0-d7/a0-a2
 	rts
 
 FILL_TABLE:
