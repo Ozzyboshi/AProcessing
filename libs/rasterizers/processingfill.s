@@ -139,6 +139,10 @@ ammx_fill_table_no_special_case:
 	move.l #$00000000,AMMXFILLTABLE_FILLDATA_BPL_0
 	move.l #$00000000,AMMXFILLTABLE_FILLDATA_BPL_1
 	ENDIF
+	IFD VAMPIRE
+	load #$0000000000000000,e0
+	load #$0000000000000000,e1
+	ENDIF
     
 	btst #1,STROKE_DATA
 	beq.s ammx_fill_table_no_firstbyte_1

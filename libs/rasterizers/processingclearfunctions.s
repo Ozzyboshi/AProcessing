@@ -18,9 +18,11 @@ CLEARFASTBITPLANES MACRO
 .clearfastbitplanesmacro:
     IFD VAMPIRE
     store e0,(a0)+
+	store e0,(a4)+
     ENDIF
     IFND VAMPIRE
     move.l d0,(a0)+
+	move.l d0,(a4)+
     ENDIF
 	;load (a0),e20
 	;load (a4),e21
