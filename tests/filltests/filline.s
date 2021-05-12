@@ -5,6 +5,7 @@
 	XDEF _filline_test4
 	XDEF _filline_test5
 	XDEF _filline_test6
+	XDEF _filline_test7
 
 	SECTION PROCESSING,CODE_F
 
@@ -31,8 +32,6 @@ _filline_test1:
 
 _filline_test2:
 	CLEARFASTBITPLANES ; Clear fast bitplanes
-
-	move.w #1,AMMXFILLTABLE_CURRENT_ROW ; I want to fill row 1 (second row)
 
 	; Fill from pixel number 1 up to 2
 	lea FILL_TABLE,a1
@@ -102,6 +101,21 @@ _filline_test6:
 	move.w #0,(a1)+
 	move.w #0,(a1)+
 	move.w #0,(a1)+
+	bsr.w ammx_fill_table
+	bsr.w processing_bitplanes_fast_screen0 ; returns bitplanes addr in d0
+	rts
+
+_filline_test7:
+	CLEARFASTBITPLANES ; Clear fast bitplanes
+
+	; Fill from pixel number 1 up to 2
+	lea FILL_TABLE,a1
+	move.w #0,AMMXFILLTABLE_CURRENT_ROW ; I want to fill row 0 (first row)
+	move.w #0,AMMXFILLTABLE_END_ROW ; I want to fill up to first row (first row is elaborated)
+
+    move.w #1,(a1)+
+	move.w #2,(a1)+
+	STROKE #3
 	bsr.w ammx_fill_table
 	bsr.w processing_bitplanes_fast_screen0 ; returns bitplanes addr in d0
 	rts
