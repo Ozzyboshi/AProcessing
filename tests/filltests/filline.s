@@ -7,6 +7,7 @@
 	XDEF _filline_test6
 	XDEF _filline_test7
 	XDEF _filline_test8
+	XDEF _filline_test9
 
 	SECTION PROCESSING,CODE_F
 
@@ -131,6 +132,21 @@ _filline_test8:
 
     move.w #3,(a1)+
 	move.w #7,(a1)+
+	STROKE #3
+	bsr.w ammx_fill_table
+	bsr.w processing_bitplanes_fast_screen0 ; returns bitplanes addr in d0
+	rts
+
+_filline_test9:
+	CLEARFASTBITPLANES ; Clear fast bitplanes
+
+	move.w #0,AMMXFILLTABLE_CURRENT_ROW ; I want to fill row 0 (first row)
+	move.w #0,AMMXFILLTABLE_END_ROW ; I want to fill up to first row (first row is elaborated)
+
+	; Fill first line
+	lea FILL_TABLE,a1
+    move.w #0,(a1)+
+	move.w #319,(a1)+
 	STROKE #3
 	bsr.w ammx_fill_table
 	bsr.w processing_bitplanes_fast_screen0 ; returns bitplanes addr in d0

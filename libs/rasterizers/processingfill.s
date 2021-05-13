@@ -201,7 +201,7 @@ ammx_fill_table_startiter:
 	move.l a0,a2
 	add.l #256*40,a2
 	or.b d0,(a2)+
-	or.b d0,(a2)+
+	or.l d0,(a2)+
 	or.w d0,(a2)+
     or.b d0,(a2)+
 
@@ -238,21 +238,133 @@ ammx_fill_table_no64:
 	; todo - check less sig bit for move.l alignment, necessary on 68000
 	cmpi.w #32,d5
 	bcs.w ammx_fill_table_no32 ; branch if lower (it will continue if we have at least 32 bits to fill)
-	move.l  #$FFFFFFFF,(a0)+
+
+	IFD VAMPIRE
+	move.l a0,a2
+	add.l #256*40,a2
+	vperm #$00000000,e1,e1,d0
+	move.l d0,(a2)+ ; second bitplane
+	vperm #$00000000,e0,e0,d0
+	move.l d0,(a0)+ ; first bitplane
 	subi.w #32,d5
 	bra.w ammx_fill_table_check_if_other
+	ENDIF
+	
+	IFND VAMPIRE
+	
+	move.l a0,d0
+	btst #0,d0
+	beq.s ammx_fill_table_32_even
+	
+	move.l AMMXFILLTABLE_FILLDATA_BPL_1,d0
+	move.l a0,a2
+	add.l #256*40,a2
+	or.b d0,(a2)+
+	or.w d0,(a2)+
+    or.b d0,(a2)+
+
+	move.l AMMXFILLTABLE_FILLDATA_BPL_0,d0
+	or.b d0,(a0)+
+    or.w  d0,(a0)+
+    or.b d0,(a0)+
+
+    subi.w #32,d5
+	bra.w ammx_fill_table_check_if_other
+ ammx_fill_table_32_even:
+	move.l AMMXFILLTABLE_FILLDATA_BPL_1,d0
+	move.l a0,a2
+	add.l #256*40,a2
+	or.l  d0,(a2)+
+
+	move.l AMMXFILLTABLE_FILLDATA_BPL_0,d0
+	or.l  d0,(a0)+
+
+	subi.w #32,d5
+	bra.w ammx_fill_table_check_if_other
+
+	ENDIF
+	
 ammx_fill_table_no32:
 	; todo - check less sig bit for move.w alignment, necessary on 68000
 	cmpi.w #16,d5
 	bcs.w ammx_fill_table_no16 ; branch if lower (it will continue if we have at least 16 bits to fill)
-	move.w  #$FFFF,(a0)+
+	
+	IFD VAMPIRE
+	move.l a0,a2
+	add.l #256*40,a2
+	vperm #$00000000,e1,e1,d0
+	move.w d0,(a2)+ ; second bitplane
+	vperm #$00000000,e0,e0,d0
+	move.w d0,(a0)+ ; first bitplane
+	subi.w #32,d5
+	bra.w ammx_fill_table_check_if_other
+	ENDIF
+	
+	;move.w  #$FFFF,(a0)+
+	;subi.w #16,d5
+	IFND VAMPIRE
+	
+	move.l a0,d0
+	btst #0,d0
+	beq.s ammx_fill_table_16_even
+	
+	move.l AMMXFILLTABLE_FILLDATA_BPL_1,d0
+	move.l a0,a2
+	add.l #256*40,a2
+	or.b d0,(a2)+
+    or.b d0,(a2)+
+
+	move.l AMMXFILLTABLE_FILLDATA_BPL_0,d0
+	or.b d0,(a0)+
+    or.b d0,(a0)+
+
+    subi.w #16,d5
+	bra.w ammx_fill_table_check_if_other
+ ammx_fill_table_16_even:
+	move.l AMMXFILLTABLE_FILLDATA_BPL_1,d0
+	move.l a0,a2
+	add.l #256*40,a2
+	or.w  d0,(a2)+
+
+	move.l AMMXFILLTABLE_FILLDATA_BPL_0,d0
+	or.w  d0,(a0)+
+
 	subi.w #16,d5
 	bra.w ammx_fill_table_check_if_other
+
+	ENDIF
+	
+	
+	
+	
+	
+	;bra.w ammx_fill_table_check_if_other
 ammx_fill_table_no16:
 
 	cmpi.w #8,d5
 	bcs.w ammx_fill_table_no8 ; branch if lower (it will continue if we have at least 8 bits to fill)
-	move.b  #$FF,(a0)+
+	;move.b  #$FF,(a0)+
+	IFD VAMPIRE
+	move.l a0,a2
+	add.l #256*40,a2
+	vperm #$00000000,e1,e1,d0
+	move.b d0,(a2)+ ; second bitplane
+	vperm #$00000000,e0,e0,d0
+	move.b d0,(a0)+ ; first bitplane
+	subi.w #32,d5
+	bra.w ammx_fill_table_check_if_other
+	ENDIF
+
+	IFND VAMPIRE
+	move.l AMMXFILLTABLE_FILLDATA_BPL_1,d0
+	move.l a0,a2
+	add.l #256*40,a2
+	or.b  d0,(a2)+
+
+	move.l AMMXFILLTABLE_FILLDATA_BPL_0,d0
+	or.b  d0,(a0)+
+	ENDIF
+
 	subi.w #8,d5
 	bra.w ammx_fill_table_check_if_other
 ammx_fill_table_no8:
