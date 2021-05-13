@@ -263,8 +263,17 @@ ammx_fill_table_no8:
 	moveq #8,d4
 	sub.w d5,d4
 	lsl.b d4,d3
+	btst #1,STROKE_DATA
+	beq.s ammx_fill_table_no_end_1
+	or.b d3,256*40*1(a0)
+ammx_fill_table_no_end_1:
+	btst #0,STROKE_DATA
+	beq.s ammx_fill_table_no_end_0
 	or.b d3,(a0)
-	moveq #0,d5
+ammx_fill_table_no_end_0
+	;moveq #0,d5
+	movem.l (sp)+,d0-d7/a0-a2
+	rts
 
 
 
