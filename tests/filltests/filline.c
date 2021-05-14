@@ -30,6 +30,7 @@ unsigned char *filline_test7();
 unsigned char *filline_test8();
 unsigned char *filline_test9();
 unsigned char *filline_test10();
+unsigned char *filline_test11();
 
 struct _test TESTS[] = {
     {.testId = 1, .test_function = filline_test1, .title = "From px 15 to 102 first row"}, // Pixel 15 up to 102 first line (line number 0)
@@ -42,6 +43,7 @@ struct _test TESTS[] = {
     {.testId = 8, .test_function = filline_test8, .title = " Pixel 4 up to 8 first line both bitplanes"},
     {.testId = 9, .test_function = filline_test9,  .title = "Whole first line both bitplanes"}, // Whole first line
     {.testId = 10, .test_function = filline_test10,  .title = "Raw 2 and 3 from px 8 to 16 both bitplanes"}, // Whole first line
+    {.testId = 10, .test_function = filline_test10,  .title = "Raw 2 and 3 from px 8 to 31 second bitplane only"}, // Whole first line
 
     {.testId = 0, .test_function = NULL}
 
