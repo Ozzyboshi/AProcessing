@@ -296,7 +296,7 @@ ammx_fill_table_no32:
 	move.w d0,(a2)+ ; second bitplane
 	vperm #$00000000,e0,e0,d0
 	move.w d0,(a0)+ ; first bitplane
-	subi.w #32,d5
+	subi.w #16,d5
 	bra.w ammx_fill_table_check_if_other
 	ENDIF
 	
@@ -334,10 +334,6 @@ ammx_fill_table_no32:
 
 	ENDIF
 	
-	
-	
-	
-	
 	;bra.w ammx_fill_table_check_if_other
 ammx_fill_table_no16:
 
@@ -351,8 +347,6 @@ ammx_fill_table_no16:
 	move.b d0,(a2)+ ; second bitplane
 	vperm #$00000000,e0,e0,d0
 	move.b d0,(a0)+ ; first bitplane
-	subi.w #32,d5
-	bra.w ammx_fill_table_check_if_other
 	ENDIF
 
 	IFND VAMPIRE
