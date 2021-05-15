@@ -1,0 +1,9 @@
+tests/filltests/fillscanline/fillscanline
+tests/filltests/fillscanline/fillscanline.o
+tests/filltests/fillscanline/fillscanlinevampire
+tests/filltests/fillscanline/fillscanline.o
+
+tests/filllines/fillines/filllines
+tests/filllines/fillines/filllines.o
+tests/filllines/fillines/filllinesvampire
+tests/filllines/fillines/filllines.o
