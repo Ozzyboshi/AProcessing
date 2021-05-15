@@ -394,6 +394,85 @@ ammx_fill_table_check_if_other;
 	movem.l (sp)+,d0-d7/a0-a2
 	rts
 
+
+LINEVERTEX_START_PUSHED:
+	dc.w 0 ; X1
+	dc.w 0 ; Y1
+LINEVERTEX_END_PUSHED:
+	dc.w 0 ; X2
+	dc.w 0 ; Y2
+
+LINEVERTEX_START_FINAL:
+	dc.w 2 ; X1
+	dc.w 1 ; Y1
+LINEVERTEX_END_FINAL:
+	dc.w 1 ; X2
+	dc.w 8 ; Y2
+
+; Line drawing with boundaries storing - entry function to select the correct drawing routine according to m
+ammxlinefill:
+	movem.l d0-d6/a0-a6,-(sp) ; stack save
+	;move.l par1,a1
+	lea LINEVERTEX_START_PUSHED,a2
+	
+	; - pick lowest first x
+	move.l LINEVERTEX_START_FINAL,d2
+	cmp.l LINEVERTEX_END_FINAL,d2
+	blt.s ammxlinefill_lowestless ;  check if first x is lower if this is the case jump to endammxlinefill
+	move.l LINEVERTEX_START_FINAL,d3
+	move.l LINEVERTEX_END_FINAL,d2
+	bra.s endammxlinefillphase1
+ammxlinefill_lowestless:
+	move.l LINEVERTEX_END_FINAL,d3
+endammxlinefillphase1 : ; end of first check
+
+	; - pick lowest first x end
+	move.l d2,(a2)+
+	move.l d3,(a2)+
+
+	; - check if both coords are between screen limits start
+	; - check if both coords are between screen limits end
+
+	; select one of the 4 drawing routines start
+	IFD VAMPIRE
+	PSUBW d2,d3,d4 ; d4 will contain deltas
+	PSUBW d3,d2,d5
+	pmaxsw  d5,d4,d4
+	
+	vperm #$45454545,d4,d4,d5 ; move xdelta in the less sig word
+	ENDIF
+
+	; select one of the 4 drawing routines end
+	
+	cmp.w d5,d4
+	blt.s ammxlinefill_dylessthan
+	
+	cmp.w d2,d3
+	bls.s ammxlinefill_gotolessminus1
+	nop
+	;bsr.w ammxlinefill_linemgreater1		; vertical line
+	bra.s ammxlinefill_endammxlinefillphase2
+
+ammxlinefill_gotolessminus1:
+	;bsr.w ammxlinefill_linemlessminus1
+	bra.s ammxlinefill_endammxlinefillphase2
+
+
+ammxlinefill_dylessthan:
+	
+	cmp.w d2,d3
+	bls.s ammxlinefill_goto0tominus1
+	;bsr.w ammxlinefill_linem0to1
+	nop
+	bra.s ammxlinefill_endammxlinefillphase2
+ammxlinefill_goto0tominus1:
+	;bsr.w ammxlinefill_linem0tominus1
+	nop
+ammxlinefill_endammxlinefillphase2:
+	movem.l (sp)+,d0-d6/a0-a6
+
+	rts
+
 FILL_TABLE:
         dcb.b 4*256,$FF
 
