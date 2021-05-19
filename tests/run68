@@ -1,0 +1,8 @@
+cd filltests/filllines
+filllines
+cd /
+cd /
+cd filltests/fillscanline
+fillscanline
+cd /
+cd /

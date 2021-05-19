@@ -66,7 +66,6 @@ int main(int argc, char **argv)
         char filename[100];
         snprintf(filename, sizeof(filename), "expected/filline.test%d", TESTS[testcounter].testId);
         error = make_test4(TESTS[testcounter],filename);
-        //error = launch_test(TESTS[testcounter]);
         if (!error)
             printf("Test succeeded\n");
         else

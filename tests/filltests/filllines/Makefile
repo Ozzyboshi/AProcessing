@@ -7,7 +7,7 @@ all:
 	#m68k-amigaos-gcc -Wall -O1 -noixemul filllines.c -o filllinesvampire filllinesvampire.o
 
 test: filllines
-	vamos -C 00 ./filllines
+	vamos ./filllines
 
 copy: filllines
 	scp -r ../filllines pi@10.0.0.4:/media/MAXTOR/upload/Vampire/
