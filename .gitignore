@@ -1,3 +1,5 @@
+.vscode
+
 tests/filltests/fillscanline/fillscanline
 tests/filltests/fillscanline/fillscanline.o
 tests/filltests/fillscanline/fillscanlinevampire

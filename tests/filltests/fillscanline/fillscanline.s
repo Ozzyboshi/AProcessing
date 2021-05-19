@@ -1,15 +1,15 @@
 
-	XDEF _filline_test1
-	XDEF _filline_test2
-	XDEF _filline_test3
-	XDEF _filline_test4
-	XDEF _filline_test5
-	XDEF _filline_test6
-	XDEF _filline_test7
-	XDEF _filline_test8
-	XDEF _filline_test9
-	XDEF _filline_test10
-	XDEF _filline_test11
+	XDEF _fillscanline_test1
+	XDEF _fillscanline_test2
+	XDEF _fillscanline_test3
+	XDEF _fillscanline_test4
+	XDEF _fillscanline_test5
+	XDEF _fillscanline_test6
+	XDEF _fillscanline_test7
+	XDEF _fillscanline_test8
+	XDEF _fillscanline_test9
+	XDEF _fillscanline_test10
+	XDEF _fillscanline_test11
 
 	SECTION PROCESSING,CODE_F
 
@@ -19,7 +19,7 @@
 	include "../../../libs/rasterizers/processingclearfunctions.s"
 	include "../../../libs/rasterizers/globaloptions.s"
 
-_filline_test1:
+_fillscanline_test1:
 	CLEARFASTBITPLANES ; Clear fast bitplanes
 
 	move.w #0,AMMXFILLTABLE_CURRENT_ROW
@@ -34,7 +34,7 @@ _filline_test1:
 	bsr.w processing_bitplanes_fast_screen0 ; returns bitplanes addr in d0
 	rts
 
-_filline_test2:
+_fillscanline_test2:
 	CLEARFASTBITPLANES ; Clear fast bitplanes
 
 	; Fill from pixel number 1 up to 2
@@ -48,7 +48,7 @@ _filline_test2:
 	bsr.w processing_bitplanes_fast_screen0 ; returns bitplanes addr in d0
 	rts
 
-_filline_test3:
+_fillscanline_test3:
 	CLEARFASTBITPLANES ; Clear fast bitplanes
 
 	move.w #1,AMMXFILLTABLE_CURRENT_ROW ; I want to fill row 1 (second row)
@@ -63,7 +63,7 @@ _filline_test3:
 	bsr.w processing_bitplanes_fast_screen0 ; returns bitplanes addr in d0
 	rts
 
-_filline_test4:
+_fillscanline_test4:
 	CLEARFASTBITPLANES ; Clear fast bitplanes
 
 	move.w #0,AMMXFILLTABLE_CURRENT_ROW ; I want to fill row 0 (first row)
@@ -77,7 +77,7 @@ _filline_test4:
 	bsr.w processing_bitplanes_fast_screen0 ; returns bitplanes addr in d0
 	rts
 
-_filline_test5:
+_fillscanline_test5:
 	CLEARFASTBITPLANES ; Clear fast bitplanes
 
 	move.w #0,AMMXFILLTABLE_CURRENT_ROW ; I want to fill row 0 (first row)
@@ -93,7 +93,7 @@ _filline_test5:
 	bsr.w processing_bitplanes_fast_screen0 ; returns bitplanes addr in d0
 	rts
 
-_filline_test6:
+_fillscanline_test6:
 	CLEARFASTBITPLANES ; Clear fast bitplanes
 
 	move.w #0,AMMXFILLTABLE_CURRENT_ROW ; I want to fill row 1 (second row)
@@ -109,7 +109,7 @@ _filline_test6:
 	bsr.w processing_bitplanes_fast_screen0 ; returns bitplanes addr in d0
 	rts
 
-_filline_test7:
+_fillscanline_test7:
 	CLEARFASTBITPLANES ; Clear fast bitplanes
 
 	; Fill from pixel number 1 up to 2
@@ -124,7 +124,7 @@ _filline_test7:
 	bsr.w processing_bitplanes_fast_screen0 ; returns bitplanes addr in d0
 	rts
 
-_filline_test8:
+_fillscanline_test8:
 	CLEARFASTBITPLANES ; Clear fast bitplanes
 
 	; Fill from pixel number 1 up to 2
@@ -139,7 +139,7 @@ _filline_test8:
 	bsr.w processing_bitplanes_fast_screen0 ; returns bitplanes addr in d0
 	rts
 
-_filline_test9:
+_fillscanline_test9:
 	CLEARFASTBITPLANES ; Clear fast bitplanes
 
 	move.w #0,AMMXFILLTABLE_CURRENT_ROW ; I want to fill row 0 (first row)
@@ -154,7 +154,7 @@ _filline_test9:
 	bsr.w processing_bitplanes_fast_screen0 ; returns bitplanes addr in d0
 	rts
 
-_filline_test10:
+_fillscanline_test10:
 	CLEARFASTBITPLANES ; Clear fast bitplanes
 
 	move.w #2,AMMXFILLTABLE_CURRENT_ROW ; I want to fill row 0 (first row)
@@ -171,19 +171,19 @@ _filline_test10:
 	bsr.w processing_bitplanes_fast_screen0 ; returns bitplanes addr in d0
 	rts
 
-_filline_test11:
+_fillscanline_test11:
 	CLEARFASTBITPLANES ; Clear fast bitplanes
 
-	move.w #2,AMMXFILLTABLE_CURRENT_ROW ; I want to fill row 0 (first row)
-	move.w #3,AMMXFILLTABLE_END_ROW ; I want to fill up to first row (first row is elaborated)
+	move.w #0,AMMXFILLTABLE_CURRENT_ROW ; I want to fill row 0 (first row)
+	move.w #0,AMMXFILLTABLE_END_ROW ; I want to fill up to first row (first row is elaborated)
 
 	; Fill first line
-	lea FILL_TABLE+4*2,a1 ; START FROM ROW 2 (third)
+	lea FILL_TABLE,a1 ; START FROM ROW 2 (third)
     move.w #8,(a1)+
 	move.w #31,(a1)+
-	move.w #8,(a1)+
-	move.w #31,(a1)+
-	STROKE #2
+	;move.w #8,(a1)+
+	;move.w #31,(a1)+
+	STROKE #3
 	bsr.w ammx_fill_table
 	bsr.w processing_bitplanes_fast_screen0 ; returns bitplanes addr in d0
 	rts

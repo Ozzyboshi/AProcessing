@@ -1,5 +1,6 @@
 
 	XDEF _filline_test1
+	XDEF _filline_test2
 	
 	SECTION PROCESSING,CODE_F
 
@@ -10,14 +11,56 @@
 	include "../../../libs/rasterizers/globaloptions.s"
 
 _filline_test1:
-	CLEARFASTBITPLANES ; Clear fast bitplanes
+	;CLEARFASTBITPLANES ; Clear fast bitplanes
+	
 
 	lea LINEVERTEX_START_FINAL,a1
+	move.w #1,(a1)+
+	move.w #1,(a1)+
+	move.w #8,(a1)+
+	move.w #5,(a1)+
+	bsr.w ammxlinefill
+	
+	lea LINEVERTEX_START_FINAL,a1
 	move.w #10,(a1)+
-	move.w #10,(a1)+
-	move.w #30,(a1)+
-	move.w #15,(a1)+
+	move.w #1,(a1)+
+	move.w #18,(a1)+
+	move.w #5,(a1)+
 	bsr.w ammxlinefill
     
-	bsr.w processing_bitplanes_fast_screen0 ; returns bitplanes addr in d0
+	;bsr.w processing_bitplanes_fast_screen0 ; returns bitplanes addr in d0
+
+	bsr.w processing_fill_table_addr ; fill table addr in d0
+	rts
+
+_filline_test2:
+	;CLEARFASTBITPLANES ; Clear fast bitplanes
+	
+
+	lea LINEVERTEX_START_FINAL,a1
+	move.w #1,(a1)+
+	move.w #1,(a1)+
+	move.w #3,(a1)+
+	move.w #2,(a1)+
+	bsr.w ammxlinefill
+	
+	lea LINEVERTEX_START_FINAL,a1
+	move.w #150,(a1)+
+	move.w #1,(a1)+
+	move.w #155,(a1)+
+	move.w #5,(a1)+
+	bsr.w ammxlinefill
+
+	lea LINEVERTEX_START_FINAL,a1
+	move.w #3,(a1)+
+	move.w #2,(a1)+
+	move.w #155,(a1)+
+	move.w #5,(a1)+
+	bsr.w ammxlinefill
+
+	
+    
+	;bsr.w processing_bitplanes_fast_screen0 ; returns bitplanes addr in d0
+
+	bsr.w processing_fill_table_addr ; fill table addr in d0
 	rts

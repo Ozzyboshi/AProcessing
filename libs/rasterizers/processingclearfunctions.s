@@ -3,6 +3,7 @@ CLEARFASTBITPLANES MACRO
 	; copy from fast bitplanes to slow bitplanes
 	lea SCREEN_0,a0
 	lea SCREEN_1,a4
+
 	
     IFD VAMPIRE
     move.l #5*255,d3

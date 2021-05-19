@@ -10,19 +10,23 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include "../../testlibs/testlib.h"
 
-struct _test
+/*struct _test
 {
     unsigned int testId;
     unsigned char *(*test_function)(void);
     char title[100];
+    unsigned int nbitplanes;
+    unsigned int nrows;
+    unsigned int nbyterow;
 };
 
-int make_test();
-
-/*unsigned char *filline_test1();
+int launch_test(struct _test);
+*/
+unsigned char *filline_test1();
 unsigned char *filline_test2();
-unsigned char *filline_test3();
+/*unsigned char *filline_test3();
 unsigned char *filline_test4();
 unsigned char *filline_test5();
 unsigned char *filline_test6();
@@ -33,9 +37,9 @@ unsigned char *filline_test10();
 unsigned char *filline_test11();*/
 
 struct _test TESTS[] = {
-    /*{.testId = 1, .test_function = filline_test1, .title = "From px 15 to 102 first row"}, // Pixel 15 up to 102 first line (line number 0)
-    {.testId = 2, .test_function = filline_test2, .title = " Pixel 1 up to 2 first line"}, // Pixel 1 up to 2 first line (line number 0)
-    {.testId = 3, .test_function = filline_test3, .title = " Pixel 1 up to 2 second line"}, // Pixel 1 up to 2 second line (line number 1)
+    {.testId = 1, .test_function = filline_test1, .nbitplanes=1,.nrows=256,.nbyterow=4,.title = "1,1 8,5 -> 10,1 18.5 0<m<1", .verbose=0},
+    {.testId = 2, .test_function = filline_test2, .nbitplanes=1,.nrows=256,.nbyterow=4,.title = " 1,1 3,2 155,5", .verbose=0}, 
+    /*{.testId = 3, .test_function = filline_test3, .title = " Pixel 1 up to 2 second line"}, // Pixel 1 up to 2 second line (line number 1)
     {.testId = 4, .test_function = filline_test4,  .title = "Whole first line"}, // Whole first line
     {.testId = 5, .test_function = filline_test5, .title = "First 2 rows"}, // Whole first 2 rows
     {.testId = 6, .test_function = filline_test6, .title = "First bit of first row"},
@@ -55,25 +59,15 @@ int main(int argc, char **argv)
     unsigned int totalerrors = 0;
     unsigned int testcounter = 0;
 
-    if (argv[1] && atoi(argv[1]) > 0)
-    {
-        char filename[100];
-        snprintf(filename, sizeof(filename), "expected/filline.test%d", TESTS[atoi(argv[1])].testId);
-        error = make_test(TESTS[atoi(argv[1])].test_function, filename);
-        if (!error)
-            printf("Test succeeded\n");
-        else
-            printf("Test KO\n");
-
-        exit(error);
-    }
+    
 
     while (TESTS[testcounter].testId)
     {
         printf("Running test %s...",TESTS[testcounter].title);
-        char filename[100];
+        char filename[400];
         snprintf(filename, sizeof(filename), "expected/filline.test%d", TESTS[testcounter].testId);
-        error = make_test(TESTS[testcounter].test_function, filename);
+        error = make_test4( TESTS[testcounter],filename);
+        //error = launch_test(TESTS[testcounter]);
         if (!error)
             printf("Test succeeded\n");
         else
@@ -87,8 +81,9 @@ int main(int argc, char **argv)
 
     
 }
-
-int make_test(unsigned char *(*test_function)(void), const char *file)
+/*
+int launch_test(struct _test test)
+//unsigned char *(*test_function)(void), const char *file)
 {
     unsigned int i;
     unsigned int row;
@@ -99,6 +94,10 @@ int make_test(unsigned char *(*test_function)(void), const char *file)
     unsigned char buf;
     static unsigned int testcounter = 0;
     const int verbose = 0;
+
+    unsigned char *(*test_function)(void) = test.test_function;
+    char file[100];
+    snprintf(file, sizeof(file), "expected/filline.test%d", test.testId);
 
     //printf("Start of test %d..\n", ++testcounter);
 
@@ -113,19 +112,19 @@ int make_test(unsigned char *(*test_function)(void), const char *file)
     if (verbose)
         printf("File %s open\n", file);
 
-    for (bitplane = 0; error == 0 && bitplane < 2; bitplane++)
+    for (bitplane = 0; error == 0 && bitplane < test.nbitplanes; bitplane++)
     {
         if (verbose)
             printf("Processing bitplane %d\n", bitplane);
-        for (row = 0; error == 0 && row < 256; row++)
+        for (row = 0; error == 0 && row < test.nrows; row++)
         {
             if (verbose)
                 printf("Row %03d : ", row);
-            for (i = 0; error == 0 && i < 40; i++)
+            for (i = 0; error == 0 && i < test.nbyterow; i++)
             {
                 if (fread(&buf, 1, 1, fd) != 1)
                 {
-                    perror("Error reading file\n");
+                    printf("Test failed, error reading byte: bitplane:%d - row:%d - byte %d \n", bitplane, row, i);
                     error = 1;
                 }
                 else
@@ -152,3 +151,4 @@ int make_test(unsigned char *(*test_function)(void), const char *file)
     fclose(fd);
     return error;
 }
+*/

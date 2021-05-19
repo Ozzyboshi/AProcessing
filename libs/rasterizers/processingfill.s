@@ -156,7 +156,7 @@ ammx_fill_table_no_special_case:
 ammx_fill_table_no_firstbyte_1:
 	btst #0,STROKE_DATA
 	beq.s ammx_fill_table_no_firstbyte_0
-    or.b d3,(a0)+ ; Plot points!!
+    or.b d3,(a0) ; Plot points!!
 	IFND VAMPIRE
 	move.l #$FFFFFFFF,AMMXFILLTABLE_FILLDATA_BPL_0
 	ENDIF
@@ -164,6 +164,7 @@ ammx_fill_table_no_firstbyte_1:
 	load #$FFFFFFFFFFFFFFFF,e0
 	ENDIF
 ammx_fill_table_no_firstbyte_0:
+	addq #1,a0
     ; ALESSIO END MODIFICA
 
 
@@ -386,7 +387,7 @@ ammx_fill_table_no_end_0
 
 
 	; if we still have bit to fill repeat the process
-ammx_fill_table_check_if_other;
+ammx_fill_table_check_if_other: ;
 	cmpi.w #0,d5
 	bhi.w ammx_fill_table_startiter
 
@@ -408,11 +409,15 @@ LINEVERTEX_START_FINAL:
 LINEVERTEX_END_FINAL:
 	dc.w 1 ; X2
 	dc.w 8 ; Y2
+LINEVERTEX_DELTAX:
+    dc.w 0
+LINEVERTEX_DELTAY:
+    dc.w 0
 
 ; Line drawing with boundaries storing - entry function to select the correct drawing routine according to m
 ammxlinefill:
-	movem.l d0-d6/a0-a6,-(sp) ; stack save
-	;move.l par1,a1
+	movem.l d0-d7/a0-a6,-(sp) ; stack save
+	
 	lea LINEVERTEX_START_PUSHED,a2
 	
 	; - pick lowest first x
@@ -424,7 +429,7 @@ ammxlinefill:
 	bra.s endammxlinefillphase1
 ammxlinefill_lowestless:
 	move.l LINEVERTEX_END_FINAL,d3
-endammxlinefillphase1 : ; end of first check
+endammxlinefillphase1:  ; end of first check
 
 	; - pick lowest first x end
 	move.l d2,(a2)+
@@ -434,13 +439,38 @@ endammxlinefillphase1 : ; end of first check
 	; - check if both coords are between screen limits end
 
 	; select one of the 4 drawing routines start
-	IFD VAMPIRE
-	PSUBW d2,d3,d4 ; d4 will contain deltas
-	PSUBW d3,d2,d5
-	pmaxsw  d5,d4,d4
+	; take the delta (abs value of the difference) between lowest 2 words from d2 and d3 and put them in d4
 	
-	vperm #$45454545,d4,d4,d5 ; move xdelta in the less sig word
-	ENDIF
+	; IFND VAMPIRE
+    move.l d3,d5
+    move.w d3,d7 ; save the Y relative of the right point into d7
+    swap d5      ; now I have the X of the right point into d5 lower part ready for subtraction
+    
+    move.l d2,d6 ; save d2 to d6
+    move.w d2,d4 ; save the Y relative of the left point into d4
+    swap d6 ; now i have the X of the left point into d6
+	sub.w d6,d5 ; now d5 will contain deltaX , here d5 must always be positive, if not something is wrong!!!
+
+    ; now d5 contains the x delta
+	; now let's calculate the Y delta, we have Y right point into d7 and the other Y in d4
+    sub.w d7,d4
+    bpl.s lol
+    neg d4
+lol:
+    ;save deltas
+    move.w d5,LINEVERTEX_DELTAX
+    move.w d4,LINEVERTEX_DELTAY
+
+
+    ; ENDIF
+	
+	;IFD VAMPIRE
+	;PSUBW d2,d3,d4 ; d4 will contain deltas
+	;PSUBW d3,d2,d5
+	;pmaxsw  d5,d4,d4
+	
+	;vperm #$45454545,d4,d4,d5 ; move xdelta in the less sig word
+	;ENDIF
 
 	; select one of the 4 drawing routines end
 	
@@ -462,18 +492,206 @@ ammxlinefill_dylessthan:
 	
 	cmp.w d2,d3
 	bls.s ammxlinefill_goto0tominus1
-	;bsr.w ammxlinefill_linem0to1
-	nop
+	bsr.w ammxlinefill_linem0to1
+	;nop
 	bra.s ammxlinefill_endammxlinefillphase2
 ammxlinefill_goto0tominus1:
 	;bsr.w ammxlinefill_linem0tominus1
 	nop
 ammxlinefill_endammxlinefillphase2:
-	movem.l (sp)+,d0-d6/a0-a6
+	movem.l (sp)+,d0-d7/a0-a6
 
 	rts
 
+; d0 ==> x
+; d1 ==> y
+; d2 ===> x1 y1
+; d3 ===> x2 y2
+; d4 ===> decision
+; e6 ===> I1
+
+ammxlinefill_linem0to1:
+	
+	movem.l d0-d7/a2,-(sp) ; stack save
+
+	move.l LINEVERTEX_START_PUSHED,d2
+	move.l LINEVERTEX_END_PUSHED,d3
+
+	;Calculate dx = x2-x1
+    ;Calculate dy = y2-y1
+    ;IFD VAMPIRE
+	;PSUBW d2,d3,E5 ; e5 will contain deltas
+	;ENDIF
+	;IFND VAMPIRE
+	;write sub routine here
+	
+	move.l d2,d0
+	swap d0 ; here we have the xstart value
+	move.l d3,d6
+	swap d6 ; here we have the xstop value into d6
+	move.w d2,d1 ; here we have ystart into d1
+	
+	move.w LINEVERTEX_DELTAY,d4
+	
+	; calculate Ii into d5
+	move.w d4,d5
+	add.w d5,d5 ; I1 is now into d5
+	
+	move.w d4,d7 ; save for later I2 calculation
+    add.w d4,d4
+    sub.w LINEVERTEX_DELTAX,d4 ; d4 = determinant
+
+    ; start of I2 calc
+    sub.w   LINEVERTEX_DELTAX,d7 ; now we have deltaY-Deltax
+    add.w d7,d7 ; now we have 2(deltaY-deltaX)
+    
+	;ENDIF
+
+	;Calculate i1=2*dy
+	;PADDW E5,E5,E6 ; I1 is on the lower 2 bytes of E6
+	
+	;VPERM #$45454545,E5,E5,E8 ; Put DeltaX in all e8
+	;VPERM #$6767EFEF,E6,E5,E7 ; E7 = I1 I1 Dy Dy
+
+	;PSUBW E8,E7,E9; E9 : first word  i1-dx and third word dy-dx
+
+	;VPERM #$01010101,E9,E9,D4 ; d calculated  in D4
+	;PADDW E9,E9,E9            ; i2 calculated in E9
+
+	;vperm #$45454545,d2,d2,d0 ; x = x1 (x1 is the start)
+	;vperm #$67676767,d2,d2,d1 ; y = y1 (y1 is the start)
+	;VPERM #$45454545,d3,d3,d6 ; xend = x2
+
+	;bsr.w plotpoint ; PLOT POINT!!
+	; save left point
+	lea FILL_TABLE,a2
+	
+	moveq #0,d3
+	move.w d1,d3
+	mulu.w #4,d3
+	add.l d3,a2
+	
+	; Save d0 X point into FILL_TABLE start
+	cmp.w (a2),d0
+	bcc.s ammxlinefill_linem0to1_1            ; if (a2)<=d0 branch (dont update the memory)
+    move.w d0,(a2)      ; we save only if is less     
+ammxlinefill_linem0to1_1:
+    cmp.w 2(a2),d0
+    ble.s ammxlinefill_linem0to1_2
+    move.w d0,2(a2)
+ammxlinefill_linem0to1_2:
+    ; Save d0 X point into FILL_TABLE end
+
+ammxlinefill_LINESTARTITER_F:
+
+	; interate for each x until x<=xend
+	cmp.w d0,d6
+	ble.s ammxlinefill_ENDLINE_F ; if x>=xend exit
+
+	cmp.w #0,d4 ; check if d<0
+	blt.s ammxlinefill_POINT_D_LESS_0_F ; branch if id<0
+
+	; we are here if d>=0
+	;IFD VAMPIRE
+	;paddw e9,d4,d4 ; d = i2+ d
+	;IFND
+	add.w d7,d4 ; d = i2+d
+    addq #1,d1 ; y = y+1
+	;adda.w #$0028,a2 ; optimization , go to next line in bitplane
+	;bra.s ammxlinefill_POINT_D_END_F
+	addq #1,d0
+	
+	addq #4,a2
+
+	
+	; Save d0 X point into FILL_TABLE start
+    cmp.w (a2),d0
+	bcc.s ammxlinefill_linem0to1_3            ; if (a2)<=d0 branch (dont update the memory)
+    move.w d0,(a2)      ; we save only if is less     
+ammxlinefill_linem0to1_3:
+    cmp.w 2(a2),d0
+    ble.s ammxlinefill_linem0to1_4
+    move.w d0,2(a2)
+ammxlinefill_linem0to1_4:
+    ; Save d0 X point into FILL_TABLE end
+    
+	bra.s ammxlinefill_LINESTARTITER_F
+
+ammxlinefill_POINT_D_LESS_0_F:
+	; we are here if d<0
+	;IFD VAMPIRE
+	;paddw e6,d4,d4 ; d = i1+ d 
+	add.w d5,d4 ; d = i1 +d
+	addq #1,d0
+	
+	; Save d0 X point into FILL_TABLE start
+    cmp.w (a2),d0
+	bcc.s ammxlinefill_linem0to1_5            ; if (a2)<=d0 branch (dont update the memory)
+    move.w d0,(a2)      ; we save only if is less     
+ammxlinefill_linem0to1_5:
+    cmp.w 2(a2),d0
+    ble.s ammxlinefill_linem0to1_6
+    move.w d0,2(a2)
+ammxlinefill_linem0to1_6:
+    ; Save d0 X point into FILL_TABLE end
+	bra.s ammxlinefill_LINESTARTITER_F
+
+	;IFND
+	
+ammxlinefill_POINT_D_END_F:
+	addq #1,d0
+
+	; here d5 is available and pushed
+	; d7 available but not pushed
+	; aX all availables except a1 but not pushed
+	; bsr.w plotpoint ; PLOT POINT!!
+	; here we have in d5 = position of first bit plotted
+	; a2 = address where the first bit was plotted
+	subq.b #1,d5
+	move.b d5,d7
+	andi.l #$00000007,d7
+	addq.b #1,d7
+	lsr.b #3,d7
+	adda.l d7,a2
+	;IFD VAMPIRE
+	;vperm #$000000000000000F,e21,e22,d7
+	;ENDIF
+    ;IFD CLEAR_NONSET_PIXELS
+	;bclr d5,(a2)
+	;ENDIF
+	btst #0,d7
+	beq.s ammxlinefill_ENDLINEBPL0_F
+	bset d5,(a2) ; plot optimized!!!
+
+	; opt bitplane 1
+ammxlinefill_ENDLINEBPL0_F:
+	;IFD CLEAR_NONSET_PIXELS
+	;move.l a2,a3
+	;adda.w #10240,a3
+	;bclr d5,(a3)
+	;ENDIF
+	btst #1,d7
+	beq.s ammxlinefill_ENDLINEBPL1_F
+	;IFND CLEAR_NONSET_PIXELS
+	;move.l a2,a3
+	;adda.w #10240,a3
+	;ENDIF
+	bset d5,(a3) ; plot optimized!!!
+ammxlinefill_ENDLINEBPL1_F
+
+	bra.s ammxlinefill_LINESTARTITER_F
+
+ammxlinefill_ENDLINE_F:
+	movem.l (sp)+,d0-d7/a2
+	
+	rts
+
+
 FILL_TABLE:
         dcb.b 4*256,$FF
+
+processing_fill_table_addr:
+	move.l #FILL_TABLE,d0
+	rts
 
 
