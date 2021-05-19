@@ -11,7 +11,6 @@
 	include "../../../libs/rasterizers/globaloptions.s"
 
 _filline_test1:
-	;CLEARFASTBITPLANES ; Clear fast bitplanes
 	
 
 	lea LINEVERTEX_START_FINAL,a1
@@ -28,13 +27,11 @@ _filline_test1:
 	move.w #5,(a1)+
 	bsr.w ammxlinefill
     
-	;bsr.w processing_bitplanes_fast_screen0 ; returns bitplanes addr in d0
 
 	bsr.w processing_fill_table_addr ; fill table addr in d0
 	rts
 
 _filline_test2:
-	;CLEARFASTBITPLANES ; Clear fast bitplanes
 	
 
 	lea LINEVERTEX_START_FINAL,a1
@@ -57,10 +54,3 @@ _filline_test2:
 	move.w #155,(a1)+
 	move.w #5,(a1)+
 	bsr.w ammxlinefill
-
-	
-    
-	;bsr.w processing_bitplanes_fast_screen0 ; returns bitplanes addr in d0
-
-	bsr.w processing_fill_table_addr ; fill table addr in d0
-	rts
