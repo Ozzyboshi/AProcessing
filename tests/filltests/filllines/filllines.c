@@ -12,36 +12,28 @@
 #include <stdlib.h>
 #include "../../testlibs/testlib.h"
 
-/*struct _test
-{
-    unsigned int testId;
-    unsigned char *(*test_function)(void);
-    char title[100];
-    unsigned int nbitplanes;
-    unsigned int nrows;
-    unsigned int nbyterow;
-};
-
-int launch_test(struct _test);
-*/
 unsigned char *filline_test1();
 unsigned char *filline_test2();
-/*unsigned char *filline_test3();
+unsigned char *filline_test3();
 unsigned char *filline_test4();
 unsigned char *filline_test5();
 unsigned char *filline_test6();
-unsigned char *filline_test7();
+/*unsigned char *filline_test7();
 unsigned char *filline_test8();
 unsigned char *filline_test9();
 unsigned char *filline_test10();
 unsigned char *filline_test11();*/
 
 struct _test TESTS[] = {
-    {.testId = 1, .test_function = filline_test1, .nbitplanes=1,.nrows=256,.nbyterow=4,.title = "1,1 8,5 -> 10,1 18.5 0<m<1", .verbose=0},
-    {.testId = 2, .test_function = filline_test2, .nbitplanes=1,.nrows=256,.nbyterow=4,.title = " 1,1 3,2 155,5", .verbose=0}, 
-    /*{.testId = 3, .test_function = filline_test3, .title = " Pixel 1 up to 2 second line"}, // Pixel 1 up to 2 second line (line number 1)
-    {.testId = 4, .test_function = filline_test4,  .title = "Whole first line"}, // Whole first line
-    {.testId = 5, .test_function = filline_test5, .title = "First 2 rows"}, // Whole first 2 rows
+    {.testId = 1, .test_function = filline_test1, .nbitplanes=1, .nrows=256, .nbyterow=4,.title = "1,1 8,5 -> 10,1 18.5 0<m<1", .verbose=0},
+    {.testId = 2, .test_function = filline_test2, .title = "8,5 1,1 -> 18.5 10,1 0<m<1", .verbose=0},
+    {.testId = 3, .test_function = filline_test3, .title = "10,1 18,5 -> 1,1 8,5 0<m<1", .verbose=0},
+    {.testId = 4, .test_function = filline_test4, .nbitplanes=1, .nrows=256, .nbyterow=4,.title = "1,1 8,5 -> 10,1 18,5 0<m<1", .verbose=0},
+    {.testId = 5, .test_function = filline_test5, .nbitplanes=1, .nrows=256, .nbyterow=4,.title = "8,5 1,1 -> 10,1 18,5 0<m<1", .verbose=0},
+
+    {.testId = 6, .test_function = filline_test6, .nbitplanes=1,.nrows=256,.nbyterow=4,.title = " 1,1 3,2 155,5", .verbose=0}, 
+
+    /*{.testId = 5, .test_function = filline_test5, .title = "First 2 rows"}, // Whole first 2 rows
     {.testId = 6, .test_function = filline_test6, .title = "First bit of first row"},
     {.testId = 7, .test_function = filline_test7, .title = " Pixel 1 up to 2 first line both bitplanes"},
     {.testId = 8, .test_function = filline_test8, .title = " Pixel 4 up to 8 first line both bitplanes"},
