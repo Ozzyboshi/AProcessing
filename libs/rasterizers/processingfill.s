@@ -483,11 +483,21 @@ ammxlinefill_linem0to1:
 	;ENDIF
 	;IFND VAMPIRE
 	;write sub routine here
-	
+
+	IFD VAMPIRE
+	load #$0000000000000004,e4 ; never change e4, we will need later
+
+	vperm #$CDCDCDCD,d2,d2,d0 ; here we have the xstart value
+	vperm #$CDCDCDCD,d3,d3,d6 ; here we have the xstop value into d6
+	ENDIF
+
+	IFND VAMPIRE
 	move.l d2,d0
 	swap d0 ; here we have the xstart value
 	move.l d3,d6
 	swap d6 ; here we have the xstop value into d6
+	ENDIF
+
 	move.w d2,d1 ; here we have ystart into d1
 	
 	move.w LINEVERTEX_DELTAY,d4
@@ -504,33 +514,20 @@ ammxlinefill_linem0to1:
     sub.w   LINEVERTEX_DELTAX,d7 ; now we have deltaY-Deltax
     add.w d7,d7 ; now we have 2(deltaY-deltaX)
     
-	;ENDIF
-
-	;Calculate i1=2*dy
-	;PADDW E5,E5,E6 ; I1 is on the lower 2 bytes of E6
-	
-	;VPERM #$45454545,E5,E5,E8 ; Put DeltaX in all e8
-	;VPERM #$6767EFEF,E6,E5,E7 ; E7 = I1 I1 Dy Dy
-
-	;PSUBW E8,E7,E9; E9 : first word  i1-dx and third word dy-dx
-
-	;VPERM #$01010101,E9,E9,D4 ; d calculated  in D4
-	;PADDW E9,E9,E9            ; i2 calculated in E9
-
-	;vperm #$45454545,d2,d2,d0 ; x = x1 (x1 is the start)
-	;vperm #$67676767,d2,d2,d1 ; y = y1 (y1 is the start)
-	;VPERM #$45454545,d3,d3,d6 ; xend = x2
-
-	;bsr.w plotpoint ; PLOT POINT!!
-	; save left point
 	lea FILL_TABLE,a2
 	
-	moveq #0,d3
 	move.w d1,d3
-	mulu.w #4,d3
-	add.l d3,a2
+	lsl.w #2,d3
+	add.w d3,a2
 	
 	; Save d0 X point into FILL_TABLE start
+	IFD VAMPIRE
+	pminuw  -6(a2),d0,e0
+	pmaxsw  -4(a2),d0,e1
+	vperm #$67EF67EF,e0,e1,e2
+	storec E2,E4,(a2)
+	ENDIF
+	IFND VAMPIRE
 	cmp.w (a2),d0
 	bcc.s ammxlinefill_linem0to1_1            ; if (a2)<=d0 branch (dont update the memory)
     move.w d0,(a2)      ; we save only if is less     
@@ -540,6 +537,7 @@ ammxlinefill_linem0to1_1:
     move.w d0,2(a2)
 ammxlinefill_linem0to1_2:
     ; Save d0 X point into FILL_TABLE end
+	ENDIF
 
 ammxlinefill_LINESTARTITER_F:
 
@@ -556,14 +554,20 @@ ammxlinefill_LINESTARTITER_F:
 	;IFND
 	add.w d7,d4 ; d = i2+d
     addq #1,d1 ; y = y+1
-	;adda.w #$0028,a2 ; optimization , go to next line in bitplane
-	;bra.s ammxlinefill_POINT_D_END_F
+
 	addq #1,d0
 	
 	addq #4,a2
 
 	
 	; Save d0 X point into FILL_TABLE start
+	IFD VAMPIRE
+	pminuw  -6(a2),d0,e0
+	pmaxsw  -4(a2),d0,e1
+	vperm #$67EF67EF,e0,e1,e2
+	storec E2,E4,(a2)
+	ENDIF
+	IFND VAMPIRE
     cmp.w (a2),d0
 	bcc.s ammxlinefill_linem0to1_3            ; if (a2)<=d0 branch (dont update the memory)
     move.w d0,(a2)      ; we save only if is less     
@@ -572,6 +576,7 @@ ammxlinefill_linem0to1_3:
     ble.s ammxlinefill_linem0to1_4
     move.w d0,2(a2)
 ammxlinefill_linem0to1_4:
+	ENDIF
     ; Save d0 X point into FILL_TABLE end
     
 	bra.s ammxlinefill_LINESTARTITER_F
@@ -584,9 +589,14 @@ ammxlinefill_POINT_D_LESS_0_F:
 	addq #1,d0
 	
 	; Save d0 X point into FILL_TABLE start
-    cmp.w (a2),d0
-	bcc.s ammxlinefill_linem0to1_5            ; if (a2)<=d0 branch (dont update the memory)
-    move.w d0,(a2)      ; we save only if is less     
+	IFD VAMPIRE
+	pminuw  -6(a2),d0,e0
+	pmaxsw  -4(a2),d0,e1
+	vperm #$67EF67EF,e0,e1,e2
+	storec E2,E4,(a2)
+	ENDIF
+
+	IFND VAMPIRE
 ammxlinefill_linem0to1_5:
     cmp.w 2(a2),d0
     ble.s ammxlinefill_linem0to1_6
@@ -594,48 +604,10 @@ ammxlinefill_linem0to1_5:
 ammxlinefill_linem0to1_6:
     ; Save d0 X point into FILL_TABLE end
 	bra.s ammxlinefill_LINESTARTITER_F
+	ENDIF
 
 	;IFND
 	
-ammxlinefill_POINT_D_END_F:
-	addq #1,d0
-
-	; here d5 is available and pushed
-	; d7 available but not pushed
-	; aX all availables except a1 but not pushed
-	; bsr.w plotpoint ; PLOT POINT!!
-	; here we have in d5 = position of first bit plotted
-	; a2 = address where the first bit was plotted
-	subq.b #1,d5
-	move.b d5,d7
-	andi.l #$00000007,d7
-	addq.b #1,d7
-	lsr.b #3,d7
-	adda.l d7,a2
-	;IFD VAMPIRE
-	;vperm #$000000000000000F,e21,e22,d7
-	;ENDIF
-    ;IFD CLEAR_NONSET_PIXELS
-	;bclr d5,(a2)
-	;ENDIF
-	btst #0,d7
-	beq.s ammxlinefill_ENDLINEBPL0_F
-	bset d5,(a2) ; plot optimized!!!
-
-	; opt bitplane 1
-ammxlinefill_ENDLINEBPL0_F:
-	;IFD CLEAR_NONSET_PIXELS
-	;move.l a2,a3
-	;adda.w #10240,a3
-	;bclr d5,(a3)
-	;ENDIF
-	btst #1,d7
-	beq.s ammxlinefill_ENDLINEBPL1_F
-	;IFND CLEAR_NONSET_PIXELS
-	;move.l a2,a3
-	;adda.w #10240,a3
-	;ENDIF
-	bset d5,(a3) ; plot optimized!!!
 ammxlinefill_ENDLINEBPL1_F
 
 	bra.s ammxlinefill_LINESTARTITER_F
