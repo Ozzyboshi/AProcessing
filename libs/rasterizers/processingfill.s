@@ -439,7 +439,7 @@ endammxlinefillphase1_max:
 	cmp.w d2,d3
 	bls.s ammxlinefill_gotolessminus1
 	nop
-	;bsr.w ammxlinefill_linemgreater1		; vertical line
+	bsr.w ammxlinefill_linemgreater1		; vertical line
 	bra.s ammxlinefill_endammxlinefillphase2
 
 ammxlinefill_gotolessminus1:
@@ -452,7 +452,6 @@ ammxlinefill_dylessthan:
 	cmp.w d2,d3
 	bls.s ammxlinefill_goto0tominus1
 	bsr.w ammxlinefill_linem0to1
-	;nop
 	bra.s ammxlinefill_endammxlinefillphase2
 ammxlinefill_goto0tominus1:
 	;bsr.w ammxlinefill_linem0tominus1
@@ -616,6 +615,121 @@ ammxlinefill_ENDLINE_F:
 	movem.l (sp)+,d0-d7/a2
 	
 	rts
+
+ ; start of vertical routines
+ammxlinefill_linemgreater1:
+	
+	movem.l d0-d7/a2,-(sp) ; stack save
+	
+	move.l LINEVERTEX_START_PUSHED,d2
+	move.l LINEVERTEX_END_PUSHED,d3
+
+	swap d2
+	swap d3
+
+	move.l d2,d0
+	swap d0 ; here we have the xstart value
+	move.l d3,d6
+	swap d6 ; here we have the xstop value into d6
+	
+	move.w d2,d1 ; here we have ystart into d1
+	
+	
+	move.w LINEVERTEX_DELTAX,d4
+	
+	; calculate Ii into d5
+	move.w d4,d5
+	add.w d5,d5 ; I1 is now into d5
+	
+	move.w d4,d7 ; save for later I2 calculation
+    add.w d4,d4
+    sub.w LINEVERTEX_DELTAY,d4 ; d4 = determinant
+
+    ; start of I2 calc
+    sub.w   LINEVERTEX_DELTAY,d7 ; now we have deltaY-Deltax
+    add.w d7,d7 ; now we have 2(deltaY-deltaX)
+    
+    ; save left point
+	lea FILL_TABLE,a2
+	
+	move.w d0,d3
+	lsl.w #2,d3
+	add.w d3,a2
+	
+	; Save d0 X point into FILL_TABLE start
+	cmp.w (a2),d1
+	bcc.s ammxlinefill_linemgreater1_1            ; if (a2)<=d0 branch (dont update the memory)
+    move.w d1,(a2)      ; we save only if is less     
+ammxlinefill_linemgreater1_1:
+    cmp.w 2(a2),d1
+    ble.s ammxlinefill_linemgreater1_2
+    move.w d1,2(a2)
+ammxlinefill_linemgreater1_2:
+    ; Save d0 X point into FILL_TABLE end
+	
+
+	
+	; print pixel routine
+	;bsr.w plotpointv ; PLOT POINT!!
+ammxlinefill_LINESTARTITER_F3:
+
+    addq #4,a2
+
+	; interate for each x until x<=xend
+	cmp.w d0,d6
+	ble.s ammxlinefill_ENDLINE_F3 ; if x>=xend exit
+
+	cmp.w #0,d4 ; check if d<0
+	blt.s ammxlinefill_POINT_D_LESS_0_F3 ; branch if id<0
+
+	; we are here if d>=0
+	;paddw e9,d4,d4 ; d = i2+ d
+	add.w d7,d4 ; d = i2+d
+    addq #1,d1 ; x = x+1
+    
+    cmp.w (a2),d1
+	bcc.s ammxlinefill_linemgreater1_3            ; if (a2)<=d0 branch (dont update the memory)
+    move.w d1,(a2)      ; we save only if is less     
+ammxlinefill_linemgreater1_3:
+    cmp.w 2(a2),d1
+    ble.s ammxlinefill_linemgreater1_4
+    move.w d1,2(a2)
+ammxlinefill_linemgreater1_4:
+
+    
+    ; TODO check id d1 must be updated on the right part
+    bra.s ammxlinefill_POINT_D_END_F3
+
+ammxlinefill_POINT_D_LESS_0_F3:
+	; we are here if d<0
+	; todo update Y
+	;paddw e6,d4,d4 ; d = i1+ d 
+	
+	add.w d5,d4 ; d = i1 +d
+
+ammxlinefill_POINT_D_END_F3:
+	addq #1,d0
+	
+	cmp.w (a2),d1
+	bcc.s ammxlinefill_linemgreater1_5            ; if (a2)<=d0 branch (dont update the memory)
+    move.w d1,(a2)      ; we save only if is less     
+ammxlinefill_linemgreater1_5:
+    cmp.w 2(a2),d1
+    ble.s ammxlinefill_linemgreater1_6
+    move.w d1,2(a2)
+ammxlinefill_linemgreater1_6:
+
+
+ammxlinefill_ENDLINEBPL0_F3:
+	
+ammxlinefill_ENDLINEBPL1_F3
+    
+	bra.s ammxlinefill_LINESTARTITER_F3
+
+ammxlinefill_ENDLINE_F3:
+	movem.l (sp)+,d0-d7/a2
+	rts
+
 
 
 FILL_TABLE:

@@ -55,3 +55,11 @@ PREPARESCREEN MACRO
 	store e0,(a4)+
 	dbra d3,.preparescreenclearline
 	ENDM
+
+RESETFILLTABLE MACRO
+	move.l #255,d3
+	lea FILL_TABLE,a0
+.resetfilltableclearline:
+	move.l #$FFFFFFFF,(a0)+
+	dbra d3,.resetfilltableclearline
+	ENDM

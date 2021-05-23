@@ -5,7 +5,8 @@ tests/filltests/fillscanline/fillscanline.o
 tests/filltests/fillscanline/fillscanlinevampire
 tests/filltests/fillscanline/fillscanline.o
 
-tests/filllines/fillines/filllines
-tests/filllines/fillines/filllines.o
-tests/filllines/fillines/filllinesvampire
-tests/filllines/fillines/filllines.o
+tests/filltests/filllines/filllines
+tests/filltests/filllines/filllines.o
+tests/filltests/filllines/filllinesvampire
+tests/filltests/filllines/filllinesvampire.o
+tests/filltests/fillscanline/fillscanlinevampire.o

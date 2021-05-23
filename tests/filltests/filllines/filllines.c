@@ -18,8 +18,8 @@ unsigned char *filline_test3();
 unsigned char *filline_test4();
 unsigned char *filline_test5();
 unsigned char *filline_test6();
-/*unsigned char *filline_test7();
-unsigned char *filline_test8();
+unsigned char *filline_test7();
+/*unsigned char *filline_test8();
 unsigned char *filline_test9();
 unsigned char *filline_test10();
 unsigned char *filline_test11();*/
@@ -32,6 +32,9 @@ struct _test TESTS[] = {
     {.testId = 5, .test_function = filline_test5, .nbitplanes=1, .nrows=256, .nbyterow=4,.title = "8,5 1,1 -> 10,1 18,5 0<m<1", .verbose=0},
 
     {.testId = 6, .test_function = filline_test6, .nbitplanes=1,.nrows=256,.nbyterow=4,.title = " 1,1 3,2 155,5", .verbose=0}, 
+
+    // Start of vertical
+    {.testId = 7, .test_function = filline_test7, .nbitplanes=1,.nrows=256,.nbyterow=4,.title = " 1,1 1,2", .verbose=0}, 
 
     /*{.testId = 5, .test_function = filline_test5, .title = "First 2 rows"}, // Whole first 2 rows
     {.testId = 6, .test_function = filline_test6, .title = "First bit of first row"},
