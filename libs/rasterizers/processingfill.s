@@ -657,6 +657,14 @@ ammxlinefill_linemgreater1:
 	add.w d3,a2
 	
 	; Save d0 X point into FILL_TABLE start
+	IFD VAMPIRE
+	load #$0000000000000004,e4 ; never change e4, we will need later
+	pminuw  -6(a2),d0,e0
+	pmaxsw  -4(a2),d0,e1
+	vperm #$67EF67EF,e0,e1,e2
+	storec E2,E4,(a2)
+	ENDIF
+	IFND VAMPIRE
 	cmp.w (a2),d1
 	bcc.s ammxlinefill_linemgreater1_1            ; if (a2)<=d0 branch (dont update the memory)
     move.w d1,(a2)      ; we save only if is less     
@@ -665,6 +673,7 @@ ammxlinefill_linemgreater1_1:
     ble.s ammxlinefill_linemgreater1_2
     move.w d1,2(a2)
 ammxlinefill_linemgreater1_2:
+	ENDIF
     ; Save d0 X point into FILL_TABLE end
 	
 

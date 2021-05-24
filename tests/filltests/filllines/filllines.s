@@ -7,6 +7,8 @@
 	XDEF _filline_test6
 	XDEF _filline_test7
 	XDEF _filline_test8
+	XDEF _filline_test9
+	XDEF _filline_test10
 	
 	SECTION PROCESSING,CODE_F
 
@@ -175,6 +177,37 @@ _filline_test8:
 	move.w #0,(a1)+
 	move.w #1,(a1)+
 	move.w #7,(a1)+
+	bsr.w ammxlinefill
+
+	bsr.w processing_fill_table_addr ; fill table addr in d0
+	rts
+
+_filline_test9:
+	RESETFILLTABLE
+	lea LINEVERTEX_START_FINAL,a1
+	move.w #0,(a1)+
+	move.w #0,(a1)+
+	move.w #8,(a1)+
+	move.w #18,(a1)+
+	bsr.w ammxlinefill
+
+	bsr.w processing_fill_table_addr ; fill table addr in d0
+	rts
+
+_filline_test10:
+	RESETFILLTABLE
+	lea LINEVERTEX_START_FINAL,a1
+	move.w #0,(a1)+
+	move.w #0,(a1)+
+	move.w #0,(a1)+
+	move.w #1,(a1)+
+	bsr.w ammxlinefill
+
+	lea LINEVERTEX_START_FINAL,a1
+	move.w #319,(a1)+
+	move.w #0,(a1)+
+	move.w #319,(a1)+
+	move.w #1,(a1)+
 	bsr.w ammxlinefill
 
 	bsr.w processing_fill_table_addr ; fill table addr in d0

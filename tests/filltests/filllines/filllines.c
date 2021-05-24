@@ -20,9 +20,9 @@ unsigned char *filline_test5();
 unsigned char *filline_test6();
 unsigned char *filline_test7();
 unsigned char *filline_test8();
-/*unsigned char *filline_test9();
+unsigned char *filline_test9();
 unsigned char *filline_test10();
-unsigned char *filline_test11();*/
+/*unsigned char *filline_test11();*/
 
 struct _test TESTS[] = {
     {.testId = 1, .test_function = filline_test1, .nbitplanes=1, .nrows=256, .nbyterow=4,.title = "1,1 8,5 -> 10,1 18.5 0<m<1", .verbose=0},
@@ -31,11 +31,13 @@ struct _test TESTS[] = {
     {.testId = 4, .test_function = filline_test4, .nbitplanes=1, .nrows=256, .nbyterow=4,.title = "1,1 8,5 -> 10,1 18,5 0<m<1", .verbose=0},
     {.testId = 5, .test_function = filline_test5, .nbitplanes=1, .nrows=256, .nbyterow=4,.title = "8,5 1,1 -> 10,1 18,5 0<m<1", .verbose=0},
 
-    {.testId = 6, .test_function = filline_test6, .nbitplanes=1,.nrows=256,.nbyterow=4,.title = " 1,1 3,2 155,5", .verbose=1}, 
+    {.testId = 6, .test_function = filline_test6, .nbitplanes=1,.nrows=256,.nbyterow=4,.title = " 1,1 3,2 155,5", .verbose=0}, 
 
     // Start of vertical
     {.testId = 7, .test_function = filline_test7, .nbitplanes=1,.nrows=256,.nbyterow=4,.title = " 1,1 1,2", .verbose=0}, 
-    {.testId = 8, .test_function = filline_test8, .nbitplanes=1,.nrows=256,.nbyterow=4,.title = " 0,0 1,7", .verbose=0}, 
+    {.testId = 8, .test_function = filline_test8, .nbitplanes=1,.nrows=256,.nbyterow=4,.title = " 0,0 1,7", .verbose=0},
+    {.testId = 9, .test_function = filline_test9, .nbitplanes=1,.nrows=256,.nbyterow=4,.title = " 0,0 8,18", .verbose=0}, 
+     {.testId = 10, .test_function = filline_test10, .nbitplanes=1,.nrows=256,.nbyterow=4,.title = " 0,0 0,1 -> 319,0,319,1", .verbose=0}, 
 
     /*{.testId = 5, .test_function = filline_test5, .title = "First 2 rows"}, // Whole first 2 rows
     {.testId = 6, .test_function = filline_test6, .title = "First bit of first row"},
