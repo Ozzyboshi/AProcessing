@@ -110,7 +110,7 @@ int make_test4(struct _test test, const char *file)
     {
         if (verbose)
             printf("Processing bitplane %d\n", bitplane);
-        for (row = 0; error == 0 && row < 256; row++)
+        for (row = 0; error == 0 && row < test.nrows; row++)
         {
             if (verbose)
                 printf("Row %03d : ", row);
@@ -132,6 +132,8 @@ int make_test4(struct _test test, const char *file)
                         printf("Byte found :%02x but expected in the file: %02x \n", *bitplanedata, buf);
 
                         error = 1;
+
+                        printf("Following bytes in memory : %02x %02x %02x %02x %02x %02x %02x %02x %02x %02x\n",*(bitplanedata+1),*(bitplanedata+2),*(bitplanedata+3),*(bitplanedata+4),*(bitplanedata+5),*(bitplanedata+6),*(bitplanedata+7),*(bitplanedata+8),*(bitplanedata+9),*(bitplanedata+10));
                     }
                     bitplanedata++;
                 }

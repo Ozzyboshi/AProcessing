@@ -659,10 +659,10 @@ ammxlinefill_linemgreater1:
 	; Save d0 X point into FILL_TABLE start
 	IFD VAMPIRE
 	load #$0000000000000004,e4 ; never change e4, we will need later
-	pminuw  -6(a2),d0,e0
-	pmaxsw  -4(a2),d0,e1
+	pminuw  -6(a2),d1,e0
+	pmaxsw  -4(a2),d1,e1
 	vperm #$67EF67EF,e0,e1,e2
-	storec E2,E4,(a2)
+	storec e2,E4,(a2)
 	ENDIF
 	IFND VAMPIRE
 	cmp.w (a2),d1
