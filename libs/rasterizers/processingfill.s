@@ -438,12 +438,12 @@ endammxlinefillphase1_max:
 	
 	cmp.w d2,d3
 	bls.s ammxlinefill_gotolessminus1
-	nop
+	;nop
 	bsr.w ammxlinefill_linemgreater1		; vertical line
 	bra.s ammxlinefill_endammxlinefillphase2
 
 ammxlinefill_gotolessminus1:
-	;bsr.w ammxlinefill_linemlessminus1
+	bsr.w ammxlinefill_linemlessminus1
 	bra.s ammxlinefill_endammxlinefillphase2
 
 
@@ -676,10 +676,6 @@ ammxlinefill_linemgreater1_2:
 	ENDIF
     ; Save d0 X point into FILL_TABLE end
 	
-
-	
-	; print pixel routine
-	;bsr.w plotpointv ; PLOT POINT!!
 ammxlinefill_LINESTARTITER_F3:
 
     addq #4,a2
@@ -692,10 +688,17 @@ ammxlinefill_LINESTARTITER_F3:
 	blt.s ammxlinefill_POINT_D_LESS_0_F3 ; branch if id<0
 
 	; we are here if d>=0
-	;paddw e9,d4,d4 ; d = i2+ d
 	add.w d7,d4 ; d = i2+d
     addq #1,d1 ; x = x+1
-    
+
+	IFD VAMPIRE
+	pminuw  -6(a2),d1,e0
+	pmaxsw  -4(a2),d1,e1
+	vperm #$67EF67EF,e0,e1,e2
+	storec e2,E4,(a2)
+	ENDIF
+
+	IFND VAMPIRE
     cmp.w (a2),d1
 	bcc.s ammxlinefill_linemgreater1_3            ; if (a2)<=d0 branch (dont update the memory)
     move.w d1,(a2)      ; we save only if is less     
@@ -704,21 +707,27 @@ ammxlinefill_linemgreater1_3:
     ble.s ammxlinefill_linemgreater1_4
     move.w d1,2(a2)
 ammxlinefill_linemgreater1_4:
+	ENDIF
 
-    
-    ; TODO check id d1 must be updated on the right part
     bra.s ammxlinefill_POINT_D_END_F3
 
 ammxlinefill_POINT_D_LESS_0_F3:
 	; we are here if d<0
-	; todo update Y
-	;paddw e6,d4,d4 ; d = i1+ d 
 	
 	add.w d5,d4 ; d = i1 +d
 
 ammxlinefill_POINT_D_END_F3:
 	addq #1,d0
-	
+
+	IFD VAMPIRE
+	load #$0000000000000004,e4 ; never change e4, we will need later
+	pminuw  -6(a2),d1,e0
+	pmaxsw  -4(a2),d1,e1
+	vperm #$67EF67EF,e0,e1,e2
+	storec e2,E4,(a2)
+	ENDIF
+
+	IFND VAMPIRE
 	cmp.w (a2),d1
 	bcc.s ammxlinefill_linemgreater1_5            ; if (a2)<=d0 branch (dont update the memory)
     move.w d1,(a2)      ; we save only if is less     
@@ -727,18 +736,141 @@ ammxlinefill_linemgreater1_5:
     ble.s ammxlinefill_linemgreater1_6
     move.w d1,2(a2)
 ammxlinefill_linemgreater1_6:
-
-
-ammxlinefill_ENDLINEBPL0_F3:
-	
-ammxlinefill_ENDLINEBPL1_F3
-    
+	ENDIF
+	    
 	bra.s ammxlinefill_LINESTARTITER_F3
 
 ammxlinefill_ENDLINE_F3:
 	movem.l (sp)+,d0-d7/a2
 	rts
 
+ammxlinefill_linemlessminus1:
+	movem.l d0-d7/a2,-(sp) ; stack save
+	
+	move.l LINEVERTEX_START_PUSHED,d2
+	move.l LINEVERTEX_END_PUSHED,d3
+
+	move.w d2,d4
+	move.w d3,d2
+	move.w d4,d3
+
+	swap d2
+	swap d3
+	
+	move.l d2,d0
+	swap d0 ; here we have the xstart value
+	move.l d3,d6
+	swap d6 ; here we have the xstop value into d6
+	
+	move.w d2,d1 ; here we have ystart into d1
+	
+	
+	move.w LINEVERTEX_DELTAX,d4
+	
+	; calculate Ii into d5
+	move.w d4,d5
+	add.w d5,d5 ; I1 is now into d5
+	
+	move.w d4,d7 ; save for later I2 calculation
+    add.w d4,d4
+    sub.w LINEVERTEX_DELTAY,d4 ; d4 = determinant
+
+    ; start of I2 calc
+    sub.w   LINEVERTEX_DELTAY,d7 ; now we have deltaY-Deltax
+    add.w d7,d7 ; now we have 2(deltaY-deltaX)
+    
+    ; save left point
+	lea FILL_TABLE,a2
+	
+	move.w d3,d1
+	
+	move.w d0,d3
+	lsl.w #2,d3
+	add.w d3,a2
+
+
+	;Calculate dx = x2-x1
+    ;Calculate dy = y2-y1
+	;PSUBW d2,d3,E5 ; e5 will contain deltas
+
+	;Calculate i1=2*dy
+	;PADDW E5,E5,E6 ; I1 is on the lower 2 bytes of E6
+
+	;VPERM #$45454545,E5,E5,E8 ; Put DeltaX in all e8
+	;VPERM #$6767EFEF,E6,E5,E7 ; E7 = I1 I1 Dy Dy
+
+	;PSUBW E8,E7,E9; E9 : first word  i1-dx and third word dy-dx
+	
+	;Calculate i2=2*(dy-dx)
+    ;Calculate d=i1-dx
+
+	; decision variable to D4
+	;VPERM #$01010101,E9,E9,D4 ; d calculated  in D4
+	;PADDW E9,E9,E9            ; i2 calculated in E9
+
+	;vperm #$45454545,d2,d2,d0 ; x = x1 (x1 is the start)
+	;vperm #$67676767,d3,d3,d1 ; y = y1 (y1 is the start)
+	;VPERM #$45454545,d3,d3,d6 ; xend = x2
+	
+	; print pixel routine
+	;bsr.w plotpointv ; PLOT POINT!!
+	
+	; Save d0 X point into FILL_TABLE start
+	cmp.w (a2),d1
+	bcc.s ammxlinefill_linemminus1_1            ; if (a2)<=d0 branch (dont update the memory)
+    move.w d1,(a2)      ; we save only if is less     
+ammxlinefill_linemminus1_1:
+    cmp.w 2(a2),d1
+    ble.s ammxlinefill_linemminus1_2
+    move.w d1,2(a2)
+ammxlinefill_linemminus1_2:
+
+
+ammxlinefill_LINESTARTITER_F4:
+
+    addq #4,a2
+
+	; interate for each x until x<=xend
+	cmp.w d0,d6
+	ble.s ENDLINE_F4 ; if x>=xend exit
+
+	cmp.w #0,d4 ; check if d<0
+	blt.s POINT_D_LESS_0_F4 ; branch if id<0
+
+	; we are here if d>=0
+	;paddw e9,d4,d4 ; d = i2+ d
+	add.w d7,d4 ; d = i2+d
+	subq #1,d1 ; x = x-1
+
+	bra.s ammxlinefill_POINT_D_END_F4
+
+POINT_D_LESS_0_F4:
+    nop
+	; we are here if d<0
+	;paddw e6,d4,d4 ; d = i1+ d 
+	add.w d5,d4 ; d = i1 +d
+	
+
+ammxlinefill_POINT_D_END_F4:
+	addq #1,d0 ; process next y
+
+	;bsr.w plotpointv ; PLOT POINT!!
+	cmp.w (a2),d1
+	bcc.s ammxlinefill_linemminus1_5            ; if (a2)<=d0 branch (dont update the memory)
+    move.w d1,(a2)      ; we save only if is less     
+ammxlinefill_linemminus1_5:
+    cmp.w 2(a2),d1
+    ble.s ammxlinefill_linemminus1_6
+    move.w d1,2(a2)
+ammxlinefill_linemminus1_6:
+
+
+	
+	bra.s ammxlinefill_LINESTARTITER_F4
+
+ENDLINE_F4:
+	movem.l (sp)+,d0-d7/a2
+	rts
 
 
 FILL_TABLE:

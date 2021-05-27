@@ -22,7 +22,9 @@ unsigned char *filline_test7();
 unsigned char *filline_test8();
 unsigned char *filline_test9();
 unsigned char *filline_test10();
-/*unsigned char *filline_test11();*/
+unsigned char *filline_test11();
+unsigned char *filline_test12();
+unsigned char *filline_test13();
 
 /*struct _test TESTS[] = {
   
@@ -39,14 +41,20 @@ struct _test TESTS[] = {
     {.testId = 3, .test_function = filline_test3, .title = "10,1 18,5 -> 1,1 8,5 0<m<1", .verbose=0},
     {.testId = 4, .test_function = filline_test4, .nbitplanes=1, .nrows=256, .nbyterow=4,.title = "1,1 8,5 -> 10,1 18,5 0<m<1", .verbose=0},
     {.testId = 5, .test_function = filline_test5, .nbitplanes=1, .nrows=256, .nbyterow=4,.title = "8,5 1,1 -> 10,1 18,5 0<m<1", .verbose=0},
-    {.testId = 6, .test_function = filline_test6, .nbitplanes=1,.nrows=256,.nbyterow=4,.title = " 1,1 3,2 155,5", .verbose=0}, 
+    {.testId = 6, .test_function = filline_test6, .nbitplanes=1,.nrows=256,.nbyterow=4,.title = "1,1 3,2 155,5", .verbose=0}, 
 
     // Start of vertical
-    {.testId = 7, .test_function = filline_test7, .nbitplanes=1,.nrows=256,.nbyterow=4,.title = " 1,1 1,2", .verbose=0}, 
-    {.testId = 8, .test_function = filline_test8, .nbitplanes=1,.nrows=256,.nbyterow=4,.title = " 0,0 1,7", .verbose=0},
-    {.testId = 9, .test_function = filline_test9, .nbitplanes=1,.nrows=256,.nbyterow=4,.title = " 0,0 8,18", .verbose=0}, 
-    {.testId = 10, .test_function = filline_test10, .nbitplanes=1,.nrows=256,.nbyterow=4,.title = " 0,0 0,1 -> 319,0,319,1", .verbose=0}, 
+    {.testId = 7, .test_function = filline_test7, .nbitplanes=1,.nrows=256,.nbyterow=4,.title = "1,1 1,2", .verbose=0}, 
+    {.testId = 8, .test_function = filline_test8, .nbitplanes=1,.nrows=256,.nbyterow=4,.title = "0,0 1,7", .verbose=0},
+    {.testId = 9, .test_function = filline_test9, .nbitplanes=1,.nrows=256,.nbyterow=4,.title = "0,0 8,18", .verbose=0}, 
+    {.testId = 10, .test_function = filline_test10, .nbitplanes=1,.nrows=256,.nbyterow=4,.title = "0,0 0,1 -> 319,0,319,1", .verbose=0}, 
     
+    // Shapes
+    {.testId = 11, .test_function = filline_test11, .nbitplanes=1,.nrows=256,.nbyterow=4,.title = "Square from 10,10 to 20,20", .verbose=0}, 
+    {.testId = 12, .test_function = filline_test12, .nbitplanes=1,.nrows=256,.nbyterow=4,.title = "Line 16,2 8,26", .verbose=1},
+    {.testId = 13, .test_function = filline_test13, .nbitplanes=1,.nrows=256,.nbyterow=4,.title = "Triangle 16,2 8,26 - 8,16 28,16 - 16,2 28,26", .verbose=1}, 
+
+
     {.testId = 0, .test_function = NULL}
 
 };
