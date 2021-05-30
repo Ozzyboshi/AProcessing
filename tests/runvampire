@@ -8,3 +8,8 @@ fillscanline
 fillscanlinevampire
 cd /
 cd /
+cd filltests/fillpolygon
+fillpolygon
+fillpolygonvampire
+cd /
+cd /

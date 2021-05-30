@@ -6,3 +6,7 @@ cd filltests/fillscanline
 fillscanline
 cd /
 cd /
+cd filltests/fillpolygon
+fillpolygon
+cd /
+cd /

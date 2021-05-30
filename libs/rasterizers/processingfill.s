@@ -454,8 +454,8 @@ ammxlinefill_dylessthan:
 	bsr.w ammxlinefill_linem0to1
 	bra.s ammxlinefill_endammxlinefillphase2
 ammxlinefill_goto0tominus1:
-	;bsr.w ammxlinefill_linem0tominus1
-	nop
+	bsr.w ammxlinefill_linem0tominus1
+	;nop
 ammxlinefill_endammxlinefillphase2:
 	movem.l (sp)+,d0-d7/a0-a6
 
@@ -589,7 +589,7 @@ ammxlinefill_POINT_D_LESS_0_F:
 	
 	; Save d0 X point into FILL_TABLE start
 	IFD VAMPIRE
-	pminuw  -6(a2),d0,e0
+	;pminuw  -6(a2),d0,e0
 	pmaxsw  -4(a2),d0,e1
 	vperm #$67EF67EF,e0,e1,e2
 	storec E2,E4,(a2)
@@ -871,6 +871,140 @@ ammxlinefill_linemminus1_6:
 ENDLINE_F4:
 	movem.l (sp)+,d0-d7/a2
 	rts
+
+; d0 ==> x
+; d1 ==> y
+; d2 ===> x1 y1
+; d3 ===> x2 y2
+; d4 ===> decision
+; e6 ===> I1
+
+ammxlinefill_linem0tominus1:
+
+	movem.l d0-d7/a2,-(sp) ; stack save
+
+	move.l LINEVERTEX_START_PUSHED,d2
+	move.l LINEVERTEX_END_PUSHED,d3
+
+	IFD VAMPIRE
+	load #$0000000000000004,e4 ; never change e4, we will need later
+
+	vperm #$CDCDCDCD,d2,d2,d0 ; here we have the xstart value
+	vperm #$CDCDCDCD,d3,d3,d6 ; here we have the xstop value into d6
+	ENDIF
+
+	IFND VAMPIRE
+	move.l d2,d0
+	swap d0 ; here we have the xstart value
+	move.l d3,d6
+	swap d6 ; here we have the xstop value into d6
+	ENDIF
+
+	move.w d2,d1 ; here we have ystart into d1
+	
+	move.w LINEVERTEX_DELTAY,d4
+	
+	; calculate Ii into d5
+	move.w d4,d5
+	add.w d5,d5 ; I1 is now into d5
+	
+	move.w d4,d7 ; save for later I2 calculation
+    add.w d4,d4
+    sub.w LINEVERTEX_DELTAX,d4 ; d4 = determinant
+
+    ; start of I2 calc
+    sub.w   LINEVERTEX_DELTAX,d7 ; now we have deltaY-Deltax
+    add.w d7,d7 ; now we have 2(deltaY-deltaX)
+    
+	lea FILL_TABLE,a2
+	
+	move.w d1,d3
+	lsl.w #2,d3
+	add.w d3,a2
+	; print pixel routine
+	
+	IFD VAMPIRE
+	pminuw  -6(a2),d0,e0
+	pmaxsw  -4(a2),d0,e1
+	vperm #$67EF67EF,e0,e1,e2
+	storec E2,E4,(a2)
+	ENDIF
+	IFND VAMPIRE
+	cmp.w (a2),d0
+	bcc.s ammxlinefill_linem0tominus1_1            ; if (a2)<=d0 branch (dont update the memory)
+    move.w d0,(a2)      ; we save only if is less     
+ammxlinefill_linem0tominus1_1:
+    cmp.w 2(a2),d0
+    ble.s ammxlinefill_linem0tominus1_2
+    move.w d0,2(a2)
+ammxlinefill_linem0tominus1_2:
+	ENDIF
+
+   	;bsr.w plotpoint ; PLOT POINT!!
+
+ammxlinefill_LINESTARTITER_F2:
+
+    
+
+	; interate for each x until x<=xend
+	cmp.w d0,d6
+	ble.s ammxlinefill_ENDLINE_F2 ; if x>=xend exit
+
+	cmp.w #0,d4 ; check if d<0
+	blt.s ammxlinefill_POINT_D_LESS_0_F2 ; branch if id<0
+
+	; we are here if d>=0
+	add.w d7,d4 ; d = i2+d
+    subq #1,d1 ; y = y-1
+    
+    addq #1,d0
+	
+    subq #4,a2
+
+	IFD VAMPIRE
+	pminuw  -6(a2),d0,e0
+	pmaxsw  -4(a2),d0,e1
+	vperm #$67EF67EF,e0,e1,e2
+	storec E2,E4,(a2)
+	ENDIF
+	IFND VAMPIRE
+	cmp.w (a2),d0
+	bcc.s ammxlinefill_linem0tominus1_3            ; if (a2)<=d0 branch (dont update the memory)
+    move.w d0,(a2)      ; we save only if is less     
+ammxlinefill_linem0tominus1_3:
+    cmp.w 2(a2),d0
+    ble.s ammxlinefill_linem0tominus1_4
+    move.w d0,2(a2)
+ammxlinefill_linem0tominus1_4:
+	ENDIF
+	
+	bra.s ammxlinefill_LINESTARTITER_F2
+
+ammxlinefill_POINT_D_LESS_0_F2:
+	; we are here if d<0
+    add.w d5,d4 ; d = i1 +d 
+	
+	addq #1,d0
+
+	IFD VAMPIRE
+	;pminuw  -6(a2),d0,e0
+	pmaxsw  -4(a2),d0,e1
+	vperm #$67EF67EF,e0,e1,e2
+	storec E2,E4,(a2)
+	ENDIF
+	IFND VAMPIRE
+    cmp.w 2(a2),d0
+    ble.s ammxlinefill_linem0tominus1_6
+    move.w d0,2(a2)
+ammxlinefill_linem0tominus1_6:
+	ENDIF
+	
+	bra.s ammxlinefill_LINESTARTITER_F2
+
+ammxlinefill_ENDLINE_F2:
+	movem.l (sp)+,d0-d7/a2
+	rts
+
 
 
 FILL_TABLE:
