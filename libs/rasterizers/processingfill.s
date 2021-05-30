@@ -816,6 +816,13 @@ ammxlinefill_linemlessminus1:
 	;bsr.w plotpointv ; PLOT POINT!!
 	
 	; Save d0 X point into FILL_TABLE start
+	IFD VAMPIRE
+	pminuw  -6(a2),d1,e0
+	pmaxsw  -4(a2),d1,e1
+	vperm #$67EF67EF,e0,e1,e2
+	storec E2,E4,(a2)
+	ENDIF
+	IFND VAMPIRE
 	cmp.w (a2),d1
 	bcc.s ammxlinefill_linemminus1_1            ; if (a2)<=d0 branch (dont update the memory)
     move.w d1,(a2)      ; we save only if is less     
@@ -824,7 +831,7 @@ ammxlinefill_linemminus1_1:
     ble.s ammxlinefill_linemminus1_2
     move.w d1,2(a2)
 ammxlinefill_linemminus1_2:
-
+	ENDIF
 
 ammxlinefill_LINESTARTITER_F4:
 
@@ -854,7 +861,14 @@ POINT_D_LESS_0_F4:
 ammxlinefill_POINT_D_END_F4:
 	addq #1,d0 ; process next y
 
-	;bsr.w plotpointv ; PLOT POINT!!
+	IFD VAMPIRE
+	pminuw  -6(a2),d1,e0
+	pmaxsw  -4(a2),d1,e1
+	vperm #$67EF67EF,e0,e1,e2
+	storec E2,E4,(a2)
+	ENDIF
+
+	IFND VAMPIRE
 	cmp.w (a2),d1
 	bcc.s ammxlinefill_linemminus1_5            ; if (a2)<=d0 branch (dont update the memory)
     move.w d1,(a2)      ; we save only if is less     
@@ -863,7 +877,7 @@ ammxlinefill_linemminus1_5:
     ble.s ammxlinefill_linemminus1_6
     move.w d1,2(a2)
 ammxlinefill_linemminus1_6:
-
+	ENDIF
 
 	
 	bra.s ammxlinefill_LINESTARTITER_F4

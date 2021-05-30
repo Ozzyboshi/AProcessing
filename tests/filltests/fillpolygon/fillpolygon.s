@@ -3,6 +3,7 @@
 	XDEF _fillpolygon_test2
 	XDEF _fillpolygon_test3
 	XDEF _fillpolygon_test4
+	XDEF _fillpolygon_test5
 
 	
 	SECTION PROCESSING,CODE_F
@@ -120,6 +121,47 @@ _fillpolygon_test4:
 
 	move.w #20,AMMXFILLTABLE_CURRENT_ROW
 	move.w #40,AMMXFILLTABLE_END_ROW ; I want to fill up to first row (first row is elaborated)
+
+	CLEARFASTBITPLANES ; Clear fast bitplanes
+
+	bsr.w ammx_fill_table
+	bsr.w processing_bitplanes_fast_screen0 ; returns bitplanes addr in d0
+	rts
+
+_fillpolygon_test5:
+	RESETFILLTABLE
+	
+
+	lea LINEVERTEX_START_FINAL,a1
+	move.w #100,(a1)+
+	move.w #255-155,(a1)+
+	move.w #125,(a1)+
+	move.w #255-152,(a1)+
+	bsr.w ammxlinefill
+
+	lea LINEVERTEX_START_FINAL,a1
+	move.w #126,(a1)+
+	move.w #255-151,(a1)+
+	move.w #132,(a1)+
+	move.w #255-118,(a1)+
+	bsr.w ammxlinefill
+
+	lea LINEVERTEX_START_FINAL,a1
+	move.w #132,(a1)+
+	move.w #255-118,(a1)+
+	move.w #114,(a1)+
+	move.w #255-110,(a1)+
+	bsr.w ammxlinefill
+
+	lea LINEVERTEX_START_FINAL,a1
+	move.w #114,(a1)+
+	move.w #255-110,(a1)+
+	move.w #100,(a1)+
+	move.w #255-155,(a1)+
+	bsr.w ammxlinefill
+
+	move.w #100,AMMXFILLTABLE_CURRENT_ROW
+	move.w #255-110,AMMXFILLTABLE_END_ROW ; I want to fill up to first row (first row is elaborated)
 
 	CLEARFASTBITPLANES ; Clear fast bitplanes
 
