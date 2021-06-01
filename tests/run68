@@ -10,3 +10,7 @@ cd filltests/fillpolygon
 fillpolygon
 cd /
 cd /
+cd matrixtests/basic
+matrixbasic
+cd /
+cd /
