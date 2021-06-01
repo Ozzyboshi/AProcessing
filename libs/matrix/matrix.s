@@ -127,8 +127,89 @@ LOAD_CURRENT_TRANSFORMATION_MATRIX MACRO
 	ENDIF
 	ENDM
 
+UPDATE_CURRENT_TRANSFORMATION_MATRIX MACRO
+	IFD VAMPIRE
+	lea CURRENT_TRANSFORMATION_MATRIX,b0
+    store \1,(b0)+
+	store \2,(b0)+
+	store \3,(b0)+
+	ENDIF
+	IFND VAMPIRE
+	lea CURRENT_TRANSFORMATION_MATRIX,a0
+	move.l \1,(a0)+
+	move.l \1+4,(a0)+
+
+	move.l \2,(a0)+
+	move.l \2+4,(a0)+
+
+	move.l \3,(a0)+
+	move.l \3+4,(a0)+
+
+	ENDIF
+	ENDM
+
+; Saves current transformation matrix into the MATRIX STACK
+PUSHMATRIX MACRO
+	movea.l MATRIX_STACK_PTR,a2
+	IFD VAMPIRE
+	lea CURRENT_TRANSFORMATION_MATRIX,b0
+	load (b0)+,e0
+	store e0,(a2)+
+	load (b0)+,e0
+	store e0,(a2)+
+	load (b0)+,e0
+	store e0,(a2)+
+	ENDIF
+	IFND VAMPIRE
+	move.l CURRENT_TRANSFORMATION_MATRIX,(a2)+
+	move.l CURRENT_TRANSFORMATION_MATRIX+4,(a2)+
+	move.l CURRENT_TRANSFORMATION_MATRIX+8,(a2)+
+	move.l CURRENT_TRANSFORMATION_MATRIX+12,(a2)+
+	move.l CURRENT_TRANSFORMATION_MATRIX+16,(a2)+
+	move.l CURRENT_TRANSFORMATION_MATRIX+20,(a2)+
+	ENDIF
+	move.l a2,MATRIX_STACK_PTR
+	ENDM
+
+; restore matrix stack transformation matrix into transformation matrix
+POPMATRIX MACRO
+	movea.l MATRIX_STACK_PTR,a2
+	suba.l #24,a2
+	move.l a2,MATRIX_STACK_PTR
+
+	IFD VAMPIRE
+	lea CURRENT_TRANSFORMATION_MATRIX,b0
+	load (a2)+,e0
+	store e0,(b0)+
+	load (a2)+,e0
+	store e0,(b0)+
+	load (a2),e0
+	store e0,(b0)
+	ENDIF
+
+	IFND VAMPIRE
+	lea CURRENT_TRANSFORMATION_MATRIX,a0
+	move.l (a2)+,(a0)+
+	move.l (a2)+,(a0)+
+
+	move.l (a2)+,(a0)+
+	move.l (a2)+,(a0)+
+
+	move.l (a2)+,(a0)+
+	move.l (a2)+,(a0)+
+	ENDIF
+	ENDM
+
 
 processing_first_matrix_addr:
 	move.l #OPERATOR1_TRANSFORMATION_MATRIX,d0
+	rts
+
+processing_second_matrix_addr:
+	move.l #OPERATOR2_TRANSFORMATION_MATRIX,d0
+	rts
+
+processing_current_transformation_matrix_addr:
+	move.l #CURRENT_TRANSFORMATION_MATRIX,d0
 	rts
     
