@@ -15,5 +15,10 @@ tests/filltests/fillpolygon/fillpolygon.o
 tests/filltests/fillpolygon/fillpolygonvampire
 tests/filltests/fillpolygon/fillpolygonvampire.o
 
+tests/matrixtests/basic/matrixbasic
+tests/matrixtests/basic/matrixbasic.o
+tests/matrixtests/basic/matrixbasicvampire
+tests/matrixtests/basic/matrixbasicvampire.o
+
 DEADJOE
 lol

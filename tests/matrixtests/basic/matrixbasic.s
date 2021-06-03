@@ -101,6 +101,10 @@ _matrix_test4:
 
 	POPMATRIX
 
+	IFD VAMPIRE
+	AMMX_DUMP_TRANFORMATION_MATRIX_TO_RAM e4,e5,e6
+	ENDIF
+
 	bsr.w processing_current_transformation_matrix_addr
 	rts
 
