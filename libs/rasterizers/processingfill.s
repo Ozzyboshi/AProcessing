@@ -720,7 +720,6 @@ ammxlinefill_POINT_D_END_F3:
 	addq #1,d0
 
 	IFD VAMPIRE
-	load #$0000000000000004,e4 ; never change e4, we will need later
 	pminuw  -6(a2),d1,e0
 	pmaxsw  -4(a2),d1,e1
 	vperm #$67EF67EF,e0,e1,e2
@@ -787,39 +786,13 @@ ammxlinefill_linemlessminus1:
 	move.w d0,d3
 	lsl.w #2,d3
 	add.w d3,a2
-
-
-	;Calculate dx = x2-x1
-    ;Calculate dy = y2-y1
-	;PSUBW d2,d3,E5 ; e5 will contain deltas
-
-	;Calculate i1=2*dy
-	;PADDW E5,E5,E6 ; I1 is on the lower 2 bytes of E6
-
-	;VPERM #$45454545,E5,E5,E8 ; Put DeltaX in all e8
-	;VPERM #$6767EFEF,E6,E5,E7 ; E7 = I1 I1 Dy Dy
-
-	;PSUBW E8,E7,E9; E9 : first word  i1-dx and third word dy-dx
-	
-	;Calculate i2=2*(dy-dx)
-    ;Calculate d=i1-dx
-
-	; decision variable to D4
-	;VPERM #$01010101,E9,E9,D4 ; d calculated  in D4
-	;PADDW E9,E9,E9            ; i2 calculated in E9
-
-	;vperm #$45454545,d2,d2,d0 ; x = x1 (x1 is the start)
-	;vperm #$67676767,d3,d3,d1 ; y = y1 (y1 is the start)
-	;VPERM #$45454545,d3,d3,d6 ; xend = x2
-	
-	; print pixel routine
-	;bsr.w plotpointv ; PLOT POINT!!
 	
 	; Save d0 X point into FILL_TABLE start
 	IFD VAMPIRE
 	pminuw  -6(a2),d1,e0
 	pmaxsw  -4(a2),d1,e1
 	vperm #$67EF67EF,e0,e1,e2
+	load #$0000000000000004,e4 ; never change e4, we will need later
 	storec E2,E4,(a2)
 	ENDIF
 	IFND VAMPIRE
