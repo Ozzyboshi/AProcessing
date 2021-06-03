@@ -14,8 +14,15 @@ CURRENT_TRANSFORMATION_MATRIX:
 ;TRANSFORMATIONS_PTR:
 ;    dc.l TRANSFORMATIONS_MATRIX
 
-AMMX_DUMP_TRANFORMATION_MATRIX_TO_RAM MACRO
+AMMX_DUMP_TRANSFORMATION_MATRIX_TO_RAM_OP1 MACRO
 	lea OPERATOR1_TRANSFORMATION_MATRIX_ROW1,b0
+	store \1,(b0)+
+	store \2,(b0)+
+	store \3,(b0)+
+	ENDM
+
+AMMX_DUMP_TRANSFORMATION_MATRIX_TO_RAM_OP2 MACRO
+	lea OPERATOR2_TRANSFORMATION_MATRIX_ROW1,b0
 	store \1,(b0)+
 	store \2,(b0)+
 	store \3,(b0)+
@@ -26,7 +33,7 @@ RESET_MATRIX_STACK MACRO
 	move.l #MATRIX_STACK_START,MATRIX_STACK_PTR
 	ENDM
 
-RESET_CURRENT_TRANFORMATION_MATRIX_Q_10_6 MACRO
+RESET_CURRENT_TRANSFORMATION_MATRIX_Q_10_6 MACRO
 	RESET_MATRIX_STACK
 	IFD VAMPIRE
 	lea CURRENT_TRANSFORMATION_MATRIX,b0
@@ -199,6 +206,95 @@ POPMATRIX MACRO
 	move.l (a2)+,(a0)+
 	ENDIF
 	ENDM
+
+; INPUT (LOAD BEFORE USING IT)
+; MATRIX 1 data must be put on e1,e2,e3 (todo)
+; MATRIX 2 data must be put on e4,e5,d6
+ammxmatrixmul3X3_q10_6:
+	movem.l d0-d7/a0-a6,-(sp) ; stack save
+
+	IFD VAMPIRE
+
+    REG_ZERO e21
+
+	; start of matrix rotation - output to e7 e8 a9
+	
+	; START OF FIRST ROW
+	vperm #$67EF67EF,e5,e6,e7; 1st row (e5 last word - e6 last word - e5 last word - e6 last word)
+	vperm #$6767CDEF,e4,e7,e7 ; end of first row, e4 inserted in first 2 words
+	; END OF FIRST ROW
+
+	; START OF SECOND ROW
+	vperm #$45CD45CD,e5,e6,e8; 2st row (e5 middle right word - e6 middle right word - e5 middle right word - e6 middle right word)
+	vperm #$4545CDEF,e4,e8,e8 ; end of second row, e4 inserted in first 2 words
+	; END OF SECOND ROW
+
+	; START OF THIRD ROW;
+	vperm #$23AB23AB,e5,e6,e9; 3dr row (e5 middle left word - e6 middle left word - e5 middle left word - e6 middle left word)
+	vperm #$2323CDEF,e4,e9,e9 ; end of third row, e4 inserted in first 2 words
+	; END OF THIRD ROW
+
+	; start of matrix multiplication
+
+	; multiply first row of the first matrix with last row of the second matrix output in e13 left middle word
+	LOAD e1,d0
+	LOAD e9,d1
+	MULT_ROW_Q_10_6 d0
+	vperm #$00EF0000,e21,d0,e13
+
+	; multiply second row of the first matrix with last row of the second matrix output in e14 left middle word
+	LOAD e2,d0
+	LOAD e9,d1
+	MULT_ROW_Q_10_6 d0
+	vperm #$00EF0000,e21,d0,e14
+
+	; multiply first row of the first matrix with middle row of the second matrix output in e13 right middle word
+	LOAD e1,d0
+	LOAD e8,d1
+	MULT_ROW_Q_10_6 d0
+	vperm #$0123EF67,e13,d0,e13
+
+	; multiply third row of the first matrix with last row of the second matrix output in e15 left middle word
+	LOAD e3,d0
+	LOAD e9,d1
+	MULT_ROW_Q_10_6 d0
+	vperm #$00EF0000,e21,d0,e15
+
+	; multiply middle row of the first matrix with middle row of the second matrix output in e14 right middle word
+	LOAD e2,d0
+	LOAD e8,d1
+	MULT_ROW_Q_10_6 d0
+	vperm #$0123EF67,e14,d0,e14
+
+	; multiply first row of the first matrix with first row if the second matrix output in e13 right word
+	LOAD e1,d0
+	LOAD e7,d1
+	MULT_ROW_Q_10_6 d0
+	vperm #$012345EF,e13,d0,e13
+
+	; multiply second row of the first matrix with first row of the second matrix output in e14 right word
+	LOAD e2,d0
+	LOAD e7,d1
+	MULT_ROW_Q_10_6 d0
+	vperm #$012345EF,e14,d0,e14
+
+	; multiply third row of the first matrix with middle row of the second matrix output in e15  right middle word
+	LOAD e3,d0
+	LOAD e8,d1
+	MULT_ROW_Q_10_6 d0
+	vperm #$0123EF67,e15,d0,e15
+
+	; multiply third row of the first matrix with first row of the second matrix output in e15 right word
+	LOAD e3,d0
+	LOAD e7,d1
+	MULT_ROW_Q_10_6 d0
+	vperm #$012345EF,e15,d0,e15
+
+	ENDIF
+
+    movem.l (sp)+,d0-d7/a0-a6
+    rts
+
 
 
 processing_first_matrix_addr:
