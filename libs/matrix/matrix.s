@@ -55,6 +55,24 @@ RESET_CURRENT_TRANSFORMATION_MATRIX_Q_10_6 MACRO
 	ENDIF
 	ENDM
 
+MULT_ROW_Q_10_6 MACRO
+	pmull d0,d1,d2
+	pmulh d0,d1,d3
+
+	; recompose full 32 bit number
+	vperm #$CD45EF67,d2,d3,d4
+	dc.w $fe3c,$4739,$0000,$0000,$0000,$0006 ;LSR.Q  #11,d4,d7
+
+	vperm #$8901AB23,d2,d3,d4
+	dc.w $fe3c,$4639,$0000,$0000,$0000,$0006 ;LSR.Q  #11,d4,d6
+
+	paddw d6,d7,d5
+	vperm #$23232323,d5,d5,\1
+	add.w d5,\1 ; final result in the lowest word of output reg
+	
+	ENDM
+
+
 OPERATOR1_TRANSFORMATION_MATRIX:
 OPERATOR1_TRANSFORMATION_MATRIX_ROW1:
 OPERATOR1_TRANSFORMATION_MATRIX_ROW1_WORD0:
@@ -206,6 +224,7 @@ POPMATRIX MACRO
 	move.l (a2)+,(a0)+
 	ENDIF
 	ENDM
+	
 
 ; INPUT (LOAD BEFORE USING IT)
 ; MATRIX 1 data must be put on e1,e2,e3 (todo)
@@ -290,6 +309,9 @@ ammxmatrixmul3X3_q10_6:
 	MULT_ROW_Q_10_6 d0
 	vperm #$012345EF,e15,d0,e15
 
+	ENDIF
+
+	IFND VAMPIRE
 	ENDIF
 
     movem.l (sp)+,d0-d7/a0-a6
