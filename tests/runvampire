@@ -18,3 +18,8 @@ matrixbasic
 matrixbasicvampire
 cd /
 cd /
+cd matrixtests/multiplications
+matrixmultiplications
+matrixmultiplicationsvampire
+cd /
+cd /

@@ -1,13 +1,19 @@
+// Test with
+// https://www.exploringbinary.com/binary-converter/
+// https://www.rapidtables.com/convert/number/binary-to-hex.html
 
 #include <stdio.h>
 #include <stdlib.h>
 #include "../../testlibs/testlib.h"
 
 unsigned char *matrix_multest1();
+unsigned char *matrix_multest2();
+unsigned char *matrix_multest3();
 
 struct _test TESTS[] = {
-    {.testId = 1, .test_function = matrix_multest1, .nbitplanes=1, .nrows=3, .nbyterow=8,.title = "3X3 matrix multiplication", .verbose=1},
-    
+    {.testId = 1, .test_function = matrix_multest1, .nbitplanes=1, .nrows=3, .nbyterow=8,.title = "default tr matrix vs all ones", .verbose=1},
+    {.testId = 2, .test_function = matrix_multest2, .nbitplanes=1, .nrows=3, .nbyterow=8,.title = "all positive ractional numbers", .verbose=1},
+    {.testId = 3, .test_function = matrix_multest3, .nbitplanes=1, .nrows=3, .nbyterow=8,.title = "as above but with -1 on first row matrix", .verbose=1},
     {.testId = 0, .test_function = NULL}
 
 };

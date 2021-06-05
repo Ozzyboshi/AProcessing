@@ -14,3 +14,7 @@ cd matrixtests/basic
 matrixbasic
 cd /
 cd /
+cd matrixtests/multiplications
+matrixmultiplications
+cd /
+cd /
