@@ -521,6 +521,129 @@ ammxmatrixmul3X3_q10_6:
     movem.l (sp)+,d0-d7/a0-a6
     rts
 
+; INPUT (LOAD BEFORE USING IT)
+; MATRIX 1 data must be put on e1
+; MATRIX 2 data must be put on e4,e5,d6
+; OUTPUT inside E13
+ammxmatrixmul1X3_q10_6:
+	movem.l d0-d7/a0-a6,-(sp) ; stack save
+    
+    IFD VAMPIRE
+	
+	REG_ZERO e21 ; zero register
+	REG_ZERO e2
+	REG_ZERO e3
+
+	; START OF FIRST ROW
+	vperm #$67EF67EF,e5,e6,e7; 1st row (e5 last word - e6 last word - e5 last word - e6 last word)
+	vperm #$6767CDEF,e4,e7,e7 ; end of first row, e4 inserted in first 2 words
+	; END OF FIRST ROW
+
+	; START OF SECOND ROW
+	vperm #$45CD45CD,e5,e6,e8; 2st row (e5 middle right word - e6 middle right word - e5 middle right word - e6 middle right word)
+	vperm #$4545CDEF,e4,e8,e8 ; end of second row, e4 inserted in first 2 words
+	; END OF SECOND ROW
+
+	; START OF THIRD ROW;
+	vperm #$23AB23AB,e5,e6,e9; 3dr row (e5 middle left word - e6 middle left word - e5 middle left word - e6 middle left word)
+	vperm #$2323CDEF,e4,e9,e9 ; end of third row, e4 inserted in first 2 words
+	; END OF THIRD ROW
+
+	; start of matrix multiplication
+
+	; multiply first row of the first matrix with last row of the second matrix output in e13 left middle word
+	LOAD e1,d0
+	LOAD e9,d1
+	MULT_ROW_Q_10_6 d0
+	vperm #$00EF0000,e21,d0,e13
+
+	; multiply first row of the first matrix with middle row of the second matrix output in e13 right middle word
+	LOAD e1,d0
+	LOAD e8,d1
+	MULT_ROW_Q_10_6 d0
+	vperm #$0123EF67,e13,d0,e13
+
+	; multiply first row of the first matrix with first row if the second matrix output in e13 right word
+	LOAD e1,d0
+	LOAD e7,d1
+	MULT_ROW_Q_10_6 d0
+	vperm #$012345EF,e13,d0,e13
+
+	REG_ZERO e14
+	REG_ZERO e15
+	ENDIF
+
+	IFND VAMPIRE
+	move.w OPERATOR1_TR_MATRIX_ROW1_WORD1,d0
+	muls.w OPERATOR2_TR_MATRIX_ROW1_WORD1,d0
+	lsr.l #6,d0
+	
+	move.w OPERATOR1_TR_MATRIX_ROW1_WORD2,d1
+	muls.w OPERATOR2_TR_MATRIX_ROW2_WORD1,d1
+	lsr.l #6,d1
+	
+	move.w OPERATOR1_TR_MATRIX_ROW1_WORD3,d2
+	muls.w OPERATOR2_TR_MATRIX_ROW3_WORD1,d2
+	lsr.l #6,d2
+	
+	add.w d0,d1
+	add.w d1,d2
+	move.w d2,OPERATOR3_TR_MATRIX_ROW1_WORD1
+	
+	
+	; start of second pass
+	
+	move.w OPERATOR1_TR_MATRIX_ROW1_WORD1,d0
+	muls.w OPERATOR2_TR_MATRIX_ROW1_WORD2,d0
+	lsr.l #6,d0
+	
+	move.w OPERATOR1_TR_MATRIX_ROW1_WORD2,d1
+	muls.w OPERATOR2_TR_MATRIX_ROW2_WORD2,d1
+	lsr.l #6,d1
+	
+	move.w OPERATOR1_TR_MATRIX_ROW1_WORD3,d2
+	muls.w OPERATOR2_TR_MATRIX_ROW3_WORD2,d2
+	lsr.l #6,d2
+	
+	add.w d0,d1
+	add.w d1,d2
+	move.w d2,OPERATOR3_TR_MATRIX_ROW1_WORD2
+
+    ; end of second pass
+
+	
+    ; start of third pass
+	
+	
+	move.w OPERATOR1_TR_MATRIX_ROW1_WORD1,d0
+	muls.w OPERATOR2_TR_MATRIX_ROW1_WORD3,d0
+	lsr.l #6,d0
+	
+	move.w OPERATOR1_TR_MATRIX_ROW1_WORD2,d1
+	muls.w OPERATOR2_TR_MATRIX_ROW2_WORD3,d1
+	lsr.l #6,d1
+	
+	move.w OPERATOR1_TR_MATRIX_ROW1_WORD3,d2
+	muls.w OPERATOR2_TR_MATRIX_ROW3_WORD3,d2
+	lsr.l #6,d2
+	
+	add.w d0,d1
+	add.w d1,d2
+	move.w d2,OPERATOR3_TR_MATRIX_ROW1_WORD3
+    
+    ;end of third pass
+
+	move.l #$00000000,OPERATOR3_TR_MATRIX_ROW2_WORD0
+	move.l #$00000000,OPERATOR3_TR_MATRIX_ROW2_WORD2
+
+	move.l #$00000000,OPERATOR3_TR_MATRIX_ROW3_WORD0
+	move.l #$00000000,OPERATOR3_TR_MATRIX_ROW3_WORD2
+    
+	ENDIF
+
+	movem.l (sp)+,d0-d7/a0-a6
+    rts
+
 
 
 processing_first_matrix_addr:

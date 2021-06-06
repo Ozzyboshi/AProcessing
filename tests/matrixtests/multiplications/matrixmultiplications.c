@@ -9,11 +9,13 @@
 unsigned char *matrix_multest1();
 unsigned char *matrix_multest2();
 unsigned char *matrix_multest3();
+unsigned char *matrix_multest4();
 
 struct _test TESTS[] = {
     {.testId = 1, .test_function = matrix_multest1, .nbitplanes=1, .nrows=3, .nbyterow=8,.title = "default tr matrix vs all ones", .verbose=0},
     {.testId = 2, .test_function = matrix_multest2, .nbitplanes=1, .nrows=3, .nbyterow=8,.title = "all positive ractional numbers", .verbose=0},
     {.testId = 3, .test_function = matrix_multest3, .nbitplanes=1, .nrows=3, .nbyterow=8,.title = "as above but with -1 on first row matrix", .verbose=0},
+    {.testId = 4, .test_function = matrix_multest4, .nbitplanes=1, .nrows=3, .nbyterow=8,.title = "as above but with -1 1X3 mult", .verbose=0},
     {.testId = 0, .test_function = NULL}
 
 };
