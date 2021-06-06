@@ -15,5 +15,9 @@ tests/matrixtests/basic/matrixbasic
 tests/matrixtests/basic/matrixbasic.o
 tests/matrixtests/basic/matrixbasicvampire
 tests/matrixtests/basic/matrixbasicvampire.o
+tests/matrixtests/multiplications/matrixmultiplicationsvampire
+tests/matrixtests/multiplications/matrixmultiplicationsvampire.o
+tests/matrixtests/multiplications/matrixmultiplications.o
+tests/matrixtests/multiplications/matrixmultiplications
 DEADJOE
 lol
