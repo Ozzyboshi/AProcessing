@@ -3,6 +3,7 @@
 	XDEF _matrix_multest3
 	XDEF _matrix_multest4
 	XDEF _matrix_multest5
+	XDEF _matrix_multest6
 	
 	SECTION PROCESSING,CODE_F
 
@@ -203,4 +204,10 @@ _matrix_multest5:
 
 	bsr.w processing_third_matrix_addr
 
+	rts
+
+_matrix_multest6:
+	RESET_CURRENT_TRANSFORMATION_MATRIX_Q_10_6
+	TRANSLATE_INV_Q_10_6 #160*64,#128*64
+	bsr.w processing_current_transformation_matrix_addr
 	rts
