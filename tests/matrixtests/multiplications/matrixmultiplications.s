@@ -5,6 +5,7 @@
 	XDEF _matrix_multest5
 	XDEF _matrix_multest6
 	XDEF _matrix_multest7
+	XDEF _matrix_multest8
 
 	SECTION PROCESSING,CODE_F
 
@@ -33,7 +34,7 @@ _matrix_multest1:
 	bsr.w ammxmatrixmul3X3_q10_6
 
 	IFD VAMPIRE
-	AMMX_DUMP_THIRD_OP_TO_RAM_OP1 e13,e14,e15
+	AMMX_DUMP_REGS_TO_THIRD_OP e13,e14,e15
 	ENDIF
 
 	bsr.w processing_third_matrix_addr
@@ -79,7 +80,7 @@ _matrix_multest2:
 	bsr.w ammxmatrixmul3X3_q10_6
 
 	IFD VAMPIRE
-	AMMX_DUMP_THIRD_OP_TO_RAM_OP1 e13,e14,e15
+	AMMX_DUMP_REGS_TO_THIRD_OP e13,e14,e15
 	ENDIF
 
 	bsr.w processing_third_matrix_addr
@@ -123,7 +124,7 @@ _matrix_multest3:
 	bsr.w ammxmatrixmul3X3_q10_6
 
 	IFD VAMPIRE
-	AMMX_DUMP_THIRD_OP_TO_RAM_OP1 e13,e14,e15
+	AMMX_DUMP_REGS_TO_THIRD_OP e13,e14,e15
 	ENDIF
 
 	bsr.w processing_third_matrix_addr
@@ -162,7 +163,7 @@ _matrix_multest4:
 	bsr.w ammxmatrixmul1X3_q10_6
 
 	IFD VAMPIRE
-	AMMX_DUMP_THIRD_OP_TO_RAM_OP1 e13,e14,e15
+	AMMX_DUMP_REGS_TO_THIRD_OP e13,e14,e15
 	ENDIF
 
 	bsr.w processing_third_matrix_addr
@@ -200,7 +201,7 @@ _matrix_multest5:
 	bsr.w ammxmatrixmul1X3_q10_6
 
 	IFD VAMPIRE
-	AMMX_DUMP_THIRD_OP_TO_RAM_OP1 e13,e14,e15
+	AMMX_DUMP_REGS_TO_THIRD_OP e13,e14,e15
 	ENDIF
 
 	bsr.w processing_third_matrix_addr
@@ -227,4 +228,48 @@ _matrix_multest7:
 	bsr.w TRANSLATE
 
 	bsr.w processing_current_transformation_matrix_addr
+	rts
+
+_matrix_multest8:
+
+	IFD VAMPIRE
+	
+	REG_LOADI 0000,0040,0000,0000,e1
+	REG_LOADI 0000,0000,0040,0000,e2
+	REG_LOADI 0000,0000,0000,0040,e3
+
+	REG_LOADI 0000,0800,0000,0000,e4
+	REG_LOADI 0000,0000,0800,0000,e5
+	REG_LOADI 0000,0000,0000,0800,e6
+
+	ENDIF
+	IFND VAMPIRE
+	
+	; 1.5 2.5 3,5 / 4.25 5.25 6.25 / 7.111 8.111 9.111
+	move.l #$00000040,OPERATOR1_TR_MATRIX_ROW1
+	move.l #$00000000,OPERATOR1_TR_MATRIX_ROW1+4
+	move.l #$00000000,OPERATOR1_TR_MATRIX_ROW2
+	move.l #$00400000,OPERATOR1_TR_MATRIX_ROW2+4
+	move.l #$00000000,OPERATOR1_TR_MATRIX_ROW3
+	move.l #$00000040,OPERATOR1_TR_MATRIX_ROW3+4
+	
+    ; 11.5 12.5 13,5 / 14.25 15.25 16.25 / 17.111 18.111 19.111
+    move.l #$00000800,OPERATOR2_TR_MATRIX_ROW1
+	move.l #$00000000,OPERATOR2_TR_MATRIX_ROW1+4
+	move.l #$00000000,OPERATOR2_TR_MATRIX_ROW2
+	move.l #$08000000,OPERATOR2_TR_MATRIX_ROW2+4
+	move.l #$00000000,OPERATOR2_TR_MATRIX_ROW3
+	move.l #$00000800,OPERATOR2_TR_MATRIX_ROW3+4
+
+
+	ENDIF
+
+	bsr.w ammxmatrixmul3X3_q5_11
+
+	IFD VAMPIRE
+	AMMX_DUMP_REGS_TO_THIRD_OP e13,e14,e15
+	ENDIF
+
+	bsr.w processing_third_matrix_addr
+
 	rts
