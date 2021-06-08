@@ -1,5 +1,6 @@
 #include "testlib.h"
 #include <stdio.h>
+#include <errno.h>
 
 int launch_test(struct _test test)
 {
@@ -16,10 +17,11 @@ int launch_test(struct _test test)
     if (verbose) printf("running %s...\n",test.title);
 
     unsigned char *(*test_function)(void) = test.test_function;
-    char file[400];
+    char file[200];
     snprintf(file, sizeof(file), "expected/filline.test%d", test.testId);
 
     if (verbose) printf("Start of test %d..\n", ++testcounter);
+    if (verbose) printf("Expected file %s\n",file);
 
     bitplanedata = test_function();
     fflush(stdout);
@@ -100,7 +102,7 @@ int make_test4(struct _test test, const char *file)
     fd = fopen(file, "rb");
     if (!fd)
     {
-        printf("Expected file not found or not readable\n");
+        printf("Expected file '%s' not found or not readable : %d -> %s\n",file,errno,strerror(errno));
         return 1;
     }
     if (verbose)

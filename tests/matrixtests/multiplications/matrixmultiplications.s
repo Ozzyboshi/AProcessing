@@ -4,7 +4,8 @@
 	XDEF _matrix_multest4
 	XDEF _matrix_multest5
 	XDEF _matrix_multest6
-	
+	XDEF _matrix_multest7
+
 	SECTION PROCESSING,CODE_F
 
 	include "../../../libs/ammxmacros.i"
@@ -209,5 +210,21 @@ _matrix_multest5:
 _matrix_multest6:
 	RESET_CURRENT_TRANSFORMATION_MATRIX_Q_10_6
 	TRANSLATE_INV_Q_10_6 #160*64,#128*64
+	bsr.w processing_current_transformation_matrix_addr
+	rts
+
+_matrix_multest7:
+	RESET_CURRENT_TRANSFORMATION_MATRIX_Q_10_6
+
+	move.w #60,d0
+	move.w #28,d1
+	bsr.w TRANSLATE
+
+	;TRANSLATE_INV_Q_10_6 d0,d1
+	;TRANSLATE_INV_Q_10_6 #100*64,#100*64
+	move.w #100,d0
+	move.w #100,d1
+	bsr.w TRANSLATE
+
 	bsr.w processing_current_transformation_matrix_addr
 	rts
