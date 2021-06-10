@@ -5,7 +5,7 @@ all:
 	m68k-amigaos-gcc  -ffast-math -m68000 -msoft-float -noixemul -fomit-frame-pointer  -Os -Wall  filllines.c -o filllinesvampire filllinesvampire.o ../../testlibs/testlib.o 
 
 test: filllines
-	vamos ./filllines
+	vamos -s 16 ./filllines
 
 copy: filllines
 	scp -r ../filllines pi@10.0.0.4:/media/MAXTOR/upload/Vampire/

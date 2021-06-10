@@ -6,11 +6,14 @@
 	XDEF _matrix_multest6
 	XDEF _matrix_multest7
 	XDEF _matrix_multest8
+	XDEF _matrix_multest9
+	XDEF _matrix_multest10
 
 	SECTION PROCESSING,CODE_F
 
 	include "../../../libs/ammxmacros.i"
 	include "../../../libs/matrix/matrix.s"
+	include "../../../libs/trigtables.i"
 
 _matrix_multest1:
 	RESET_CURRENT_TRANSFORMATION_MATRIX_Q_10_6
@@ -272,4 +275,52 @@ _matrix_multest8:
 
 	bsr.w processing_third_matrix_addr
 
+	rts
+
+; rotate 45 deg
+_matrix_multest9:
+	RESET_CURRENT_TRANSFORMATION_MATRIX_Q_10_6
+
+	ROTATE_INV_Q_5_11 #45
+
+	bsr.w processing_current_transformation_matrix_addr
+	rts
+
+; rotate 90 deg and translate point 0,10 to center 
+_matrix_multest10:
+	RESET_CURRENT_TRANSFORMATION_MATRIX_Q_10_6
+
+	
+	
+	
+
+	move.w #160,d0
+	move.w #128,d1
+	bsr.w TRANSLATE
+
+	ROTATE_INV_Q_5_11 #90
+
+	
+	IFD VAMPIRE
+	; Current transformation matrix is the Multiplier (second factor)
+	LOAD_CURRENT_TRANSFORMATION_MATRIX e4,e5,e6
+	REG_LOADI 0000,0280,0000,0040,e1
+
+	ENDIF
+
+	IFND VAMPIRE
+	LOAD_CURRENT_TRANSFORMATION_MATRIX OPERATOR2_TR_MATRIX_ROW1
+
+	move.l #$00000280,OPERATOR1_TR_MATRIX_ROW1
+	move.l #$00000040,OPERATOR1_TR_MATRIX_ROW1+4
+	ENDIF
+
+	bsr.w ammxmatrixmul1X3_q10_6
+
+
+	IFD VAMPIRE
+	AMMX_DUMP_REGS_TO_THIRD_OP e13,e14,e15
+	ENDIF
+
+	bsr.w processing_third_matrix_addr
 	rts

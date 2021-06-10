@@ -1,3 +1,5 @@
+// #define DUMP_ON_VERBOSE_2
+
 #include "testlib.h"
 #include <stdio.h>
 #include <errno.h>
@@ -75,24 +77,27 @@ int launch_test(struct _test test)
     return error;
 }
 
-
-
 int make_test4(struct _test test, const char *file)
 {
     unsigned int i;
     unsigned int row;
     unsigned char *bitplanedata;
+#ifdef DUMP_ON_VERBOSE_2
+    unsigned char *bitplanedatastart;
+#endif
     unsigned int bitplane;
     FILE *fd;
     unsigned int error = 0;
     unsigned char buf;
-    //static unsigned int testcounter = 0;
     unsigned int verbose = test.verbose;
 
 
     //printf("Start of test %d..\n", ++testcounter);
 
     bitplanedata = test.test_function();
+#ifdef DUMP_ON_VERBOSE_2
+    bitplanedatastart = bitplanedata;
+#endif
     fflush(stdout);
 
         fflush(stdout);
@@ -145,7 +150,30 @@ int make_test4(struct _test test, const char *file)
             fflush(stdout);
         }
     }
-
     fclose(fd);
+
+
+   
+    
+#ifdef DUMP_ON_VERBOSE_2
+    if ( error && verbose == 2)
+    {
+        bitplanedata = bitplanedatastart;
+        for (bitplane = 0;  bitplane < test.nbitplanes; bitplane++)
+        {
+            printf("Processing bitplane %d\n", bitplane);
+            for (row = 0;  row < test.nrows; row++)
+            {
+                printf("Row %03d : ", row);
+                for (i = 0;  i < test.nbyterow; i++)
+                {
+                    printf("%02x ", *bitplanedata);
+                    bitplanedata++;
+                }
+                printf("\n");
+            }
+        }
+    }
+#endif
     return error;
 }

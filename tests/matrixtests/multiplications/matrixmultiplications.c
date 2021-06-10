@@ -14,6 +14,8 @@ unsigned char *matrix_multest5();
 unsigned char *matrix_multest6();
 unsigned char *matrix_multest7();
 unsigned char *matrix_multest8();
+unsigned char *matrix_multest9();
+unsigned char *matrix_multest10();
 
 struct _test TESTS[] = {
     {.testId = 1, .test_function = matrix_multest1, .nbitplanes=1, .nrows=3, .nbyterow=8,.title = "default tr matrix vs all ones", .verbose=0},
@@ -23,7 +25,10 @@ struct _test TESTS[] = {
     {.testId = 5, .test_function = matrix_multest5, .nbitplanes=1, .nrows=3, .nbyterow=8,.title = "as above but with negatives 1X3 mult", .verbose=0},
     {.testId = 6, .test_function = matrix_multest6, .nbitplanes=1, .nrows=3, .nbyterow=8,.title = "Translate to center screen", .verbose=0},
     {.testId = 7, .test_function = matrix_multest7, .nbitplanes=1, .nrows=3, .nbyterow=8,.title = "Translate to center screen 2 passes", .verbose=0},
-    {.testId = 8, .test_function = matrix_multest8, .nbitplanes=1, .nrows=3, .nbyterow=8,.title = "3X3 mult with 11 decimals", .verbose=1},
+    {.testId = 8, .test_function = matrix_multest8, .nbitplanes=1, .nrows=3, .nbyterow=8,.title = "3X3 mult with 11 decimals", .verbose=0},
+    {.testId = 9, .test_function = matrix_multest9, .nbitplanes=1, .nrows=3, .nbyterow=8,.title = "45 deg rotation matrix", .verbose=0},
+    {.testId = 10, .test_function = matrix_multest10, .nbitplanes=1, .nrows=3, .nbyterow=8,.title = "point 10,0 rotated 90 deg and translated to center", .verbose=0},
+
 
     {.testId = 0, .test_function = NULL}
 
