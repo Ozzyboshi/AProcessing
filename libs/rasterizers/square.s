@@ -14,6 +14,10 @@ SQUARE:
     move.w d0,(a1)+
     move.w d1,(a1)+
 
+    ; first point Y is min and max
+    move.w d1,AMMXFILLTABLE_CURRENT_ROW
+    move.w d1,AMMXFILLTABLE_END_ROW
+
     ; restore first point
     move.w d6,d0
     move.w d7,d1
@@ -23,6 +27,10 @@ SQUARE:
     ; save transformed values
     move.w d0,(a1)+
     move.w d1,(a1)+
+
+    MINUWORD d1,AMMXFILLTABLE_CURRENT_ROW
+    MAXUWORD d1,AMMXFILLTABLE_END_ROW
+
     bsr.w ammxlinefill
     ; End of Line 1
 
@@ -41,6 +49,8 @@ SQUARE:
     ; save transformed values
     move.w d0,(a1)
     move.w d1,2(a1)
+    MINUWORD d1,AMMXFILLTABLE_CURRENT_ROW
+    MAXUWORD d1,AMMXFILLTABLE_END_ROW
     bsr.w ammxlinefill
     ; End of line 2
 
@@ -56,6 +66,8 @@ SQUARE:
     ; save transformed values
     move.w d0,(a1)+
     move.w d1,(a1)+
+    MINUWORD d1,AMMXFILLTABLE_CURRENT_ROW
+    MAXUWORD d1,AMMXFILLTABLE_END_ROW
     bsr.w ammxlinefill
     ; ENd of line 3
 
@@ -70,11 +82,13 @@ SQUARE:
     ; save transformed values
     move.w d0,(a1)+
     move.w d1,(a1)+
+    MINUWORD d1,AMMXFILLTABLE_CURRENT_ROW
+    MAXUWORD d1,AMMXFILLTABLE_END_ROW
     bsr.w ammxlinefill
 
 
-    move.w #120,AMMXFILLTABLE_CURRENT_ROW
-	move.w #135,AMMXFILLTABLE_END_ROW
+    ;move.w #120,AMMXFILLTABLE_CURRENT_ROW
+	;move.w #135,AMMXFILLTABLE_END_ROW
 
     bsr.w ammx_fill_table
 

@@ -11,3 +11,17 @@ STROKE MACRO
 	ENDIF
 	move.b \1,STROKE_DATA
 	ENDM
+
+MINUWORD MACRO
+    cmp.w \2,\1
+    bhi.s .1\@
+    move.w \1,\2
+.1\@
+    ENDM
+
+MAXUWORD MACRO
+    cmp.w \2,\1
+    bcs.s .1\@
+    move.w \1,\2
+.1\@
+    ENDM
