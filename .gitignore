@@ -19,5 +19,12 @@ tests/matrixtests/multiplications/matrixmultiplicationsvampire
 tests/matrixtests/multiplications/matrixmultiplicationsvampire.o
 tests/matrixtests/multiplications/matrixmultiplications.o
 tests/matrixtests/multiplications/matrixmultiplications
+tests/drawingtests/points/drawingtestspoint.o
+tests/drawingtests/points/drawingtestspointvampire.o
+tests/drawingtests/points/drawingtestspointvampire
+tests/drawingtests/points/drawingtestspoint
+tests/drawingtests/filledpolygons/drawingtestsfilledpolygonvampire.o
+tests/drawingtests/filledpolygons/drawingtestsfilledpolygonvampire
+tests/drawingtests/filledpolygons/drawingtestsfilledpolygon
 DEADJOE
 lol

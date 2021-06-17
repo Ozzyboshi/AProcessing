@@ -10,3 +10,4 @@ cd filltests/fillpolygon && make clean && make && make test && cd .. && cd ..
 cd matrixtests/basic && make clean && make && make test && cd .. && cd ..
 cd matrixtests/multiplications && make clean && make && make test && cd .. && cd ..
 cd drawingtests/points && make clean && make && make test && cd .. && cd ..
+cd drawingtests/filledpolygons && make clean && make && make test && cd .. && cd ..

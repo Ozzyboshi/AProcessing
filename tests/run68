@@ -22,3 +22,7 @@ cd drawingtests/points
 drawingtestspoint
 cd /
 cd /
+cd drawingtests/filledpolygons
+drawingtestsfilledpolygon
+cd /
+cd /
