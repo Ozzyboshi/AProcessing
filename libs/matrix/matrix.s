@@ -200,6 +200,9 @@ OPERATOR3_TR_MATRIX_ROW3_WORD3:
 
 ROTATE_INV_Q_5_11 MACRO
 
+	andi.l #$0000FFFF,d0
+	andi.l #$0000FFFF,d1
+
 	IFD VAMPIRE
 	; Current transformation matrix is the Multiplier (second factor)
 	LOAD_CURRENT_TRANSFORMATION_MATRIX e4,e5,e6

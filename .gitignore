@@ -25,6 +25,7 @@ tests/drawingtests/points/drawingtestspointvampire
 tests/drawingtests/points/drawingtestspoint
 tests/drawingtests/filledpolygons/drawingtestsfilledpolygonvampire.o
 tests/drawingtests/filledpolygons/drawingtestsfilledpolygonvampire
+tests/drawingtests/filledpolygons/drawingtestsfilledpolygon.o
 tests/drawingtests/filledpolygons/drawingtestsfilledpolygon
 DEADJOE
 lol
