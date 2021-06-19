@@ -1,3 +1,43 @@
+POINT_TRANSFORM_AND_STORE_IN_FILLTABLE MACRO
+    lea LINEVERTEX_START_FINAL+\3,a1
+
+    move.w \1,d0
+    move.w \2,d1
+
+    bsr.w point_execute_transformation
+
+    move.w d0,(a1)+
+    move.w d1,(a1)+
+
+    MINUWORD d1,AMMXFILLTABLE_CURRENT_ROW
+    MAXUWORD d1,AMMXFILLTABLE_END_ROW
+
+    bsr.w ammxlinefill
+    ENDM
+
+
+POINT_TRANSFORM_AND_STORE_IN_FILLTABLE_FIRST MACRO
+    lea LINEVERTEX_START_FINAL+\3,a1
+
+    move.w \1,d0
+    move.w \2,d1
+
+    bsr.w point_execute_transformation
+
+    move.w d0,(a1)+
+    move.w d1,(a1)+
+
+    move.w d1,AMMXFILLTABLE_CURRENT_ROW
+    move.w d1,AMMXFILLTABLE_END_ROW
+
+    bsr.w ammxlinefill
+    ; End of Line 3
+
+    ENDM
+
+
+
+
 POINT_Q_10_6 MACRO
 
 	and.l #$0000FFFF,d0
@@ -74,6 +114,9 @@ POINT MACRO
 
 	ENDM
 
+; place x into d0
+;       y into d1
+; output will be into d0 d1 (register overwritten)
 point_execute_transformation:
 	;movem.l d0-d1,-(sp)
 	IFD VAMPIRE

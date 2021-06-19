@@ -1,7 +1,7 @@
 SQUARE:
     movem.l d0-d7/a0-a1,-(sp)
 
-    RESETFILLTABLE
+    ;RESETFILLTABLE
     lea LINEVERTEX_START_FINAL,a1
     
     ; Start of line 1
