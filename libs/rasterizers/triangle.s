@@ -12,11 +12,13 @@ TRIANGLE:
     
     POINT_TRANSFORM_AND_STORE_IN_FILLTABLE_FIRST d0,d1,0
     POINT_TRANSFORM_AND_STORE_IN_FILLTABLE d6,d3,4
-    
+    bsr.w ammxlinefill
     
     POINT_TRANSFORM_AND_STORE_IN_FILLTABLE d4,d5,4
+    bsr.w ammxlinefill
     
     POINT_TRANSFORM_AND_STORE_IN_FILLTABLE d6,d3,0
+    bsr.w ammxlinefill
     
     bsr.w ammx_fill_table
 
