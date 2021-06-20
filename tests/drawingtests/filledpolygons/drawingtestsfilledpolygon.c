@@ -8,6 +8,7 @@
 
 unsigned char *drawing_test1();
 unsigned char *drawing_test2();
+unsigned char *drawing_test3();
 
 struct _test TESTS[] = {
     {.testId = 1, .test_function = drawing_test1, .nbitplanes=2, .nrows=256, .nbyterow=40,.title = "square rotated filled", .verbose=0},
@@ -86,7 +87,8 @@ function draw() {
     
   }
 }*/
-    {.testId = 2, .test_function = drawing_test2, .nbitplanes=2, .nrows=256, .nbyterow=40,.title = "triangle rotated filled", .verbose=0},
+    {.testId = 2, .test_function = drawing_test2, .nbitplanes=2, .nrows=256, .nbyterow=40,.title = "triangle rotated 0deg filled", .verbose=0},
+    {.testId = 3, .test_function = drawing_test3, .nbitplanes=2, .nrows=256, .nbyterow=40,.title = "triangle rotated 180deg filled", .verbose=0},
   
 
     {.testId = 0, .test_function = NULL}
