@@ -1,6 +1,8 @@
 	XDEF _drawing_test1
 	XDEF _drawing_test2
 	XDEF _drawing_test3
+	XDEF _drawing_test4
+	XDEF _drawing_test5
 
 	SECTION PROCESSING,CODE_F
 
@@ -14,6 +16,7 @@
 	include "../../../libs/rasterizers/point.s"
 	include "../../../libs/rasterizers/square.s"
 	include "../../../libs/rasterizers/triangle.s"
+	include "../../../libs/rasterizers/rectangle.s"
 	include "../../../libs/rasterizers/processingfill.s"
 
 _drawing_test1:
@@ -98,6 +101,54 @@ _drawing_test3:
 
 	
 	bsr.w TRIANGLE
+
+	bsr.w processing_bitplanes_fast_screen0 ; returns bitplanes addr in d0
+	
+	rts
+
+_drawing_test4:
+	
+	CLEARFASTBITPLANES ; Clear fast bitplanes
+	
+	RESET_CURRENT_TRANSFORMATION_MATRIX_Q_10_6
+
+	move.w #160,d0
+	move.w #128,d1
+	bsr.w TRANSLATE
+
+	ROTATE #0
+
+	move.w #-5,d0
+	move.w #-10,d1
+
+	move.w #10,d5
+	move.w #20,d6
+
+	bsr.w RECT
+
+	bsr.w processing_bitplanes_fast_screen0 ; returns bitplanes addr in d0
+	
+	rts
+
+_drawing_test5:
+	
+	CLEARFASTBITPLANES ; Clear fast bitplanes
+	
+	RESET_CURRENT_TRANSFORMATION_MATRIX_Q_10_6
+
+	move.w #160,d0
+	move.w #128,d1
+	bsr.w TRANSLATE
+
+	ROTATE #30
+
+	move.w #-5,d0
+	move.w #-10,d1
+
+	move.w #10,d5
+	move.w #20,d6
+
+	bsr.w RECT
 
 	bsr.w processing_bitplanes_fast_screen0 ; returns bitplanes addr in d0
 	
