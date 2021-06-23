@@ -3,12 +3,14 @@
 	XDEF _drawing_test3
 	XDEF _drawing_test4
 	XDEF _drawing_test5
+	XDEF _drawing_test6
 
 	SECTION PROCESSING,CODE_F
 
 	include "../../../libs/rasterizers/globaloptions.s"
 	include "../../../libs/ammxmacros.i"
 	include "../../../libs/matrix/matrix.s"
+	include "../../../libs/matrix/scale.s"
 	include "../../../libs/trigtables.i"
 	include "../../../libs/rasterizers/processing_bitplanes_fast.s"
 	include "../../../libs/rasterizers/processing_table_plotrefs.s"
@@ -141,6 +143,33 @@ _drawing_test5:
 	bsr.w TRANSLATE
 
 	ROTATE #30
+
+	move.w #-5,d0
+	move.w #-10,d1
+
+	move.w #10,d5
+	move.w #20,d6
+
+	bsr.w RECT
+
+	bsr.w processing_bitplanes_fast_screen0 ; returns bitplanes addr in d0
+	
+	rts
+
+_drawing_test6:
+	
+	CLEARFASTBITPLANES ; Clear fast bitplanes
+	
+	RESET_CURRENT_TRANSFORMATION_MATRIX_Q_10_6
+
+	move.w #160,d0
+	move.w #128,d1
+	bsr.w TRANSLATE
+
+	; scale 0,5 on Y axis
+	move.w #%0000000001000000,d0
+	move.w #%0000000000100000,d1
+	bsr.w SCALE
 
 	move.w #-5,d0
 	move.w #-10,d1

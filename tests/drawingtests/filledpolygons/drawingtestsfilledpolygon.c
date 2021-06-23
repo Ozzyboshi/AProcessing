@@ -11,6 +11,7 @@ unsigned char *drawing_test2();
 unsigned char *drawing_test3();
 unsigned char *drawing_test4();
 unsigned char *drawing_test5();
+unsigned char *drawing_test6();
 
 struct _test TESTS[] = {
     {.testId = 1, .test_function = drawing_test1, .nbitplanes=2, .nrows=256, .nbyterow=40,.title = "square rotated filled", .verbose=0},
@@ -93,6 +94,7 @@ function draw() {
     {.testId = 3, .test_function = drawing_test3, .nbitplanes=2, .nrows=256, .nbyterow=40,.title = "triangle rotated 180deg filled", .verbose=0},
     {.testId = 4, .test_function = drawing_test4, .nbitplanes=2, .nrows=256, .nbyterow=40,.title = "rectangle rotated 0deg filled", .verbose=0},
     {.testId = 5, .test_function = drawing_test5, .nbitplanes=2, .nrows=256, .nbyterow=40,.title = "rectangle rotated 30deg filled", .verbose=0},
+    {.testId = 6, .test_function = drawing_test6, .nbitplanes=2, .nrows=256, .nbyterow=40,.title = "rectangle scaled by 0.5 o n Y axis", .verbose=0},
 
 
     {.testId = 0, .test_function = NULL}
