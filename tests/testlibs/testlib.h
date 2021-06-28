@@ -12,3 +12,4 @@ int launch_test(struct _test test);
 
 int make_test2( const char *file,struct _test test, const int verbose);
 int make_test4(struct _test test, const char *file);
+int make_test_patched(struct _test , const char *,struct _test);

@@ -12,6 +12,7 @@ unsigned char *drawing_test3();
 unsigned char *drawing_test4();
 unsigned char *drawing_test5();
 unsigned char *drawing_test6();
+unsigned char *drawing_test7();
 
 struct _test TESTS[] = {
     {.testId = 1, .test_function = drawing_test1, .nbitplanes=2, .nrows=256, .nbyterow=40,.title = "square rotated filled", .verbose=0},
@@ -95,6 +96,7 @@ function draw() {
     {.testId = 4, .test_function = drawing_test4, .nbitplanes=2, .nrows=256, .nbyterow=40,.title = "rectangle rotated 0deg filled", .verbose=0},
     {.testId = 5, .test_function = drawing_test5, .nbitplanes=2, .nrows=256, .nbyterow=40,.title = "rectangle rotated 30deg filled", .verbose=0},
     {.testId = 6, .test_function = drawing_test6, .nbitplanes=2, .nrows=256, .nbyterow=40,.title = "rectangle scaled by 0.5 o n Y axis", .verbose=0},
+    {.testId = 7, .test_function = drawing_test7, .nbitplanes=2, .nrows=256, .nbyterow=40,.title = "Circle with r=10", .verbose=0},
 
 
     {.testId = 0, .test_function = NULL}
@@ -111,7 +113,7 @@ int main(int argc, char **argv)
         printf("Running test %d - %s...", TESTS[testcounter].testId,TESTS[testcounter].title);
         char filename[100];
         snprintf(filename, sizeof(filename), "expected/drawline.test%d", TESTS[testcounter].testId);
-        error = make_test4( TESTS[testcounter],filename);
+        error = make_test_patched( TESTS[testcounter],filename, TESTS[testcounter]);
         if (!error)
             printf("Test succeeded\n");
         else
