@@ -18,7 +18,7 @@ CIRCLE:
     
 ; Cycle from 0 to 90, each time encreasing the angle by 30
 CIRCLE_STARTLOOP:
-                cmp.w                                     #360,d7
+                cmp.w                                     #90,d7
                 bhi.w                                     CIRCLE_EXIT
     
     ; load sin and cos relative to the angle
@@ -57,69 +57,70 @@ CIRCLE_STARTLOOP:
                 bsr.w                                     CIRCLE_PRINTLINE
 
   ; 1st quadrant
-  ;move.w d3,CIRCLE_TMP
+  move.w d3,CIRCLE_TMP
 
-  ;move.w d3,CIRCLE_TMP1_X
-  ;move.w d6,CIRCLE_TMP2_X
+  move.w d3,CIRCLE_TMP1_X
+  move.w d6,CIRCLE_TMP2_X
   
-  ;move.w d1,CIRCLE_TMP1_Y
-  ;move.w d4,d3
-  ;sub.w d1,d3
-  ;sub.w d3,CIRCLE_TMP1_Y
+  move.w d1,CIRCLE_TMP1_Y
+  move.w d4,d3
+  sub.w d1,d3
+  sub.w d3,CIRCLE_TMP1_Y
 
-  ;move.w d1,CIRCLE_TMP2_Y
-  ;move.w d5,d3
-  ;sub.w d1,d3
-  ;sub.w d3,CIRCLE_TMP2_Y
+  move.w d1,CIRCLE_TMP2_Y
+  move.w d5,d3
+  sub.w d1,d3
+  sub.w d3,CIRCLE_TMP2_Y
   
 
-  ;bsr.w CIRCLE_PRINTLINE_FROM_MEM
-  ;move.w CIRCLE_TMP,d3
+  bsr.w CIRCLE_PRINTLINE_FROM_MEM
+  move.w CIRCLE_TMP,d3
 
 
 
 
   ; 3rd quadrant
-  ;move.w d3,CIRCLE_TMP
-  ;move.w d0,CIRCLE_TMP1_X
+  move.w d3,CIRCLE_TMP
+  move.w d0,CIRCLE_TMP1_X
   ;move.w d3,d3
-  ;sub.w d0,d3
-  ;sub.w d3,CIRCLE_TMP1_X
+  sub.w d0,d3
+  sub.w d3,CIRCLE_TMP1_X
 
-  ;move.w d0,CIRCLE_TMP2_X
-  ;move.w d6,d3
-  ;sub.w d0,d3
-  ;sub.w d3,CIRCLE_TMP2_X
+  move.w d0,CIRCLE_TMP2_X
+  move.w d6,d3
+  sub.w d0,d3
+  sub.w d3,CIRCLE_TMP2_X
 
-  ;move.w CIRCLE_TMP,CIRCLE_TMP1_Y
-  ;move.w d5,CIRCLE_TMP2_Y
+  move.w CIRCLE_TMP,CIRCLE_TMP1_Y
+  move.w d5,CIRCLE_TMP2_Y
+  move.w d4,CIRCLE_TMP1_Y
 
-  ;bsr.w CIRCLE_PRINTLINE_FROM_MEM
+  bsr.w CIRCLE_PRINTLINE_FROM_MEM
 
-  ;move.w CIRCLE_TMP,d3
+  move.w CIRCLE_TMP,d3
 
   ; 2nd quadrant
-  ;move.w d0,CIRCLE_TMP1_X
+  move.w d0,CIRCLE_TMP1_X
   ;move.w d3,d3
-  ;sub.w d0,d3
-  ;sub.w d3,CIRCLE_TMP1_X
+  sub.w d0,d3
+  sub.w d3,CIRCLE_TMP1_X
 
-  ;move.w d1,CIRCLE_TMP1_Y
-  ;move.w d4,d3
-  ;sub.w d1,d3
-  ;sub.w d3,CIRCLE_TMP1_Y
+  move.w d1,CIRCLE_TMP1_Y
+  move.w d4,d3
+  sub.w d1,d3
+  sub.w d3,CIRCLE_TMP1_Y
 
-  ;move.w d0,CIRCLE_TMP2_X
-  ;move.w d6,d3
-  ;sub.w d0,d3
-  ;sub.w d3,CIRCLE_TMP2_X
+  move.w d0,CIRCLE_TMP2_X
+  move.w d6,d3
+  sub.w d0,d3
+  sub.w d3,CIRCLE_TMP2_X
 
-  ;move.w d1,CIRCLE_TMP2_Y
-  ;move.w d5,d3
-  ;sub.w d1,d3
-  ;sub.w d3,CIRCLE_TMP2_Y
+  move.w d1,CIRCLE_TMP2_Y
+  move.w d5,d3
+  sub.w d1,d3
+  sub.w d3,CIRCLE_TMP2_Y
 
-  ;bsr.w CIRCLE_PRINTLINE_FROM_MEM
+  bsr.w CIRCLE_PRINTLINE_FROM_MEM
     
     ; pack d3
                 move.w                                    d6,d3
