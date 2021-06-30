@@ -55,17 +55,11 @@ ammx_fill_table_end:
 ammx_fill_table_single_line:
 	movem.l d0-d7/a0-a2,-(sp) ; stack save
 
-	
-
 	; d5 => totalcount
 	; d3 / d4 => tmp
 
 	; d6 => left X
 	; d7 => right X
-
-	;lea FILL_TABLE,a0
-	;move.w (a0)+,d6 ; start of fill line
-	;move.w (a0)+,d7 ; end of fill line
 
 	move.w d7,d5 ; alternative to psubw
 	sub.w d6,d5
@@ -125,8 +119,10 @@ ammx_fill_table_no_special_case:
 	move.l #$00000000,AMMXFILLTABLE_FILLDATA_BPL_1
 	ENDIF
 	IFD VAMPIRE
-	load #$0000000000000000,e0
-	load #$0000000000000000,e1
+	REG_ZERO e0
+	REG_ZERO e1
+	;load #$0000000000000000,e0
+	;load #$0000000000000000,e1
 	ENDIF
     
 	btst #1,STROKE_DATA
@@ -162,8 +158,10 @@ ammx_fill_table_startiter:
 	IFD VAMPIRE
 	move.l a0,a2
 	add.l #256*40,a2
-	store e1,(a2)+ ; second bitplane
-	store e0,(a0)+ ; first bitplane
+	POR (a2),e1,e6
+	STORE e6,(a2)+
+	POR (a0),e0,e6
+	STORE e6,(a0)+
 	ENDIF
 	IFND VAMPIRE
 	
@@ -214,9 +212,9 @@ ammx_fill_table_no64:
 	move.l a0,a2
 	add.l #256*40,a2
 	vperm #$00000000,e1,e1,d0
-	move.l d0,(a2)+ ; second bitplane
+	or.l d0,(a2)+ ; second bitplane
 	vperm #$00000000,e0,e0,d0
-	move.l d0,(a0)+ ; first bitplane
+	or.l d0,(a0)+ ; first bitplane
 	subi.w #32,d5
 	bra.w ammx_fill_table_check_if_other
 	ENDIF
@@ -263,9 +261,9 @@ ammx_fill_table_no32:
 	move.l a0,a2
 	add.l #256*40,a2
 	vperm #$00000000,e1,e1,d0
-	move.w d0,(a2)+ ; second bitplane
+	or.w d0,(a2)+ ; second bitplane
 	vperm #$00000000,e0,e0,d0
-	move.w d0,(a0)+ ; first bitplane
+	or.w d0,(a0)+ ; first bitplane
 	subi.w #16,d5
 	bra.w ammx_fill_table_check_if_other
 	ENDIF
@@ -310,9 +308,9 @@ ammx_fill_table_no16:
 	move.l a0,a2
 	add.l #256*40,a2
 	vperm #$00000000,e1,e1,d0
-	move.b d0,(a2)+ ; second bitplane
+	or.b d0,(a2)+ ; second bitplane
 	vperm #$00000000,e0,e0,d0
-	move.b d0,(a0)+ ; first bitplane
+	or.b d0,(a0)+ ; first bitplane
 	ENDIF
 
 	IFND VAMPIRE

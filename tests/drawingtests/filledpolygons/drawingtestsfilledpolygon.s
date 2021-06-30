@@ -5,6 +5,7 @@
   XDEF                                          _drawing_test5
   XDEF                                          _drawing_test6
   XDEF                                          _drawing_test7
+  XDEF                                          _drawing_test8
 
   SECTION                                       PROCESSING,CODE_F
 
@@ -192,7 +193,7 @@ _drawing_test6:
   rts
 
 _drawing_test7:
-	movem.l        d2,-(sp)
+  movem.l                                       d2,-(sp)
 	
   CLEARFASTBITPLANES                                                                                       ; Clear fast bitplanes
 	
@@ -210,5 +211,37 @@ _drawing_test7:
   bsr.w                                         CIRCLE
 
   bsr.w                                         processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
-  movem.l        (sp)+,d2
+  movem.l                                       (sp)+,d2
+  rts
+
+_drawing_test8:
+  movem.l                                       d2,-(sp)
+	
+  CLEARFASTBITPLANES                                                                                       ; Clear fast bitplanes
+	
+  RESET_CURRENT_TRANSFORMATION_MATRIX_Q_10_6
+
+  STROKE                                        #2
+  move.w                                        #160,d0
+  move.w                                        #128,d1
+  bsr.w                                         TRANSLATE
+
+  move.w                                        #0,d0
+  move.w                                        #0,d1
+
+  move.w                                        #10,d2
+
+  bsr.w                                         CIRCLE
+
+  STROKE                                        #1
+  move.w                                        #-15,d0
+  move.w                                        #-15,d1
+  move.w                                        #30,d5
+
+  bsr.w                                         SQUARE  
+
+  STROKE                                        #1
+  bsr.w                                         processing_bitplanes_fast_screen0
+  
+  movem.l                                       (sp)+,d2
   rts
