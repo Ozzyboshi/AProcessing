@@ -439,6 +439,14 @@ endammxlinefillphase1_max:
 	ENDIF
 	bsr.w ammxlinefill_clip
 ammxlinefill_noclip:
+	cmpi.w #$FFFF,LINEVERTEX_START_PUSHED
+    bne.s ammxlinefill_clip_ok
+    movem.l (sp)+,d0-d7/a0-a6
+	rts
+
+ammxlinefill_clip_ok:
+
+
 	ENDIF
 	; - check if both coords are between screen limits end
 
@@ -1017,8 +1025,10 @@ ammxlinefill_clip:
 	bls.s ammxlinefill_clip_x_within
 	; Xb OUT OF BOUNDS to right, we need to recalculate Y
     ; but first check if Xa is bigger than XRES, in that case the whole line wont be on the screen
-    cmp.w X_SCREEN_RES,d5
-    ble.s ammxlinefill_clip_end
+	swap d2
+    cmp.w X_SCREEN_RES,d2
+    bge.s ammxlinefill_clip_not_drawable
+	swap d2
 	; L = X_SCREEN_RES-Xa ---- L in d7
 	move.w X_SCREEN_RES_LAST_X,d7
 	sub.w LINEVERTEX_START_PUSHED,d7
@@ -1057,6 +1067,11 @@ ammxlinefill_clip_x_within:
 	nop
 ammxlinefill_clip_end:
 	movem.l (sp)+,d0-d7/a2
+	rts
+	
+ammxlinefill_clip_not_drawable:
+    move.w #$FFFF,LINEVERTEX_START_PUSHED
+    movem.l (sp)+,d0-d7/a2
 	rts
 
 	ENDIF
