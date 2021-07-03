@@ -1021,7 +1021,7 @@ ammxlinefill_clip:
 	add.w LINEVERTEX_START_PUSHED,d5
 	
 	; START CHECK IF Xb IS ON THE RIGHT OF THE SCREEN
-	cmp.w X_SCREEN_RES,d5
+	cmp.w X_SCREEN_RES_LAST_X,d5
 	bls.s ammxlinefill_clip_x_within
 	; Xb OUT OF BOUNDS to right, we need to recalculate Y
     ; but first check if Xa is bigger than XRES, in that case the whole line wont be on the screen
