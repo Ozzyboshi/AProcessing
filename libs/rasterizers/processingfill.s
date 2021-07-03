@@ -429,7 +429,7 @@ endammxlinefillphase1_max:
 	; - check if both coords are between screen limits start
 	IFD USE_CLIPPING
 	IFD VAMPIRE
-	vperm #$11111111,e22,e22,d0
+	vperm #$EEEEEEEE,e22,e22,d0
 	btst  #0,d0
 	beq.s ammxlinefill_noclip
 	ENDIF

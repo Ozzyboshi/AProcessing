@@ -67,7 +67,7 @@ struct _test TESTS[] = {
     {.testId = 15, .test_function = filline_test15, .nbitplanes=1,.nrows=256,.nbyterow=4,.title = "Circle", .verbose=0}, 
 
     // Clipping
-    {.testId = 16, .test_function = filline_test16, .nbitplanes=1, .nrows=256, .nbyterow=4,.title = "1,1 8,5 -> 10,1 18.5 0<m<1", .verbose=0},
+    {.testId = 16, .test_function = filline_test16, .nbitplanes=1, .nrows=256, .nbyterow=4,.title = "8,10 - 350,2 Xb clipping", .verbose=0},
 
 
 
