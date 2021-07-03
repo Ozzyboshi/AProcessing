@@ -14,6 +14,7 @@
   XDEF              _filline_test13
   XDEF              _filline_test14
   XDEF              _filline_test15
+  XDEF              _filline_test16
 	
   SECTION           PROCESSING,CODE_F
 
@@ -516,3 +517,22 @@ CIRCLE_TMP1_X: dc.w 0
 CIRCLE_TMP1_Y: dc.w 0
 CIRCLE_TMP2_X: dc.w 0
 CIRCLE_TMP2_Y: dc.w 0
+
+
+_filline_test16:
+
+  RESETFILLTABLE
+
+  ENABLE_CLIPPING
+  ;DISABLE_CLIPPING
+
+  lea               LINEVERTEX_START_FINAL,a1
+  move.w            #8,(a1)+
+  move.w            #10,(a1)+
+  move.w            #350,(a1)+
+  move.w            #2,(a1)+
+  bsr.w             ammxlinefill
+
+
+  bsr.w             processing_fill_table_addr                                 ; fill table addr in d0
+  rts

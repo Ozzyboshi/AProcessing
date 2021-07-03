@@ -30,6 +30,7 @@ unsigned char *filline_test12();
 unsigned char *filline_test13();
 unsigned char *filline_test14();
 unsigned char *filline_test15();
+unsigned char *filline_test16();
 
 /*struct _test TESTS[] = {
   
@@ -64,6 +65,10 @@ struct _test TESTS[] = {
 
     // Circle
     {.testId = 15, .test_function = filline_test15, .nbitplanes=1,.nrows=256,.nbyterow=4,.title = "Circle", .verbose=0}, 
+
+    // Clipping
+    {.testId = 16, .test_function = filline_test16, .nbitplanes=1, .nrows=256, .nbyterow=4,.title = "1,1 8,5 -> 10,1 18.5 0<m<1", .verbose=0},
+
 
 
     {.testId = 0, .test_function = NULL}

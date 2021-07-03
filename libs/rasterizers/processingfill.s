@@ -392,9 +392,6 @@ endammxlinefillphase1:  ; end of first check
 	move.l d2,(a2)+
 	move.l d3,(a2)+
 
-	; - check if both coords are between screen limits start
-	; - check if both coords are between screen limits end
-
 	; select one of the 4 drawing routines start
 	; take the delta (abs value of the difference) between lowest 2 words from d2 and d3 and put them in d4
 	
@@ -428,6 +425,22 @@ endammxlinefillphase1_max:
 	
 	;vperm #$45454545,d4,d4,d5 ; move xdelta in the less sig word
 	;ENDIF
+
+	; - check if both coords are between screen limits start
+	IFD USE_CLIPPING
+	IFD VAMPIRE
+	vperm #$11111111,e22,e22,d0
+	btst  #0,d0
+	beq.s ammxlinefill_noclip
+	ENDIF
+	IFND VAMPIRE
+	btst  #0,DRAWING_OPTIONS
+	beq.s ammxlinefill_noclip
+	ENDIF
+	bsr.w ammxlinefill_clip
+ammxlinefill_noclip:
+	ENDIF
+	; - check if both coords are between screen limits end
 
 	; select one of the 4 drawing routines end
 	
@@ -990,7 +1003,63 @@ ammxlinefill_ENDLINE_F2:
 	movem.l (sp)+,d0-d7/a2
 	rts
 
+	IFD USE_CLIPPING
+ammxlinefill_clip:
+	movem.l d0-d7/a2,-(sp) ; stack save
+	
+	; YA on d2
+	
+	; here d5 is deltax, lets add LINEVERTEX_START_PUSHED and see if we are on the right of the screen
+	add.w LINEVERTEX_START_PUSHED,d5
+	
+	; START CHECK IF Xb IS ON THE RIGHT OF THE SCREEN
+	cmp.w X_SCREEN_RES,d5
+	bls.s ammxlinefill_clip_x_within
+	; Xb OUT OF BOUNDS to right, we need to recalculate Y
+    ; but first check if Xa is bigger than XRES, in that case the whole line wont be on the screen
+    cmp.w X_SCREEN_RES,d5
+    ble.s ammxlinefill_clip_end
+	; L = X_SCREEN_RES-Xa ---- L in d7
+	move.w X_SCREEN_RES_LAST_X,d7
+	sub.w LINEVERTEX_START_PUSHED,d7
+	; J = DeltaX ---- J in d6
+	move.w LINEVERTEX_DELTAX,d6
+    ; A = DeltaY --- A in d0
+    ;move.w LINEVERTEX_DELTAY,d0
+ 
+    ; y = L/J*A+YA
+    muls.w LINEVERTEX_DELTAY,d7
+    divs d6,d7
+    
+    sub.w d2,d7 ; subtract Ya
+    muls.w #-1,d7
+    ; recalculate LINEVERTEX_END_PUSHED - new X is X_SCREEN_RES_LAST_X - new Y is INSIDE d7
+    move.w X_SCREEN_RES_LAST_X,LINEVERTEX_END_PUSHED
+    move.w d7,LINEVERTEX_END_PUSHED+2
+    
+    ; since X and Y have been recalculated I need to update LINEVERTEX_DELTAX and LINEVERTEX_DELTAY
+    move.w LINEVERTEX_END_PUSHED,LINEVERTEX_DELTAX
+    swap d2
+    sub.w d2,LINEVERTEX_DELTAX
+    swap d2
+    move.w LINEVERTEX_END_PUSHED+2,LINEVERTEX_DELTAY
+    sub.w d2,LINEVERTEX_DELTAY
+    bgt.s ammxlinefill_clip_x_within
+    move.w d2,LINEVERTEX_DELTAY
+    sub.w d7,LINEVERTEX_DELTAY
 
+    ; END CHECK IF Xb IS ON THE RIGHT OF THE SCREEN
+
+
+    
+    
+ammxlinefill_clip_x_within:
+	nop
+ammxlinefill_clip_end:
+	movem.l (sp)+,d0-d7/a2
+	rts
+
+	ENDIF
 
 FILL_TABLE:
         dcb.b 4*256,$FF

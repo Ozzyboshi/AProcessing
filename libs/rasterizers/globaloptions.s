@@ -1,27 +1,49 @@
+X_SCREEN_RES:         dc.w      320
+X_SCREEN_RES_LAST_X:  dc.w      319
+
 GLOBAL_OPTIONS:
-	dc.l $00000000
-	dc.w $0000
-	dc.b $00
-STROKE_DATA:	dc.b $01 ; colors here
+                      dc.l      $00000000
+                      dc.w      $0000
+DRAWING_OPTIONS:      dc.b      $00                           ; bit 0 = clipping enabled
+STROKE_DATA:          dc.b      $01                           ; colors here
 
 STROKE MACRO
-	IFD VAMPIRE 
-	PAND #$FFFFFFFFFFFFFF00,e22,e22 ; last byte zeroed
-	POR \1,e22,e22 ; last byte reserved for bitplanes
-	ENDIF
-	move.b \1,STROKE_DATA
-	ENDM
+                      IFD       VAMPIRE 
+                      PAND      #$FFFFFFFFFFFFFF00,e22,e22    ; last byte zeroed
+                      POR       \1,e22,e22                    ; last byte reserved for bitplanes
+                      ENDIF
+                      move.b    \1,STROKE_DATA
+                      ENDM
+
+                      IFD       USE_CLIPPING
+ENABLE_CLIPPING MACRO
+                      IFD       VAMPIRE
+                      POR       #$0000000000000100,e22,e22
+                      ENDIF
+                      IFND      VAMPIRE
+                      ori.b     #$01,DRAWING_OPTIONS
+                      ENDIF
+                      ENDM
+DISABLE_CLIPPING MACRO
+                      IFD       VAMPIRE
+                      PAND      #$FFFFFFFFFFFFFEFF,e22,e22
+                      ENDIF
+                      IFND      VAMPIRE
+                      andi.b    #$FE,DRAWING_OPTIONS
+                      ENDIF
+                      ENDM
+                      ENDIF
 
 MINUWORD MACRO
-    cmp.w \2,\1
-    bhi.s .1\@
-    move.w \1,\2
+                      cmp.w     \2,\1
+                      bhi.s     .1\@
+                      move.w    \1,\2
 .1\@
-    ENDM
+                      ENDM
 
 MAXUWORD MACRO
-    cmp.w \2,\1
-    bcs.s .1\@
-    move.w \1,\2
+                      cmp.w     \2,\1
+                      bcs.s     .1\@
+                      move.w    \1,\2
 .1\@
-    ENDM
+                      ENDM
