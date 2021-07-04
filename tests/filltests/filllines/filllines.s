@@ -18,6 +18,8 @@
                 XDEF                _filline_test17
                 XDEF                _filline_test18
                 XDEF                _filline_test19
+                XDEF                _filline_test20
+                XDEF                _filline_test21
 	
                 SECTION             PROCESSING,CODE_F
 
@@ -589,6 +591,44 @@ _filline_test19:
                 move.w              #319,(a1)+
                 move.w              #2,(a1)+
                 move.w              #320,(a1)+
+                move.w              #2,(a1)+
+
+                bsr.w               ammxlinefill
+
+
+                bsr.w               processing_fill_table_addr                                 ; fill table addr in d0
+                DISABLE_CLIPPING
+                rts
+
+_filline_test20:
+
+                RESETFILLTABLE
+
+                ENABLE_CLIPPING
+
+                lea                 LINEVERTEX_START_FINAL,a1
+                move.w              #-1,(a1)+
+                move.w              #2,(a1)+
+                move.w              #-10,(a1)+
+                move.w              #20,(a1)+
+
+                bsr.w               ammxlinefill
+
+
+                bsr.w               processing_fill_table_addr                                 ; fill table addr in d0
+                DISABLE_CLIPPING
+                rts
+
+_filline_test21:
+
+                RESETFILLTABLE
+
+                ENABLE_CLIPPING
+
+                lea                 LINEVERTEX_START_FINAL,a1
+                move.w              #10,(a1)+
+                move.w              #20,(a1)+
+                move.w              #-1,(a1)+
                 move.w              #2,(a1)+
 
                 bsr.w               ammxlinefill

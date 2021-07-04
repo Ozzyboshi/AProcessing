@@ -34,6 +34,8 @@ unsigned char *filline_test16();
 unsigned char *filline_test17();
 unsigned char *filline_test18();
 unsigned char *filline_test19();
+unsigned char *filline_test20();
+unsigned char *filline_test21();
 
 /*struct _test TESTS[] = {
   
@@ -74,6 +76,8 @@ struct _test TESTS[] = {
     {.testId = 17, .test_function = filline_test17, .nbitplanes=1, .nrows=256, .nbyterow=4,.title = "350,2 - 320,8 Xb clipping", .verbose=0},
     {.testId = 18, .test_function = filline_test18, .nbitplanes=1, .nrows=256, .nbyterow=4,.title = "321,2 - 350,8 Xb clipping", .verbose=0},
     {.testId = 19, .test_function = filline_test19, .nbitplanes=1, .nrows=256, .nbyterow=4,.title = "319,2 - 320,2 Xb clipping", .verbose=0},
+    {.testId = 20, .test_function = filline_test20, .nbitplanes=1, .nrows=256, .nbyterow=4,.title = "-1,2 - -10,20 Xa clipping", .verbose=0},
+    {.testId = 21, .test_function = filline_test21, .nbitplanes=1, .nrows=256, .nbyterow=4,.title = "10,20 - -10,2 Xa clipping", .verbose=0},
 
 
 
