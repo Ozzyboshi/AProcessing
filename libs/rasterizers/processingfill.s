@@ -354,10 +354,14 @@ ammx_fill_table_check_if_other: ;
 
 
 LINEVERTEX_START_PUSHED:
+LINEVERTEX_START_PUSHED_X:
 	dc.w 0 ; X1
+LINEVERTEX_START_PUSHED_Y:
 	dc.w 0 ; Y1
 LINEVERTEX_END_PUSHED:
+LINEVERTEX_END_PUSHED_X:
 	dc.w 0 ; X2
+LINEVERTEX_END_PUSHED_Y:
 	dc.w 0 ; Y2
 
 LINEVERTEX_START_FINAL:
@@ -431,23 +435,26 @@ endammxlinefillphase1_max:
 	IFD VAMPIRE
 	vperm #$EEEEEEEE,e22,e22,d0
 	btst  #0,d0
-	beq.s ammxlinefill_noclip
+	beq.s ammxlinefill_clip_done
 	ENDIF
 	IFND VAMPIRE
 	btst  #0,DRAWING_OPTIONS
-	beq.s ammxlinefill_noclip
+	beq.s ammxlinefill_clip_done
 	ENDIF
 	bsr.w ammxlinefill_clip
-ammxlinefill_noclip:
+	move.w LINEVERTEX_DELTAX,d5
+    move.w LINEVERTEX_DELTAY,d4
+	move.l LINEVERTEX_START_PUSHED,d2
+	move.l LINEVERTEX_END_PUSHED,d3
 	cmpi.w #$FFFF,LINEVERTEX_START_PUSHED
-    bne.s ammxlinefill_clip_ok
+    bne.s ammxlinefill_clip_done
     movem.l (sp)+,d0-d7/a0-a6
 	rts
-
-ammxlinefill_clip_ok:
-
-
+	
+ammxlinefill_clip_done:
 	ENDIF
+
+
 	; - check if both coords are between screen limits end
 
 	; select one of the 4 drawing routines end
@@ -1033,34 +1040,31 @@ ammxlinefill_clip:
 	; J = DeltaX ---- J in d6
 	move.w LINEVERTEX_DELTAX,d6
     ; A = DeltaY --- A in d0
-    ;move.w LINEVERTEX_DELTAY,d0
+    move.w LINEVERTEX_END_PUSHED_Y,d0
+    sub.w LINEVERTEX_START_PUSHED_Y,d0
  
     ; y = L/J*A+YA
-    muls.w LINEVERTEX_DELTAY,d7
+    muls.w d0,d7
     divs d6,d7
     
-    sub.w d2,d7 ; subtract Ya
-    muls.w #-1,d7
+    add.w LINEVERTEX_START_PUSHED_Y,d7
+    ;sub.w d2,d7 ; subtract Ya
+    ;muls.w #-1,d7
+    
     ; recalculate LINEVERTEX_END_PUSHED - new X is X_SCREEN_RES_LAST_X - new Y is INSIDE d7
     move.w X_SCREEN_RES_LAST_X,LINEVERTEX_END_PUSHED
     move.w d7,LINEVERTEX_END_PUSHED+2
     
     ; since X and Y have been recalculated I need to update LINEVERTEX_DELTAX and LINEVERTEX_DELTAY
-    move.w LINEVERTEX_END_PUSHED,LINEVERTEX_DELTAX
-    swap d2
-    sub.w d2,LINEVERTEX_DELTAX
-    swap d2
-    move.w LINEVERTEX_END_PUSHED+2,LINEVERTEX_DELTAY
-    sub.w d2,LINEVERTEX_DELTAY
-    bgt.s ammxlinefill_clip_x_within
-    move.w d2,LINEVERTEX_DELTAY
-    sub.w d7,LINEVERTEX_DELTAY
+    bsr.w ammxlinefill_clip_deltas
+	
 ammxlinefill_clip_end_xb:
     ; END CHECK IF Xb IS ON THE RIGHT OF THE SCREEN
     
     ; START CHECK IF Xa IS ON THE LEFT OF THE SCREEN
-    move.l d2,d7
-    swap d7
+    ;move.l d2,d7
+    ;swap d7
+    move.w LINEVERTEX_START_PUSHED_X,d7
     cmpi.w #0,d7
     bge.s ammxlinefill_clip_end_xa
     ; Xa OUT OF BOUNDS to left, we need to recalculate Y
@@ -1085,13 +1089,7 @@ ammxlinefill_clip_end_xb:
     move.w d7,LINEVERTEX_START_PUSHED+2
     
     ; since X and Y have been recalculated I need to update LINEVERTEX_DELTAX and LINEVERTEX_DELTAY
-    move.w LINEVERTEX_END_PUSHED,LINEVERTEX_DELTAX
-	addq #1,LINEVERTEX_DELTAX
-    move.w LINEVERTEX_END_PUSHED+2,LINEVERTEX_DELTAY
-    sub.w d2,LINEVERTEX_DELTAY
-    bgt.s ammxlinefill_clip_x_within
-    move.w d2,LINEVERTEX_DELTAY
-    sub.w d7,LINEVERTEX_DELTAY
+    bsr.w ammxlinefill_clip_deltas
 
 
 
@@ -1113,6 +1111,22 @@ ammxlinefill_clip_not_drawable:
     move.w #$FFFF,LINEVERTEX_START_PUSHED
     movem.l (sp)+,d0-d7/a2
 	rts
+
+ammxlinefill_clip_deltas:
+    move.l d0,-(sp)
+    move.w LINEVERTEX_END_PUSHED_X,d0
+    sub.w LINEVERTEX_START_PUSHED_X,d0
+    move.w d0,LINEVERTEX_DELTAX
+    
+    move.w LINEVERTEX_END_PUSHED_Y,d0
+    sub.w LINEVERTEX_START_PUSHED_Y,d0
+    bpl.s ammxlinefill_clip_deltas_max
+    neg d0
+ammxlinefill_clip_deltas_max:
+    move.w d0,LINEVERTEX_DELTAY
+    
+    move.l (sp)+,d0
+    rts
 
 
 	ENDIF

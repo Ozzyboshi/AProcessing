@@ -36,6 +36,9 @@ unsigned char *filline_test18();
 unsigned char *filline_test19();
 unsigned char *filline_test20();
 unsigned char *filline_test21();
+unsigned char *filline_test22();
+unsigned char *filline_test23();
+unsigned char *filline_test24();
 
 /*struct _test TESTS[] = {
   
@@ -77,9 +80,10 @@ struct _test TESTS[] = {
     {.testId = 18, .test_function = filline_test18, .nbitplanes=1, .nrows=256, .nbyterow=4,.title = "321,2 - 350,8 Xb clipping", .verbose=0},
     {.testId = 19, .test_function = filline_test19, .nbitplanes=1, .nrows=256, .nbyterow=4,.title = "319,2 - 320,2 Xb clipping", .verbose=0},
     {.testId = 20, .test_function = filline_test20, .nbitplanes=1, .nrows=256, .nbyterow=4,.title = "-1,2 - -10,20 Xa clipping", .verbose=0},
-    {.testId = 21, .test_function = filline_test21, .nbitplanes=1, .nrows=256, .nbyterow=4,.title = "10,20 - -10,2 Xa clipping", .verbose=0},
-
-
+    {.testId = 21, .test_function = filline_test21, .nbitplanes=1, .nrows=256, .nbyterow=4,.title = "10,20 - -1,2 Xa clipping", .verbose=0},
+    {.testId = 22, .test_function = filline_test22, .nbitplanes=1, .nrows=256, .nbyterow=4,.title = "-100,128 - 400,128 Xa and Xb clipping", .verbose=0},
+    {.testId = 23, .test_function = filline_test23, .nbitplanes=1, .nrows=256, .nbyterow=4,.title = "400,128 - -100,128 Xa and Xb clipping", .verbose=0},
+    {.testId = 24, .test_function = filline_test24, .nbitplanes=1, .nrows=256, .nbyterow=4,.title = "-10,-1 - 399,265 Xa and Xb clipping", .verbose=0},
 
     {.testId = 0, .test_function = NULL}
 
@@ -87,130 +91,32 @@ struct _test TESTS[] = {
 
 int main(int argc, char **argv)
 {
-    unsigned int error;
+    TEST_FUNC_IMPLEMENTATION(TESTS);
+   /* unsigned int error;
     unsigned int totalerrors = 0;
     unsigned int testcounter = 0;
 
     while (TESTS[testcounter].testId)
     {
-        printf("Running test %d - %s...", TESTS[testcounter].testId,TESTS[testcounter].title);
-        char filename[100];
-        snprintf(filename, sizeof(filename), "expected/filline.test%d", TESTS[testcounter].testId);
-        error = make_test_patched( TESTS[testcounter],filename,TESTS[testcounter]);
-        if (!error)
-            printf("Test succeeded\n");
-        else
-            printf("Test KO\n");
-        totalerrors += error;
+        if (argc == 1 || (argc==2 && atoi(argv[1]) == TESTS[testcounter].testId) || (argc==3 && TESTS[testcounter].testId>=atoi(argv[1]) && TESTS[testcounter].testId<=atoi(argv[2]) ) )
+        {
+            printf("Running test %d - %s...", TESTS[testcounter].testId,TESTS[testcounter].title);
+            char filename[100];
+            snprintf(filename, sizeof(filename), "expected/filline.test%d", TESTS[testcounter].testId);
+            if (argc==2 && atoi(argv[1]) == TESTS[testcounter].testId) TESTS[testcounter].verbose = 2;
+            error = make_test_patched( TESTS[testcounter],filename,TESTS[testcounter]);
+            if (!error)
+                printf("Test succeeded\n");
+            else
+                printf("Test KO\n");
+            totalerrors += error;
+        }
 
         testcounter++;
     }
     printf("Total errors: %d\n", totalerrors);
     exit(totalerrors);
 
-    
+    */
+
 }
-/*
-#define DUMP_ON_VERBOSE_2
-int make_test_patched(struct _test test, const char *file,int testcounter)
-{
-    unsigned int i;
-    unsigned int row;
-    unsigned char *bitplanedata;
-#ifdef DUMP_ON_VERBOSE_2
-    unsigned char *bitplanedatastart;
-#endif
-    unsigned int bitplane;
-    FILE *fd;
-    unsigned int error = 0;
-    unsigned char buf;
-    unsigned int verbose = test.verbose;
-
-    //printf("Start of test %d..\n", ++testcounter);
-
-    bitplanedata = test.test_function();
-    test = TESTS[testcounter];
-
-#ifdef DUMP_ON_VERBOSE_2
-    bitplanedatastart = bitplanedata;
-#endif
-    fflush(stdout);
-
-        fflush(stdout);
-
-    if (verbose) printf("Number of bitplanes %d\n",test.nbitplanes);
-    fflush(stdout);
-    fd = fopen(file, "rb");
-    if (!fd)
-    {
-        printf("Expected file '%s' not found or not readable : %d -> %s\n",file,errno,strerror(errno));
-        return 1;
-    }
-    if (verbose)
-        printf("File %s open\n", file);
-
-    for (bitplane = 0; error == 0 && bitplane < test.nbitplanes; bitplane++)
-    {
-        if (verbose)
-            printf("Processing bitplane %d\n", bitplane);
-        for (row = 0; error == 0 && row < test.nrows; row++)
-        {
-            if (verbose)
-                printf("Row %03d : ", row);
-            for (i = 0; error == 0 && i < test.nbyterow; i++)
-            {
-                if (fread(&buf, 1, 1, fd) != 1)
-                {
-                    perror("Error reading file\n");
-                    error = 1;
-                }
-                else
-                {
-                    if (verbose)
-                        printf("%02x/%02x ", *bitplanedata, buf);
-                    if (buf != *bitplanedata)
-                    {
-
-                        printf("Test failed, data mismatch : bitplane:%d - row:%d - byte %d \n", bitplane, row, i);
-                        printf("Byte found :%02x but expected in the file: %02x \n", *bitplanedata, buf);
-
-                        error = 1;
-
-                        printf("Following bytes in memory : %02x %02x %02x %02x %02x %02x %02x %02x %02x %02x\n",*(bitplanedata+1),*(bitplanedata+2),*(bitplanedata+3),*(bitplanedata+4),*(bitplanedata+5),*(bitplanedata+6),*(bitplanedata+7),*(bitplanedata+8),*(bitplanedata+9),*(bitplanedata+10));
-                    }
-                    bitplanedata++;
-                }
-            }
-            if (verbose)
-                printf("\n");
-            fflush(stdout);
-        }
-    }
-    fclose(fd);
-
-
-   
-    
-#ifdef DUMP_ON_VERBOSE_2
-    if ( error && verbose == 2)
-    {
-        bitplanedata = bitplanedatastart;
-        for (bitplane = 0;  bitplane < test.nbitplanes; bitplane++)
-        {
-            printf("Processing bitplane %d\n", bitplane);
-            for (row = 0;  row < test.nrows; row++)
-            {
-                printf("Row %03d : ", row);
-                for (i = 0;  i < test.nbyterow; i++)
-                {
-                    printf("%02x ", *bitplanedata);
-                    bitplanedata++;
-                }
-                printf("\n");
-            }
-        }
-    }
-#endif
-    return error;
-}
-*/
