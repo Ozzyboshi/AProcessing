@@ -1,28 +1,33 @@
-#define TEST_FUNC_IMPLEMENTATION(var)\
-    unsigned int error;\
-    unsigned int totalerrors = 0;\
-    unsigned int testcounter = 0;\
-\
-    while (var[testcounter].testId)\
+#define TEST_FUNC_IMPLEMENTATION(var,var2)\
+    int main(int argc, char **argv)\
     {\
-        if (argc == 1 || (argc==2 && atoi(argv[1]) == var[testcounter].testId) || (argc==3 && var[testcounter].testId>=atoi(argv[1]) && var[testcounter].testId<=atoi(argv[2]) ) )\
+        unsigned int error;\
+        unsigned int totalerrors = 0;\
+        unsigned int testcounter = 0;\
+        printf("Start executing file %s\n",__FILE__);\
+    \
+        while (var[testcounter].testId)\
         {\
-            printf("Running test %d - %s...", var[testcounter].testId,var[testcounter].title);\
-            char filename[100];\
-            snprintf(filename, sizeof(filename), "expected/filline.test%d", var[testcounter].testId);\
-            if (argc==2 && atoi(argv[1]) == var[testcounter].testId) var[testcounter].verbose = 3;\
-            error = make_test_patched( var[testcounter],filename,var[testcounter]);\
-            if (!error)\
-                printf("Test succeeded\n");\
-            else\
-                printf("Test KO\n");\
-            totalerrors += error;\
+            if (argc == 1 || (argc==2 && atoi(argv[1]) == var[testcounter].testId) || (argc==3 && var[testcounter].testId>=atoi(argv[1]) && var[testcounter].testId<=atoi(argv[2]) ) )\
+            {\
+                printf("Running test %d - %s...", var[testcounter].testId,var[testcounter].title);\
+                char filename[100];\
+                snprintf(filename, sizeof(filename), "expected/%s%d",var2, var[testcounter].testId);\
+                if (argc==2 && atoi(argv[1]) == var[testcounter].testId) var[testcounter].verbose = 3;\
+                error = make_test_patched( var[testcounter],filename,var[testcounter]);\
+                if (!error)\
+                    printf("Test succeeded\n");\
+                else\
+                    printf("Test KO\n");\
+                totalerrors += error;\
+            }\
+    \
+            testcounter++;\
         }\
-\
-        testcounter++;\
-    }\
-    printf("Total errors: %d\n", totalerrors);\
-    exit(totalerrors);
+        if (totalerrors==0) printf("Result %s: All tests ok (%d)\n\n",__FILE__,testcounter);\
+        else printf("Result %s: ERROR:!!!!!! ***** Total errors: %d out of %d******************\n\n", __FILE__,totalerrors,testcounter);\
+        exit(totalerrors);\
+    }
 
 struct _test
 {

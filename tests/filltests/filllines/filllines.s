@@ -23,6 +23,9 @@
                 XDEF                _filline_test22
                 XDEF                _filline_test23
                 XDEF                _filline_test24
+                XDEF                _filline_test25
+                XDEF                _filline_test26
+                XDEF                _filline_test27
 	
                 SECTION             PROCESSING,CODE_F
 
@@ -30,6 +33,7 @@
                 include             "../../../libs/rasterizers/processing_bitplanes_fast.s"
                 include             "../../../libs/rasterizers/processing_table_plotrefs.s"
                 include             "../../../libs/rasterizers/processingfill.s"
+                include             "../../../libs/rasterizers/clipping.s"
                 include             "../../../libs/rasterizers/processingclearfunctions.s"
                 include             "../../../libs/rasterizers/globaloptions.s"
                 include             "../../../libs/trigtables.i"
@@ -690,11 +694,62 @@ _filline_test24:
                 move.w              #399,(a1)+
                 move.w              #265,(a1)+
 
-                ;lea                 LINEVERTEX_START_FINAL,a1
-                ;move.w              #0,(a1)+
-                ;move.w              #5,(a1)+
-                ;move.w              #319,(a1)+
-                ;smove.w              #212,(a1)+
+                bsr.w               ammxlinefill
+
+
+                bsr.w               processing_fill_table_addr                                 ; fill table addr in d0
+                DISABLE_CLIPPING
+                rts
+
+_filline_test25:
+
+                RESETFILLTABLE
+
+                ENABLE_CLIPPING
+
+                lea                 LINEVERTEX_START_FINAL,a1
+                move.w              #110,(a1)+
+                move.w              #-20,(a1)+
+                move.w              #100,(a1)+
+                move.w              #300,(a1)+
+
+                bsr.w               ammxlinefill
+
+
+                bsr.w               processing_fill_table_addr                                 ; fill table addr in d0
+                DISABLE_CLIPPING
+                rts
+
+_filline_test26:
+
+                RESETFILLTABLE
+
+                ENABLE_CLIPPING
+
+                lea                 LINEVERTEX_START_FINAL,a1
+                move.w              #-10,(a1)+
+                move.w              #-20,(a1)+
+                move.w              #100,(a1)+
+                move.w              #300,(a1)+
+
+                bsr.w               ammxlinefill
+
+
+                bsr.w               processing_fill_table_addr                                 ; fill table addr in d0
+                DISABLE_CLIPPING
+                rts
+
+_filline_test27:
+
+                RESETFILLTABLE
+
+                ENABLE_CLIPPING
+
+                lea                 LINEVERTEX_START_FINAL,a1
+                move.w              #-1,(a1)+
+                move.w              #-1,(a1)+
+                move.w              #1,(a1)+
+                move.w              #1,(a1)+
 
                 bsr.w               ammxlinefill
 

@@ -39,15 +39,9 @@ unsigned char *filline_test21();
 unsigned char *filline_test22();
 unsigned char *filline_test23();
 unsigned char *filline_test24();
-
-/*struct _test TESTS[] = {
-  
-     {.testId = 10, .test_function = filline_test10, .nbitplanes=1,.nrows=256,.nbyterow=4,.title = " 0,0 0,1 -> 319,0,319,1", .verbose=1}, 
-
-  
-    {.testId = 0, .test_function = NULL}
-
-};*/
+unsigned char *filline_test25();
+unsigned char *filline_test26();
+unsigned char *filline_test27();
 
 struct _test TESTS[] = {
     {.testId = 1, .test_function = filline_test1, .nbitplanes=1, .nrows=256, .nbyterow=4,.title = "1,1 8,5 -> 10,1 18.5 0<m<1", .verbose=0},
@@ -84,39 +78,12 @@ struct _test TESTS[] = {
     {.testId = 22, .test_function = filline_test22, .nbitplanes=1, .nrows=256, .nbyterow=4,.title = "-100,128 - 400,128 Xa and Xb clipping", .verbose=0},
     {.testId = 23, .test_function = filline_test23, .nbitplanes=1, .nrows=256, .nbyterow=4,.title = "400,128 - -100,128 Xa and Xb clipping", .verbose=0},
     {.testId = 24, .test_function = filline_test24, .nbitplanes=1, .nrows=256, .nbyterow=4,.title = "-10,-1 - 399,265 Xa and Xb clipping", .verbose=0},
+    {.testId = 25, .test_function = filline_test25, .nbitplanes=1, .nrows=256, .nbyterow=4,.title = "110,-20 - 100,300 Xa and Xb clipping", .verbose=0},
+    {.testId = 26, .test_function = filline_test26, .nbitplanes=1, .nrows=256, .nbyterow=4,.title = "-10,-20 - 100,300 Xa and Xb clipping", .verbose=0},
+    {.testId = 27, .test_function = filline_test27, .nbitplanes=1, .nrows=256, .nbyterow=4,.title = "-1,-1 - 1,1 Xa clipping", .verbose=0},
 
     {.testId = 0, .test_function = NULL}
 
 };
 
-int main(int argc, char **argv)
-{
-    TEST_FUNC_IMPLEMENTATION(TESTS);
-   /* unsigned int error;
-    unsigned int totalerrors = 0;
-    unsigned int testcounter = 0;
-
-    while (TESTS[testcounter].testId)
-    {
-        if (argc == 1 || (argc==2 && atoi(argv[1]) == TESTS[testcounter].testId) || (argc==3 && TESTS[testcounter].testId>=atoi(argv[1]) && TESTS[testcounter].testId<=atoi(argv[2]) ) )
-        {
-            printf("Running test %d - %s...", TESTS[testcounter].testId,TESTS[testcounter].title);
-            char filename[100];
-            snprintf(filename, sizeof(filename), "expected/filline.test%d", TESTS[testcounter].testId);
-            if (argc==2 && atoi(argv[1]) == TESTS[testcounter].testId) TESTS[testcounter].verbose = 2;
-            error = make_test_patched( TESTS[testcounter],filename,TESTS[testcounter]);
-            if (!error)
-                printf("Test succeeded\n");
-            else
-                printf("Test KO\n");
-            totalerrors += error;
-        }
-
-        testcounter++;
-    }
-    printf("Total errors: %d\n", totalerrors);
-    exit(totalerrors);
-
-    */
-
-}
+TEST_FUNC_IMPLEMENTATION(TESTS,"filline.test");

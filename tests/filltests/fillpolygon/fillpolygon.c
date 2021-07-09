@@ -24,28 +24,4 @@ struct _test TESTS[] = {
 
 };
 
-int main(int argc, char **argv)
-{
-    unsigned int error;
-    unsigned int totalerrors = 0;
-    unsigned int testcounter = 0;
-
-    while (TESTS[testcounter].testId)
-    {
-        printf("Running test %s...",TESTS[testcounter].title);
-        char filename[100];
-        snprintf(filename, sizeof(filename), "expected/filline.test%d", TESTS[testcounter].testId);
-        error = make_test4( TESTS[testcounter],filename);
-        if (!error)
-            printf("Test succeeded\n");
-        else
-            printf("Test KO\n");
-        totalerrors += error;
-
-        testcounter++;
-    }
-    printf("Total errors: %d\n", totalerrors);
-    exit(totalerrors);
-
-    
-}
+TEST_FUNC_IMPLEMENTATION(TESTS,"filline.test")

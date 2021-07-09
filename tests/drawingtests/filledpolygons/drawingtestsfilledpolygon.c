@@ -105,26 +105,5 @@ function draw() {
     {.testId = 0, .test_function = NULL}
 
 };
-int main(int argc, char **argv)
-{
-    unsigned int error;
-    unsigned int totalerrors = 0;
-    unsigned int testcounter = 0;
 
-    while (TESTS[testcounter].testId)
-    {
-        printf("Running test %d - %s...", TESTS[testcounter].testId,TESTS[testcounter].title);
-        char filename[100];
-        snprintf(filename, sizeof(filename), "expected/drawline.test%d", TESTS[testcounter].testId);
-        error = make_test_patched( TESTS[testcounter],filename, TESTS[testcounter]);
-        if (!error)
-            printf("Test succeeded\n");
-        else
-            printf("Test KO\n");
-        totalerrors += error;
-
-        testcounter++;
-    }
-    printf("Total errors: %d\n", totalerrors);
-    exit(totalerrors);    
-}
+TEST_FUNC_IMPLEMENTATION(TESTS,"drawline.test")
