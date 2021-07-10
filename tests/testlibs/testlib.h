@@ -24,8 +24,10 @@
     \
             testcounter++;\
         }\
-        if (totalerrors==0) printf("Result %s: All tests ok (%d)\n\n",__FILE__,testcounter);\
-        else printf("Result %s: ERROR:!!!!!! ***** Total errors: %d out of %d******************\n\n", __FILE__,totalerrors,testcounter);\
+        printf("********************************************************\n");\
+        if (totalerrors==0) printf("Result %s: All tests ok (%d)\n",__FILE__,testcounter);\
+        else printf("Result %s: ERROR:!!!!!! ***** Total errors: %d out of %d******************\n", __FILE__,totalerrors,testcounter);\
+        printf("********************************************************\n\n\n");\
         exit(totalerrors);\
     }
 

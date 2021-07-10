@@ -42,6 +42,14 @@ unsigned char *filline_test24();
 unsigned char *filline_test25();
 unsigned char *filline_test26();
 unsigned char *filline_test27();
+unsigned char *filline_test28();
+unsigned char *filline_test29();
+unsigned char *filline_test30();
+unsigned char *filline_test31();
+unsigned char *filline_test32();
+unsigned char *filline_test33();
+unsigned char *filline_test34();
+unsigned char *filline_test35();
 
 struct _test TESTS[] = {
     {.testId = 1, .test_function = filline_test1, .nbitplanes=1, .nrows=256, .nbyterow=4,.title = "1,1 8,5 -> 10,1 18.5 0<m<1", .verbose=0},
@@ -81,6 +89,16 @@ struct _test TESTS[] = {
     {.testId = 25, .test_function = filline_test25, .nbitplanes=1, .nrows=256, .nbyterow=4,.title = "110,-20 - 100,300 Xa and Xb clipping", .verbose=0},
     {.testId = 26, .test_function = filline_test26, .nbitplanes=1, .nrows=256, .nbyterow=4,.title = "-10,-20 - 100,300 Xa and Xb clipping", .verbose=0},
     {.testId = 27, .test_function = filline_test27, .nbitplanes=1, .nrows=256, .nbyterow=4,.title = "-1,-1 - 1,1 Xa clipping", .verbose=0},
+    {.testId = 28, .test_function = filline_test28, .nbitplanes=1, .nrows=256, .nbyterow=4,.title = "100,254 - 101,256 Yb clipping", .verbose=0},
+    {.testId = 29, .test_function = filline_test29, .nbitplanes=1, .nrows=256, .nbyterow=4,.title = "101,256 - 100,254 Yb clipping", .verbose=0},
+    {.testId = 30, .test_function = filline_test30, .nbitplanes=1, .nrows=256, .nbyterow=4,.title = "100,-100 - 100,1000 Ya Yb clipping", .verbose=0},
+    {.testId = 31, .test_function = filline_test31, .nbitplanes=1, .nrows=256, .nbyterow=4,.title = "200,260 - 400,220 Ya Xb clipping", .verbose=0},
+    {.testId = 32, .test_function = filline_test32, .nbitplanes=1, .nrows=256, .nbyterow=4,.title = "-1,-1 - 256,256 Xa Xb clipping", .verbose=0},
+    {.testId = 33, .test_function = filline_test33, .nbitplanes=1, .nrows=256, .nbyterow=4,.title = "-1500,-1500 - 2000,1000 diagonal out of bounds", .verbose=0},
+    {.testId = 34, .test_function = filline_test34, .nbitplanes=1, .nrows=256, .nbyterow=4,.title = "-1500,-1500 - 555,700 Xa and Ya clipping", .verbose=0},
+    {.testId = 35, .test_function = filline_test35, .nbitplanes=1, .nrows=256, .nbyterow=4,.title = "300,500 - 320,-10 Xb and Yb clipping", .verbose=0},
+
+
 
     {.testId = 0, .test_function = NULL}
 
