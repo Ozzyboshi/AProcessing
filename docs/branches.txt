@@ -1,0 +1,5 @@
+BPL – Branch on PLus (Positive)
+
+ 
+
+If the N flag of the CCR is clear, the destination operand will be added to the PC, and the 68k will continue reading at the new offset held in PC.  If the N flag is set, the instruction is ignored.

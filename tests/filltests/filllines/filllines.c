@@ -50,11 +50,12 @@ unsigned char *filline_test32();
 unsigned char *filline_test33();
 unsigned char *filline_test34();
 unsigned char *filline_test35();
+unsigned char *filline_test36();
 
 struct _test TESTS[] = {
-    {.testId = 1, .test_function = filline_test1, .nbitplanes=1, .nrows=256, .nbyterow=4,.title = "1,1 8,5 -> 10,1 18.5 0<m<1", .verbose=0},
-    {.testId = 2, .test_function = filline_test2, .title = "8,5 1,1 -> 18.5 10,1 0<m<1", .verbose=0},
-    {.testId = 3, .test_function = filline_test3, .title = "10,1 18,5 -> 1,1 8,5 0<m<1", .verbose=0},
+    {.testId = 1, .test_function = filline_test1, .nbitplanes=1, .nrows=256, .nbyterow=4,.title = "1,1 8,5 -> 10,1 18,5 0<m<1", .verbose=0},
+    {.testId = 2, .test_function = filline_test2, .nbitplanes=1, .nrows=256, .nbyterow=4,.title = "8,5 1,1 -> 18,5 10,1 0<m<1", .verbose=0},
+    {.testId = 3, .test_function = filline_test3, .nbitplanes=1, .nrows=256, .nbyterow=4,.title = "10,1 18,5 -> 1,1 8,5 0<m<1", .verbose=0},
     {.testId = 4, .test_function = filline_test4, .nbitplanes=1, .nrows=256, .nbyterow=4,.title = "1,1 8,5 -> 10,1 18,5 0<m<1", .verbose=0},
     {.testId = 5, .test_function = filline_test5, .nbitplanes=1, .nrows=256, .nbyterow=4,.title = "8,5 1,1 -> 10,1 18,5 0<m<1", .verbose=0},
     {.testId = 6, .test_function = filline_test6, .nbitplanes=1,.nrows=256,.nbyterow=4,.title = "1,1 3,2 155,5", .verbose=0}, 
@@ -77,27 +78,33 @@ struct _test TESTS[] = {
     {.testId = 15, .test_function = filline_test15, .nbitplanes=1,.nrows=256,.nbyterow=4,.title = "Circle", .verbose=0}, 
 
     // Clipping
-    {.testId = 16, .test_function = filline_test16, .nbitplanes=1, .nrows=256, .nbyterow=4,.title = "8,10 - 350,2 Xb clipping", .verbose=0},
-    {.testId = 17, .test_function = filline_test17, .nbitplanes=1, .nrows=256, .nbyterow=4,.title = "350,2 - 320,8 Xb clipping", .verbose=0},
-    {.testId = 18, .test_function = filline_test18, .nbitplanes=1, .nrows=256, .nbyterow=4,.title = "321,2 - 350,8 Xb clipping", .verbose=0},
-    {.testId = 19, .test_function = filline_test19, .nbitplanes=1, .nrows=256, .nbyterow=4,.title = "319,2 - 320,2 Xb clipping", .verbose=0},
-    {.testId = 20, .test_function = filline_test20, .nbitplanes=1, .nrows=256, .nbyterow=4,.title = "-1,2 - -10,20 Xa clipping", .verbose=0},
-    {.testId = 21, .test_function = filline_test21, .nbitplanes=1, .nrows=256, .nbyterow=4,.title = "10,20 - -1,2 Xa clipping", .verbose=0},
-    {.testId = 22, .test_function = filline_test22, .nbitplanes=1, .nrows=256, .nbyterow=4,.title = "-100,128 - 400,128 Xa and Xb clipping", .verbose=0},
-    {.testId = 23, .test_function = filline_test23, .nbitplanes=1, .nrows=256, .nbyterow=4,.title = "400,128 - -100,128 Xa and Xb clipping", .verbose=0},
-    {.testId = 24, .test_function = filline_test24, .nbitplanes=1, .nrows=256, .nbyterow=4,.title = "-10,-1 - 399,265 Xa and Xb clipping", .verbose=0},
-    {.testId = 25, .test_function = filline_test25, .nbitplanes=1, .nrows=256, .nbyterow=4,.title = "110,-20 - 100,300 Xa and Xb clipping", .verbose=0},
-    {.testId = 26, .test_function = filline_test26, .nbitplanes=1, .nrows=256, .nbyterow=4,.title = "-10,-20 - 100,300 Xa and Xb clipping", .verbose=0},
-    {.testId = 27, .test_function = filline_test27, .nbitplanes=1, .nrows=256, .nbyterow=4,.title = "-1,-1 - 1,1 Xa clipping", .verbose=0},
-    {.testId = 28, .test_function = filline_test28, .nbitplanes=1, .nrows=256, .nbyterow=4,.title = "100,254 - 101,256 Yb clipping", .verbose=0},
-    {.testId = 29, .test_function = filline_test29, .nbitplanes=1, .nrows=256, .nbyterow=4,.title = "101,256 - 100,254 Yb clipping", .verbose=0},
-    {.testId = 30, .test_function = filline_test30, .nbitplanes=1, .nrows=256, .nbyterow=4,.title = "100,-100 - 100,1000 Ya Yb clipping", .verbose=0},
-    {.testId = 31, .test_function = filline_test31, .nbitplanes=1, .nrows=256, .nbyterow=4,.title = "200,260 - 400,220 Ya Xb clipping", .verbose=0},
-    {.testId = 32, .test_function = filline_test32, .nbitplanes=1, .nrows=256, .nbyterow=4,.title = "-1,-1 - 256,256 Xa Xb clipping", .verbose=0},
-    {.testId = 33, .test_function = filline_test33, .nbitplanes=1, .nrows=256, .nbyterow=4,.title = "-1500,-1500 - 2000,1000 diagonal out of bounds", .verbose=0},
-    {.testId = 34, .test_function = filline_test34, .nbitplanes=1, .nrows=256, .nbyterow=4,.title = "-1500,-1500 - 555,700 Xa and Ya clipping", .verbose=0},
-    {.testId = 35, .test_function = filline_test35, .nbitplanes=1, .nrows=256, .nbyterow=4,.title = "300,500 - 320,-10 Xb and Yb clipping", .verbose=0},
+    {.testId = 16, .test_function = filline_test16, .nbitplanes=1,.nrows=256,.nbyterow=4,.title = "Triangle left line 0 -5 , -5 5", .verbose=0}, 
+    {.testId = 17, .test_function = filline_test17, .nbitplanes=1,.nrows=256,.nbyterow=4,.title = "Triangle base line -5 5 , 5 5", .verbose=0}, 
+    {.testId = 18, .test_function = filline_test18, .nbitplanes=1,.nrows=256,.nbyterow=4,.title = "Triangle base line 0 -5 , 5 5", .verbose=0}, 
+    {.testId = 19, .test_function = filline_test19, .nbitplanes=1,.nrows=256,.nbyterow=4,.title = "Triangle base line 0 -5 , 5 5 , -5 5", .verbose=0}, 
 
+    /*{.testId = 17, .test_function = filline_test17, .nbitplanes=1, .nrows=256, .nbyterow=4,.title = "8,10 - 350,2 Xb clipping", .verbose=0},
+    {.testId = 18, .test_function = filline_test18, .nbitplanes=1, .nrows=256, .nbyterow=4,.title = "350,2 - 320,8 Xb clipping", .verbose=0},
+    {.testId = 19, .test_function = filline_test19, .nbitplanes=1, .nrows=256, .nbyterow=4,.title = "321,2 - 350,8 Xb clipping", .verbose=0},
+    {.testId = 20, .test_function = filline_test20, .nbitplanes=1, .nrows=256, .nbyterow=4,.title = "319,2 - 320,2 Xb clipping", .verbose=0},
+    {.testId = 21, .test_function = filline_test21, .nbitplanes=1, .nrows=256, .nbyterow=4,.title = "-1,2 - -10,20 Xa clipping", .verbose=0},
+    {.testId = 22, .test_function = filline_test22, .nbitplanes=1, .nrows=256, .nbyterow=4,.title = "10,20 - -1,2 Xa clipping", .verbose=0},
+    {.testId = 23, .test_function = filline_test23, .nbitplanes=1, .nrows=256, .nbyterow=4,.title = "-100,128 - 400,128 Xa and Xb clipping", .verbose=0},
+    {.testId = 24, .test_function = filline_test24, .nbitplanes=1, .nrows=256, .nbyterow=4,.title = "400,128 - -100,128 Xa and Xb clipping", .verbose=0},
+    {.testId = 25, .test_function = filline_test25, .nbitplanes=1, .nrows=256, .nbyterow=4,.title = "-10,-1 - 399,265 Xa and Xb clipping", .verbose=0},
+    {.testId = 26, .test_function = filline_test26, .nbitplanes=1, .nrows=256, .nbyterow=4,.title = "110,-20 - 100,300 Xa and Xb clipping", .verbose=0},
+    {.testId = 27, .test_function = filline_test27, .nbitplanes=1, .nrows=256, .nbyterow=4,.title = "-10,-20 - 100,300 Xa and Xb clipping", .verbose=0},
+    {.testId = 28, .test_function = filline_test28, .nbitplanes=1, .nrows=256, .nbyterow=4,.title = "-1,-1 - 1,1 Xa clipping", .verbose=0},
+    {.testId = 29, .test_function = filline_test29, .nbitplanes=1, .nrows=256, .nbyterow=4,.title = "100,254 - 101,256 Yb clipping", .verbose=0},
+    {.testId = 30, .test_function = filline_test30, .nbitplanes=1, .nrows=256, .nbyterow=4,.title = "101,256 - 100,254 Yb clipping", .verbose=0},
+    {.testId = 31, .test_function = filline_test31, .nbitplanes=1, .nrows=256, .nbyterow=4,.title = "100,-100 - 100,1000 Ya Yb clipping", .verbose=0},
+    {.testId = 32, .test_function = filline_test32, .nbitplanes=1, .nrows=256, .nbyterow=4,.title = "200,260 - 400,220 Ya Xb clipping", .verbose=0},
+    {.testId = 33, .test_function = filline_test33, .nbitplanes=1, .nrows=256, .nbyterow=4,.title = "-1,-1 - 256,256 Xa Xb clipping", .verbose=0},
+    {.testId = 34, .test_function = filline_test34, .nbitplanes=1, .nrows=256, .nbyterow=4,.title = "-1500,-1500 - 2000,1000 diagonal out of bounds", .verbose=0},
+    {.testId = 35, .test_function = filline_test35, .nbitplanes=1, .nrows=256, .nbyterow=4,.title = "-1500,-1500 - 555,700 Xa and Ya clipping", .verbose=0},
+    {.testId = 36, .test_function = filline_test36, .nbitplanes=1, .nrows=256, .nbyterow=4,.title = "300,500 - 320,-10 Xb and Yb clipping", .verbose=0},
+    {.testId = 37, .test_function = filline_test37, .nbitplanes=1, .nrows=256, .nbyterow=4,.title = "0,-5 - -5,5 Xa clipping OOB", .verbose=0},
+*/
 
 
     {.testId = 0, .test_function = NULL}

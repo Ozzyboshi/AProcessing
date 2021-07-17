@@ -15,11 +15,11 @@
   SECTION               PROCESSING,CODE_F
 
   include               "../../../libs/ammxmacros.i"
+  include             "../../../libs/rasterizers/globaloptions.s"
   include               "../../../libs/rasterizers/processing_bitplanes_fast.s"
   include               "../../../libs/rasterizers/processing_table_plotrefs.s"
   include               "../../../libs/rasterizers/processingfill.s"
   include               "../../../libs/rasterizers/processingclearfunctions.s"
-  include               "../../../libs/rasterizers/globaloptions.s"
 
 _fillscanline_test1:
   CLEARFASTBITPLANES                                                               ; Clear fast bitplanes
