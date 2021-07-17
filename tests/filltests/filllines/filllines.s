@@ -39,6 +39,7 @@
                 XDEF                _filline_test38
                 XDEF                _filline_test39
                 XDEF                _filline_test40
+                XDEF                _filline_test41
 	
                 SECTION             PROCESSING,CODE_F
 
@@ -624,6 +625,23 @@ _filline_test19:
                 rts
 
 _filline_test20:
+
+                RESETFILLTABLE
+                IFD USE_CLIPPING
+                ENABLE_CLIPPING
+                ENDIF
+
+                LINE  #-100,#0,#600,#0
+
+                bsr.w               processing_fill_table_addr                                 ; fill table addr in d0
+
+                
+
+                DISABLE_CLIPPING
+                rts
+
+
+_filline_test21:
                 
                 RESETFILLTABLE
                 ENABLE_CLIPPING
@@ -641,7 +659,7 @@ _filline_test20:
                 DISABLE_CLIPPING
                 rts
 
-_filline_test21:
+_filline_test22:
 
                 RESETFILLTABLE
 
@@ -660,7 +678,7 @@ _filline_test21:
                 DISABLE_CLIPPING
                 rts
 
-_filline_test22:
+_filline_test23:
                 RESETFILLTABLE
 
                 ENABLE_CLIPPING
@@ -678,7 +696,7 @@ _filline_test22:
                 DISABLE_CLIPPING
                 rts
 
-_filline_test23:
+_filline_test24:
 
                 RESETFILLTABLE
 
@@ -697,7 +715,7 @@ _filline_test23:
                 DISABLE_CLIPPING
                 rts
 
-_filline_test24:
+_filline_test25:
 
                 RESETFILLTABLE
 
@@ -716,7 +734,7 @@ _filline_test24:
                 DISABLE_CLIPPING
                 rts
 
-_filline_test25:
+_filline_test26:
 
                 RESETFILLTABLE
 
@@ -735,25 +753,6 @@ _filline_test25:
                 DISABLE_CLIPPING
                 rts
 
-_filline_test26:
-
-                RESETFILLTABLE
-
-                ENABLE_CLIPPING
-
-                lea                 LINEVERTEX_START_FINAL,a1
-                move.w              #-100,(a1)+
-                move.w              #128,(a1)+
-                move.w              #400,(a1)+
-                move.w              #128,(a1)+
-
-                bsr.w               ammxlinefill
-
-
-                bsr.w               processing_fill_table_addr                                 ; fill table addr in d0
-                DISABLE_CLIPPING
-                rts
-
 _filline_test27:
 
                 RESETFILLTABLE
@@ -761,9 +760,9 @@ _filline_test27:
                 ENABLE_CLIPPING
 
                 lea                 LINEVERTEX_START_FINAL,a1
-                move.w              #400,(a1)+
-                move.w              #128,(a1)+
                 move.w              #-100,(a1)+
+                move.w              #128,(a1)+
+                move.w              #400,(a1)+
                 move.w              #128,(a1)+
 
                 bsr.w               ammxlinefill
@@ -774,6 +773,25 @@ _filline_test27:
                 rts
 
 _filline_test28:
+
+                RESETFILLTABLE
+
+                ENABLE_CLIPPING
+
+                lea                 LINEVERTEX_START_FINAL,a1
+                move.w              #400,(a1)+
+                move.w              #128,(a1)+
+                move.w              #-100,(a1)+
+                move.w              #128,(a1)+
+
+                bsr.w               ammxlinefill
+
+
+                bsr.w               processing_fill_table_addr                                 ; fill table addr in d0
+                DISABLE_CLIPPING
+                rts
+
+_filline_test29:
 
                 RESETFILLTABLE
 
@@ -792,7 +810,7 @@ _filline_test28:
                 DISABLE_CLIPPING
                 rts
 
-_filline_test29:
+_filline_test30:
 
                 RESETFILLTABLE
 
@@ -811,7 +829,7 @@ _filline_test29:
                 DISABLE_CLIPPING
                 rts
 
-_filline_test30:
+_filline_test31:
 
                 RESETFILLTABLE
 
@@ -830,7 +848,7 @@ _filline_test30:
                 DISABLE_CLIPPING
                 rts
 
-_filline_test31:
+_filline_test32:
 
                 RESETFILLTABLE
 
@@ -849,7 +867,7 @@ _filline_test31:
                 DISABLE_CLIPPING
                 rts
 
-_filline_test32:
+_filline_test33:
 
                 RESETFILLTABLE
 
@@ -868,7 +886,7 @@ _filline_test32:
                 DISABLE_CLIPPING
                 rts
 
-_filline_test33:
+_filline_test34:
 
                 RESETFILLTABLE
 
@@ -888,7 +906,7 @@ _filline_test33:
                 DISABLE_CLIPPING
                 rts
 
-_filline_test34:
+_filline_test35:
 
                 RESETFILLTABLE
 
@@ -908,7 +926,7 @@ _filline_test34:
                 DISABLE_CLIPPING
                 rts
 
-_filline_test35:
+_filline_test36:
 
                 RESETFILLTABLE
 
@@ -928,7 +946,7 @@ _filline_test35:
                 DISABLE_CLIPPING
                 rts
 
-_filline_test36:
+_filline_test37:
 
                 RESETFILLTABLE
 
@@ -948,7 +966,7 @@ _filline_test36:
                 DISABLE_CLIPPING
                 rts
 
-_filline_test37:
+_filline_test38:
 
                 RESETFILLTABLE
 
@@ -968,7 +986,7 @@ _filline_test37:
                 DISABLE_CLIPPING
                 rts
 
-_filline_test38:
+_filline_test39:
 
                 RESETFILLTABLE
 
@@ -988,7 +1006,7 @@ _filline_test38:
                 DISABLE_CLIPPING
                 rts
 
-_filline_test39:
+_filline_test40:
 
                 RESETFILLTABLE
 
@@ -1008,7 +1026,7 @@ _filline_test39:
                 DISABLE_CLIPPING
                 rts
 
-_filline_test40:
+_filline_test41:
 
                 RESETFILLTABLE
 

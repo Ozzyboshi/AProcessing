@@ -64,6 +64,59 @@ ammx_fill_table_end:
 	movem.l (sp)+,d0-d7/a0-a1
 	rts
 
+	IFD USE_CLIPPING
+	ammx_fill_table_clip:
+	movem.l d0-d7/a0-a1,-(sp) ; stack save
+	move.w #1,AMMX_FILL_TABLE_FIRST_DRAW
+
+	lea FILL_TABLE,a0
+
+	; Reposition inside the fill table according to the starting row
+	move.w AMMXFILLTABLE_CURRENT_ROW,d6
+	mulu.w #4,d6
+	add.w d6,a0
+	move.w AMMXFILLTABLE_CURRENT_ROW,d5
+	; end of repositioning
+	
+	move.l #$013F0000,d7
+
+ammx_fill_table_nextline_clip:
+		
+	cmp.w AMMXFILLTABLE_END_ROW,d5
+	bhi.s ammx_fill_table_end_clip
+
+	move.w (a0),d6 ; start of fill line
+	move.w #$7FFF,(a0)+
+	move.w (a0),d7 ; end of fill line
+	move.w #$8000,(a0)+
+	
+	
+	; clip start
+	; if left is negative left is zero
+	btst #15,d6
+	seq d0
+	ext.w d0
+	and.w d0,d6
+	
+	; if right > screen resolution then right = screen resolution
+	cmpi.w #319,d7
+	sgt d0
+	move.w #16,d1
+	and.w d0,d1
+	lsr.l d1,d7
+	; clip end
+	
+	bsr.w ammx_fill_table_single_line
+	add.w #1,d5
+	move.w d5,AMMXFILLTABLE_CURRENT_ROW
+	
+	bra.w ammx_fill_table_nextline_clip
+ammx_fill_table_end_clip:
+	movem.l (sp)+,d0-d7/a0-a1
+	rts
+
+	ENDIF
+
 ammx_fill_table_single_line:
 	movem.l d0-d7/a0-a2,-(sp) ; stack save
 

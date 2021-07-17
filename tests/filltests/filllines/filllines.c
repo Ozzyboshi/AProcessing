@@ -82,6 +82,8 @@ struct _test TESTS[] = {
     {.testId = 17, .test_function = filline_test17, .nbitplanes=1,.nrows=256,.nbyterow=4,.title = "Triangle base line -5 5 , 5 5", .verbose=0}, 
     {.testId = 18, .test_function = filline_test18, .nbitplanes=1,.nrows=256,.nbyterow=4,.title = "Triangle base line 0 -5 , 5 5", .verbose=0}, 
     {.testId = 19, .test_function = filline_test19, .nbitplanes=1,.nrows=256,.nbyterow=4,.title = "Triangle base line 0 -5 , 5 5 , -5 5", .verbose=0}, 
+    {.testId = 20, .test_function = filline_test20, .nbitplanes=1,.nrows=256,.nbyterow=4,.title = "Big horizontal line -100,0 600,0", .verbose=0}, 
+
 
     /*{.testId = 17, .test_function = filline_test17, .nbitplanes=1, .nrows=256, .nbyterow=4,.title = "8,10 - 350,2 Xb clipping", .verbose=0},
     {.testId = 18, .test_function = filline_test18, .nbitplanes=1, .nrows=256, .nbyterow=4,.title = "350,2 - 320,8 Xb clipping", .verbose=0},

@@ -176,7 +176,7 @@ _fillpolygon_test6:
   bsr.w                 ammxlinefill
 
   CLEARFASTBITPLANES                                                                ; Clear fast bitplanes
-  bsr.w                 ammx_fill_table
+  bsr.w                 ammx_fill_table_clip
   bsr.w                 processing_bitplanes_fast_screen0                           ; returns bitplanes addr in d0
   DISABLE_CLIPPING
   rts
@@ -206,7 +206,7 @@ _fillpolygon_test7:
   bsr.w                 ammxlinefill
 
   CLEARFASTBITPLANES                                                                ; Clear fast bitplanes
-  bsr.w                 ammx_fill_table
+  bsr.w                 ammx_fill_table_clip
   bsr.w                 processing_bitplanes_fast_screen0                           ; returns bitplanes addr in d0
   DISABLE_CLIPPING
   rts
