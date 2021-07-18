@@ -550,9 +550,9 @@ ammxlinefill_clip_done:
 	move.w LINEVERTEX_START_PUSHED_Y,d0
 	move.w LINEVERTEX_END_PUSHED_Y,d1
 	IFD VAMPIRE
-	pmaxuw d0,d1,e0
-	pminuw d0,d1,e1
-	vperm #$000078EF,e0,e1,d0
+	pminuw d0,d1,e0
+	pmaxuw d0,d1,e1
+	vperm #$000067EF,e0,e1,d0
 	move.l d0,AMMXFILLTABLE_CURRENT_ROW_LINE
 	ENDIF
 	IFND VAMPIRE

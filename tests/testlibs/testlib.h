@@ -1,3 +1,6 @@
+
+#include <proto/exec.h>
+
 #define TEST_FUNC_IMPLEMENTATION(var,var2)\
     int main(int argc, char **argv)\
     {\

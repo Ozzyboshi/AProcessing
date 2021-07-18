@@ -148,7 +148,7 @@ _drawing_test5:
 
   move.w                                        #160,d0
   move.w                                        #128,d1
-  bsr.w                                         TRANSLATE
+  jsr                                         TRANSLATE
 
   ROTATE                                        #30
 
@@ -173,7 +173,7 @@ _drawing_test6:
 
   move.w                                        #160,d0
   move.w                                        #128,d1
-  bsr.w                                         TRANSLATE
+  jsr                                         TRANSLATE
 
 	; scale 0,5 on Y axis
   move.w                                        #%0000000001000000,d0
@@ -201,7 +201,7 @@ _drawing_test7:
 
   move.w                                        #160,d0
   move.w                                        #128,d1
-  bsr.w                                         TRANSLATE
+  jsr                                         TRANSLATE
 
   move.w                                        #0,d0
   move.w                                        #0,d1
@@ -224,7 +224,7 @@ _drawing_test8:
   STROKE                                        #2
   move.w                                        #160,d0
   move.w                                        #128,d1
-  bsr.w                                         TRANSLATE
+  jsr                                         TRANSLATE
 
   move.w                                        #0,d0
   move.w                                        #0,d1

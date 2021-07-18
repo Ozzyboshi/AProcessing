@@ -33,7 +33,7 @@ _fillpolygon_test1:
   move.w                #26,(a1)+
   bsr.w                 ammxlinefill
 
- ; move.w                #2,AMMXFILLTABLE_CURRENT_ROW
+ ;move.w                #2,AMMXFILLTABLE_CURRENT_ROW
   ;move.w                #26,AMMXFILLTABLE_END_ROW                                  ; I want to fill up to first row (first row is elaborated)
 
   CLEARFASTBITPLANES                                                                ; Clear fast bitplanes

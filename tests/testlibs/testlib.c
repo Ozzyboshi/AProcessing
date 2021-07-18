@@ -193,8 +193,9 @@ int make_test_patched(struct _test test, const char *file,struct _test test2)
     unsigned int verbose = test.verbose;
 
     //printf("Start of test %d..\n", ++testcounter);
-
+    Disable();
     bitplanedata = test.test_function();
+    Enable();
     test = test2;
 
     bitplanedatastart = bitplanedata;
