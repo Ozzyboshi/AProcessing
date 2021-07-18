@@ -42,8 +42,8 @@ SQUARE:
     ; save transformed values
     move.w d0,(a1)
     move.w d1,2(a1)
-    MINUWORD d1,AMMXFILLTABLE_CURRENT_ROW
-    MAXUWORD d1,AMMXFILLTABLE_END_ROW
+    ;MINUWORD d1,AMMXFILLTABLE_CURRENT_ROW
+    ;MAXUWORD d1,AMMXFILLTABLE_END_ROW
     bsr.w ammxlinefill
     ; End of line 2
 
@@ -59,8 +59,8 @@ SQUARE:
     ; save transformed values
     move.w d0,(a1)+
     move.w d1,(a1)+
-    MINUWORD d1,AMMXFILLTABLE_CURRENT_ROW
-    MAXUWORD d1,AMMXFILLTABLE_END_ROW
+    ;MINUWORD d1,AMMXFILLTABLE_CURRENT_ROW
+    ;MAXUWORD d1,AMMXFILLTABLE_END_ROW
     bsr.w ammxlinefill
     ; ENd of line 3
 
@@ -75,8 +75,8 @@ SQUARE:
     ; save transformed values
     move.w d0,(a1)+
     move.w d1,(a1)+
-    MINUWORD d1,AMMXFILLTABLE_CURRENT_ROW
-    MAXUWORD d1,AMMXFILLTABLE_END_ROW
+    ;MINUWORD d1,AMMXFILLTABLE_CURRENT_ROW
+    ;MAXUWORD d1,AMMXFILLTABLE_END_ROW
     bsr.w ammxlinefill
 
 

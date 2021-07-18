@@ -646,52 +646,25 @@ _filline_test21:
                 RESETFILLTABLE
                 ENABLE_CLIPPING
 
-                lea                 LINEVERTEX_START_FINAL,a1
-                move.w              #8,(a1)+
-                move.w              #10,(a1)+
-                move.w              #350,(a1)+
-                move.w              #2,(a1)+
-                bsr.w               ammxlinefill
-
-
+                LINE #8,#10,#350,#2
                 bsr.w               processing_fill_table_addr                                 ; fill table addr in d0
 
                 DISABLE_CLIPPING
                 rts
 
 _filline_test22:
-
                 RESETFILLTABLE
-
                 ENABLE_CLIPPING
-
-                lea                 LINEVERTEX_START_FINAL,a1
-                move.w              #350,(a1)+
-                move.w              #2,(a1)+
-                move.w              #320,(a1)+
-                move.w              #8,(a1)+
-
-                bsr.w               ammxlinefill
-
-
+                LINE #350,#2,#8,#10
                 bsr.w               processing_fill_table_addr                                 ; fill table addr in d0
                 DISABLE_CLIPPING
                 rts
 
 _filline_test23:
                 RESETFILLTABLE
-
                 ENABLE_CLIPPING
-
-                lea                 LINEVERTEX_START_FINAL,a1
-                move.w              #321,(a1)+
-                move.w              #2,(a1)+
-                move.w              #350,(a1)+
-                move.w              #8,(a1)+
-
+                LINE #321,#2,#350,#8
                 bsr.w               ammxlinefill
-
-
                 bsr.w               processing_fill_table_addr                                 ; fill table addr in d0
                 DISABLE_CLIPPING
                 rts
@@ -703,13 +676,7 @@ _filline_test24:
                 ENABLE_CLIPPING
 
                 lea                 LINEVERTEX_START_FINAL,a1
-                move.w              #319,(a1)+
-                move.w              #2,(a1)+
-                move.w              #320,(a1)+
-                move.w              #2,(a1)+
-
-                bsr.w               ammxlinefill
-
+                LINE #319,#2,#320,#2
 
                 bsr.w               processing_fill_table_addr                                 ; fill table addr in d0
                 DISABLE_CLIPPING
@@ -720,15 +687,7 @@ _filline_test25:
                 RESETFILLTABLE
 
                 ENABLE_CLIPPING
-
-                lea                 LINEVERTEX_START_FINAL,a1
-                move.w              #-1,(a1)+
-                move.w              #2,(a1)+
-                move.w              #-10,(a1)+
-                move.w              #20,(a1)+
-
-                bsr.w               ammxlinefill
-
+                LINE #-1,#2,#-10,#20
 
                 bsr.w               processing_fill_table_addr                                 ; fill table addr in d0
                 DISABLE_CLIPPING
@@ -741,14 +700,7 @@ _filline_test26:
                 ENABLE_CLIPPING
 
                 lea                 LINEVERTEX_START_FINAL,a1
-                move.w              #10,(a1)+
-                move.w              #20,(a1)+
-                move.w              #-1,(a1)+
-                move.w              #2,(a1)+
-
-                bsr.w               ammxlinefill
-
-
+                LINE #10,#20,#-1,#2
                 bsr.w               processing_fill_table_addr                                 ; fill table addr in d0
                 DISABLE_CLIPPING
                 rts
@@ -758,16 +710,7 @@ _filline_test27:
                 RESETFILLTABLE
 
                 ENABLE_CLIPPING
-
-                lea                 LINEVERTEX_START_FINAL,a1
-                move.w              #-100,(a1)+
-                move.w              #128,(a1)+
-                move.w              #400,(a1)+
-                move.w              #128,(a1)+
-
-                bsr.w               ammxlinefill
-
-
+                LINE #-100,#128,#400,#128
                 bsr.w               processing_fill_table_addr                                 ; fill table addr in d0
                 DISABLE_CLIPPING
                 rts
@@ -777,35 +720,16 @@ _filline_test28:
                 RESETFILLTABLE
 
                 ENABLE_CLIPPING
-
-                lea                 LINEVERTEX_START_FINAL,a1
-                move.w              #400,(a1)+
-                move.w              #128,(a1)+
-                move.w              #-100,(a1)+
-                move.w              #128,(a1)+
-
-                bsr.w               ammxlinefill
-
-
+                LINE #400,#128,#-100,#128
                 bsr.w               processing_fill_table_addr                                 ; fill table addr in d0
                 DISABLE_CLIPPING
                 rts
 
 _filline_test29:
-
                 RESETFILLTABLE
 
                 ENABLE_CLIPPING
-
-                lea                 LINEVERTEX_START_FINAL,a1
-                move.w              #-10,(a1)+
-                move.w              #-1,(a1)+
-                move.w              #399,(a1)+
-                move.w              #265,(a1)+
-
-                bsr.w               ammxlinefill
-
-
+                LINE #-10,#-1,#399,#265
                 bsr.w               processing_fill_table_addr                                 ; fill table addr in d0
                 DISABLE_CLIPPING
                 rts
@@ -815,16 +739,7 @@ _filline_test30:
                 RESETFILLTABLE
 
                 ENABLE_CLIPPING
-
-                lea                 LINEVERTEX_START_FINAL,a1
-                move.w              #110,(a1)+
-                move.w              #-20,(a1)+
-                move.w              #100,(a1)+
-                move.w              #300,(a1)+
-
-                bsr.w               ammxlinefill
-
-
+                LINE #110,#-20,#100,#300
                 bsr.w               processing_fill_table_addr                                 ; fill table addr in d0
                 DISABLE_CLIPPING
                 rts

@@ -6,6 +6,8 @@
   XDEF                  _fillpolygon_test5
   XDEF                  _fillpolygon_test6
   XDEF                  _fillpolygon_test7
+  XDEF                  _fillpolygon_test8
+  XDEF                  _fillpolygon_test9
 	
   SECTION               PROCESSING,CODE_F
 
@@ -16,6 +18,7 @@
   include               "../../../libs/rasterizers/processingfill.s"
   include               "../../../libs/rasterizers/clipping.s"
   include               "../../../libs/rasterizers/processingclearfunctions.s"
+  include               "../../../libs/rasterizers/line.s"
 
 _fillpolygon_test1:
   RESETFILLTABLE
@@ -204,6 +207,34 @@ _fillpolygon_test7:
   move.w                #5,(a1)+
   move.w                #5,(a1)+
   bsr.w                 ammxlinefill
+
+  CLEARFASTBITPLANES                                                                ; Clear fast bitplanes
+  bsr.w                 ammx_fill_table_clip
+  bsr.w                 processing_bitplanes_fast_screen0                           ; returns bitplanes addr in d0
+  DISABLE_CLIPPING
+  rts
+
+_fillpolygon_test8:
+  RESETFILLTABLE
+  ENABLE_CLIPPING
+
+  LINE #-10,#-5,#-15,#5
+  LINE #-15,#-5,#-5,#5
+  LINE #-10,#-5,#-5,#5
+
+  CLEARFASTBITPLANES                                                                ; Clear fast bitplanes
+  bsr.w                 ammx_fill_table_clip
+  bsr.w                 processing_bitplanes_fast_screen0                           ; returns bitplanes addr in d0
+  DISABLE_CLIPPING
+  rts
+
+_fillpolygon_test9:
+  RESETFILLTABLE
+  ENABLE_CLIPPING
+
+  LINE #10,#-5,#5,#5
+  LINE #5,#-5,#15,#5
+  LINE #10,#-5,#15,#5
 
   CLEARFASTBITPLANES                                                                ; Clear fast bitplanes
   bsr.w                 ammx_fill_table_clip

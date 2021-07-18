@@ -511,10 +511,10 @@ endammxlinefillphase1_max:
     ;move.w LINEVERTEX_DELTAY,d4
 	;move.l LINEVERTEX_START_PUSHED,d2
 	;move.l LINEVERTEX_END_PUSHED,d3
-	cmpi.w #$FFFF,LINEVERTEX_START_PUSHED
-    bne.s ammxlinefill_clip_ok
-    movem.l (sp)+,d0-d7/a0-a6
-	rts
+	;cmpi.w #$FFFF,LINEVERTEX_START_PUSHED
+    ;bne.s ammxlinefill_clip_ok
+    ;movem.l (sp)+,d0-d7/a0-a6
+	;rts
 ammxlinefill_clip_ok:
 
 	; d0 will contain the min(X) and d1 the max(X)
@@ -738,6 +738,12 @@ ammxlinefill_LINESTARTITER_F:
 	add.w d7,d4 ; d = i2+d
     addq #1,d1 ; y = y+1
 
+	IFD USE_CLIPPING
+	; CLIPPING FEATURE if Y > 255 (or a negative number) exit
+    cmpi.w #255,d1
+    bhi.s ammxlinefill_ENDLINE_F
+	ENDIF
+
 	addq #1,d0
 	
 	addq #4,a2
@@ -794,14 +800,10 @@ ammxlinefill_POINT_D_LESS_0_F:
     move.w d0,2(a2)
 ammxlinefill_linem0to1_6:
     ; Save d0 X point into FILL_TABLE end
-	bra.s ammxlinefill_LINESTARTITER_F
 	ENDIF
 	IFD USE_CLIPPING
 	add.w LINEVERTEX_CLIP_X_OFFSET,d0 ; ONLY IF CLIPPING
 	ENDIF
-	
-ammxlinefill_ENDLINEBPL1_F
-
 	bra.s ammxlinefill_LINESTARTITER_F
 
 ammxlinefill_ENDLINE_F:
