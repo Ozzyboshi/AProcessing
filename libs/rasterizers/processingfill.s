@@ -537,6 +537,7 @@ ammxlinefill_no_clip_offset:
     move.l LINEVERTEX_START_PUSHED,d2
 	move.l LINEVERTEX_END_PUSHED,d3
     move.w LINEVERTEX_END_PUSHED_X,d5 ; recalculate deltax
+	sub.w LINEVERTEX_START_PUSHED_X,d5
     move.w LINEVERTEX_END_PUSHED_Y,d4 ; recalculate deltay
     sub.w  LINEVERTEX_START_PUSHED_Y,d4
     bpl.s  ammxlinefill_no_clip_offset_1
@@ -583,7 +584,6 @@ ammxfill_endfirstdraw:
 	
 	cmp.w d2,d3
 	bls.s ammxlinefill_gotolessminus1
-	;nop
 	bsr.w ammxlinefill_linemgreater1		; vertical line
 	bra.s ammxlinefill_endammxlinefillphase2
 
