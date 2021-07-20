@@ -65,7 +65,7 @@ ammx_fill_table_end:
 	rts
 
 	IFD USE_CLIPPING
-	ammx_fill_table_clip:
+ammx_fill_table_clip:
 	movem.l d0-d7/a0-a1,-(sp) ; stack save
 	move.w #1,AMMX_FILL_TABLE_FIRST_DRAW
 
@@ -77,8 +77,6 @@ ammx_fill_table_end:
 	add.w d6,a0
 	move.w AMMXFILLTABLE_CURRENT_ROW,d5
 	; end of repositioning
-	
-	move.l #$013F0000,d7
 
 ammx_fill_table_nextline_clip:
 		
@@ -87,6 +85,7 @@ ammx_fill_table_nextline_clip:
 
 	move.w (a0),d6 ; start of fill line
 	move.w #$7FFF,(a0)+
+	move.l #$013F0000,d7
 	move.w (a0),d7 ; end of fill line
 	move.w #$8000,(a0)+
 	

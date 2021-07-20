@@ -277,10 +277,17 @@ int make_test_patched(struct _test test, const char *file,struct _test test2)
 
     if (error && verbose == 3 )
     {
+
         FILE* fdwrite ;
         char filename[100];
         sprintf(filename,"output%d.bin",test.testId);
+        printf("Trying to produce %s helper file\n",filename);
         fdwrite = fopen(filename,"w");
+        if (fdwrite==NULL)
+        {
+            printf("Cannot create helper file");
+            return 1;
+        }
         bitplanedata = bitplanedatastart;
         bitplanedata = bitplanedatastart;
         for (bitplane = 0;  bitplane < test.nbitplanes; bitplane++)

@@ -8,6 +8,7 @@
   XDEF                  _fillpolygon_test7
   XDEF                  _fillpolygon_test8
   XDEF                  _fillpolygon_test9
+  XDEF                  _fillpolygon_test10
 	
   SECTION               PROCESSING,CODE_F
 
@@ -39,9 +40,9 @@ _fillpolygon_test1:
  ;move.w                #2,AMMXFILLTABLE_CURRENT_ROW
   ;move.w                #26,AMMXFILLTABLE_END_ROW                                  ; I want to fill up to first row (first row is elaborated)
 
-  CLEARFASTBITPLANES                                                                ; Clear fast bitplanes
+  CLEARFASTBITPLANES                                                               ; Clear fast bitplanes
   bsr.w                 ammx_fill_table
-  bsr.w                 processing_bitplanes_fast_screen0                           ; returns bitplanes addr in d0
+  bsr.w                 processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
 
   rts
 
@@ -67,10 +68,10 @@ _fillpolygon_test2:
   ;move.w                #10,AMMXFILLTABLE_CURRENT_ROW
   ;move.w                #20,AMMXFILLTABLE_END_ROW                                   ; I want to fill up to first row (first row is elaborated)
 
-  CLEARFASTBITPLANES                                                                ; Clear fast bitplanes
+  CLEARFASTBITPLANES                                                               ; Clear fast bitplanes
 
   bsr.w                 ammx_fill_table
-  bsr.w                 processing_bitplanes_fast_screen0                           ; returns bitplanes addr in d0
+  bsr.w                 processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
   rts
 
 _fillpolygon_test3:
@@ -94,10 +95,10 @@ _fillpolygon_test3:
   ;move.w                #20,AMMXFILLTABLE_CURRENT_ROW
   ;move.w                #40,AMMXFILLTABLE_END_ROW                                   ; I want to fill up to first row (first row is elaborated)
 
-  CLEARFASTBITPLANES                                                                ; Clear fast bitplanes
+  CLEARFASTBITPLANES                                                               ; Clear fast bitplanes
 
   bsr.w                 ammx_fill_table
-  bsr.w                 processing_bitplanes_fast_screen0                           ; returns bitplanes addr in d0
+  bsr.w                 processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
   rts
 
 _fillpolygon_test4:
@@ -121,10 +122,10 @@ _fillpolygon_test4:
   ;move.w                #20,AMMXFILLTABLE_CURRENT_ROW
   ;move.w                #40,AMMXFILLTABLE_END_ROW                                   ; I want to fill up to first row (first row is elaborated)
 
-  CLEARFASTBITPLANES                                                                ; Clear fast bitplanes
+  CLEARFASTBITPLANES                                                               ; Clear fast bitplanes
 
   bsr.w                 ammx_fill_table
-  bsr.w                 processing_bitplanes_fast_screen0                           ; returns bitplanes addr in d0
+  bsr.w                 processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
   rts
 
 _fillpolygon_test5:
@@ -162,10 +163,10 @@ _fillpolygon_test5:
   ;move.w                #100,AMMXFILLTABLE_CURRENT_ROW
   ;move.w                #255-110,AMMXFILLTABLE_END_ROW                              ; I want to fill up to first row (first row is elaborated)
 
-  CLEARFASTBITPLANES                                                                ; Clear fast bitplanes
+  CLEARFASTBITPLANES                                                               ; Clear fast bitplanes
 
   bsr.w                 ammx_fill_table
-  bsr.w                 processing_bitplanes_fast_screen0                           ; returns bitplanes addr in d0
+  bsr.w                 processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
   rts
 
 _fillpolygon_test6:
@@ -178,9 +179,9 @@ _fillpolygon_test6:
   move.w                #0,(a1)+
   bsr.w                 ammxlinefill
 
-  CLEARFASTBITPLANES                                                                ; Clear fast bitplanes
+  CLEARFASTBITPLANES                                                               ; Clear fast bitplanes
   bsr.w                 ammx_fill_table_clip
-  bsr.w                 processing_bitplanes_fast_screen0                           ; returns bitplanes addr in d0
+  bsr.w                 processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
   DISABLE_CLIPPING
   rts
 
@@ -208,9 +209,9 @@ _fillpolygon_test7:
   move.w                #5,(a1)+
   bsr.w                 ammxlinefill
 
-  CLEARFASTBITPLANES                                                                ; Clear fast bitplanes
+  CLEARFASTBITPLANES                                                               ; Clear fast bitplanes
   bsr.w                 ammx_fill_table_clip
-  bsr.w                 processing_bitplanes_fast_screen0                           ; returns bitplanes addr in d0
+  bsr.w                 processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
   DISABLE_CLIPPING
   rts
 
@@ -218,13 +219,13 @@ _fillpolygon_test8:
   RESETFILLTABLE
   ENABLE_CLIPPING
 
-  LINE #-10,#-5,#-15,#5
-  LINE #-15,#-5,#-5,#5
-  LINE #-10,#-5,#-5,#5
+  LINE                  #-10,#-5,#-15,#5
+  LINE                  #-15,#-5,#-5,#5
+  LINE                  #-10,#-5,#-5,#5
 
-  CLEARFASTBITPLANES                                                                ; Clear fast bitplanes
+  CLEARFASTBITPLANES                                                               ; Clear fast bitplanes
   bsr.w                 ammx_fill_table_clip
-  bsr.w                 processing_bitplanes_fast_screen0                           ; returns bitplanes addr in d0
+  bsr.w                 processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
   DISABLE_CLIPPING
   rts
 
@@ -232,12 +233,29 @@ _fillpolygon_test9:
   RESETFILLTABLE
   ENABLE_CLIPPING
 
-  LINE #10,#-5,#5,#5
-  LINE #5,#-5,#15,#5
-  LINE #10,#-5,#15,#5
+  LINE                  #10,#-5,#5,#5
+  LINE                  #5,#-5,#15,#5
+  LINE                  #10,#-5,#15,#5
 
-  CLEARFASTBITPLANES                                                                ; Clear fast bitplanes
+  CLEARFASTBITPLANES                                                               ; Clear fast bitplanes
   bsr.w                 ammx_fill_table_clip
-  bsr.w                 processing_bitplanes_fast_screen0                           ; returns bitplanes addr in d0
+  bsr.w                 processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
+  DISABLE_CLIPPING
+  rts
+
+_fillpolygon_test10:
+  RESETFILLTABLE
+  ENABLE_CLIPPING
+
+  STROKE                #3
+
+  LINE                  #319,#255-5,#319-5,#255+5
+  LINE                  #319,#255-5,#319+5,#255+5
+  CLEARFASTBITPLANES
+  bsr.w                 ammx_fill_table_clip
+  bsr.w                 processing_bitplanes_fast_screen0  
+
+  STROKE                #1 
+
   DISABLE_CLIPPING
   rts

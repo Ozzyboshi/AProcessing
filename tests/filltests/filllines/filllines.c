@@ -56,6 +56,9 @@ unsigned char *filline_test38();
 unsigned char *filline_test39();
 unsigned char *filline_test40();
 unsigned char *filline_test41();
+unsigned char *filline_test42();
+unsigned char *filline_test43();
+unsigned char *filline_test44();
 
 struct _test TESTS[] = {
     {.testId = 1, .test_function = filline_test1, .nbitplanes=1, .nrows=256, .nbyterow=4,.title = "1,1 8,5 -> 10,1 18,5 0<m<1", .verbose=0},
@@ -105,10 +108,13 @@ struct _test TESTS[] = {
     {.testId = 35, .test_function = filline_test35, .nbitplanes=1, .nrows=256, .nbyterow=4,.title = "100,-100 - 100,1000 Ya Yb clipping", .verbose=0},
     {.testId = 36, .test_function = filline_test36, .nbitplanes=1, .nrows=256, .nbyterow=4,.title = "200,260 - 400,220 Ya Xb clipping", .verbose=0},
     {.testId = 37, .test_function = filline_test37, .nbitplanes=1, .nrows=256, .nbyterow=4,.title = "-1,-1 - 256,256 Xa Xb clipping", .verbose=0},
-    {.testId = 38, .test_function = filline_test38, .nbitplanes=1, .nrows=256, .nbyterow=4,.title = "-1500,-1500 - 2000,1000 diagonal out of bounds", .verbose=0},
+    {.testId = 38, .test_function = filline_test38, .nbitplanes=1, .nrows=256, .nbyterow=4,.title = "-1500,-1500 - 2000,1000 diagonal OOB", .verbose=0},
     {.testId = 39, .test_function = filline_test39, .nbitplanes=1, .nrows=256, .nbyterow=4,.title = "-1500,-1500 - 555,700 Xa and Ya clipping", .verbose=0},
     {.testId = 40, .test_function = filline_test40, .nbitplanes=1, .nrows=256, .nbyterow=4,.title = "300,500 - 320,-10 Xb and Yb clipping", .verbose=0},
     {.testId = 41, .test_function = filline_test41, .nbitplanes=1, .nrows=256, .nbyterow=4,.title = "0,-5 - -5,5 Xa clipping OOB", .verbose=0},
+    {.testId = 42, .test_function = filline_test42, .nbitplanes=1, .nrows=256, .nbyterow=4,.title = "#319,#255-5,#319-5,#255+5", .verbose=0},
+    {.testId = 43, .test_function = filline_test43, .nbitplanes=1, .nrows=256, .nbyterow=4,.title = "#319,#255-5,#319+5,#255+5", .verbose=0},
+    {.testId = 44, .test_function = filline_test44, .nbitplanes=1, .nrows=256, .nbyterow=4,.title = "the 2 above combined", .verbose=0},
 
     {.testId = 0, .test_function = NULL}
 
