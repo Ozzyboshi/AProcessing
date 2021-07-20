@@ -43,6 +43,7 @@
                 XDEF                _filline_test42
                 XDEF                _filline_test43
                 XDEF                _filline_test44
+                XDEF                _filline_test45
 	
                 SECTION             PROCESSING,CODE_F
 
@@ -885,6 +886,16 @@ _filline_test44:
 
                 LINE                #319,#255-5,#319-5,#255+5
                 LINE                #319,#255-5,#319+5,#255+5
+
+                bsr.w               processing_fill_table_addr                                 ; fill table addr in d0
+                DISABLE_CLIPPING
+                rts
+
+_filline_test45:
+                RESETFILLTABLE
+                ENABLE_CLIPPING
+
+                LINE                  #319-5,#255+5,#319+5,#255+5
 
                 bsr.w               processing_fill_table_addr                                 ; fill table addr in d0
                 DISABLE_CLIPPING

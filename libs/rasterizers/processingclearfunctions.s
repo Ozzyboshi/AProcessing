@@ -4,14 +4,41 @@ CLEARFASTBITPLANES MACRO
 	lea SCREEN_0,a0
 	lea SCREEN_1,a4
 
-	
     IFD VAMPIRE
-    move.l #5*255,d3
+    move.l #1279,d3
 	load #0,e0
     ENDIF
     IFND VAMPIRE
 	moveq #0,d0
-    move.l #10*255,d3
+    move.l #2560-1,d3
+    ENDIF
+
+.clearfastbitplanesmacro:
+    IFD VAMPIRE
+    store e0,(a0)+
+	store e0,(a4)+
+    ENDIF
+    IFND VAMPIRE
+    move.l d0,(a0)+
+	move.l d0,(a4)+
+    ENDIF
+	dbra d3,.clearfastbitplanesmacro
+	ENDM
+
+FILLFASTBITPLANES MACRO
+
+	; copy from fast bitplanes to slow bitplanes
+	lea SCREEN_0,a0
+	lea SCREEN_1,a4
+
+	
+    IFD VAMPIRE
+    move.l #5*255,d3
+	load #$FFFFFFFFFFFFFFFF,e0
+    ENDIF
+    IFND VAMPIRE
+	move.l #$FFFFFFFF,d0
+    move.l #2560-1,d3
     ENDIF
 
 	;move.l bitplane0,a1

@@ -10,7 +10,7 @@ AMMXFILLTABLE_CURRENT_ROW:
 	dc.w 0
 
 AMMXFILLTABLE_END_ROW:
-	dc.w 0
+	dc.w -1
 
 AMMXFILLTABLE_CURRENT_ROW_LINE:
 	dc.w 0
@@ -61,6 +61,7 @@ ammx_fill_table_nextline:
 	
 	bra.w ammx_fill_table_nextline
 ammx_fill_table_end:
+	move.w #-1,AMMXFILLTABLE_END_ROW
 	movem.l (sp)+,d0-d7/a0-a1
 	rts
 
@@ -79,9 +80,9 @@ ammx_fill_table_clip:
 	; end of repositioning
 
 ammx_fill_table_nextline_clip:
-		
+
 	cmp.w AMMXFILLTABLE_END_ROW,d5
-	bhi.s ammx_fill_table_end_clip
+	bgt.s ammx_fill_table_end_clip
 
 	move.w (a0),d6 ; start of fill line
 	move.w #$7FFF,(a0)+
@@ -111,6 +112,7 @@ ammx_fill_table_nextline_clip:
 	
 	bra.w ammx_fill_table_nextline_clip
 ammx_fill_table_end_clip:
+	move.w #-1,AMMXFILLTABLE_END_ROW
 	movem.l (sp)+,d0-d7/a0-a1
 	rts
 
@@ -510,10 +512,11 @@ endammxlinefillphase1_max:
     ;move.w LINEVERTEX_DELTAY,d4
 	;move.l LINEVERTEX_START_PUSHED,d2
 	;move.l LINEVERTEX_END_PUSHED,d3
-	;cmpi.w #$FFFF,LINEVERTEX_START_PUSHED
-    ;bne.s ammxlinefill_clip_ok
-    ;movem.l (sp)+,d0-d7/a0-a6
-	;rts
+
+	cmpi.w #$FFFF,d0
+    bne.s ammxlinefill_clip_ok
+    movem.l (sp)+,d0-d7/a0-a6
+	rts
 ammxlinefill_clip_ok:
 
 	; d0 will contain the min(X) and d1 the max(X)

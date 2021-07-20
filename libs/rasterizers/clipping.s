@@ -1,6 +1,6 @@
     IFD USE_CLIPPING
 ammxlinefill_clip:
-	movem.l d0-d7/a2,-(sp) ; stack save
+	movem.l d1-d7/a2,-(sp) ; stack save
     
     ; START CHECK IF Yb IS ON THE TOP OF THE SCREEN (a negative Y)
 	move.w LINEVERTEX_END_PUSHED_Y,d5
@@ -89,12 +89,12 @@ ammxlinefill_clip_end_ya2:
 ammxlinefill_clip_x_within:
 	nop
 ammxlinefill_clip_end:
-	movem.l (sp)+,d0-d7/a2
+	movem.l (sp)+,d1-d7/a2
 	rts
 	
 ammxlinefill_clip_not_drawable:
-    move.w #$FFFF,LINEVERTEX_START_PUSHED
-    movem.l (sp)+,d0-d7/a2
+    move.w #$FFFF,d0
+    movem.l (sp)+,d1-d7/a2
 	rts
 	
 ammxlinefill_clip_deltas:

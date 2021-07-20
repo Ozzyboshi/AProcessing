@@ -59,6 +59,7 @@ unsigned char *filline_test41();
 unsigned char *filline_test42();
 unsigned char *filline_test43();
 unsigned char *filline_test44();
+unsigned char *filline_test45();
 
 struct _test TESTS[] = {
     {.testId = 1, .test_function = filline_test1, .nbitplanes=1, .nrows=256, .nbyterow=4,.title = "1,1 8,5 -> 10,1 18,5 0<m<1", .verbose=0},
@@ -115,6 +116,7 @@ struct _test TESTS[] = {
     {.testId = 42, .test_function = filline_test42, .nbitplanes=1, .nrows=256, .nbyterow=4,.title = "#319,#255-5,#319-5,#255+5", .verbose=0},
     {.testId = 43, .test_function = filline_test43, .nbitplanes=1, .nrows=256, .nbyterow=4,.title = "#319,#255-5,#319+5,#255+5", .verbose=0},
     {.testId = 44, .test_function = filline_test44, .nbitplanes=1, .nrows=256, .nbyterow=4,.title = "the 2 above combined", .verbose=0},
+    {.testId = 45, .test_function = filline_test45, .nbitplanes=1, .nrows=256, .nbyterow=4,.title = "horizontal under the screen", .verbose=0},
 
     {.testId = 0, .test_function = NULL}
 

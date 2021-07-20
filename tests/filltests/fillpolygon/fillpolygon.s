@@ -9,6 +9,7 @@
   XDEF                  _fillpolygon_test8
   XDEF                  _fillpolygon_test9
   XDEF                  _fillpolygon_test10
+  XDEF                  _fillpolygon_test11
 	
   SECTION               PROCESSING,CODE_F
 
@@ -251,7 +252,25 @@ _fillpolygon_test10:
 
   LINE                  #319,#255-5,#319-5,#255+5
   LINE                  #319,#255-5,#319+5,#255+5
+  LINE                  #319-5,#255+5,#319+5,#255+5
   CLEARFASTBITPLANES
+  bsr.w                 ammx_fill_table_clip
+  bsr.w                 processing_bitplanes_fast_screen0  
+
+  STROKE                #1 
+
+  DISABLE_CLIPPING
+  rts
+
+_fillpolygon_test11:
+  RESETFILLTABLE
+  ENABLE_CLIPPING
+  CLEARFASTBITPLANES
+
+
+  STROKE                #3
+
+  LINE                  #319-5,#255+5,#319+5,#255+5
   bsr.w                 ammx_fill_table_clip
   bsr.w                 processing_bitplanes_fast_screen0  
 
