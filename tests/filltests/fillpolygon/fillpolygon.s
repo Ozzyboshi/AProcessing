@@ -10,6 +10,10 @@
   XDEF                  _fillpolygon_test9
   XDEF                  _fillpolygon_test10
   XDEF                  _fillpolygon_test11
+  XDEF                  _fillpolygon_test12
+  XDEF                  _fillpolygon_test13
+  XDEF                  _fillpolygon_test14
+  XDEF                  _fillpolygon_test15
 	
   SECTION               PROCESSING,CODE_F
 
@@ -271,6 +275,81 @@ _fillpolygon_test11:
   STROKE                #3
 
   LINE                  #319-5,#255+5,#319+5,#255+5
+  bsr.w                 ammx_fill_table_clip
+  bsr.w                 processing_bitplanes_fast_screen0  
+
+  STROKE                #1 
+
+  DISABLE_CLIPPING
+  rts
+
+_fillpolygon_test12:
+  RESETFILLTABLE
+  ENABLE_CLIPPING
+  CLEARFASTBITPLANES
+
+
+  STROKE                #3
+
+  LINE                  #319+10,#255-5,#319+5,#255+5
+  LINE                  #319+10,#255-5,#319+15,#255+5
+  LINE                  #319+5,#255+5,#319+15,#255+5
+  bsr.w                 ammx_fill_table_clip
+  bsr.w                 processing_bitplanes_fast_screen0  
+
+  STROKE                #1 
+
+  DISABLE_CLIPPING
+  rts
+
+
+_fillpolygon_test13:
+  RESETFILLTABLE
+  ENABLE_CLIPPING
+
+  STROKE                #3
+
+  LINE                  #319,#0-5,#319-5,#0+5
+  LINE                  #319,#0-5,#319+5,#0+5
+  LINE                  #319-5,#0+5,#319+5,#0+5
+  CLEARFASTBITPLANES
+  bsr.w                 ammx_fill_table_clip
+  bsr.w                 processing_bitplanes_fast_screen0  
+
+  STROKE                #1 
+
+  DISABLE_CLIPPING
+  rts
+
+_fillpolygon_test14:
+  RESETFILLTABLE
+  ENABLE_CLIPPING
+
+  STROKE                #3
+
+  LINE                  #319,#0-15,#319-5,#0-5
+  LINE                  #319,#0-15,#319+5,#0-5
+  LINE                  #319-5,#0-5,#319+5,#0-5
+  CLEARFASTBITPLANES
+  bsr.w                 ammx_fill_table_clip
+  bsr.w                 processing_bitplanes_fast_screen0  
+
+  STROKE                #1 
+
+  DISABLE_CLIPPING
+  rts
+
+_fillpolygon_test15:
+  RESETFILLTABLE
+  ENABLE_CLIPPING
+
+  STROKE                #3
+
+  LINE                  #-10,#-10,#329,#-10
+  LINE                  #-10,#265,#329,#265
+  LINE                  #-10,#-10,#-10,#265
+  LINE                  #329,#-10,#329,#265
+  CLEARFASTBITPLANES
   bsr.w                 ammx_fill_table_clip
   bsr.w                 processing_bitplanes_fast_screen0  
 

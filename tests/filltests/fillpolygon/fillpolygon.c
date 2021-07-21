@@ -18,6 +18,10 @@ unsigned char *fillpolygon_test8();
 unsigned char *fillpolygon_test9();
 unsigned char *fillpolygon_test10();
 unsigned char *fillpolygon_test11();
+unsigned char *fillpolygon_test12();
+unsigned char *fillpolygon_test13();
+unsigned char *fillpolygon_test14();
+unsigned char *fillpolygon_test15();
 
 struct _test TESTS[] = {
     {.testId = 1, .test_function = fillpolygon_test1, .nbitplanes=2, .nrows=256, .nbyterow=40,.title = "Triangle", .verbose=0},
@@ -31,6 +35,10 @@ struct _test TESTS[] = {
     {.testId = 9, .test_function = fillpolygon_test9, .nbitplanes=2, .nrows=256, .nbyterow=40,.title = "Triangle centered at 10,0", .verbose=0},
     {.testId = 10, .test_function = fillpolygon_test10, .nbitplanes=2, .nrows=256, .nbyterow=40,.title = "Triangle centered at 319,255", .verbose=0},
     {.testId = 11, .test_function = fillpolygon_test11, .nbitplanes=2, .nrows=256, .nbyterow=40,.title = "Under the screen horizontal line", .verbose=0},
+    {.testId = 12, .test_function = fillpolygon_test12, .nbitplanes=2, .nrows=256, .nbyterow=40,.title = "Triangle completely OOB on bottom right of screen", .verbose=0},
+    {.testId = 13, .test_function = fillpolygon_test13, .nbitplanes=2, .nrows=256, .nbyterow=40,.title = "Triangle centered on top right of screen", .verbose=0},
+    {.testId = 14, .test_function = fillpolygon_test14, .nbitplanes=2, .nrows=256, .nbyterow=40,.title = "Triangle completely OOB on top of screen", .verbose=0},
+    {.testId = 15, .test_function = fillpolygon_test15, .nbitplanes=2, .nrows=256, .nbyterow=40,.title = "Everything OOB", .verbose=0},
 
     {.testId = 0, .test_function = NULL}
 
