@@ -11,6 +11,8 @@
   XDEF                                          _matrix_multest11
   XDEF                                          _matrix_multest12
   XDEF                                          _matrix_multest13
+  XDEF                                          _matrix_multest14
+  XDEF                                          _matrix_multest15
 
   SECTION                                       PROCESSING,CODE_F
 
@@ -427,4 +429,74 @@ _matrix_multest13:
 
   bsr.w                                         processing_third_matrix_addr
 	; result must be 25 45 1
+  rts
+
+_matrix_multest14:
+  RESET_CURRENT_TRANSFORMATION_MATRIX_Q_10_6
+
+  move.w                                        #0,d0
+  move.w                                        #0,d1
+  bsr.w                                         TRANSLATE
+
+  ROTATE #45
+	
+  IFD                                           VAMPIRE
+
+	; Current transformation matrix is the Multiplier (second factor)
+  LOAD_CURRENT_TRANSFORMATION_MATRIX            e4,e5,e6
+  REG_LOADI                                     0000,FEC0,FEC0,0040,e1
+
+  ENDIF
+
+  IFND                                          VAMPIRE
+  LOAD_CURRENT_TRANSFORMATION_MATRIX            OPERATOR2_TR_MATRIX_ROW1
+
+  move.l                                        #$0000FEC0,OPERATOR1_TR_MATRIX_ROW1
+  move.l                                        #$FEC00040,OPERATOR1_TR_MATRIX_ROW1+4
+  ENDIF
+
+  bsr.w                                         ammxmatrixmul1X3_q10_6
+
+
+  IFD                                           VAMPIRE
+  AMMX_DUMP_REGS_TO_THIRD_OP                    e13,e14,e15
+  ENDIF
+
+  bsr.w                                         processing_third_matrix_addr
+	 ;result -450,5 
+  ; after normalization -7,0
+  rts
+
+_matrix_multest15:
+  RESET_CURRENT_TRANSFORMATION_MATRIX_Q_10_6
+
+  ROTATE #45
+	
+  IFD                                           VAMPIRE
+
+	; Current transformation matrix is the Multiplier (second factor)
+  LOAD_CURRENT_TRANSFORMATION_MATRIX            e4,e5,e6
+  REG_LOADI                                     0000,0140,FEC0,0040,e1
+
+  ENDIF
+
+  IFND                                          VAMPIRE
+  LOAD_CURRENT_TRANSFORMATION_MATRIX            OPERATOR2_TR_MATRIX_ROW1
+
+  move.l                                        #$00000140,OPERATOR1_TR_MATRIX_ROW1
+  move.l                                        #$FEC00040,OPERATOR1_TR_MATRIX_ROW1+4
+  ENDIF
+
+  bsr.w                                         ammxmatrixmul1X3_q10_6
+
+
+  IFD                                           VAMPIRE
+  AMMX_DUMP_REGS_TO_THIRD_OP                    e13,e14,e15
+  ENDIF
+
+  bsr.w                                         processing_third_matrix_addr
+
+  ;result 0,-450 
+  ; after normalization 0,7
+	
   rts

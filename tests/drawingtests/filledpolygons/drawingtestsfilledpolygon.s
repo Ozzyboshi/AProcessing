@@ -6,6 +6,7 @@
   XDEF                                          _drawing_test6
   XDEF                                          _drawing_test7
   XDEF                                          _drawing_test8
+  XDEF                                          _drawing_test9
 
   SECTION                                       PROCESSING,CODE_F
 
@@ -23,22 +24,17 @@
   include                                       "../../../libs/rasterizers/rectangle.s"
   include                                       "../../../libs/rasterizers/circle.s"
   include                                       "../../../libs/rasterizers/processingfill.s"
+  include                                       "../../../libs/rasterizers/clipping.s"
 
 _drawing_test1:
-	;movem.l        d0-d7/a0-a6,-(sp)
 	
   CLEARFASTBITPLANES                                                                                       ; Clear fast bitplanes
   RESET_CURRENT_TRANSFORMATION_MATRIX_Q_10_6
-
-
   move.w                                        #160,d0
   move.w                                        #128,d1
-  bsr.w                                         TRANSLATE
-
+  jsr                                         TRANSLATE
 
   ROTATE                                        #45
-
-
 
   move.w                                        #-5,d0
   move.w                                        #-5,d1
@@ -47,7 +43,6 @@ _drawing_test1:
   bsr.w                                         SQUARE                                                     ;#-5,#-5,#10
 
   bsr.w                                         processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
-	;movem.l        (sp)+,d0-d7/a0-a6
   rts
 
 _drawing_test2:
@@ -62,7 +57,7 @@ _drawing_test2:
 
   move.w                                        #160,d0
   move.w                                        #128,d1
-  bsr.w                                         TRANSLATE
+  jsr                                         TRANSLATE
 
   ROTATE                                        #0
 
@@ -94,7 +89,7 @@ _drawing_test3:
 
   move.w                                        #160,d0
   move.w                                        #128,d1
-  bsr.w                                         TRANSLATE
+  jsr                                         TRANSLATE
 
   ROTATE                                        #180
 
@@ -123,7 +118,7 @@ _drawing_test4:
 
   move.w                                        #160,d0
   move.w                                        #128,d1
-  bsr.w                                         TRANSLATE
+  jsr                                        TRANSLATE
 
   ROTATE                                        #0
 
@@ -178,7 +173,7 @@ _drawing_test6:
 	; scale 0,5 on Y axis
   move.w                                        #%0000000001000000,d0
   move.w                                        #%0000000000100000,d1
-  bsr.w                                         SCALE
+  jsr                                         SCALE
 
   move.w                                        #-5,d0
   move.w                                        #-10,d1
@@ -244,4 +239,25 @@ _drawing_test8:
   bsr.w                                         processing_bitplanes_fast_screen0
   
   movem.l                                       (sp)+,d2
+  rts
+
+_drawing_test9:
+	
+  CLEARFASTBITPLANES                                                                                       ; Clear fast bitplanes
+  RESET_CURRENT_TRANSFORMATION_MATRIX_Q_10_6
+  ENABLE_CLIPPING
+  move.w                                        #0,d0
+  move.w                                        #0,d1
+  jsr                                         TRANSLATE
+
+  ROTATE                                        #45
+
+  move.w                                        #-5,d0
+  move.w                                        #-5,d1
+  move.w                                        #10,d5
+  bsr.w                                         SQUARE                                                     ;#-5,#-5,#10
+
+  DISABLE_CLIPPING
+
+  bsr.w                                         processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
   rts

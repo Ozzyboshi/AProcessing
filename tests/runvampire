@@ -13,6 +13,11 @@ fillpolygon
 fillpolygonvampire
 cd /
 cd /
+cd filltests/filltransformations
+filltransformations
+filltransformationsvampire
+cd /
+cd /
 cd matrixtests/basic
 matrixbasic
 matrixbasicvampire

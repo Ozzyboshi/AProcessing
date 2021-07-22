@@ -11,6 +11,7 @@
   XDEF                  _fillscanline_test10
   XDEF                  _fillscanline_test11
   XDEF                  _fillscanline_test12
+  XDEF                  _fillscanline_test13
 
   SECTION               PROCESSING,CODE_F
 
@@ -201,6 +202,21 @@ _fillscanline_test12:
   move.w                #31,(a1)+
   move.w                #8,(a1)+
   move.w                #31,(a1)+
+  STROKE                #2
+  bsr.w                 ammx_fill_table
+  bsr.w                 processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
+  rts
+
+_fillscanline_test13:
+  CLEARFASTBITPLANES                                                               ; Clear fast bitplanes
+
+  move.w                #0,AMMXFILLTABLE_CURRENT_ROW                               ; I want to fill row 0 (first row)
+  move.w                #0,AMMXFILLTABLE_END_ROW                                   ; I want to fill up to first row (first row is elaborated)
+
+	; Fill first line
+  lea                   FILL_TABLE,a1                                          ; START FROM ROW 2 (third)
+  move.w                #0,(a1)+
+  move.w                #6,(a1)+
   STROKE                #2
   bsr.w                 ammx_fill_table
   bsr.w                 processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0

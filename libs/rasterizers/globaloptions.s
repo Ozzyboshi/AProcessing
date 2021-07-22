@@ -7,6 +7,7 @@ GLOBAL_OPTIONS:
 DRAWING_OPTIONS:      dc.b      $00                           ; bit 0 = clipping enabled
 STROKE_DATA:          dc.b      $01                           ; colors here
 
+AMMX_FILL_FUNCT_ADDR    dc.l ammx_fill_table
 STROKE MACRO
                       IFD       VAMPIRE 
                       PAND      #$FFFFFFFFFFFFFF00,e22,e22    ; last byte zeroed
@@ -23,6 +24,7 @@ ENABLE_CLIPPING MACRO
                       IFND      VAMPIRE
                       ori.b     #$01,DRAWING_OPTIONS
                       ENDIF
+                      move.l  #ammx_fill_table_clip,AMMX_FILL_FUNCT_ADDR
                       ENDM
 DISABLE_CLIPPING MACRO
                       IFD       VAMPIRE
@@ -31,6 +33,7 @@ DISABLE_CLIPPING MACRO
                       IFND      VAMPIRE
                       andi.b    #$FE,DRAWING_OPTIONS
                       ENDIF
+                      move.l  #ammx_fill_table,AMMX_FILL_FUNCT_ADDR
                       ENDM
                       ENDIF
 

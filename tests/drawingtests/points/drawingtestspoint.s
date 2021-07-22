@@ -20,16 +20,7 @@ _drawing_test1:
 	move.w #128,d1
 	bsr.w TRANSLATE
 
-	;ROTATE_INV_Q_5_11 #45
 	ROTATE #45
-
-	;POINT_Q_10_6 #-5*64,#-5*64
-
-	;POINT_Q_10_6 #-5*64,#5*64
-
-	;POINT_Q_10_6 #5*64,#-5*64
-
-	;POINT_Q_10_6 #5*64,#5*64
 
 	POINT #-5,#-5
 	POINT #-5,#5

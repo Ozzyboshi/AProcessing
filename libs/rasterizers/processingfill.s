@@ -134,6 +134,7 @@ ammx_fill_table_single_line:
 	; phaze 1 => align to nearest byte
 	; address of the first point
 	move.w d6,d0
+
 	move.w AMMXFILLTABLE_CURRENT_ROW,d1
 	lea PLOTREFS,a1
 
@@ -151,7 +152,7 @@ ammx_fill_table_single_line:
 	lsl.b d4,d3 
 	lsr.b d4,d3
 
-	add.l d1,a0
+	add.w d1,a0
 
 	; bitprocessed = 8-d4
 	subi.b #8,d4 ; d4 must always be negative here!!!!

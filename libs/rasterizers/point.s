@@ -153,6 +153,9 @@ point_execute_transformation:
 	move.w OPERATOR3_TR_MATRIX_ROW1+4,d1
 	ENDIF
 
+	ext.l d0
+	ext.l d1
+	
 	lsr.l #6,d0
 	lsr.l #6,d1
 
