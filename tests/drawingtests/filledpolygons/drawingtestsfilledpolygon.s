@@ -7,6 +7,17 @@
   XDEF                                          _drawing_test7
   XDEF                                          _drawing_test8
   XDEF                                          _drawing_test9
+  XDEF                                          _drawing_test10
+  XDEF                                          _drawing_test11
+  XDEF                                          _drawing_test12
+  XDEF                                          _drawing_test13
+  XDEF                                          _drawing_test14
+  XDEF                                          _drawing_test15
+  XDEF                                          _drawing_test16
+  XDEF                                          _drawing_test17
+  XDEF                                          _drawing_test18
+
+
 
   SECTION                                       PROCESSING,CODE_F
 
@@ -46,14 +57,10 @@ _drawing_test1:
   rts
 
 _drawing_test2:
-	;movem.l        d0-d7/a0-a6,-(sp)
 	
   CLEARFASTBITPLANES                                                                                       ; Clear fast bitplanes
 	
   RESET_CURRENT_TRANSFORMATION_MATRIX_Q_10_6
-
-	
-
 
   move.w                                        #160,d0
   move.w                                        #128,d1
@@ -74,7 +81,6 @@ _drawing_test2:
   bsr.w                                         TRIANGLE
 
   bsr.w                                         processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
-	;movem.l        (sp)+,d0-d7/a0-a6
   rts
 
 _drawing_test3:
@@ -256,6 +262,241 @@ _drawing_test9:
   move.w                                        #-5,d1
   move.w                                        #10,d5
   bsr.w                                         SQUARE                                                     ;#-5,#-5,#10
+
+  DISABLE_CLIPPING
+
+  bsr.w                                         processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
+  rts
+
+_drawing_test10:
+	
+  CLEARFASTBITPLANES                                                                                       ; Clear fast bitplanes
+  RESET_CURRENT_TRANSFORMATION_MATRIX_Q_10_6
+  ENABLE_CLIPPING
+  move.w                                        #0,d0
+  move.w                                        #255,d1
+  jsr                                         TRANSLATE
+
+  ROTATE                                        #45
+
+  move.w                                        #-15,d0
+  move.w                                        #-15,d1
+  move.w                                        #30,d5
+  bsr.w                                         SQUARE                                                    
+
+  DISABLE_CLIPPING
+
+  bsr.w                                         processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
+  rts
+
+_drawing_test11:
+	
+  CLEARFASTBITPLANES                                                                                       ; Clear fast bitplanes
+  RESET_CURRENT_TRANSFORMATION_MATRIX_Q_10_6
+  ENABLE_CLIPPING
+  move.w                                        #319,d0
+  move.w                                        #0,d1
+  jsr                                         TRANSLATE
+
+  ROTATE                                        #45
+
+  move.w                                        #-15,d0
+  move.w                                        #-15,d1
+  move.w                                        #30,d5
+  bsr.w                                         SQUARE                                                    
+
+  DISABLE_CLIPPING
+
+  bsr.w                                         processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
+  rts
+
+_drawing_test12:
+	
+  CLEARFASTBITPLANES                                                                                       ; Clear fast bitplanes
+  RESET_CURRENT_TRANSFORMATION_MATRIX_Q_10_6
+  ENABLE_CLIPPING
+  move.w                                        #319,d0
+  move.w                                        #255,d1
+  jsr                                         TRANSLATE
+
+  ROTATE                                        #45
+
+  move.w                                        #-15,d0
+  move.w                                        #-15,d1
+  move.w                                        #30,d5
+  bsr.w                                         SQUARE                                                    
+
+  DISABLE_CLIPPING
+
+  bsr.w                                         processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
+  rts
+
+_drawing_test13:
+	
+  CLEARFASTBITPLANES                                                                                       ; Clear fast bitplanes
+	ENABLE_CLIPPING
+  RESET_CURRENT_TRANSFORMATION_MATRIX_Q_10_6
+
+  move.w                                        #0,d0
+  move.w                                        #0,d1
+  jsr                                         TRANSLATE
+
+  ROTATE                                        #45
+
+  move.w                                        #0,d0
+  move.w                                        #-5,d1
+
+  move.w                                        #-5,d6
+  move.w                                        #5,d3
+
+  move.w                                        #5,d4
+  move.w                                        #5,d5
+	
+  bsr.w                                         TRIANGLE
+
+  DISABLE_CLIPPING
+
+  bsr.w                                         processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
+  rts
+
+_drawing_test14:
+	
+  CLEARFASTBITPLANES                                                                                       ; Clear fast bitplanes
+	ENABLE_CLIPPING
+  RESET_CURRENT_TRANSFORMATION_MATRIX_Q_10_6
+
+  move.w                                        #0,d0
+  move.w                                        #255,d1
+  jsr                                         TRANSLATE
+
+  ROTATE                                        #45
+
+  move.w                                        #0,d0
+  move.w                                        #-5,d1
+
+  move.w                                        #-5,d6
+  move.w                                        #5,d3
+
+  move.w                                        #5,d4
+  move.w                                        #5,d5
+	
+  bsr.w                                         TRIANGLE
+
+  DISABLE_CLIPPING
+
+  bsr.w                                         processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
+  rts
+
+_drawing_test15:
+	
+  CLEARFASTBITPLANES                                                                                       ; Clear fast bitplanes
+	ENABLE_CLIPPING
+  RESET_CURRENT_TRANSFORMATION_MATRIX_Q_10_6
+
+  move.w                                        #319,d0
+  move.w                                        #0,d1
+  jsr                                         TRANSLATE
+
+  ROTATE                                        #45
+
+  move.w                                        #0,d0
+  move.w                                        #-5,d1
+
+  move.w                                        #-5,d6
+  move.w                                        #5,d3
+
+  move.w                                        #5,d4
+  move.w                                        #5,d5
+	
+  bsr.w                                         TRIANGLE
+
+  DISABLE_CLIPPING
+
+  bsr.w                                         processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
+  rts
+
+_drawing_test16:
+	
+  CLEARFASTBITPLANES                                                                                       ; Clear fast bitplanes
+	ENABLE_CLIPPING
+  RESET_CURRENT_TRANSFORMATION_MATRIX_Q_10_6
+
+  move.w                                        #319,d0
+  move.w                                        #255,d1
+  jsr                                         TRANSLATE
+
+  ROTATE                                        #45
+
+  move.w                                        #0,d0
+  move.w                                        #-5,d1
+
+  move.w                                        #-5,d6
+  move.w                                        #5,d3
+
+  move.w                                        #5,d4
+  move.w                                        #5,d5
+	
+  bsr.w                                         TRIANGLE
+
+  DISABLE_CLIPPING
+
+  bsr.w                                         processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
+  rts
+
+_drawing_test17:
+	
+  CLEARFASTBITPLANES                                                                                       ; Clear fast bitplanes
+	ENABLE_CLIPPING
+  RESET_CURRENT_TRANSFORMATION_MATRIX_Q_10_6
+
+  move.w                                        #0,d0
+  move.w                                        #0,d1
+  jsr                                         TRANSLATE
+
+  ROTATE                                        #90
+
+  move.w                                        #160,d0
+  move.w                                        #123,d1
+
+  move.w                                        #155,d6
+  move.w                                        #128,d3
+
+  move.w                                        #165,d4
+  move.w                                        #128,d5
+	
+  bsr.w                                         TRIANGLE
+
+  DISABLE_CLIPPING
+
+  bsr.w                                         processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
+  rts
+
+
+_drawing_test18:
+	
+  CLEARFASTBITPLANES                                                                                       ; Clear fast bitplanes
+	ENABLE_CLIPPING
+  RESET_CURRENT_TRANSFORMATION_MATRIX_Q_10_6
+
+  move.w                                        #0,d0
+  move.w                                        #0,d1
+  jsr                                         TRANSLATE
+
+  ROTATE                                        #38
+
+  move.w                                        #160,d0
+  move.w                                        #123,d1
+
+  move.w                                        #155,d6
+  move.w                                        #128,d3
+
+  move.w                                        #165,d4
+  move.w                                        #128,d5
+  STROKE #3
+	
+  bsr.w                                         TRIANGLE
+
+  STROKE #1
 
   DISABLE_CLIPPING
 

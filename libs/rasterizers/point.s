@@ -11,23 +11,6 @@ POINT_TRANSFORM_AND_STORE_IN_FILLTABLE MACRO
 
     ENDM
 
-
-POINT_TRANSFORM_AND_STORE_IN_FILLTABLE_FIRST MACRO
-    lea LINEVERTEX_START_FINAL+\3,a1
-
-    move.w \1,d0
-    move.w \2,d1
-
-    bsr.w point_execute_transformation
-
-    move.w d0,(a1)+
-    move.w d1,(a1)+
-
-    ENDM
-
-
-
-
 POINT_Q_10_6 MACRO
 
 	and.l #$0000FFFF,d0

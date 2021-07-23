@@ -93,17 +93,25 @@ ammx_fill_table_nextline_clip:
 	
 	; clip start
 	; if left is negative left is zero
+	IFD VAMPIRE
+	pmaxsw #0,d6,d6
+	ELSE
 	btst #15,d6
 	seq d0
 	ext.w d0
 	and.w d0,d6
+	ENDC
 	
 	; if right > screen resolution then right = screen resolution
+	IFD VAMPIRE
+	pminsw #319,d7,d7
+	ELSE
 	cmpi.w #319,d7
 	sgt d0
 	move.w #16,d1
 	and.w d0,d1
 	lsr.l d1,d7
+	ENDC
 	; clip end
 	
 	bsr.w ammx_fill_table_single_line
