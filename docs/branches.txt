@@ -3,3 +3,40 @@ BPL – Branch on PLus (Positive)
  
 
 If the N flag of the CCR is clear, the destination operand will be added to the PC, and the 68k will continue reading at the new offset held in PC.  If the N flag is set, the instruction is ignored.
+
+The BMI Instruction
+
+ 
+
+BMI – Branch on MInus (Negative)
+
+ 
+
+If the N flag of the CCR is set, the destination operand will be added to the PC, and the 68k will continue reading at the new offset held in PC.  If the N flag is clear, the instruction is ignored.
+
+ 
+
+ 
+
+ 
+
+Examples
+
+ 
+
+This is the opposite of BPL:
+
+ 
+
+          cmpi.w    #$0020,d0
+
+          bmi.s     FlagNIsSet
+
+          move.w    #$0000,d0
+
+ 
+
+FlagNIsSet:
+
+ 
+

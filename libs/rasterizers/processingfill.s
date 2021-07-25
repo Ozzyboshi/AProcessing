@@ -89,6 +89,9 @@ ammx_fill_table_nextline_clip:
 	move.l #$013F0000,d7
 	move.w (a0),d7 ; end of fill line
 	move.w #$8000,(a0)+
+
+	;btst #15,d7
+	;bne.s 
 	
 	
 	; clip start
@@ -137,6 +140,7 @@ ammx_fill_table_single_line:
 
 	move.w d7,d5 ; alternative to psubw
 	sub.w d6,d5
+	bmi.w ammx_fill_table_no_end_0 ; if Xright<0 we are sure that no pixel must be drawn so jump to whatever exit
 	addq #1,d5
 
 	; phaze 1 => align to nearest byte

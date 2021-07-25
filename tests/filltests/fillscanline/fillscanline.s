@@ -12,14 +12,18 @@
   XDEF                  _fillscanline_test11
   XDEF                  _fillscanline_test12
   XDEF                  _fillscanline_test13
+  XDEF                  _fillscanline_test14
+
 
   SECTION               PROCESSING,CODE_F
 
   include               "../../../libs/ammxmacros.i"
-  include             "../../../libs/rasterizers/globaloptions.s"
+  include               "../../../libs/rasterizers/globaloptions.s"
   include               "../../../libs/rasterizers/processing_bitplanes_fast.s"
   include               "../../../libs/rasterizers/processing_table_plotrefs.s"
   include               "../../../libs/rasterizers/processingfill.s"
+  include               "../../../libs/rasterizers/clipping.s"
+
   include               "../../../libs/rasterizers/processingclearfunctions.s"
 
 _fillscanline_test1:
@@ -214,10 +218,29 @@ _fillscanline_test13:
   move.w                #0,AMMXFILLTABLE_END_ROW                                   ; I want to fill up to first row (first row is elaborated)
 
 	; Fill first line
-  lea                   FILL_TABLE,a1                                          ; START FROM ROW 2 (third)
+  lea                   FILL_TABLE,a1                                              ; START FROM ROW 2 (third)
   move.w                #0,(a1)+
   move.w                #6,(a1)+
   STROKE                #2
   bsr.w                 ammx_fill_table
+  bsr.w                 processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
+  rts
+
+_fillscanline_test14:
+  CLEARFASTBITPLANES
+  ENABLE_CLIPPING                                                                  ; Clear fast bitplanes
+
+  move.w                #0,AMMXFILLTABLE_CURRENT_ROW                               ; I want to fill row 0 (first row)
+  move.w                #0,AMMXFILLTABLE_END_ROW                                   ; I want to fill up to first row (first row is elaborated)
+
+	; Fill first line
+  lea                   FILL_TABLE,a1                                              ; START FROM ROW 2 (third)
+  move.w                #$0000,(a1)+
+  move.w                #$FFC7,(a1)+
+  STROKE                #1
+  ;bsr.w                 ammx_fill_table_clip
+  move.l                AMMX_FILL_FUNCT_ADDR,a0
+  jsr                   (a0)
+  DISABLE_CLIPPING
   bsr.w                 processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
   rts

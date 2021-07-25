@@ -209,7 +209,7 @@ int make_test_patched(struct _test test, const char *file,struct _test test2)
     if (!fd)
     {
         printf("Expected file '%s' not found or not readable : %d -> %s\n",file,errno,strerror(errno));
-        return 1;
+        if (verbose<3) return 1;
     }
     if (verbose)
         printf("File %s open\n", file);

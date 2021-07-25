@@ -16,6 +16,7 @@
   XDEF                                          _drawing_test16
   XDEF                                          _drawing_test17
   XDEF                                          _drawing_test18
+  XDEF                                          _drawing_test19
 
 
 
@@ -43,7 +44,7 @@ _drawing_test1:
   RESET_CURRENT_TRANSFORMATION_MATRIX_Q_10_6
   move.w                                        #160,d0
   move.w                                        #128,d1
-  jsr                                         TRANSLATE
+  jsr                                           TRANSLATE
 
   ROTATE                                        #45
 
@@ -64,7 +65,7 @@ _drawing_test2:
 
   move.w                                        #160,d0
   move.w                                        #128,d1
-  jsr                                         TRANSLATE
+  jsr                                           TRANSLATE
 
   ROTATE                                        #0
 
@@ -95,7 +96,7 @@ _drawing_test3:
 
   move.w                                        #160,d0
   move.w                                        #128,d1
-  jsr                                         TRANSLATE
+  jsr                                           TRANSLATE
 
   ROTATE                                        #180
 
@@ -124,7 +125,7 @@ _drawing_test4:
 
   move.w                                        #160,d0
   move.w                                        #128,d1
-  jsr                                        TRANSLATE
+  jsr                                           TRANSLATE
 
   ROTATE                                        #0
 
@@ -149,7 +150,7 @@ _drawing_test5:
 
   move.w                                        #160,d0
   move.w                                        #128,d1
-  jsr                                         TRANSLATE
+  jsr                                           TRANSLATE
 
   ROTATE                                        #30
 
@@ -174,12 +175,12 @@ _drawing_test6:
 
   move.w                                        #160,d0
   move.w                                        #128,d1
-  jsr                                         TRANSLATE
+  jsr                                           TRANSLATE
 
 	; scale 0,5 on Y axis
   move.w                                        #%0000000001000000,d0
   move.w                                        #%0000000000100000,d1
-  jsr                                         SCALE
+  jsr                                           SCALE
 
   move.w                                        #-5,d0
   move.w                                        #-10,d1
@@ -202,7 +203,7 @@ _drawing_test7:
 
   move.w                                        #160,d0
   move.w                                        #128,d1
-  jsr                                         TRANSLATE
+  jsr                                           TRANSLATE
 
   move.w                                        #0,d0
   move.w                                        #0,d1
@@ -225,7 +226,7 @@ _drawing_test8:
   STROKE                                        #2
   move.w                                        #160,d0
   move.w                                        #128,d1
-  jsr                                         TRANSLATE
+  jsr                                           TRANSLATE
 
   move.w                                        #0,d0
   move.w                                        #0,d1
@@ -254,7 +255,7 @@ _drawing_test9:
   ENABLE_CLIPPING
   move.w                                        #0,d0
   move.w                                        #0,d1
-  jsr                                         TRANSLATE
+  jsr                                           TRANSLATE
 
   ROTATE                                        #45
 
@@ -275,7 +276,7 @@ _drawing_test10:
   ENABLE_CLIPPING
   move.w                                        #0,d0
   move.w                                        #255,d1
-  jsr                                         TRANSLATE
+  jsr                                           TRANSLATE
 
   ROTATE                                        #45
 
@@ -296,7 +297,7 @@ _drawing_test11:
   ENABLE_CLIPPING
   move.w                                        #319,d0
   move.w                                        #0,d1
-  jsr                                         TRANSLATE
+  jsr                                           TRANSLATE
 
   ROTATE                                        #45
 
@@ -317,7 +318,7 @@ _drawing_test12:
   ENABLE_CLIPPING
   move.w                                        #319,d0
   move.w                                        #255,d1
-  jsr                                         TRANSLATE
+  jsr                                           TRANSLATE
 
   ROTATE                                        #45
 
@@ -334,12 +335,12 @@ _drawing_test12:
 _drawing_test13:
 	
   CLEARFASTBITPLANES                                                                                       ; Clear fast bitplanes
-	ENABLE_CLIPPING
+  ENABLE_CLIPPING
   RESET_CURRENT_TRANSFORMATION_MATRIX_Q_10_6
 
   move.w                                        #0,d0
   move.w                                        #0,d1
-  jsr                                         TRANSLATE
+  jsr                                           TRANSLATE
 
   ROTATE                                        #45
 
@@ -362,12 +363,12 @@ _drawing_test13:
 _drawing_test14:
 	
   CLEARFASTBITPLANES                                                                                       ; Clear fast bitplanes
-	ENABLE_CLIPPING
+  ENABLE_CLIPPING
   RESET_CURRENT_TRANSFORMATION_MATRIX_Q_10_6
 
   move.w                                        #0,d0
   move.w                                        #255,d1
-  jsr                                         TRANSLATE
+  jsr                                           TRANSLATE
 
   ROTATE                                        #45
 
@@ -390,12 +391,12 @@ _drawing_test14:
 _drawing_test15:
 	
   CLEARFASTBITPLANES                                                                                       ; Clear fast bitplanes
-	ENABLE_CLIPPING
+  ENABLE_CLIPPING
   RESET_CURRENT_TRANSFORMATION_MATRIX_Q_10_6
 
   move.w                                        #319,d0
   move.w                                        #0,d1
-  jsr                                         TRANSLATE
+  jsr                                           TRANSLATE
 
   ROTATE                                        #45
 
@@ -418,12 +419,12 @@ _drawing_test15:
 _drawing_test16:
 	
   CLEARFASTBITPLANES                                                                                       ; Clear fast bitplanes
-	ENABLE_CLIPPING
+  ENABLE_CLIPPING
   RESET_CURRENT_TRANSFORMATION_MATRIX_Q_10_6
 
   move.w                                        #319,d0
   move.w                                        #255,d1
-  jsr                                         TRANSLATE
+  jsr                                           TRANSLATE
 
   ROTATE                                        #45
 
@@ -446,12 +447,12 @@ _drawing_test16:
 _drawing_test17:
 	
   CLEARFASTBITPLANES                                                                                       ; Clear fast bitplanes
-	ENABLE_CLIPPING
+  ENABLE_CLIPPING
   RESET_CURRENT_TRANSFORMATION_MATRIX_Q_10_6
 
   move.w                                        #0,d0
   move.w                                        #0,d1
-  jsr                                         TRANSLATE
+  jsr                                           TRANSLATE
 
   ROTATE                                        #90
 
@@ -475,12 +476,12 @@ _drawing_test17:
 _drawing_test18:
 	
   CLEARFASTBITPLANES                                                                                       ; Clear fast bitplanes
-	ENABLE_CLIPPING
+  ENABLE_CLIPPING
   RESET_CURRENT_TRANSFORMATION_MATRIX_Q_10_6
 
   move.w                                        #0,d0
   move.w                                        #0,d1
-  jsr                                         TRANSLATE
+  jsr                                           TRANSLATE
 
   ROTATE                                        #38
 
@@ -492,12 +493,32 @@ _drawing_test18:
 
   move.w                                        #165,d4
   move.w                                        #128,d5
-  STROKE #3
+  STROKE                                        #3
 	
   bsr.w                                         TRIANGLE
 
-  STROKE #1
+  STROKE                                        #1
 
+  DISABLE_CLIPPING
+
+  bsr.w                                         processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
+  rts
+
+_drawing_test19:
+	
+  CLEARFASTBITPLANES                                                                                       ; Clear fast bitplanes
+  ENABLE_CLIPPING
+  RESET_CURRENT_TRANSFORMATION_MATRIX_Q_10_6
+
+  ROTATE                                        #292
+  STROKE                                        #2
+
+
+  move.w                                        #160-10,d0
+  move.w                                        #128-10,d1
+  move.w                                        #20,d5
+  bsr.w                                         SQUARE      
+	
   DISABLE_CLIPPING
 
   bsr.w                                         processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
