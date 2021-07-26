@@ -1,6 +1,7 @@
   XDEF                                          _filltransformations_test1
   XDEF                                          _filltransformations_test2
   XDEF                                          _filltransformations_test3
+  XDEF                                          _filltransformations_test4
 
 
   SECTION                                       PROCESSING,CODE_F
@@ -261,4 +262,69 @@ _filltransformations_test3                    :
 
   rts
 
-   
+  _filltransformations_test4                    :
+  RESETFILLTABLE
+  RESET_CURRENT_TRANSFORMATION_MATRIX_Q_10_6
+  ENABLE_CLIPPING
+
+  STROKE                                        #2
+
+  ROTATE                                        #229
+  move.w                                        #100,d0
+  move.w                                        #18,d1
+  jsr                                         TRANSLATE
+
+                 
+  ROTATE                                        #322
+  move.w                                        #0,d0
+  move.w                                        #0,d1
+  jsr                                         TRANSLATE
+
+
+  move.w                                        #0-10,d0
+  move.w                                        #0-10,d1
+  move.w                                        #20,d5
+  bsr.w                                         SQUARE      
+  DISABLE_CLIPPING
+                  
+  STROKE                                        #2
+
+  RESET_CURRENT_TRANSFORMATION_MATRIX_Q_10_6
+
+  move.w                                        #160,d0
+  move.w                                        #128,d1
+  jsr                                           TRANSLATE
+
+  STROKE                                        #1
+  move.w                                        #-15,d0
+  move.w                                        #-15,d1
+  move.w                                        #30,d5
+
+   lea                                           LINEVERTEX_START_FINAL,a1
+    
+    ; Start of line 1
+  move.w                                        d0,d6
+  move.w                                        d1,d7
+
+  bsr.w                                         point_execute_transformation
+
+    ; save transformed values
+  move.w                                        d0,(a1)+
+  move.w                                        d1,(a1)+
+
+    ; restore first point
+  move.w                                        d6,d0
+  move.w                                        d7,d1
+    ; add width
+  add.w                                         d5,d0
+  bsr.w                                         point_execute_transformation
+    ; save transformed values
+  move.w                                        d0,(a1)+
+  move.w                                        d1,(a1)+
+
+  bsr.w                                         ammxlinefill
+    ; End of Line 1  
+
+  move.l                                        #FILL_TABLE,d0
+
+  rts

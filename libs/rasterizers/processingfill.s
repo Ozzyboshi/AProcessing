@@ -521,10 +521,6 @@ endammxlinefillphase1_max:
 	beq.s ammxlinefill_clip_done
 	ENDIF
 	bsr.w ammxlinefill_clip
-	;move.w LINEVERTEX_DELTAX,d5
-    ;move.w LINEVERTEX_DELTAY,d4
-	;move.l LINEVERTEX_START_PUSHED,d2
-	;move.l LINEVERTEX_END_PUSHED,d3
 
 	cmpi.w #$FFFF,d0
     bne.s ammxlinefill_clip_ok
@@ -616,39 +612,6 @@ ammxlinefill_dylessthan:
 ammxlinefill_goto0tominus1:
 	bsr.w ammxlinefill_linem0tominus1
 ammxlinefill_endammxlinefillphase2:
-
-	IFD USE_CLIPPING_DACANCELLARE
-	; if LINEVERTEX_CLIP_X_OFFSET is set then sub it
-    cmpi.w #0,LINEVERTEX_CLIP_X_OFFSET
-    beq.s ammxlinefill_norestoreoffset
-    lea FILL_TABLE,a0
-    ; Reposition inside the fill table according to the starting row
-	move.w AMMXFILLTABLE_CURRENT_ROW,d6
-	mulu.w #4,d6
-	add.w d6,a0
-	move.w AMMXFILLTABLE_CURRENT_ROW,d6
-	; end of repositioning
-	
-ammxlinefill_nextline:
-	 
-    cmp.w AMMXFILLTABLE_END_ROW,d6
-    bhi.s ammxlinefill_norestoreoffset
-
-    move.w (a0),d0
-    sub.w LINEVERTEX_CLIP_X_OFFSET,d0
-    move.w d0,(a0)+
-
-    move.w (a0),d0
-    sub.w LINEVERTEX_CLIP_X_OFFSET,d0
-    move.w d0,(a0)+
-    
-    addq #1,d6
-    bra.s ammxlinefill_nextline
-    
-ammxlinefill_norestoreoffset:
-    ; END OF OFFSET SUBTRACTION
-	ENDIF
-
 
 	movem.l (sp)+,d0-d7/a0-a6
 

@@ -27,6 +27,7 @@ ENABLE_CLIPPING MACRO
                       move.l  #ammx_fill_table_clip,AMMX_FILL_FUNCT_ADDR
                       ENDM
 DISABLE_CLIPPING MACRO
+                      move.w #0,LINEVERTEX_CLIP_X_OFFSET
                       IFD       VAMPIRE
                       PAND      #$FFFFFFFFFFFFFEFF,e22,e22
                       ENDIF

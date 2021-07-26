@@ -43,7 +43,8 @@ RECT:
   bsr.w                                     ammxlinefill
   ;line4 end
     
-  bsr.w                                     ammx_fill_table
+  move.l                                    AMMX_FILL_FUNCT_ADDR,a0
+  jsr                                       (a0)
 
   movem.l                                   (sp)+,d0-d7/a0-a1
   rts
