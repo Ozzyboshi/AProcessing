@@ -5,7 +5,7 @@ all:
 	m68k-amigaos-gcc  -ffast-math -m68000 -msoft-float -noixemul -fomit-frame-pointer  -Os -Wall  filltransformations.c -o filltransformationsvampire filltransformationsvampire.o ../../testlibs/testlib.o 
 
 test: filltransformations
-	vamos ./filltransformations
+	vamos -v ./filltransformations 2>>/tmp/vamosinfo
 
 copy: filltransformations
 	scp -r ../filltransformations pi@10.0.0.4:/media/MAXTOR/upload/Vampire/

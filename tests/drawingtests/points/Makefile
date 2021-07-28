@@ -5,7 +5,7 @@ all:
 	m68k-amigaos-gcc  -ffast-math -m68000 -msoft-float -noixemul -fomit-frame-pointer  -Os -Wall  drawingtestspoint.c -o drawingtestspointvampire drawingtestspointvampire.o ../../testlibs/testlib.o 
 
 test: drawingtestspoint
-	vamos ./drawingtestspoint
+	vamos -v ./drawingtestspoint 2>>/tmp/vamosinfo
 
 copy: drawingtestspoint
 	scp -r ../drawingtestspoint pi@10.0.0.4:/media/MAXTOR/upload/Vampire/

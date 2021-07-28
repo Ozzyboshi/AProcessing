@@ -5,7 +5,7 @@ all:
 	m68k-amigaos-gcc  -ffast-math -m68000 -msoft-float -noixemul -fomit-frame-pointer  -Os -Wall  drawingtestsfilledpolygon.c -o drawingtestsfilledpolygonvampire drawingtestsfilledpolygonvampire.o ../../testlibs/testlib.o 
 
 test: drawingtestsfilledpolygon
-	vamos ./drawingtestsfilledpolygon
+	vamos -v ./drawingtestsfilledpolygon 2>>/tmp/vamosinfo
 
 copy: drawingtestsfilledpolygon
 	scp -r ../drawingtestsfilledpolygon pi@10.0.0.4:/media/MAXTOR/upload/Vampire/

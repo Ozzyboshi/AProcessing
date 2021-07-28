@@ -1,9 +1,5 @@
 CIRCLE:
-                movem.l                                   d0-d7/a0-a6,-(sp)
-
-  ; init fill routines printing center, this must be stripped after optimizations!
-                bsr.w                                     CIRCLE_PRINTLINE_FIRST
-  ;bra.s CIRCLE_EXIT
+                movem.l                                   d0-d7/a0,-(sp)
   
     ; load sin cos table addr here into a0
                 lea                                       ROT_Z_MATRIX_Q5_11,a0
@@ -134,7 +130,7 @@ CIRCLE_EXIT:
                 move.l AMMX_FILL_FUNCT_ADDR,a0
                 jsr (a0)
 
-                movem.l                                   (sp)+,d0-d7/a0-a6
+                movem.l                                   (sp)+,d0-d7/a0
                 rts
 
 CIRCLE_TMP1_X:  dc.w                                      0

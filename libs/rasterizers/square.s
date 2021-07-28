@@ -1,5 +1,5 @@
 SQUARE:
-    movem.l d0-d7/a0-a1,-(sp)
+    movem.l d0-d7/a1,-(sp)
 
     lea LINEVERTEX_START_FINAL,a1
     
@@ -72,10 +72,9 @@ SQUARE:
     move.w d1,(a1)+
     bsr.w ammxlinefill
 
-    ;bsr.w ammx_fill_table_clip
-    move.l AMMX_FILL_FUNCT_ADDR,a0
-    jsr (a0)
+    move.l AMMX_FILL_FUNCT_ADDR,a1
+    jsr (a1)
 
-    movem.l (sp)+,d0-d7/a0-a1
+    movem.l (sp)+,d0-d7/a1
     rts
 

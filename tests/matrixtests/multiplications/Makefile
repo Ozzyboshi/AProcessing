@@ -5,7 +5,7 @@ all:
 	m68k-amigaos-gcc  -ffast-math -m68000 -msoft-float -noixemul -fomit-frame-pointer  -Os -Wall  matrixmultiplications.c -o matrixmultiplicationsvampire matrixmultiplicationsvampire.o ../../testlibs/testlib.o 
 
 test: matrixmultiplications
-	vamos ./matrixmultiplications
+	vamos -v ./matrixmultiplications 2>>/tmp/vamosinfo
 
 copy: matrixmultiplications
 	scp -r ../matrixmultiplications pi@10.0.0.4:/media/MAXTOR/upload/Vampire/

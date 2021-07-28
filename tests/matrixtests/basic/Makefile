@@ -5,7 +5,7 @@ all:
 	m68k-amigaos-gcc  -ffast-math -m68000 -msoft-float -noixemul -fomit-frame-pointer  -Os -Wall  matrixbasic.c -o matrixbasicvampire matrixbasicvampire.o ../../testlibs/testlib.o 
 
 test: matrixbasic
-	vamos ./matrixbasic
+	vamos -v ./matrixbasic 2>>/tmp/vamosinfo
 
 copy: matrixbasic
 	scp -r ../matrixbasic pi@10.0.0.4:/media/MAXTOR/upload/Vampire/

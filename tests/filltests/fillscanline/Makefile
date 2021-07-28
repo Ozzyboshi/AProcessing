@@ -5,7 +5,7 @@ all:
 	m68k-amigaos-gcc -Wall -O1 -noixemul fillscanline.c -o fillscanlinevampire fillscanlinevampire.o    ../../testlibs/testlib.o 
 
 test: fillscanline
-	vamos ./fillscanline
+	vamos -v ./fillscanline 2>>/tmp/vamosinfo
 
 copy: fillscanline
 	scp -r ../fillscanline pi@10.0.0.4:/media/MAXTOR/upload/Vampire/
