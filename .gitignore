@@ -29,5 +29,9 @@ tests/drawingtests/filledpolygons/drawingtestsfilledpolygon.o
 tests/drawingtests/filledpolygons/drawingtestsfilledpolygon
 tests/filltests/fillpolygon/fillpolygon
 tests/filltests/fillpolygon/fillpolygonvampire
+tests/filltests/filltransformations/filltransformations
+tests/filltests/filltransformations/filltransformations.o
+tests/filltests/filltransformations/filltransformationsvampire
+tests/filltests/filltransformations/filltransformationsvampire.o
 DEADJOE
 lol
