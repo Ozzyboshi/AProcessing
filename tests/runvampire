@@ -18,6 +18,11 @@ filltransformations
 filltransformationsvampire
 cd /
 cd /
+cd filltests/filltransformations3d
+filltransformations3d
+filltransformations3dvampire
+cd /
+cd /
 cd matrixtests/basic
 matrixbasic
 matrixbasicvampire

@@ -12,4 +12,4 @@ copy: filltransformations
 
 clean:
 	rm -f *.o
-	rm -f ./fillscanline
+	rm -f ./filltransformations
