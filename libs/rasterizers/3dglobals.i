@@ -1,0 +1,12 @@
+    IFD USE_3D
+VERTEX_INIT MACRO
+    move.w \2,VERTEX_LIST_3D_\1
+    move.w \3,VERTEX_LIST_3D_\1+2
+    move.w \4,VERTEX_LIST_3D_\1+4
+    ENDM
+VERTEX_LIST_3D:
+VERTEX_LIST_3D_1:   dcb.b 6,0
+VERTEX_LIST_3D_2:   dcb.b 6,0
+VERTEX_LIST_3D_3:   dcb.b 6,0
+VERTEX_LIST_3D_4:   dcb.b 6,0
+    ENDIF
