@@ -178,16 +178,22 @@ point_execute_transformation_3d:
 
 	and.l #$0000FFFF,d0
 	and.l #$0000FFFF,d1
+	and.l #$0000FFFF,d2
 
 	IFD VAMPIRE
 
 	asl.w #6,d0
-	move.l #$0040FFFF,d3
 	asl.w #6,d1
-	move.w d1,d3
 	asl.w #6,d2
 
-	vperm #$8967EFCD,d0,d3,e1
+	move.w d2,d3
+	swap d3
+
+	;move.l #$0040FFFF,d3
+	
+	move.w d1,d3
+
+	vperm #$4567EFCD,d0,d3,e1
 	REG_ZERO e2
 	REG_ZERO e3
 

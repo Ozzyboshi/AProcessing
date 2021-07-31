@@ -1155,12 +1155,18 @@ TRANSLATE3D:
     REG_LOADI 0000,0000,0040,0000,e2  ; 0 0 1 0
 	;move.w \1,d0
 	lsl.w #6,d0
-    move.l #$0040FFFF,d2
+    move.l #$0040FFFF,d3
     ;move.w \2,d1
 	lsl.w #6,d1
-	move.w d1,d2
-	;move.l d2,d1
-	vperm #$CC67EFCD,d0,d2,e3
+	lsl.w #6,d2
+	move.w d1,d3
+	swap d3
+	move.w d2,d3
+	swap d3
+	;move.l d3,d1
+	andi.l #$0000FFFF,d0
+	vperm #$4567EFCD,d0,d3,e3
+
 	ENDIF
 	IFND VAMPIRE
 	LOAD_CURRENT_TRANSFORMATION_MATRIX OPERATOR2_TR_MATRIX_ROW1
