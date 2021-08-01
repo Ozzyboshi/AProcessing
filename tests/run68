@@ -34,3 +34,7 @@ cd drawingtests/filledpolygons
 drawingtestsfilledpolygon
 cd /
 cd /
+cd drawingtests/filledpolygons3d
+drawingtestsfilledpolygon3d
+cd /
+cd /

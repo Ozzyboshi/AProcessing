@@ -15,5 +15,7 @@ cd matrixtests/basic && make clean && make && make test && cd .. && cd ..
 cd matrixtests/multiplications && make clean && make && make test && cd .. && cd ..
 cd drawingtests/points && make clean && make && make test && cd .. && cd ..
 cd drawingtests/filledpolygons && make clean && make && make test && cd .. && cd ..
+cd drawingtests/filledpolygons3d && make clean && make && make test && cd .. && cd ..
+
 
 echo "Result total cycles: $(cat /tmp/vamosinfo  | grep cycles | awk '{ print $NF }' | awk '{s+=$1} END {printf "%.0f", s}' )"

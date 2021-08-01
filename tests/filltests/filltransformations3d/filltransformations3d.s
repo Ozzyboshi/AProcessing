@@ -3,6 +3,7 @@
   XDEF                                         _filltransformations3d_test3
   XDEF                                         _filltransformations3d_test4
   XDEF                                         _filltransformations3d_test5
+  XDEF                                         _filltransformations3d_test6
 
 
   SECTION                                      PROCESSING,CODE_F
@@ -145,5 +146,32 @@ _filltransformations3d_test5:
   bsr.w                                        ammxlinefill
 
   bsr.w                                        processing_fill_table_addr
+  movem.l                                      (sp)+,d2
+  rts
+
+_filltransformations3d_test6:
+
+  movem.l                                      d2,-(sp)
+  RESETFILLTABLE
+  LOADIDENTITY
+
+  VERTEX_INIT                                  1,#0,#-5,#0
+  VERTEX_INIT                                  2,#10,#10,#-200
+  VERTEX_INIT                                  3,#-10,#10,#0
+  
+  POINT_TRANSFORM_AND_STORE_IN_FILLTABLE_3D    VERTEX_LIST_3D_1,VERTEX_LIST_3D_1+2,VERTEX_LIST_3D_1+4,0
+  POINT_TRANSFORM_AND_STORE_IN_FILLTABLE_3D    VERTEX_LIST_3D_2,VERTEX_LIST_3D_2+2,VERTEX_LIST_3D_2+4,4
+  
+  bsr.w                                        ammxlinefill
+    
+  POINT_TRANSFORM_AND_STORE_IN_FILLTABLE_3D    VERTEX_LIST_3D_3,VERTEX_LIST_3D_3+2,VERTEX_LIST_3D_3+4,4
+  bsr.w                                        ammxlinefill
+    
+  POINT_TRANSFORM_AND_STORE_IN_FILLTABLE_3D    VERTEX_LIST_3D_1,VERTEX_LIST_3D_1+2,VERTEX_LIST_3D_1+4,0
+  bsr.w                                        ammxlinefill
+
+  bsr.w                                        processing_fill_table_addr
+  ;move.l                                       #LINEVERTEX_START_FINAL,d0
+  ;move.l #VERTEX_LIST_3D,d0
   movem.l                                      (sp)+,d2
   rts

@@ -43,3 +43,8 @@ drawingtestsfilledpolygon
 drawingtestsfilledpolygonvampire
 cd /
 cd /
+cd drawingtests/filledpolygons3d
+drawingtestsfilledpolygon3d
+drawingtestsfilledpolygonvampire3d
+cd /
+cd /
