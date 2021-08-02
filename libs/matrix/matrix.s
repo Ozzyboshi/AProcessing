@@ -286,6 +286,70 @@ ROTATE_INV_Q_5_11 MACRO
 
 	ENDM
 
+ROTATE_X_INV_Q_5_11 MACRO
+
+	andi.l #$0000FFFF,d0
+	andi.l #$0000FFFF,d1
+
+	IFD VAMPIRE
+	; Current transformation matrix is the Multiplier (second factor)
+	LOAD_CURRENT_TRANSFORMATION_MATRIX e4,e5,e6
+
+	; read angle from input and load trig data
+	move.w \1,d0
+	lea ROT_Z_MATRIX_Q5_11,b1   ; Cos and -SIN SIN COS in b1
+	LOAD (b1,D0.w*8),E10 ; Load precalculated sin/cos values to register E10
+
+	; Rotation matrix is the Multiplicand
+	REG_ZERO e21
+	REG_LOADI 0000,0800,0000,0000,e1 ; NOTE!!!!!!!!!!, first word must be 1* table multiplier!!!!
+    vperm  #$FFFF0123,e10,e21,e2     ; first  row of the matrix  0 cos -sin 0
+    vperm  #$FFFF4567,e10,e21,e3     ; second row of the matrix  0 sin  cos 0
+	; end loading matrix
+
+	UPDATE_CURRENT_TRANSFORMATION_MATRIX e13,e14,e15
+	ENDIF
+
+	IFND VAMPIRE
+	LOAD_CURRENT_TRANSFORMATION_MATRIX OPERATOR2_TR_MATRIX_ROW1
+
+	move.w \1,d0
+	lea ROT_Z_MATRIX_Q5_11,a0
+	lsl.w #3,d0
+	add.l d0,a0
+
+	move.l #$00000800,OPERATOR1_TR_MATRIX_ROW1
+	move.l #$00000000,OPERATOR1_TR_MATRIX_ROW1+4
+
+	move.l #$00000000,OPERATOR1_TR_MATRIX_ROW2
+	move.w (a0)+,OPERATOR1_TR_MATRIX_ROW2+4
+	move.w (a0)+,OPERATOR1_TR_MATRIX_ROW2+6
+
+	move.l #$00000000,OPERATOR1_TR_MATRIX_ROW3
+	move.w (a0)+,OPERATOR1_TR_MATRIX_ROW3+4
+	move.w (a0)+,OPERATOR1_TR_MATRIX_ROW3+6
+
+	ENDIF
+
+	jsr ammxmatrixmul3X3_q5_11
+
+	IFD VAMPIRE
+	UPDATE_CURRENT_TRANSFORMATION_MATRIX e13,e14,e15
+	ENDIF
+	IFND VAMPIRE
+	lea CURRENT_TRANSFORMATION_MATRIX,a0
+	move.l OPERATOR3_TR_MATRIX_ROW1,(a0)+
+	move.l OPERATOR3_TR_MATRIX_ROW1+4,(a0)+
+
+	move.l OPERATOR3_TR_MATRIX_ROW2,(a0)+
+	move.l OPERATOR3_TR_MATRIX_ROW2+4,(a0)+
+
+	move.l OPERATOR3_TR_MATRIX_ROW3,(a0)+
+	move.l OPERATOR3_TR_MATRIX_ROW3+4,(a0)+
+	ENDIF
+
+	ENDM
+
 ROTATE MACRO \1
 	ROTATE_INV_Q_5_11 \1
 	ENDM

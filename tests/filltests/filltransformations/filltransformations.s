@@ -2,6 +2,7 @@
   XDEF                                          _filltransformations_test2
   XDEF                                          _filltransformations_test3
   XDEF                                          _filltransformations_test4
+  XDEF                                          _filltransformations_test5
 
 
   SECTION                                       PROCESSING,CODE_F
@@ -216,13 +217,13 @@ _filltransformations_test3                    :
   ROTATE                                        #229
   move.w                                        #100,d0
   move.w                                        #18,d1
-  jsr                                         TRANSLATE
+  jsr                                           TRANSLATE
 
                  
   ROTATE                                        #322
   move.w                                        #0,d0
   move.w                                        #0,d1
-  jsr                                         TRANSLATE
+  jsr                                           TRANSLATE
 
 
   move.w                                        #0-10,d0
@@ -244,7 +245,7 @@ _filltransformations_test3                    :
   move.w                                        #-15,d1
   move.w                                        #30,d5
 
-   lea                                           LINEVERTEX_START_FINAL,a1
+  lea                                           LINEVERTEX_START_FINAL,a1
     
     ; Start of line 1
   move.w                                        d0,d6
@@ -270,5 +271,29 @@ _filltransformations_test3                    :
     ; End of Line 1  
 
   move.l                                        #FILL_TABLE,d0
+
+  rts
+
+_filltransformations_test5:
+  RESETFILLTABLE
+  LOADIDENTITY
+  move.w                                        #0,d0
+  move.w                                        #0,d1
+  jsr                                           TRANSLATE
+
+  ROTATE_X_INV_Q_5_11                                        #180
+
+  move.w                                        #-5,d0
+  move.w                                        #-5,d1
+
+  ; start of square
+  bsr.w                                         point_execute_transformation
+
+  ; save transformed values
+  lea                                           LINEVERTEX_START_FINAL,a1
+  move.w                                        d0,(a1)+
+  move.w                                        d1,(a1)+
+
+  move.l                                        #LINEVERTEX_START_FINAL,d0
 
   rts
