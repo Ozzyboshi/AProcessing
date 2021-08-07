@@ -62,6 +62,28 @@ FILLFASTBITPLANES MACRO
 	ENDM
 
 
+COPYBITPLANESANDCLEAR MACRO
+	lea SCREEN_0,a0
+	lea SCREEN_1,a4
+
+	move.l bitplane0,a1
+	move.l bitplane1,a2
+
+	moveq #0,d0
+    move.l #2560-1,d3
+.copybpnsandclearmacro:
+	move.l (a0),d1
+	move.l (a4),d2
+
+	move.l d1,(a1)+
+	move.l d2,(a2)+
+
+	move.l d0,(a0)+
+	move.l d0,(a4)+
+
+	dbra d3,.copybpnsandclearmacro
+	ENDM
+	
 PREPARESCREEN MACRO
 
 	; copy from fast bitplanes to slow bitplanes
