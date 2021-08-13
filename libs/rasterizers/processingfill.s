@@ -140,15 +140,15 @@ ammx_fill_table_single_line:
 	move.w d0,d2
 	lsr.w #3,d2
 	add.w d2,d1
-	lea SCREEN_0,a0
+	
 	
 	; d1.w now has the address of the first byte let's calculate the fill for this byte
 	move.w d6,d4
 	andi.w #$0007,d4
 	move.b #$FF,d3
-	lsl.b d4,d3 
 	lsr.b d4,d3
 
+	lea SCREEN_0,a0
 	add.w d1,a0
 
 	; bitprocessed = 8-d4
