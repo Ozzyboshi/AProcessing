@@ -19,7 +19,7 @@ AMMXFILLTABLE_END_ROW_LINE:
 	dc.w 0
 
 ammx_fill_table:
-	movem.l d5-d7/a0,-(sp) ; stack save
+	movem.l d4-d7/a0,-(sp) ; stack save
 	move.w #1,AMMX_FILL_TABLE_FIRST_DRAW
 	move.w AMMXFILLTABLE_END_ROW,d5
 
@@ -27,26 +27,27 @@ ammx_fill_table:
 
 	; Reposition inside the fill table according to the starting row
 	move.w AMMXFILLTABLE_CURRENT_ROW,d6
+	move.w d6,d4
 	lsl.w #2,d6
 	add.w d6,a0
 	; end of repositioning
 
 ammx_fill_table_nextline:
-	move.w AMMXFILLTABLE_CURRENT_ROW,d6
-	cmp.w d5,d6
+	cmp.w d5,d4
 	bhi.s ammx_fill_table_end
 
 	move.w (a0),d6 ; start of fill line
 	move.w 2(a0),d7 ; end of fill line
 	move.l #$7FFF8000,(a0)+
 	
+	move.w d4,AMMXFILLTABLE_CURRENT_ROW
 	bsr.w ammx_fill_table_single_line
-	add.w #1,AMMXFILLTABLE_CURRENT_ROW
+	addq #1,d4
 	
 	bra.s ammx_fill_table_nextline
 ammx_fill_table_end:
 	move.w #-1,AMMXFILLTABLE_END_ROW
-	movem.l (sp)+,d5-d7/a0
+	movem.l (sp)+,d4-d7/a0
 	rts
 
 	IFD USE_CLIPPING
