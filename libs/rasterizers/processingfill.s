@@ -400,6 +400,10 @@ ammx_fill_table_no8:
 	;move.b #$FF,d3
 	moveq #8,d4
 	sub.w d5,d4
+	IFD VAMPIRE
+	vperm #$00000000,e1,e1,d6
+	vperm #$00000000,e0,e0,d7
+	ENDC
 	lsl.b d4,d6
 	lsl.b d4,d7
 
