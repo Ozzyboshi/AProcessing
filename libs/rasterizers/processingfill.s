@@ -18,30 +18,22 @@ AMMXFILLTABLE_CURRENT_ROW_LINE:
 AMMXFILLTABLE_END_ROW_LINE:
 	dc.w 0
 
-	IFND VAMPIRE 
-AMMXFILLTABLE_FILLDATA_BPL_0:
-	dc.l 0
-AMMXFILLTABLE_FILLDATA_BPL_1:
-	dc.l 0
-	ENDIF
-
 ammx_fill_table:
-	movem.l d0-d7/a0-a1,-(sp) ; stack save
-	;move.w #0,AMMXFILLTABLE_CURRENT_ROW
+	movem.l d5-d7/a0,-(sp) ; stack save
 	move.w #1,AMMX_FILL_TABLE_FIRST_DRAW
+	move.w AMMXFILLTABLE_END_ROW,d5
 
 	lea FILL_TABLE,a0
 
 	; Reposition inside the fill table according to the starting row
-	move.w AMMXFILLTABLE_CURRENT_ROW,d1
-	lsl.w #2,d1
-	add.w d1,a0
+	move.w AMMXFILLTABLE_CURRENT_ROW,d6
+	lsl.w #2,d6
+	add.w d6,a0
 	; end of repositioning
 
 ammx_fill_table_nextline:
-	
 	move.w AMMXFILLTABLE_CURRENT_ROW,d6
-	cmp.w AMMXFILLTABLE_END_ROW,d6
+	cmp.w d5,d6
 	bhi.s ammx_fill_table_end
 
 	move.w (a0),d6 ; start of fill line
@@ -51,10 +43,10 @@ ammx_fill_table_nextline:
 	bsr.w ammx_fill_table_single_line
 	add.w #1,AMMXFILLTABLE_CURRENT_ROW
 	
-	bra.w ammx_fill_table_nextline
+	bra.s ammx_fill_table_nextline
 ammx_fill_table_end:
 	move.w #-1,AMMXFILLTABLE_END_ROW
-	movem.l (sp)+,d0-d7/a0-a1
+	movem.l (sp)+,d5-d7/a0
 	rts
 
 	IFD USE_CLIPPING
@@ -122,7 +114,7 @@ ammx_fill_table_end_clip:
 	ENDIF
 
 ammx_fill_table_single_line:
-	movem.l d0-d7/a0/a2,-(sp) ; stack save
+	movem.l d0-d7/a0,-(sp) ; stack save
 
 	; d5 => totalcount
 	; d3 / d4 => tmp
@@ -178,7 +170,7 @@ ammx_fill_table_no_special_1
 	beq.s ammx_fill_table_no_special_0
 	or.b d3,(a0)+ ; Plot points!!
 ammx_fill_table_no_special_0:
-	movem.l (sp)+,d0-d7/a0/a2
+	movem.l (sp)+,d0-d7/a0
 	rts
 
 ammx_fill_table_no_special_case:
@@ -229,10 +221,8 @@ ammx_fill_table_startiter:
 
 	; here starts the code to fill 64 bits
 	IFD VAMPIRE
-	move.l a0,a2
-	add.l #256*40,a2
-	POR (a2),e1,e6
-	STORE e6,(a2)+
+	POR 256*40(a0),e1,e6
+	STORE e6,256*40(a0)
 	POR (a0),e0,e6
 	STORE e6,(a0)+
 	ENDIF
@@ -242,15 +232,11 @@ ammx_fill_table_startiter:
 	btst #0,d0
 	beq.s ammx_fill_table_64_even
 	
-	;move.l AMMXFILLTABLE_FILLDATA_BPL_1,d0
-	;move.l a0,a2
-	;add.l #256*40,a2
 	or.b d6,256*40(a0)
 	or.l d6,1+256*40(a0)
 	or.w d6,5+256*40(a0)
     or.b d6,7+256*40(a0)
 
-	;move.l AMMXFILLTABLE_FILLDATA_BPL_0,d0
 	or.b d7,(a0)+
 	or.l  d7,(a0)+
     or.w  d7,(a0)+
@@ -260,13 +246,9 @@ ammx_fill_table_startiter:
 	bra.w ammx_fill_table_check_if_other
  ammx_fill_table_64_even:
 
-	;move.l AMMXFILLTABLE_FILLDATA_BPL_1,d0
-	;move.l a0,a2
-	;add.l #256*40,a2
 	or.l  d6,256*40(a0)
 	or.l  d6,4+256*40(a0)
 
-	;move.l AMMXFILLTABLE_FILLDATA_BPL_0,d0
 	or.l  d7,(a0)+
 	or.l  d7,(a0)+
 
@@ -282,10 +264,8 @@ ammx_fill_table_no64:
 	bcs.w ammx_fill_table_no32 ; branch if lower (it will continue if we have at least 32 bits to fill)
 
 	IFD VAMPIRE
-	move.l a0,a2
-	add.l #256*40,a2
 	vperm #$00000000,e1,e1,d0
-	or.l d0,(a2)+ ; second bitplane
+	or.l d0,256*40(a0)  ; second bitplane
 	vperm #$00000000,e0,e0,d0
 	or.l d0,(a0)+ ; first bitplane
 	subi.w #32,d5
@@ -298,14 +278,10 @@ ammx_fill_table_no64:
 	btst #0,d0
 	beq.s ammx_fill_table_32_even
 	
-	;move.l AMMXFILLTABLE_FILLDATA_BPL_1,d0
-	;move.l a0,a2
-	;add.l #256*40,a2
 	or.b d6,256*40(a0)
 	or.w d6,1+256*40(a0)
     or.b d6,3+256*40(a0)
 
-	;move.l AMMXFILLTABLE_FILLDATA_BPL_0,d0
 	or.b d7,(a0)+
     or.w  d7,(a0)+
     or.b d7,(a0)+
@@ -313,12 +289,7 @@ ammx_fill_table_no64:
     subi.w #32,d5
 	bra.w ammx_fill_table_check_if_other
  ammx_fill_table_32_even:
-	;move.l AMMXFILLTABLE_FILLDATA_BPL_1,d0
-	;move.l a0,a2
-	;add.l #256*40,a2
 	or.l  d6,256*40(a0)
-
-	;move.l AMMXFILLTABLE_FILLDATA_BPL_0,d0
 	or.l  d7,(a0)+
 
 	subi.w #32,d5
@@ -331,10 +302,8 @@ ammx_fill_table_no32:
 	bcs.w ammx_fill_table_no16 ; branch if lower (it will continue if we have at least 16 bits to fill)
 	
 	IFD VAMPIRE
-	move.l a0,a2
-	add.l #256*40,a2
 	vperm #$00000000,e1,e1,d0
-	or.w d0,(a2)+ ; second bitplane
+	or.w d0,256*40(a0) ; second bitplane
 	vperm #$00000000,e0,e0,d0
 	or.w d0,(a0)+ ; first bitplane
 	subi.w #16,d5
@@ -342,30 +311,20 @@ ammx_fill_table_no32:
 	ENDIF
 	
 	IFND VAMPIRE
-	
 	move.l a0,d0
 	btst #0,d0
 	beq.s ammx_fill_table_16_even
 	
-	;move.l AMMXFILLTABLE_FILLDATA_BPL_1,d0
-	;move.l a0,a2
-	;add.l #256*40,a2
 	or.b d6,256*40(a0)
     or.b d6,1+256*40(a0)
 
-	;move.l AMMXFILLTABLE_FILLDATA_BPL_0,d0
 	or.b d7,(a0)+
     or.b d7,(a0)+
 
     subi.w #16,d5
 	bra.w ammx_fill_table_check_if_other
  ammx_fill_table_16_even:
-	;move.l AMMXFILLTABLE_FILLDATA_BPL_1,d0
-	;move.l a0,a2
-	;add.l #256*40,a2
 	or.w  d6,256*40(a0)
-
-	;move.l AMMXFILLTABLE_FILLDATA_BPL_0,d0
 	or.w  d7,(a0)+
 
 	subi.w #16,d5
@@ -378,10 +337,8 @@ ammx_fill_table_no16:
 	cmpi.w #8,d5
 	bcs.w ammx_fill_table_no8 ; branch if lower (it will continue if we have at least 8 bits to fill)
 	IFD VAMPIRE
-	move.l a0,a2
-	add.l #256*40,a2
 	vperm #$00000000,e1,e1,d0
-	or.b d0,(a2)+ ; second bitplane
+	or.b d0,256*40(a0) ; second bitplane
 	vperm #$00000000,e0,e0,d0
 	or.b d0,(a0)+ ; first bitplane
 	ENDIF
@@ -410,7 +367,7 @@ ammx_fill_table_no8:
 	or.b d6,256*40*1(a0)
 	or.b d7,(a0)
 ammx_fill_table_no_end_0
-	movem.l (sp)+,d0-d7/a0/a2
+	movem.l (sp)+,d0-d7/a0
 	rts
 
 	; if we still have bit to fill repeat the process
@@ -418,7 +375,7 @@ ammx_fill_table_check_if_other: ;
 	cmpi.w #0,d5
 	bhi.w ammx_fill_table_startiter
 
-	movem.l (sp)+,d0-d7/a0/a2
+	movem.l (sp)+,d0-d7/a0
 	rts
 
 
