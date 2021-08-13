@@ -194,21 +194,22 @@ ammx_fill_table_no_special_case:
 
 	; reset bitplane data
 	IFND VAMPIRE
-	move.l #$00000000,AMMXFILLTABLE_FILLDATA_BPL_0
-	move.l #$00000000,AMMXFILLTABLE_FILLDATA_BPL_1
+	;move.l #$00000000,AMMXFILLTABLE_FILLDATA_BPL_0
+	;move.l #$00000000,AMMXFILLTABLE_FILLDATA_BPL_1
+	moveq #0,d6
+	moveq #0,d7
 	ENDIF
 	IFD VAMPIRE
 	REG_ZERO e0
 	REG_ZERO e1
-	;load #$0000000000000000,e0
-	;load #$0000000000000000,e1
 	ENDIF
     
 	btst #1,STROKE_DATA
 	beq.s ammx_fill_table_no_firstbyte_1
 	or.b d3,256*40*1(a0) ; Plot points bpl1!!
 	IFND VAMPIRE
-	move.l #$FFFFFFFF,AMMXFILLTABLE_FILLDATA_BPL_1
+	;move.l #$FFFFFFFF,AMMXFILLTABLE_FILLDATA_BPL_1
+	move.l #$FFFFFFFF,d6
 	ENDIF
 	IFD VAMPIRE
 	load #$FFFFFFFFFFFFFFFF,e1
@@ -218,7 +219,8 @@ ammx_fill_table_no_firstbyte_1:
 	beq.s ammx_fill_table_no_firstbyte_0
     or.b d3,(a0) ; Plot points!!
 	IFND VAMPIRE
-	move.l #$FFFFFFFF,AMMXFILLTABLE_FILLDATA_BPL_0
+	;move.l #$FFFFFFFF,AMMXFILLTABLE_FILLDATA_BPL_0
+	move.l #$FFFFFFFF,d7
 	ENDIF
 	IFD VAMPIRE
 	load #$FFFFFFFFFFFFFFFF,e0
@@ -248,33 +250,33 @@ ammx_fill_table_startiter:
 	btst #0,d0
 	beq.s ammx_fill_table_64_even
 	
-	move.l AMMXFILLTABLE_FILLDATA_BPL_1,d0
+	;move.l AMMXFILLTABLE_FILLDATA_BPL_1,d0
 	move.l a0,a2
 	add.l #256*40,a2
-	or.b d0,(a2)+
-	or.l d0,(a2)+
-	or.w d0,(a2)+
-    or.b d0,(a2)+
+	or.b d6,(a2)+
+	or.l d6,(a2)+
+	or.w d6,(a2)+
+    or.b d6,(a2)+
 
-	move.l AMMXFILLTABLE_FILLDATA_BPL_0,d0
-	or.b d0,(a0)+
-	or.l  d0,(a0)+
-    or.w  d0,(a0)+
-    or.b d0,(a0)+
+	;move.l AMMXFILLTABLE_FILLDATA_BPL_0,d0
+	or.b d7,(a0)+
+	or.l  d7,(a0)+
+    or.w  d7,(a0)+
+    or.b d7,(a0)+
 
     subi.w #64,d5
 	bra.w ammx_fill_table_check_if_other
  ammx_fill_table_64_even:
 
-	move.l AMMXFILLTABLE_FILLDATA_BPL_1,d0
+	;move.l AMMXFILLTABLE_FILLDATA_BPL_1,d0
 	move.l a0,a2
 	add.l #256*40,a2
-	or.l  d0,(a2)+
-	or.l  d0,(a2)+
+	or.l  d6,(a2)+
+	or.l  d6,(a2)+
 
-	move.l AMMXFILLTABLE_FILLDATA_BPL_0,d0
-	or.l  d0,(a0)+
-	or.l  d0,(a0)+
+	;move.l AMMXFILLTABLE_FILLDATA_BPL_0,d0
+	or.l  d7,(a0)+
+	or.l  d7,(a0)+
 
 	subi.w #64,d5
 	bra.w ammx_fill_table_check_if_other
@@ -304,28 +306,28 @@ ammx_fill_table_no64:
 	btst #0,d0
 	beq.s ammx_fill_table_32_even
 	
-	move.l AMMXFILLTABLE_FILLDATA_BPL_1,d0
+	;move.l AMMXFILLTABLE_FILLDATA_BPL_1,d0
 	move.l a0,a2
 	add.l #256*40,a2
-	or.b d0,(a2)+
-	or.w d0,(a2)+
-    or.b d0,(a2)+
+	or.b d6,(a2)+
+	or.w d6,(a2)+
+    or.b d6,(a2)+
 
-	move.l AMMXFILLTABLE_FILLDATA_BPL_0,d0
-	or.b d0,(a0)+
-    or.w  d0,(a0)+
-    or.b d0,(a0)+
+	;move.l AMMXFILLTABLE_FILLDATA_BPL_0,d0
+	or.b d7,(a0)+
+    or.w  d7,(a0)+
+    or.b d7,(a0)+
 
     subi.w #32,d5
 	bra.w ammx_fill_table_check_if_other
  ammx_fill_table_32_even:
-	move.l AMMXFILLTABLE_FILLDATA_BPL_1,d0
+	;move.l AMMXFILLTABLE_FILLDATA_BPL_1,d0
 	move.l a0,a2
 	add.l #256*40,a2
-	or.l  d0,(a2)+
+	or.l  d6,(a2)+
 
-	move.l AMMXFILLTABLE_FILLDATA_BPL_0,d0
-	or.l  d0,(a0)+
+	;move.l AMMXFILLTABLE_FILLDATA_BPL_0,d0
+	or.l  d7,(a0)+
 
 	subi.w #32,d5
 	bra.w ammx_fill_table_check_if_other
@@ -353,26 +355,26 @@ ammx_fill_table_no32:
 	btst #0,d0
 	beq.s ammx_fill_table_16_even
 	
-	move.l AMMXFILLTABLE_FILLDATA_BPL_1,d0
+	;move.l AMMXFILLTABLE_FILLDATA_BPL_1,d0
 	move.l a0,a2
 	add.l #256*40,a2
-	or.b d0,(a2)+
-    or.b d0,(a2)+
+	or.b d6,(a2)+
+    or.b d6,(a2)+
 
-	move.l AMMXFILLTABLE_FILLDATA_BPL_0,d0
-	or.b d0,(a0)+
-    or.b d0,(a0)+
+	;move.l AMMXFILLTABLE_FILLDATA_BPL_0,d0
+	or.b d7,(a0)+
+    or.b d7,(a0)+
 
     subi.w #16,d5
 	bra.w ammx_fill_table_check_if_other
  ammx_fill_table_16_even:
-	move.l AMMXFILLTABLE_FILLDATA_BPL_1,d0
+	;move.l AMMXFILLTABLE_FILLDATA_BPL_1,d0
 	move.l a0,a2
 	add.l #256*40,a2
-	or.w  d0,(a2)+
+	or.w  d6,(a2)+
 
-	move.l AMMXFILLTABLE_FILLDATA_BPL_0,d0
-	or.w  d0,(a0)+
+	;move.l AMMXFILLTABLE_FILLDATA_BPL_0,d0
+	or.w  d7,(a0)+
 
 	subi.w #16,d5
 	bra.w ammx_fill_table_check_if_other
@@ -393,13 +395,13 @@ ammx_fill_table_no16:
 	ENDIF
 
 	IFND VAMPIRE
-	move.l AMMXFILLTABLE_FILLDATA_BPL_1,d0
+	;move.l AMMXFILLTABLE_FILLDATA_BPL_1,d0
 	move.l a0,a2
 	add.l #256*40,a2
-	or.b  d0,(a2)+
+	or.b  d6,(a2)+
 
-	move.l AMMXFILLTABLE_FILLDATA_BPL_0,d0
-	or.b  d0,(a0)+
+	;move.l AMMXFILLTABLE_FILLDATA_BPL_0,d0
+	or.b  d7,(a0)+
 	ENDIF
 
 	subi.w #8,d5

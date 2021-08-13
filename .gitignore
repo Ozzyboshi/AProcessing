@@ -27,6 +27,8 @@ tests/drawingtests/filledpolygons/drawingtestsfilledpolygonvampire.o
 tests/drawingtests/filledpolygons/drawingtestsfilledpolygonvampire
 tests/drawingtests/filledpolygons/drawingtestsfilledpolygon.o
 tests/drawingtests/filledpolygons/drawingtestsfilledpolygon
+tests/drawingtests/filledpolygons3d/drawingtestsfilledpolygon3d
+tests/drawingtests/filledpolygons3d/drawingtestsfilledpolygon3d.o
 tests/filltests/fillpolygon/fillpolygon
 tests/filltests/fillpolygon/fillpolygonvampire
 tests/filltests/filltransformations/filltransformations
