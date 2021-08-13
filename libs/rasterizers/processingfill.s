@@ -251,12 +251,12 @@ ammx_fill_table_startiter:
 	beq.s ammx_fill_table_64_even
 	
 	;move.l AMMXFILLTABLE_FILLDATA_BPL_1,d0
-	move.l a0,a2
-	add.l #256*40,a2
-	or.b d6,(a2)+
-	or.l d6,(a2)+
-	or.w d6,(a2)+
-    or.b d6,(a2)+
+	;move.l a0,a2
+	;add.l #256*40,a2
+	or.b d6,256*40(a0)
+	or.l d6,1+256*40(a0)
+	or.w d6,5+256*40(a0)
+    or.b d6,7+256*40(a0)
 
 	;move.l AMMXFILLTABLE_FILLDATA_BPL_0,d0
 	or.b d7,(a0)+
@@ -269,10 +269,10 @@ ammx_fill_table_startiter:
  ammx_fill_table_64_even:
 
 	;move.l AMMXFILLTABLE_FILLDATA_BPL_1,d0
-	move.l a0,a2
-	add.l #256*40,a2
-	or.l  d6,(a2)+
-	or.l  d6,(a2)+
+	;move.l a0,a2
+	;add.l #256*40,a2
+	or.l  d6,256*40(a0)
+	or.l  d6,4+256*40(a0)
 
 	;move.l AMMXFILLTABLE_FILLDATA_BPL_0,d0
 	or.l  d7,(a0)+
@@ -307,11 +307,11 @@ ammx_fill_table_no64:
 	beq.s ammx_fill_table_32_even
 	
 	;move.l AMMXFILLTABLE_FILLDATA_BPL_1,d0
-	move.l a0,a2
-	add.l #256*40,a2
-	or.b d6,(a2)+
-	or.w d6,(a2)+
-    or.b d6,(a2)+
+	;move.l a0,a2
+	;add.l #256*40,a2
+	or.b d6,256*40(a0)
+	or.w d6,1+256*40(a0)
+    or.b d6,3+256*40(a0)
 
 	;move.l AMMXFILLTABLE_FILLDATA_BPL_0,d0
 	or.b d7,(a0)+
@@ -322,9 +322,9 @@ ammx_fill_table_no64:
 	bra.w ammx_fill_table_check_if_other
  ammx_fill_table_32_even:
 	;move.l AMMXFILLTABLE_FILLDATA_BPL_1,d0
-	move.l a0,a2
-	add.l #256*40,a2
-	or.l  d6,(a2)+
+	;move.l a0,a2
+	;add.l #256*40,a2
+	or.l  d6,256*40(a0)
 
 	;move.l AMMXFILLTABLE_FILLDATA_BPL_0,d0
 	or.l  d7,(a0)+
@@ -356,10 +356,10 @@ ammx_fill_table_no32:
 	beq.s ammx_fill_table_16_even
 	
 	;move.l AMMXFILLTABLE_FILLDATA_BPL_1,d0
-	move.l a0,a2
-	add.l #256*40,a2
-	or.b d6,(a2)+
-    or.b d6,(a2)+
+	;move.l a0,a2
+	;add.l #256*40,a2
+	or.b d6,256*40(a0)
+    or.b d6,1+256*40(a0)
 
 	;move.l AMMXFILLTABLE_FILLDATA_BPL_0,d0
 	or.b d7,(a0)+
@@ -369,9 +369,9 @@ ammx_fill_table_no32:
 	bra.w ammx_fill_table_check_if_other
  ammx_fill_table_16_even:
 	;move.l AMMXFILLTABLE_FILLDATA_BPL_1,d0
-	move.l a0,a2
-	add.l #256*40,a2
-	or.w  d6,(a2)+
+	;move.l a0,a2
+	;add.l #256*40,a2
+	or.w  d6,256*40(a0)
 
 	;move.l AMMXFILLTABLE_FILLDATA_BPL_0,d0
 	or.w  d7,(a0)+
@@ -395,12 +395,7 @@ ammx_fill_table_no16:
 	ENDIF
 
 	IFND VAMPIRE
-	;move.l AMMXFILLTABLE_FILLDATA_BPL_1,d0
-	move.l a0,a2
-	add.l #256*40,a2
-	or.b  d6,(a2)+
-
-	;move.l AMMXFILLTABLE_FILLDATA_BPL_0,d0
+	or.b  d6,256*40(a0)
 	or.b  d7,(a0)+
 	ENDIF
 
@@ -410,17 +405,14 @@ ammx_fill_table_no8:
 
 	; we get here only and only if there is less then a byte to fill, in other words, d5<8
 	; in this case we must fill the MSG bytes of the byte wit a 1
-	move.b #$FF,d3
+	;move.b #$FF,d3
 	moveq #8,d4
 	sub.w d5,d4
-	lsl.b d4,d3
-	btst #1,STROKE_DATA
-	beq.s ammx_fill_table_no_end_1
-	or.b d3,256*40*1(a0)
-ammx_fill_table_no_end_1:
-	btst #0,STROKE_DATA
-	beq.s ammx_fill_table_no_end_0
-	or.b d3,(a0)
+	lsl.b d4,d6
+	lsl.b d4,d7
+
+	or.b d6,256*40*1(a0)
+	or.b d7,(a0)
 ammx_fill_table_no_end_0
 	movem.l (sp)+,d0-d7/a0-a2
 	rts
