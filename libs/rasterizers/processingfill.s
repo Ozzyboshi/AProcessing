@@ -33,9 +33,9 @@ ammx_fill_table:
 	lea FILL_TABLE,a0
 
 	; Reposition inside the fill table according to the starting row
-	move.w AMMXFILLTABLE_CURRENT_ROW,d6
-	mulu.w #4,d6
-	add.w d6,a0
+	move.w AMMXFILLTABLE_CURRENT_ROW,d1
+	lsl.w #2,d1
+	add.w d1,a0
 	; end of repositioning
 
 ammx_fill_table_nextline:
@@ -45,16 +45,8 @@ ammx_fill_table_nextline:
 	bhi.s ammx_fill_table_end
 
 	move.w (a0),d6 ; start of fill line
-	move.w #$7FFF,(a0)+
-	move.w (a0),d7 ; end of fill line
-	move.w #$8000,(a0)+
-
-	; end when leftx OR rightX are equal to -1 (to be modified)
-	;cmpi.w #$FFFF,d6
-	;beq.s ammx_fill_table_end
-	;cmpi.w #$FFFF,d7
-	;beq.s ammx_fill_table_end
-	
+	move.w 2(a0),d7 ; end of fill line
+	move.l #$7FFF8000,(a0)+
 	
 	bsr.w ammx_fill_table_single_line
 	add.w #1,AMMXFILLTABLE_CURRENT_ROW
@@ -74,7 +66,7 @@ ammx_fill_table_clip:
 
 	; Reposition inside the fill table according to the starting row
 	move.w AMMXFILLTABLE_CURRENT_ROW,d6
-	mulu.w #4,d6
+	lsl.w #2,d6
 	add.w d6,a0
 	move.w AMMXFILLTABLE_CURRENT_ROW,d5
 	; end of repositioning
