@@ -130,7 +130,7 @@ ammx_fill_table_end_clip:
 	ENDIF
 
 ammx_fill_table_single_line:
-	movem.l d0-d7/a0-a2,-(sp) ; stack save
+	movem.l d0-d7/a0/a2,-(sp) ; stack save
 
 	; d5 => totalcount
 	; d3 / d4 => tmp
@@ -148,10 +148,10 @@ ammx_fill_table_single_line:
 	move.w d6,d0
 
 	move.w AMMXFILLTABLE_CURRENT_ROW,d1
-	lea PLOTREFS,a1
+	lea PLOTREFS,a0
 
 	add.w d1,d1
-	move.w 0(a1,d1.w),d1
+	move.w 0(a0,d1.w),d1
 	move.w d0,d2
 	lsr.w #3,d2
 	add.w d2,d1
@@ -186,7 +186,7 @@ ammx_fill_table_no_special_1
 	beq.s ammx_fill_table_no_special_0
 	or.b d3,(a0)+ ; Plot points!!
 ammx_fill_table_no_special_0:
-	movem.l (sp)+,d0-d7/a0-a2
+	movem.l (sp)+,d0-d7/a0/a2
 	rts
 
 ammx_fill_table_no_special_case:
@@ -414,7 +414,7 @@ ammx_fill_table_no8:
 	or.b d6,256*40*1(a0)
 	or.b d7,(a0)
 ammx_fill_table_no_end_0
-	movem.l (sp)+,d0-d7/a0-a2
+	movem.l (sp)+,d0-d7/a0/a2
 	rts
 
 	; if we still have bit to fill repeat the process
@@ -422,7 +422,7 @@ ammx_fill_table_check_if_other: ;
 	cmpi.w #0,d5
 	bhi.w ammx_fill_table_startiter
 
-	movem.l (sp)+,d0-d7/a0-a2
+	movem.l (sp)+,d0-d7/a0/a2
 	rts
 
 
