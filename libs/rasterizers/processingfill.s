@@ -19,7 +19,7 @@ AMMXFILLTABLE_END_ROW_LINE:
 	dc.w 0
 
 ammx_fill_table:
-	movem.l d4-d7/a0,-(sp) ; stack save
+	movem.l d1/d5-d7/a0,-(sp) ; stack save
 	move.w #1,AMMX_FILL_TABLE_FIRST_DRAW
 	move.w AMMXFILLTABLE_END_ROW,d5
 
@@ -27,27 +27,26 @@ ammx_fill_table:
 
 	; Reposition inside the fill table according to the starting row
 	move.w AMMXFILLTABLE_CURRENT_ROW,d6
-	move.w d6,d4
+	move.w d6,d1
 	lsl.w #2,d6
 	add.w d6,a0
 	; end of repositioning
 
 ammx_fill_table_nextline:
-	cmp.w d5,d4
+	cmp.w d5,d1
 	bhi.s ammx_fill_table_end
 
 	move.w (a0),d6 ; start of fill line
 	move.w 2(a0),d7 ; end of fill line
 	move.l #$7FFF8000,(a0)+
 	
-	move.w d4,AMMXFILLTABLE_CURRENT_ROW
 	bsr.w ammx_fill_table_single_line
-	addq #1,d4
+	addq #1,d1
 	
 	bra.s ammx_fill_table_nextline
 ammx_fill_table_end:
 	move.w #-1,AMMXFILLTABLE_END_ROW
-	movem.l (sp)+,d4-d7/a0
+	movem.l (sp)+,d1/d5-d7/a0
 	rts
 
 	IFD USE_CLIPPING
@@ -59,9 +58,9 @@ ammx_fill_table_clip:
 
 	; Reposition inside the fill table according to the starting row
 	move.w AMMXFILLTABLE_CURRENT_ROW,d6
+	move.w d6,d5
 	lsl.w #2,d6
 	add.w d6,a0
-	move.w AMMXFILLTABLE_CURRENT_ROW,d5
 	; end of repositioning
 
 ammx_fill_table_nextline_clip:
@@ -102,6 +101,7 @@ ammx_fill_table_nextline_clip:
 	ENDC
 	; clip end
 	
+	move.w AMMXFILLTABLE_CURRENT_ROW,d1
 	bsr.w ammx_fill_table_single_line
 	add.w #1,d5
 	move.w d5,AMMXFILLTABLE_CURRENT_ROW
@@ -114,6 +114,16 @@ ammx_fill_table_end_clip:
 
 	ENDIF
 
+; ammx_fill_table_single_line - Fills a single line according to the fill table into screens
+; Input:
+;	- d6.w : left X (0-319)
+;	- d7.w : right X (0-319)
+;	- d1.w : line number (0-255)
+;
+; Defines:
+; - USE_CLIPPING
+;
+; Trashes: nothing
 ammx_fill_table_single_line:
 	movem.l d0-d7/a0,-(sp) ; stack save
 
@@ -125,22 +135,20 @@ ammx_fill_table_single_line:
 
 	move.w d7,d5 ; alternative to psubw
 	sub.w d6,d5
+	IFD USE_CLIPPING
 	bmi.w ammx_fill_table_no_end_0 ; if Xright<0 we are sure that no pixel must be drawn so jump to whatever exit
+	ENDIF
 	addq #1,d5
 
-	; phaze 1 => align to nearest byte
+	; align to nearest byte
 	; address of the first point
-	move.w d6,d0
-
-	move.w AMMXFILLTABLE_CURRENT_ROW,d1
 	lea PLOTREFS,a0
 
 	add.w d1,d1
 	move.w 0(a0,d1.w),d1
-	move.w d0,d2
+	move.w d6,d2
 	lsr.w #3,d2
 	add.w d2,d1
-	
 	
 	; d1.w now has the address of the first byte let's calculate the fill for this byte
 	move.w d6,d4
@@ -163,11 +171,12 @@ ammx_fill_table_single_line:
 	lsr.b d5,d3
 	lsl.b d5,d3
 
-	btst #1,STROKE_DATA
+	move.b STROKE_DATA,d0
+	btst #1,d0
 	beq.s ammx_fill_table_no_special_1
 	or.b d3,256*40*1(a0) ; Plot points bpl1!!
 ammx_fill_table_no_special_1
-	btst #0,STROKE_DATA
+	btst #0,d0
 	beq.s ammx_fill_table_no_special_0
 	or.b d3,(a0)+ ; Plot points!!
 ammx_fill_table_no_special_0:
@@ -179,8 +188,6 @@ ammx_fill_table_no_special_case:
 
 	; reset bitplane data
 	IFND VAMPIRE
-	;move.l #$00000000,AMMXFILLTABLE_FILLDATA_BPL_0
-	;move.l #$00000000,AMMXFILLTABLE_FILLDATA_BPL_1
 	moveq #0,d6
 	moveq #0,d7
 	ENDIF
@@ -189,22 +196,21 @@ ammx_fill_table_no_special_case:
 	REG_ZERO e1
 	ENDIF
     
-	btst #1,STROKE_DATA
+	move.b STROKE_DATA,d0
+	btst #1,d0
 	beq.s ammx_fill_table_no_firstbyte_1
 	or.b d3,256*40*1(a0) ; Plot points bpl1!!
 	IFND VAMPIRE
-	;move.l #$FFFFFFFF,AMMXFILLTABLE_FILLDATA_BPL_1
 	move.l #$FFFFFFFF,d6
 	ENDIF
 	IFD VAMPIRE
 	load #$FFFFFFFFFFFFFFFF,e1
 	ENDIF
 ammx_fill_table_no_firstbyte_1:
-	btst #0,STROKE_DATA
+	btst #0,d0
 	beq.s ammx_fill_table_no_firstbyte_0
     or.b d3,(a0) ; Plot points!!
 	IFND VAMPIRE
-	;move.l #$FFFFFFFF,AMMXFILLTABLE_FILLDATA_BPL_0
 	move.l #$FFFFFFFF,d7
 	ENDIF
 	IFD VAMPIRE
@@ -239,12 +245,14 @@ ammx_fill_table_startiter:
     or.b d6,7+256*40(a0)
 
 	or.b d7,(a0)+
-	or.l  d7,(a0)+
-    or.w  d7,(a0)+
+	or.l d7,(a0)+
+    or.w d7,(a0)+
     or.b d7,(a0)+
 
     subi.w #64,d5
-	bra.w ammx_fill_table_check_if_other
+	bne.s ammx_fill_table_startiter
+	movem.l (sp)+,d0-d7/a0
+	rts
  ammx_fill_table_64_even:
 
 	or.l  d6,256*40(a0)
@@ -254,12 +262,15 @@ ammx_fill_table_startiter:
 	or.l  d7,(a0)+
 
 	subi.w #64,d5
-	bra.w ammx_fill_table_check_if_other
-
+	bne.s ammx_fill_table_startiter
+	movem.l (sp)+,d0-d7/a0
+	rts
 	ENDIF
 	
 	subi.w #64,d5
-	bra.w ammx_fill_table_check_if_other
+	bne.s ammx_fill_table_startiter
+	movem.l (sp)+,d0-d7/a0
+	rts
 ammx_fill_table_no64:
 	cmpi.w #32,d5
 	bcs.w ammx_fill_table_no32 ; branch if lower (it will continue if we have at least 32 bits to fill)
@@ -270,7 +281,9 @@ ammx_fill_table_no64:
 	vperm #$00000000,e0,e0,d0
 	or.l d0,(a0)+ ; first bitplane
 	subi.w #32,d5
-	bra.w ammx_fill_table_check_if_other
+	bne.w ammx_fill_table_startiter
+	movem.l (sp)+,d0-d7/a0
+	rts
 	ENDIF
 	
 	IFND VAMPIRE
@@ -284,17 +297,21 @@ ammx_fill_table_no64:
     or.b d6,3+256*40(a0)
 
 	or.b d7,(a0)+
-    or.w  d7,(a0)+
+    or.w d7,(a0)+
     or.b d7,(a0)+
 
     subi.w #32,d5
-	bra.w ammx_fill_table_check_if_other
+	bne.w ammx_fill_table_startiter
+	movem.l (sp)+,d0-d7/a0
+	rts
  ammx_fill_table_32_even:
 	or.l  d6,256*40(a0)
 	or.l  d7,(a0)+
 
 	subi.w #32,d5
-	bra.w ammx_fill_table_check_if_other
+	bne.w ammx_fill_table_startiter
+	movem.l (sp)+,d0-d7/a0
+	rts
 
 	ENDIF
 	
@@ -308,7 +325,9 @@ ammx_fill_table_no32:
 	vperm #$00000000,e0,e0,d0
 	or.w d0,(a0)+ ; first bitplane
 	subi.w #16,d5
-	bra.w ammx_fill_table_check_if_other
+	bne.w ammx_fill_table_startiter
+	movem.l (sp)+,d0-d7/a0
+	rts
 	ENDIF
 	
 	IFND VAMPIRE
@@ -323,14 +342,17 @@ ammx_fill_table_no32:
     or.b d7,(a0)+
 
     subi.w #16,d5
-	bra.w ammx_fill_table_check_if_other
+	bne.w ammx_fill_table_startiter
+	movem.l (sp)+,d0-d7/a0
+	rts
  ammx_fill_table_16_even:
 	or.w  d6,256*40(a0)
 	or.w  d7,(a0)+
 
 	subi.w #16,d5
-	bra.w ammx_fill_table_check_if_other
-
+	bne.w ammx_fill_table_startiter
+	movem.l (sp)+,d0-d7/a0
+	rts
 	ENDIF
 	
 ammx_fill_table_no16:
@@ -350,7 +372,9 @@ ammx_fill_table_no16:
 	ENDIF
 
 	subi.w #8,d5
-	bra.w ammx_fill_table_check_if_other
+	bne.w ammx_fill_table_startiter
+	movem.l (sp)+,d0-d7/a0
+	rts
 ammx_fill_table_no8:
 
 	; we get here only and only if there is less then a byte to fill, in other words, d5<8
