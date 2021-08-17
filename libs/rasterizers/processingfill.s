@@ -58,14 +58,15 @@ ammx_fill_table_clip:
 
 	; Reposition inside the fill table according to the starting row
 	move.w AMMXFILLTABLE_CURRENT_ROW,d6
-	move.w d6,d5
+	move.w AMMXFILLTABLE_END_ROW,d2
+	move.w d6,d1
 	lsl.w #2,d6
 	add.w d6,a0
 	; end of repositioning
 
 ammx_fill_table_nextline_clip:
 
-	cmp.w AMMXFILLTABLE_END_ROW,d5
+	cmp.w d2,d1
 	bgt.s ammx_fill_table_end_clip
 
 	move.w (a0),d6 ; start of fill line
@@ -73,10 +74,6 @@ ammx_fill_table_nextline_clip:
 	move.l #$013F0000,d7
 	move.w (a0),d7 ; end of fill line
 	move.w #$8000,(a0)+
-
-	;btst #15,d7
-	;bne.s 
-	
 	
 	; clip start
 	; if left is negative left is zero
@@ -95,16 +92,14 @@ ammx_fill_table_nextline_clip:
 	ELSE
 	cmpi.w #319,d7
 	sgt d0
-	move.w #16,d1
-	and.w d0,d1
-	lsr.l d1,d7
+	move.w #16,d4
+	and.w d0,d4
+	lsr.l d4,d7
 	ENDC
 	; clip end
 	
-	move.w AMMXFILLTABLE_CURRENT_ROW,d1
 	bsr.w ammx_fill_table_single_line
-	add.w #1,d5
-	move.w d5,AMMXFILLTABLE_CURRENT_ROW
+	add.w #1,d1
 	
 	bra.w ammx_fill_table_nextline_clip
 ammx_fill_table_end_clip:
@@ -122,6 +117,7 @@ ammx_fill_table_end_clip:
 ;
 ; Defines:
 ; - USE_CLIPPING
+; - USE_DBLBUF
 ;
 ; Trashes: nothing
 ammx_fill_table_single_line:
@@ -156,12 +152,16 @@ ammx_fill_table_single_line:
 	move.b #$FF,d3
 	lsr.b d4,d3
 
+	IFD USE_DBLBUF
+	move.l SCREEN_PTR_0,a0
+	ELSE
 	lea SCREEN_0,a0
+	ENDIF
 	add.w d1,a0
 
 	; bitprocessed = 8-d4
-	subi.b #8,d4 ; d4 must always be negative here!!!!
-	ext.w d4
+	subi.w #8,d4 ; d4 must always be negative here!!!!
+	;ext.w d4
 	add.w d4,d5 ; totalcount must be decremented by written bits (susing add because d4 is always negative)
 	
 	; special case -  if d5 is negative we plotted too much
@@ -219,6 +219,13 @@ ammx_fill_table_no_firstbyte_1:
 ammx_fill_table_no_firstbyte_0:
 	addq #1,a0
 
+	; start addr odd or even? store result on d4
+	IFND VAMPIRE
+	move.l a0,d4
+	btst #0,d4
+	seq d4
+	ENDIF
+
 ; start iteration until we are at the end
 ammx_fill_table_startiter:
 
@@ -235,8 +242,8 @@ ammx_fill_table_startiter:
 	ENDIF
 	IFND VAMPIRE
 	
-	move.l a0,d0
-	btst #0,d0
+	;move.l a0,d0
+	btst #0,d4
 	beq.s ammx_fill_table_64_even
 	
 	or.b d6,256*40(a0)
@@ -288,8 +295,8 @@ ammx_fill_table_no64:
 	
 	IFND VAMPIRE
 	
-	move.l a0,d0
-	btst #0,d0
+	;move.l a0,d0
+	btst #0,d4
 	beq.s ammx_fill_table_32_even
 	
 	or.b d6,256*40(a0)
@@ -301,7 +308,7 @@ ammx_fill_table_no64:
     or.b d7,(a0)+
 
     subi.w #32,d5
-	bne.w ammx_fill_table_startiter
+	bne.w ammx_fill_table_no32
 	movem.l (sp)+,d0-d7/a0
 	rts
  ammx_fill_table_32_even:
@@ -309,7 +316,7 @@ ammx_fill_table_no64:
 	or.l  d7,(a0)+
 
 	subi.w #32,d5
-	bne.w ammx_fill_table_startiter
+	bne.w ammx_fill_table_no32
 	movem.l (sp)+,d0-d7/a0
 	rts
 
@@ -331,8 +338,8 @@ ammx_fill_table_no32:
 	ENDIF
 	
 	IFND VAMPIRE
-	move.l a0,d0
-	btst #0,d0
+	;move.l a0,d0
+	btst #0,d4
 	beq.s ammx_fill_table_16_even
 	
 	or.b d6,256*40(a0)
@@ -342,7 +349,7 @@ ammx_fill_table_no32:
     or.b d7,(a0)+
 
     subi.w #16,d5
-	bne.w ammx_fill_table_startiter
+	bne.w ammx_fill_table_no16
 	movem.l (sp)+,d0-d7/a0
 	rts
  ammx_fill_table_16_even:
@@ -350,7 +357,7 @@ ammx_fill_table_no32:
 	or.w  d7,(a0)+
 
 	subi.w #16,d5
-	bne.w ammx_fill_table_startiter
+	bne.w ammx_fill_table_no16
 	movem.l (sp)+,d0-d7/a0
 	rts
 	ENDIF
@@ -371,8 +378,8 @@ ammx_fill_table_no16:
 	or.b  d7,(a0)+
 	ENDIF
 
-	subi.w #8,d5
-	bne.w ammx_fill_table_startiter
+	subq #8,d5
+	bne.w ammx_fill_table_no8
 	movem.l (sp)+,d0-d7/a0
 	rts
 ammx_fill_table_no8:

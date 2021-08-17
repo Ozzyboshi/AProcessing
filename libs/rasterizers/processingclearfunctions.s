@@ -1,8 +1,13 @@
 CLEARFASTBITPLANES MACRO
 
 	; copy from fast bitplanes to slow bitplanes
+	IFD USE_DBLBUF
+	move.l SCREEN_PTR_0,a0
+	move.l SCREEN_PTR_1,a4
+	ELSE
 	lea SCREEN_0,a0
 	lea SCREEN_1,a4
+	ENDIF
 
     IFD VAMPIRE
     move.l #1279,d3
@@ -63,8 +68,13 @@ FILLFASTBITPLANES MACRO
 
 
 COPYBITPLANESANDCLEAR MACRO
+	IFD USE_DBLBUF
+	move.l SCREEN_PTR_0,a0
+	move.l SCREEN_PTR_1,a4
+	ELSE
 	lea SCREEN_0,a0
 	lea SCREEN_1,a4
+	ENDIF
 
 	move.l bitplane0,a1
 	move.l bitplane1,a2
@@ -88,8 +98,13 @@ PREPARESCREEN MACRO
 
 	; copy from fast bitplanes to slow bitplanes
 	move.l #5*255,d3
+	IFD USE_DBLBUF
+	move.l SCREEN_PTR_0,a0
+	move.l SCREEN_PTR_1,a4
+	ELSE
 	lea SCREEN_0,a0
 	lea SCREEN_1,a4
+	ENDIF
 	
 	load #0,e0
 
@@ -113,3 +128,4 @@ RESETFILLTABLE MACRO
 	move.l #$7FFF8000,(a0)+
 	dbra d3,.resetfilltableclearline
 	ENDM
+	
