@@ -32,6 +32,9 @@ ammx_fill_table:
 	add.w d6,a0
 	; end of repositioning
 
+	MINUWORD d1,FILLTABLE_FRAME_MIN_Y
+	MAXUWORD d5,FILLTABLE_FRAME_MAX_Y
+
 ammx_fill_table_nextline:
 	cmp.w d5,d1
 	bhi.s ammx_fill_table_end
@@ -222,8 +225,6 @@ ammx_fill_table_no_firstbyte_0:
 	; start addr odd or even? store result on d4
 	IFND VAMPIRE
 	move.l a0,d4
-	btst #0,d4
-	seq d4
 	ENDIF
 
 ; start iteration until we are at the end
@@ -332,13 +333,12 @@ ammx_fill_table_no32:
 	vperm #$00000000,e0,e0,d0
 	or.w d0,(a0)+ ; first bitplane
 	subi.w #16,d5
-	bne.w ammx_fill_table_startiter
+	bne.w ammx_fill_table_no16
 	movem.l (sp)+,d0-d7/a0
 	rts
 	ENDIF
 	
 	IFND VAMPIRE
-	;move.l a0,d0
 	btst #0,d4
 	beq.s ammx_fill_table_16_even
 	

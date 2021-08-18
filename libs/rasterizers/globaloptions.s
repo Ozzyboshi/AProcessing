@@ -51,3 +51,5 @@ MAXUWORD MACRO
                       move.w    \1,\2
 .1\@
                       ENDM
+FILLTABLE_FRAME_MIN_Y: dc.w 0
+FILLTABLE_FRAME_MAX_Y: dc.w 0

@@ -128,4 +128,8 @@ RESETFILLTABLE MACRO
 	move.l #$7FFF8000,(a0)+
 	dbra d3,.resetfilltableclearline
 	ENDM
-	
+
+RESETFILLYVALS MACRO
+	move.w #0,FILLTABLE_FRAME_MIN_Y
+	move.w #0,FILLTABLE_FRAME_MAX_Y
+	ENDM
