@@ -17,8 +17,7 @@
   XDEF                                          _drawing_test17
   XDEF                                          _drawing_test18
   XDEF                                          _drawing_test19
-
-
+  XDEF                                          _drawing_test20
 
   SECTION                                       PROCESSING,CODE_F
 
@@ -520,6 +519,31 @@ _drawing_test19:
   bsr.w                                         SQUARE      
 	
   DISABLE_CLIPPING
+
+  bsr.w                                         processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
+  rts
+
+_drawing_test20:
+	
+  CLEARFASTBITPLANES                                                                                       ; Clear fast bitplanes
+	
+  RESET_CURRENT_TRANSFORMATION_MATRIX_Q_10_6
+
+  move.w                                        #160,d0
+  move.w                                        #128,d1
+  jsr                                           TRANSLATE
+
+  move.w                                        #0,d0
+  move.w                                        #-5,d1
+
+  move.w                                        #-5,d6
+  move.w                                        #5,d3
+
+  move.w                                        #5,d4
+  move.w                                        #5,d5
+
+	move.l                                        #ammx_fill_table_blit,AMMX_FILL_FUNCT_ADDR
+  bsr.w                                         TRIANGLE
 
   bsr.w                                         processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
   rts

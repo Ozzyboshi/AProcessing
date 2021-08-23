@@ -18,6 +18,138 @@ AMMXFILLTABLE_CURRENT_ROW_LINE:
 AMMXFILLTABLE_END_ROW_LINE:
 	dc.w 0
 
+;****************************************************************************
+; Questa routine copia un rettangolo di schermo da una posizione fissa
+; ad un indirizzo specificato come parametro. Il rettangolo di schermo che
+; viene copiato racchiude interamente le 2 linee.
+; Durante la copia viene effettuato anche il riempmento. Il tipo di riempimento
+; e` specificato tramite i parametri.
+; I parametri sono:
+; A0 - indirizzo rettangolo da fillare
+; D0 - se vale 0 allora effettua fill inclusivo, altrimenti fa fill esclusivo
+; D1 - se vale 0 allora effettua FILL_CARRYIN=0, altrimenti FILL_CARRYIN=1
+;****************************************************************************
+
+Fill:
+	lea	$dff000,a5		; CUSTOM REGISTER in a5
+	btst	#6,$dff002 ; dmaconr
+WBlit1:
+	btst	#6,$dff002 ; dmaconr - attendi che il blitter abbia finito
+	bne.s	WBlit1
+	rts
+
+	move.w	#$09f0,$40(a5)		; BLTCON0 copia normale
+
+	tst.w	d0			; testa D0 per decidere il tipo di fill
+	bne.s	fill_esclusivo
+	move.w	#$000a,d2		; valore di BLTCON1: settati i bit del
+					; fill inclusivo e del modo discendente
+	bra.s	test_fill_carry
+
+fill_esclusivo:
+	move.w	#$0012,d2		; valore di BLTCON1: settati i bit del
+					; fill esclusivo e del modo discendente
+
+test_fill_carry:
+	tst.w	d1			; testa D1 per vedere se deve settare
+					; il bit FILL_CARRYIN
+
+	beq.s	fatto_bltcon1		; se D1=0 salta..
+	bset	#2,d2			; altrimenti setta il bit 2 di D2
+	fatto_bltcon1:
+	move.w	d2,$42(a5)		; BLTCON1
+
+	move.w	#0,$64(a5)		; BLTAMOD larghezza 20 words (40-40=0)
+	move.w	#0,$66(a5)		; BLTDMOD (40-40=0)
+
+	move.l	a0,$50(a5)		; BLTAPT - indirizzo al rettangolo
+					; il rettangolo sorgente racchiude
+					; interamente il poligono
+					; puntiamo l'ultima word del rettangolo
+					; per via del modo discendente
+
+	move.l	a0,$54(a5)		; BLTDPT - indirizzo rettangolo
+	move.w	#(64*255)+20,$58(a5)	; BLTSIZE (via al blitter !)
+					; larghezza 20 words
+	rts				; altezza 100 righe (1 plane)
+
+
+ammx_fill_table_blit:
+	movem.l d1/d2/d5-d7/a0-a3,-(sp) ; stack save
+	move.w #1,AMMX_FILL_TABLE_FIRST_DRAW
+	move.w AMMXFILLTABLE_END_ROW,d5
+
+	lea FILL_TABLE,a0
+
+	; Reposition inside the fill table according to the starting row
+	move.w AMMXFILLTABLE_CURRENT_ROW,d6
+	move.w d6,d1
+	lsl.w #2,d6
+	add.w d6,a0
+	; end of repositioning
+	
+	; start of position inside the bitplane
+	lea PLOTREFS,a1    
+
+	IFD USE_DBLBUF
+	move.l SCREEN_PTR_0,a2
+	move.l SCREEN_PTR_1,a3
+	ELSE
+	lea SCREEN_0,a2
+	lea SCREEN_1,a3
+	ENDIF
+    
+	move.w d1,d6
+	add.w d6,d6
+	move.w (a1,d6.w),d6
+	add.w d6,a2
+	add.w d6,a3
+	; end of position iinside the bitplane, now a2 and a3 points to the Y position
+
+	MINUWORD d1,FILLTABLE_FRAME_MIN_Y
+	MAXUWORD d5,FILLTABLE_FRAME_MAX_Y
+
+ammx_fill_table_nextline_blit_3:
+	cmp.w d5,d1
+	bhi.s ammx_fill_table_blit_end
+
+	move.w (a0),d6 ; start of fill line
+	move.w 2(a0),d7 ; end of fill line
+	
+		; start plot routine for left
+	move.w d6,d2
+	lsr.w #3,d2
+	not.b d6
+	bset d6,(a2,d2.w)
+	bset d6,(a3,d2.w)
+
+
+    move.w d7,d2
+    lsr.w #3,d2
+    not.b d7
+    bset d7,(a2,d2.w)
+    bset d7,(a3,d2.w)
+
+	
+	;bsr.w ammx_fill_table_single_line
+
+    add.w #40,a2
+    add.w #40,a3
+
+    move.l #$7FFF8000,(a0)+
+	addq #1,d1
+	
+	bra.s ammx_fill_table_nextline_blit_3
+ammx_fill_table_blit_end:
+	move.w #-1,AMMXFILLTABLE_END_ROW
+	lea SCREEN_0,a0
+	moveq #0,d0
+	moveq #0,d1
+	;bsr.w Fill; enable in production since vamos cant emulate blitter
+	movem.l (sp)+,d1/d2/d5-d7/a0-a3
+	rts
+
+
 ammx_fill_table:
 	movem.l d1/d5-d7/a0,-(sp) ; stack save
 	move.w #1,AMMX_FILL_TABLE_FIRST_DRAW
@@ -163,14 +295,14 @@ ammx_fill_table_single_line:
 	add.w d1,a0
 
 	; bitprocessed = 8-d4
-	subi.w #8,d4 ; d4 must always be negative here!!!!
-	;ext.w d4
+	subq #8,d4 ; d4 must always be negative here!!!!
 	add.w d4,d5 ; totalcount must be decremented by written bits (susing add because d4 is always negative)
 	
 	; special case -  if d5 is negative we plotted too much
 	bpl.s ammx_fill_table_no_special_case
-    subq #1,d5
-	not d5
+    ;subq #1,d5
+	;not d5
+	neg.w d5
 	lsr.b d5,d3
 	lsl.b d5,d3
 
@@ -403,9 +535,9 @@ ammx_fill_table_no_end_0
 	rts
 
 	; if we still have bit to fill repeat the process
-ammx_fill_table_check_if_other: ;
-	cmpi.w #0,d5
-	bhi.w ammx_fill_table_startiter
+;ammx_fill_table_check_if_other: ;
+;	cmpi.w #0,d5
+;	bhi.w ammx_fill_table_startiter
 
 	movem.l (sp)+,d0-d7/a0
 	rts
