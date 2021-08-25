@@ -357,6 +357,15 @@ ammx_fill_table_no_firstbyte_0:
 	; start addr odd or even? store result on d4
 	IFND VAMPIRE
 	move.l a0,d4
+	IFND LOLLAMELO
+	btst #0,d4
+	beq.s ammx_fill_table_startiter
+	cmpi.w #8,d5
+	bcs.w ammx_fill_table_no8 ; branch if lower (it will continue if we have at least 8 bits to fill)
+	or.b  d6,256*40(a0)
+	or.b  d7,(a0)+
+	subq #8,d5
+	ENDIF
 	ENDIF
 
 ; start iteration until we are at the end
@@ -372,29 +381,13 @@ ammx_fill_table_startiter:
 	STORE e6,256*40(a0)
 	POR (a0),e0,e6
 	STORE e6,(a0)+
-	ENDIF
-	IFND VAMPIRE
-	
-	;move.l a0,d0
-	btst #0,d4
-	beq.s ammx_fill_table_64_even
-	
-	or.b d6,256*40(a0)
-	or.l d6,1+256*40(a0)
-	or.w d6,5+256*40(a0)
-    or.b d6,7+256*40(a0)
-
-	or.b d7,(a0)+
-	or.l d7,(a0)+
-    or.w d7,(a0)+
-    or.b d7,(a0)+
-
-    subi.w #64,d5
+	subi.w #64,d5
 	bne.s ammx_fill_table_startiter
 	movem.l (sp)+,d0-d7/a0
 	rts
- ammx_fill_table_64_even:
-
+	ENDIF
+	IFND VAMPIRE
+	
 	or.l  d6,256*40(a0)
 	or.l  d6,4+256*40(a0)
 
@@ -407,10 +400,6 @@ ammx_fill_table_startiter:
 	rts
 	ENDIF
 	
-	subi.w #64,d5
-	bne.s ammx_fill_table_startiter
-	movem.l (sp)+,d0-d7/a0
-	rts
 ammx_fill_table_no64:
 	cmpi.w #32,d5
 	bcs.w ammx_fill_table_no32 ; branch if lower (it will continue if we have at least 32 bits to fill)
@@ -428,23 +417,6 @@ ammx_fill_table_no64:
 	
 	IFND VAMPIRE
 	
-	;move.l a0,d0
-	btst #0,d4
-	beq.s ammx_fill_table_32_even
-	
-	or.b d6,256*40(a0)
-	or.w d6,1+256*40(a0)
-    or.b d6,3+256*40(a0)
-
-	or.b d7,(a0)+
-    or.w d7,(a0)+
-    or.b d7,(a0)+
-
-    subi.w #32,d5
-	bne.w ammx_fill_table_no32
-	movem.l (sp)+,d0-d7/a0
-	rts
- ammx_fill_table_32_even:
 	or.l  d6,256*40(a0)
 	or.l  d7,(a0)+
 
@@ -471,20 +443,6 @@ ammx_fill_table_no32:
 	ENDIF
 	
 	IFND VAMPIRE
-	btst #0,d4
-	beq.s ammx_fill_table_16_even
-	
-	or.b d6,256*40(a0)
-    or.b d6,1+256*40(a0)
-
-	or.b d7,(a0)+
-    or.b d7,(a0)+
-
-    subi.w #16,d5
-	bne.w ammx_fill_table_no16
-	movem.l (sp)+,d0-d7/a0
-	rts
- ammx_fill_table_16_even:
 	or.w  d6,256*40(a0)
 	or.w  d7,(a0)+
 
@@ -531,14 +489,6 @@ ammx_fill_table_no8:
 	or.b d6,256*40*1(a0)
 	or.b d7,(a0)
 ammx_fill_table_no_end_0
-	movem.l (sp)+,d0-d7/a0
-	rts
-
-	; if we still have bit to fill repeat the process
-;ammx_fill_table_check_if_other: ;
-;	cmpi.w #0,d5
-;	bhi.w ammx_fill_table_startiter
-
 	movem.l (sp)+,d0-d7/a0
 	rts
 
