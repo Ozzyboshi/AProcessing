@@ -6,3 +6,16 @@ record: 1278192052
 record: 1278186716
 record: 1278158532
 record: 1278158514
+record: 1278147242
+record: 1278134434
+record: 1278121670
+record: 1278111158
+record: 1278110324
+
+move.l #$FFFFFFFF,d0 (12 cicli)
+vs
+moveq #d0
+not.l d0 (10 cicli)
+
+record: 1278106472
+record: 1278104984
