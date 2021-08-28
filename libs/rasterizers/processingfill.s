@@ -153,7 +153,7 @@ ammx_fill_table_blit_end:
 	rts
 
 ammx_fill_table_noreset:
-	movem.l d0/d3-d7/a0/a3/a4,-(sp) ; stack save
+	movem.l d0/d2-d7/a0/a3/a4,-(sp) ; stack save
 
 	move.w #1,AMMX_FILL_TABLE_FIRST_DRAW
 	move.w AMMXFILLTABLE_END_ROW(PC),d5
@@ -170,27 +170,29 @@ ammx_fill_table_noreset:
 	MINUWORD d1,FILLTABLE_FRAME_MIN_Y
 	MAXUWORD d5,FILLTABLE_FRAME_MAX_Y
 
-	lea PLOTREFS,a4
-
 	cmp.w d5,d1
 	bhi.s ammx_fill_table_end_noreset
 	sub.w d1,d5
-ammx_fill_table_nextline_noreset:
 
+	lea PLOTREFS,a4
+	add.w d1,d1
+	move.w 0(a4,d1.w),d1
+
+ammx_fill_table_nextline_noreset:
 
 	move.w (a0)+,d6 ; start of fill line
 	move.w (a0)+,d7 ; end of fill line
 	
 	bsr.w ammx_fill_table_single_line
-	addq #1,d1
+	add.w #40,d1
 	
 	dbra d5,ammx_fill_table_nextline_noreset
 ammx_fill_table_end_noreset:
-	movem.l (sp)+,d0/d3-d7/a0/a3/a4
+	movem.l (sp)+,d0/d2-d7/a0/a3/a4
 	rts
 
 ammx_fill_table:
-	movem.l d0/d3-d7/a0/a3/a4,-(sp) ; stack save
+	movem.l d0/d2-d7/a0/a3/a4,-(sp) ; stack save
 
 	move.w #1,AMMX_FILL_TABLE_FIRST_DRAW
 	move.w AMMXFILLTABLE_END_ROW(PC),d5
@@ -207,14 +209,14 @@ ammx_fill_table:
 	MINUWORD d1,FILLTABLE_FRAME_MIN_Y
 	MAXUWORD d5,FILLTABLE_FRAME_MAX_Y
 
-	lea PLOTREFS,a4
-	;move.w d1,d4
-	;add.w d4,d4
-	;move.w 0(a3,d4.w),d4
-
 	cmp.w d5,d1
 	bhi.s ammx_fill_table_end
 	sub.w d1,d5
+
+	lea PLOTREFS,a4
+	add.w d1,d1
+	move.w 0(a4,d1.w),d1
+
 ammx_fill_table_nextline:
 
 	move.w (a0),d6 ; start of fill line
@@ -222,12 +224,12 @@ ammx_fill_table_nextline:
 	move.l #$7FFF8000,(a0)+
 	
 	bsr.w ammx_fill_table_single_line
-	addq #1,d1
+	add.w #40,d1
 	
 	dbra d5,ammx_fill_table_nextline
 ammx_fill_table_end:
 	move.w #-1,AMMXFILLTABLE_END_ROW
-	movem.l (sp)+,d0/d3-d7/a0/a3/a4
+	movem.l (sp)+,d0/d2-d7/a0/a3/a4
 	rts
 
 	IFD USE_CLIPPING
@@ -239,20 +241,21 @@ ammx_fill_table_clip:
 
 	; Reposition inside the fill table according to the starting row
 	move.w AMMXFILLTABLE_CURRENT_ROW,d6
-	move.w AMMXFILLTABLE_END_ROW,d2
+	move.w AMMXFILLTABLE_END_ROW,d5
 	move.w d6,d1
 	lsl.w #2,d6
 	add.w d6,a0
 	; end of repositioning
 
-	lea PLOTREFS,a4
-
-
-	cmp.w d2,d1
+	cmp.w d5,d1
 	bgt.s ammx_fill_table_end_clip
-	sub.w d1,d2
-ammx_fill_table_nextline_clip:
+	sub.w d1,d5
 
+	lea PLOTREFS,a4
+	add.w d1,d1
+	move.w 0(a4,d1.w),d1
+
+ammx_fill_table_nextline_clip:
 
 	move.w (a0),d6 ; start of fill line
 	move.w #$7FFF,(a0)+
@@ -284,9 +287,9 @@ ammx_fill_table_nextline_clip:
 	; clip end
 	
 	bsr.w ammx_fill_table_single_line
-	add.w #1,d1
+	add.w #40,d1
 	
-	dbra d2,ammx_fill_table_nextline_clip
+	dbra d5,ammx_fill_table_nextline_clip
 ammx_fill_table_end_clip:
 	move.w #-1,AMMXFILLTABLE_END_ROW
 	movem.l (sp)+,d0-d7/a0/a3/a4
@@ -298,7 +301,7 @@ ammx_fill_table_end_clip:
 ; Input:
 ;	- d6.w : left X (0-319)
 ;	- d7.w : right X (0-319)
-;	- d1.w : line number (0-255)
+;	- d1.w : line number multiplied by 40 (line)
 ;	- a4 : addr of plotrefs
 ;
 ; Defines:
@@ -307,13 +310,14 @@ ammx_fill_table_end_clip:
 ;
 ; Trashes:
 ;   - d0
+;   - d2 (da togliere???????????)
 ;	- d3
 ;	- d4
 ;	- d6
 ;	- d7
 ; 	- a3
 ammx_fill_table_single_line:
-	movem.l d1-d2/d5,-(sp) ; stack save
+	move.l d5,-(sp) ; stack save
 
 	; d5 => totalcount
 	; d3 / d4 => tmp
@@ -332,13 +336,14 @@ ammx_fill_table_single_line:
 	; address of the first point
 	;lea PLOTREFS,a3
 
-	add.w d1,d1
-	move.w 0(a4,d1.w),d1
+	;add.w d1,d1
+	;move.w 0(a4,d1.w),d1
 	move.w d6,d2
 	lsr.w #3,d2
-	add.w d2,d1
+	;add.w d2,d1
+	add.w d1,d2
 	
-	; d1.w now has the address of the first byte let's calculate the fill for this byte
+	; d2.w now has the address of the first byte let's calculate the fill for this byte
 	move.w d6,d4
 	andi.w #$0007,d4
 	scc d3 ; I need to set d3 to FF, since andy ALWAYS clears C and V i use SCC who is faster than move.b
@@ -349,7 +354,7 @@ ammx_fill_table_single_line:
 	ELSE
 	lea SCREEN_0,a3
 	ENDIF
-	add.w d1,a3
+	add.w d2,a3
 
 	; bitprocessed = 8-d4
 	subq #8,d4 ; d4 must always be negative here!!!!
@@ -372,7 +377,7 @@ ammx_fill_table_no_special_1
 	beq.s ammx_fill_table_no_special_0
 	or.b d3,(a3)+ ; Plot points!!
 ammx_fill_table_no_special_0:
-	movem.l (sp)+,d1-d2/d5
+	move.l (sp)+,d5
 	rts
 
 ammx_fill_table_no_special_case:
@@ -438,7 +443,7 @@ ammx_fill_table_startiter:
 	STORE e6,(a3)+
 	subi.w #64,d5
 	bne.s ammx_fill_table_startiter
-	movem.l (sp)+,d1-d2/d5
+	move.l (sp)+,d5
 	rts
 	ENDIF
 	IFND VAMPIRE
@@ -451,7 +456,7 @@ ammx_fill_table_startiter:
 
 	subi.w #64,d5
 	bne.s ammx_fill_table_startiter
-	movem.l (sp)+,d1-d2/d5
+	move.l (sp)+,d5
 	rts
 	ENDIF
 	
@@ -466,7 +471,7 @@ ammx_fill_table_no64:
 	or.l d0,(a3)+ ; first bitplane
 	subi.w #32,d5
 	bne.w ammx_fill_table_startiter
-	movem.l (sp)+,d1-d2/d5
+	move.l (sp)+,d5
 	rts
 	ENDIF
 	
@@ -491,7 +496,7 @@ ammx_fill_table_no32:
 	or.w d0,(a3)+ ; first bitplane
 	subi.w #16,d5
 	bne.w ammx_fill_table_no16
-	movem.l (sp)+,d1-d2/d5
+	move.l (sp)+,d5
 	rts
 	ENDIF
 	
@@ -538,7 +543,7 @@ ammx_fill_table_no8:
 	or.b d6,256*40*1(a3)
 	or.b d7,(a3)
 ammx_fill_table_no_end_0
-	movem.l (sp)+,d1-d2/d5
+	move.l (sp)+,d5
 	rts
 
 LINEVERTEX_START_PUSHED:
