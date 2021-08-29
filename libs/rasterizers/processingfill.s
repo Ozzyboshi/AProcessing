@@ -158,7 +158,7 @@ ammx_fill_table_noreset:
 	move.w #1,AMMX_FILL_TABLE_FIRST_DRAW
 	move.w AMMXFILLTABLE_END_ROW(PC),d5
 
-	lea FILL_TABLE,a0
+	lea FILL_TABLE(PC),a0
 
 	; Reposition inside the fill table according to the starting row
 	move.w AMMXFILLTABLE_CURRENT_ROW(PC),d6
@@ -174,7 +174,7 @@ ammx_fill_table_noreset:
 	bhi.s ammx_fill_table_end_noreset
 	sub.w d1,d5
 
-	lea PLOTREFS,a4
+	lea PLOTREFS(PC),a4
 	add.w d1,d1
 	move.w 0(a4,d1.w),d1
 
@@ -182,7 +182,7 @@ ammx_fill_table_nextline_noreset:
 
 	move.w (a0)+,d6 ; start of fill line
 	move.w (a0)+,d7 ; end of fill line
-	
+
 	bsr.w ammx_fill_table_single_line
 	add.w #40,d1
 	
@@ -197,7 +197,7 @@ ammx_fill_table:
 	move.w #1,AMMX_FILL_TABLE_FIRST_DRAW
 	move.w AMMXFILLTABLE_END_ROW(PC),d5
 
-	lea FILL_TABLE,a0
+	lea FILL_TABLE(PC),a0
 
 	; Reposition inside the fill table according to the starting row
 	move.w AMMXFILLTABLE_CURRENT_ROW(PC),d6
@@ -213,7 +213,7 @@ ammx_fill_table:
 	bhi.s ammx_fill_table_end
 	sub.w d1,d5
 
-	lea PLOTREFS,a4
+	lea PLOTREFS(PC),a4
 	add.w d1,d1
 	move.w 0(a4,d1.w),d1
 
@@ -237,7 +237,7 @@ ammx_fill_table_clip:
 	movem.l d0-d7/a0/a3/a4,-(sp) ; stack save
 	move.w #1,AMMX_FILL_TABLE_FIRST_DRAW
 
-	lea FILL_TABLE,a0
+	lea FILL_TABLE(PC),a0
 
 	; Reposition inside the fill table according to the starting row
 	move.w AMMXFILLTABLE_CURRENT_ROW,d6
@@ -310,7 +310,7 @@ ammx_fill_table_end_clip:
 ;
 ; Trashes:
 ;   - d0
-;   - d2 (da togliere???????????)
+;   - d2
 ;	- d3
 ;	- d4
 ;	- d6
@@ -340,14 +340,13 @@ ammx_fill_table_single_line:
 	;move.w 0(a4,d1.w),d1
 	move.w d6,d2
 	lsr.w #3,d2
-	;add.w d2,d1
 	add.w d1,d2
 	
 	; d2.w now has the address of the first byte let's calculate the fill for this byte
-	move.w d6,d4
-	andi.w #$0007,d4
+	;move.w d6,d4 ; d6 can be trashed at this point
+	andi.w #$0007,d6
 	scc d3 ; I need to set d3 to FF, since andy ALWAYS clears C and V i use SCC who is faster than move.b
-	lsr.b d4,d3
+	lsr.b d6,d3
 
 	IFD USE_DBLBUF
 	move.l SCREEN_PTR_0,a3
@@ -356,9 +355,9 @@ ammx_fill_table_single_line:
 	ENDIF
 	add.w d2,a3
 
-	; bitprocessed = 8-d4
-	subq #8,d4 ; d4 must always be negative here!!!!
-	add.w d4,d5 ; totalcount must be decremented by written bits (using add because d4 is always negative)
+	; bitprocessed = 8-d6
+	subq #8,d6 ; d6 must always be negative here!!!!
+	add.w d6,d5 ; totalcount must be decremented by written bits (using add because d4 is always negative)
 	
 	; special case -  if d5 is negative we plotted too much
 	bpl.s ammx_fill_table_no_special_case

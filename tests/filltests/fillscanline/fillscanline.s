@@ -13,6 +13,7 @@
   XDEF                  _fillscanline_test12
   XDEF                  _fillscanline_test13
   XDEF                  _fillscanline_test14
+  XDEF                  _fillscanline_test15
 
 
   SECTION               PROCESSING,CODE_F
@@ -242,5 +243,20 @@ _fillscanline_test14:
   move.l                AMMX_FILL_FUNCT_ADDR,a0
   jsr                   (a0)
   DISABLE_CLIPPING
+  bsr.w                 processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
+  rts
+
+_fillscanline_test15:
+  CLEARFASTBITPLANES                                                               ; Clear fast bitplanes
+
+  move.w                #0,AMMXFILLTABLE_CURRENT_ROW
+  move.w                #0,AMMXFILLTABLE_END_ROW                                   ; I want to fill up to first row (first row is elaborated)
+
+  lea                   FILL_TABLE,a1
+
+	; Fill from pixel number 15 up to 102
+  move.w                #15,(a1)+
+  move.w                #102,(a1)+
+  bsr.w                 ammx_fill_table_noreset
   bsr.w                 processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
   rts
