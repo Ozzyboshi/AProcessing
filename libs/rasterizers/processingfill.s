@@ -153,7 +153,7 @@ ammx_fill_table_blit_end:
 	rts
 
 ammx_fill_table_noreset:
-	movem.l d0/d2-d7/a0/a3/a4,-(sp) ; stack save
+	movem.l d0/d2-d7/a0/a3/a4/a5,-(sp) ; stack save
 
 	move.w #1,AMMX_FILL_TABLE_FIRST_DRAW
 	move.w AMMXFILLTABLE_END_ROW(PC),d5
@@ -178,6 +178,12 @@ ammx_fill_table_noreset:
 	add.w d1,d1
 	move.w 0(a4,d1.w),d1
 
+	IFD USE_DBLBUF
+	move.l SCREEN_PTR_0,a5
+	ELSE
+	lea SCREEN_0,a5
+	ENDIF
+
 ammx_fill_table_nextline_noreset:
 
 	move.w (a0)+,d6 ; start of fill line
@@ -188,11 +194,11 @@ ammx_fill_table_nextline_noreset:
 	
 	dbra d5,ammx_fill_table_nextline_noreset
 ammx_fill_table_end_noreset:
-	movem.l (sp)+,d0/d2-d7/a0/a3/a4
+	movem.l (sp)+,d0/d2-d7/a0/a3/a4/a5
 	rts
 
 ammx_fill_table:
-	movem.l d0/d2-d7/a0/a3/a4,-(sp) ; stack save
+	movem.l d0/d2-d7/a0/a3/a4/a5,-(sp) ; stack save
 
 	move.w #1,AMMX_FILL_TABLE_FIRST_DRAW
 	move.w AMMXFILLTABLE_END_ROW(PC),d5
@@ -217,6 +223,12 @@ ammx_fill_table:
 	add.w d1,d1
 	move.w 0(a4,d1.w),d1
 
+	IFD USE_DBLBUF
+	move.l SCREEN_PTR_0,a5
+	ELSE
+	lea SCREEN_0,a5
+	ENDIF
+
 ammx_fill_table_nextline:
 
 	move.w (a0),d6 ; start of fill line
@@ -229,12 +241,12 @@ ammx_fill_table_nextline:
 	dbra d5,ammx_fill_table_nextline
 ammx_fill_table_end:
 	move.w #-1,AMMXFILLTABLE_END_ROW
-	movem.l (sp)+,d0/d2-d7/a0/a3/a4
+	movem.l (sp)+,d0/d2-d7/a0/a3/a4/a5
 	rts
 
 	IFD USE_CLIPPING
 ammx_fill_table_clip:
-	movem.l d0-d7/a0/a3/a4,-(sp) ; stack save
+	movem.l d0-d7/a0/a3/a4/a5,-(sp) ; stack save
 	move.w #1,AMMX_FILL_TABLE_FIRST_DRAW
 
 	lea FILL_TABLE(PC),a0
@@ -254,6 +266,12 @@ ammx_fill_table_clip:
 	lea PLOTREFS,a4
 	add.w d1,d1
 	move.w 0(a4,d1.w),d1
+
+	IFD USE_DBLBUF
+	move.l SCREEN_PTR_0,a5
+	ELSE
+	lea SCREEN_0,a5
+	ENDIF
 
 ammx_fill_table_nextline_clip:
 
@@ -292,7 +310,7 @@ ammx_fill_table_nextline_clip:
 	dbra d5,ammx_fill_table_nextline_clip
 ammx_fill_table_end_clip:
 	move.w #-1,AMMXFILLTABLE_END_ROW
-	movem.l (sp)+,d0-d7/a0/a3/a4
+	movem.l (sp)+,d0-d7/a0/a3/a4/a5
 	rts
 
 	ENDIF
@@ -303,6 +321,7 @@ ammx_fill_table_end_clip:
 ;	- d7.w : right X (0-319)
 ;	- d1.w : line number multiplied by 40 (line)
 ;	- a4 : addr of plotrefs
+;   - a5 : addr of screen
 ;
 ; Defines:
 ; - USE_CLIPPING
@@ -348,11 +367,12 @@ ammx_fill_table_single_line:
 	scc d3 ; I need to set d3 to FF, since andy ALWAYS clears C and V i use SCC who is faster than move.b
 	lsr.b d6,d3
 
-	IFD USE_DBLBUF
-	move.l SCREEN_PTR_0,a3
-	ELSE
-	lea SCREEN_0,a3
-	ENDIF
+	;IFD USE_DBLBUF
+	;move.l SCREEN_PTR_0,a3
+	;ELSE
+	;lea SCREEN_0,a3
+	;ENDIF
+	move.l a5,a3
 	add.w d2,a3
 
 	; bitprocessed = 8-d6
