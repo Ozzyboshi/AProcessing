@@ -26,6 +26,7 @@ unsigned char *drawing_test17();
 unsigned char *drawing_test18();
 unsigned char *drawing_test19();
 unsigned char *drawing_test20();
+unsigned char *drawing_test21();
 
 
 struct _test TESTS[] = {
@@ -50,6 +51,7 @@ struct _test TESTS[] = {
     {.testId = 18, .test_function = drawing_test18, .nbitplanes=2, .nrows=256, .nbyterow=40,.title = "Rotated on the origin by 38 deg", .verbose=0},
     {.testId = 19, .test_function = drawing_test19, .nbitplanes=2, .nrows=256, .nbyterow=40,.title = "Square Rotated on the origin by 220 deg", .verbose=0},
     {.testId = 20, .test_function = drawing_test20, .nbitplanes=2, .nrows=256, .nbyterow=40,.title = "Triangle filled with blitter", .verbose=0},
+    {.testId = 21, .test_function = drawing_test21, .nbitplanes=1, .nrows=2, .nbyterow=2,.title = "Triangle filled with blitter test min/max Y", .verbose=0},
 
 
 
