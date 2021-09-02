@@ -124,9 +124,9 @@ RESETFILLTABLE MACRO
 	move.w #1,AMMX_FILL_TABLE_FIRST_DRAW
 	move.l #255,d3
 	lea FILL_TABLE,a0
-.resetfilltableclearline:
+.1\@:
 	move.l #$7FFF8000,(a0)+
-	dbra d3,.resetfilltableclearline
+	dbra d3,.1\@
 	ENDM
 
 RESETFILLYVALS MACRO
