@@ -26,7 +26,7 @@ POINT_TRANSFORM_AND_STORE_IN_FILLTABLE_3D MACRO
     move.w d1,(a1)+
 
     ENDM
-	ENDIF
+	ENDC
 
 POINT_Q_10_6 MACRO
 
@@ -44,7 +44,7 @@ POINT_Q_10_6 MACRO
 	REG_ZERO e3
 
 	LOAD_CURRENT_TRANSFORMATION_MATRIX e4,e5,e6
-	ENDIF
+	ENDC
 
 	IFND VAMPIRE
 	LOAD_CURRENT_TRANSFORMATION_MATRIX OPERATOR2_TR_MATRIX_ROW1
@@ -53,19 +53,19 @@ POINT_Q_10_6 MACRO
 	move.w \2,OPERATOR1_TR_MATRIX_ROW1+4
 	move.w #$0040,OPERATOR1_TR_MATRIX_ROW1+6
 	
-	ENDIF
+	ENDC
 
 	bsr.w ammxmatrixmul1X3_q10_6
 
 	IFD VAMPIRE
 	vperm #$FFFFFF23,e13,e2,d0
 	vperm #$FFFFFF45,e13,e2,d1
-	ENDIF
+	ENDC
 
 	IFND VAMPIRE	
 	move.w OPERATOR3_TR_MATRIX_ROW1+2,d0
 	move.w OPERATOR3_TR_MATRIX_ROW1+4,d1
-	ENDIF
+	ENDC
 
 	lsr.l #6,d0
 	lsr.l #6,d1
@@ -111,7 +111,7 @@ point_execute_transformation:
 	;movem.l d0-d1,-(sp)
 	IFD VAMPIRE
 	move.l d2,-(sp)
-	ENDIF
+	ENDC
 
 	and.l #$0000FFFF,d0
 	and.l #$0000FFFF,d1
@@ -128,7 +128,7 @@ point_execute_transformation:
 	REG_ZERO e3
 
 	LOAD_CURRENT_TRANSFORMATION_MATRIX e4,e5,e6
-	ENDIF
+	ENDC
 
 	IFND VAMPIRE
 	LOAD_CURRENT_TRANSFORMATION_MATRIX OPERATOR2_TR_MATRIX_ROW1
@@ -139,19 +139,19 @@ point_execute_transformation:
 	move.w d1,OPERATOR1_TR_MATRIX_ROW1+4
 	move.w #$0040,OPERATOR1_TR_MATRIX_ROW1+6
 
-	ENDIF
+	ENDC
 
 	bsr.w ammxmatrixmul1X3_q10_6
 
 	IFD VAMPIRE
 	vperm #$FFFFFF23,e13,e2,d0
 	vperm #$FFFFFF45,e13,e2,d1
-	ENDIF
+	ENDC
 
 	IFND VAMPIRE	
 	move.w OPERATOR3_TR_MATRIX_ROW1+2,d0
 	move.w OPERATOR3_TR_MATRIX_ROW1+4,d1
-	ENDIF
+	ENDC
 
 	ext.l d0
 	ext.l d1
@@ -162,7 +162,7 @@ point_execute_transformation:
 	;movem.l (sp)+,d0-d1
 	IFD VAMPIRE
 	move.l (sp)+,d2
-	ENDIF
+	ENDC
 	rts
 
 	IFD USE_3D
@@ -174,7 +174,7 @@ point_execute_transformation_3d:
 	;movem.l d0-d1,-(sp)
 	IFD VAMPIRE
 	move.l d3,-(sp)
-	ENDIF
+	ENDC
 
 	and.l #$0000FFFF,d0
 	and.l #$0000FFFF,d1
@@ -198,7 +198,7 @@ point_execute_transformation_3d:
 	REG_ZERO e3
 
 	LOAD_CURRENT_TRANSFORMATION_MATRIX e4,e5,e6
-	ENDIF
+	ENDC
 
 	IFND VAMPIRE
 	LOAD_CURRENT_TRANSFORMATION_MATRIX OPERATOR2_TR_MATRIX_ROW1
@@ -210,7 +210,7 @@ point_execute_transformation_3d:
 	move.w d1,OPERATOR1_TR_MATRIX_ROW1+4
 	move.w d2,OPERATOR1_TR_MATRIX_ROW1+6
 
-	ENDIF
+	ENDC
 
 	bsr.w ammxmatrixmul1X3_q10_6
 
@@ -218,13 +218,13 @@ point_execute_transformation_3d:
 	vperm #$FFFFFF23,e13,e2,d0
 	vperm #$FFFFFF45,e13,e2,d1
 	vperm #$FFFFFF67,e13,e2,d2
-	ENDIF
+	ENDC
 
 	IFND VAMPIRE	
 	move.w OPERATOR3_TR_MATRIX_ROW1+2,d0
 	move.w OPERATOR3_TR_MATRIX_ROW1+4,d1
 	move.w OPERATOR3_TR_MATRIX_ROW1+6,d2
-	ENDIF
+	ENDC
 
 	ext.l d0
 	ext.l d1
@@ -237,7 +237,7 @@ point_execute_transformation_3d:
 	;movem.l (sp)+,d0-d1
 	IFD VAMPIRE
 	move.l (sp)+,d3
-	ENDIF
+	ENDC
 	rts
 
 PROJECTION_CENTER_X:	dc.w 160
@@ -262,4 +262,4 @@ point_project_3d:
 	add.w PROJECTION_CENTER_Y,d1
 
 	rts
-	ENDIF
+	ENDC

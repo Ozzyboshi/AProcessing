@@ -9,4 +9,4 @@ VERTEX_LIST_3D_1:   dcb.b 6,0
 VERTEX_LIST_3D_2:   dcb.b 6,0
 VERTEX_LIST_3D_3:   dcb.b 6,0
 VERTEX_LIST_3D_4:   dcb.b 6,0
-    ENDIF
+    ENDC

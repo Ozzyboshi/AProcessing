@@ -20,4 +20,4 @@ TRIANGLE3D:
 
   movem.l                                      (sp)+,d0-d6/a1
   rts
-  ENDIF
+  ENDC

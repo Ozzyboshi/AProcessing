@@ -16,27 +16,41 @@ STROKE MACRO
                       move.b    \1,STROKE_DATA
                       ENDM
 
-                      IFD       USE_CLIPPING
-ENABLE_CLIPPING MACRO
-                      IFD       VAMPIRE
+ENABLE_CLIPPING_VAMPIRE MACRO
                       POR       #$0000000000000100,e22,e22
-                      ENDIF
-                      IFND      VAMPIRE
-                      ori.b     #$01,DRAWING_OPTIONS
-                      ENDIF
                       move.l  #ammx_fill_table_clip,AMMX_FILL_FUNCT_ADDR
                       ENDM
-DISABLE_CLIPPING MACRO
+DISABLE_CLIPPING_VAMPIRE MACRO
                       move.w #0,LINEVERTEX_CLIP_X_OFFSET
-                      IFD       VAMPIRE
                       PAND      #$FFFFFFFFFFFFFEFF,e22,e22
-                      ENDIF
-                      IFND      VAMPIRE
-                      andi.b    #$FE,DRAWING_OPTIONS
-                      ENDIF
                       move.l  #ammx_fill_table,AMMX_FILL_FUNCT_ADDR
                       ENDM
-                      ENDIF
+
+ENABLE_CLIPPING_68 MACRO
+                      ori.b     #$01,DRAWING_OPTIONS
+                      move.l  #ammx_fill_table_clip,AMMX_FILL_FUNCT_ADDR
+                      ENDM
+DISABLE_CLIPPING_68 MACRO
+                      move.w #0,LINEVERTEX_CLIP_X_OFFSET
+                      andi.b    #$FE,DRAWING_OPTIONS
+                      move.l  #ammx_fill_table,AMMX_FILL_FUNCT_ADDR
+                      ENDM
+
+ENABLE_CLIPPING MACRO
+    IFD VAMPIRE
+    ENABLE_CLIPPING_VAMPIRE
+    ELSE
+    ENABLE_CLIPPING_68
+    ENDC
+    ENDM
+
+DISABLE_CLIPPING MACRO
+    IFD VAMPIRE
+    DISABLE_CLIPPING_VAMPIRE
+    ELSE
+    DISABLE_CLIPPING_68
+    ENDC
+    ENDM
 
 MINUWORD MACRO
                       cmp.w     \2,\1
