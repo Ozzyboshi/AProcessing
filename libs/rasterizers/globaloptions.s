@@ -12,7 +12,7 @@ STROKE MACRO
                       IFD       VAMPIRE 
                       PAND      #$FFFFFFFFFFFFFF00,e22,e22    ; last byte zeroed
                       POR       \1,e22,e22                    ; last byte reserved for bitplanes
-                      ENDIF
+                      ENDC
                       move.b    \1,STROKE_DATA
                       ENDM
 
