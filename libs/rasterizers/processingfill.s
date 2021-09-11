@@ -591,17 +591,17 @@ LINEVERTEX_DELTAY:
 ammxlinefill:
 	movem.l d0-d7/a2,-(sp) ; stack save
 	
-	lea LINEVERTEX_START_PUSHED,a2
+	lea LINEVERTEX_START_PUSHED(PC),a2
 	
 	; - pick lowest first x
-	move.l LINEVERTEX_START_FINAL,d2
-	cmp.l LINEVERTEX_END_FINAL,d2
+	move.l LINEVERTEX_START_FINAL(PC),d2
+	cmp.l LINEVERTEX_END_FINAL(PC),d2
 	blt.s ammxlinefill_lowestless ;  check if first x is lower if this is the case jump to endammxlinefill
-	move.l LINEVERTEX_START_FINAL,d3
-	move.l LINEVERTEX_END_FINAL,d2
+	move.l LINEVERTEX_START_FINAL(PC),d3
+	move.l LINEVERTEX_END_FINAL(PC),d2
 	bra.s endammxlinefillphase1
 ammxlinefill_lowestless:
-	move.l LINEVERTEX_END_FINAL,d3
+	move.l LINEVERTEX_END_FINAL(PC),d3
 endammxlinefillphase1:  ; end of first check
 
 	; - pick lowest first x end
@@ -637,8 +637,7 @@ endammxlinefillphase1_max:
 	vperm #$EEEEEEEE,e22,e22,d0
 	btst  #0,d0
 	beq.s ammxlinefill_clip_done
-	ENDC
-	IFND VAMPIRE
+	ELSE
 	btst  #0,DRAWING_OPTIONS
 	beq.s ammxlinefill_clip_done
 	ENDC
@@ -651,8 +650,8 @@ endammxlinefillphase1_max:
 ammxlinefill_clip_ok:
 
 	; d0 will contain the min(X) and d1 the max(X)
-    move.w LINEVERTEX_START_PUSHED_X,d0
-	move.w LINEVERTEX_END_PUSHED_X,d1
+    move.w LINEVERTEX_START_PUSHED_X(PC),d0
+	move.w LINEVERTEX_END_PUSHED_X(PC),d1
 	cmp.w d0,d1
 	bge.s ammxlinefill_noswap_x
 	exg d1,d0
@@ -681,8 +680,8 @@ ammxlinefill_clip_done:
 	ENDC
 
 	; save Y MIN and MAX
-	move.w LINEVERTEX_START_PUSHED_Y,d0
-	move.w LINEVERTEX_END_PUSHED_Y,d1
+	move.w LINEVERTEX_START_PUSHED_Y(PC),d0
+	move.w LINEVERTEX_END_PUSHED_Y(PC),d1
 	IFD VAMPIRE
 	pminuw d0,d1,e0
 	pmaxuw d0,d1,e1
@@ -701,14 +700,19 @@ ammxlinefill_noswap_y:
 	; recalculate deltay
 	cmpi.w #0,AMMX_FILL_TABLE_FIRST_DRAW
     beq.s ammxfill_firstdraw_update
+	IFD VAMPIRE
     move.w      AMMXFILLTABLE_CURRENT_ROW_LINE,AMMXFILLTABLE_CURRENT_ROW
     move.w      AMMXFILLTABLE_END_ROW_LINE,AMMXFILLTABLE_END_ROW
+	ELSE
+	move.w      d0,AMMXFILLTABLE_CURRENT_ROW
+    move.w      d1,AMMXFILLTABLE_END_ROW
+	ENDC
 	move.w      #0,AMMX_FILL_TABLE_FIRST_DRAW
     bra.w ammxfill_endfirstdraw
 ammxfill_firstdraw_update:
-    move.w      AMMXFILLTABLE_CURRENT_ROW_LINE,d0
+    move.w      AMMXFILLTABLE_CURRENT_ROW_LINE(PC),d0
     MINUWORD    d0,AMMXFILLTABLE_CURRENT_ROW
-    move.w      AMMXFILLTABLE_END_ROW_LINE,d0
+    move.w      AMMXFILLTABLE_END_ROW_LINE(PC),d0
     MAXUWORD    d0,AMMXFILLTABLE_END_ROW
 ammxfill_endfirstdraw:
 	
@@ -747,7 +751,6 @@ ammxlinefill_endammxlinefillphase2:
 ; d4 ===> decision
 ; e6 ===> I1
 ; trash everything
-
 ammxlinefill_linem0to1:
 	move.l LINEVERTEX_START_PUSHED,d2
 	move.l LINEVERTEX_END_PUSHED,d3
@@ -786,7 +789,7 @@ ammxlinefill_linem0to1:
     sub.w d3,d4 ; d4 = determinant
 
     ; start of I2 calc
-    sub.w   d3,d7 ; now we have deltaY-Deltax
+    sub.w d3,d7 ; now we have deltaY-Deltax
     add.w d7,d7 ; now we have 2(deltaY-deltaX)
 	
 	; Save d0 X point into FILL_TABLE start
