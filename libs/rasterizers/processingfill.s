@@ -589,7 +589,7 @@ LINEVERTEX_DELTAY:
 
 ; Line drawing with boundaries storing - entry function to select the correct drawing routine according to m
 ammxlinefill:
-	movem.l d0-d7/a0-a6,-(sp) ; stack save
+	movem.l d0-d7/a2,-(sp) ; stack save
 	
 	lea LINEVERTEX_START_PUSHED,a2
 	
@@ -631,17 +631,6 @@ endammxlinefillphase1_max:
     move.w d5,LINEVERTEX_DELTAX
     move.w d4,LINEVERTEX_DELTAY
 
-
-    ; ENDC
-	
-	;IFD VAMPIRE
-	;PSUBW d2,d3,d4 ; d4 will contain deltas
-	;PSUBW d3,d2,d5
-	;pmaxsw  d5,d4,d4
-	
-	;vperm #$45454545,d4,d4,d5 ; move xdelta in the less sig word
-	;ENDC
-
 	; - check if both coords are between screen limits start
 	IFD USE_CLIPPING
 	IFD VAMPIRE
@@ -657,7 +646,7 @@ endammxlinefillphase1_max:
 
 	cmpi.w #$FFFF,d0
     bne.s ammxlinefill_clip_ok
-    movem.l (sp)+,d0-d7/a0-a6
+    movem.l (sp)+,d0-d7/a2
 	rts
 ammxlinefill_clip_ok:
 
@@ -729,12 +718,12 @@ ammxfill_endfirstdraw:
 	cmp.w d2,d3
 	bls.s ammxlinefill_gotolessminus1
 	bsr.w ammxlinefill_linemgreater1		; vertical line
-	movem.l (sp)+,d0-d7/a0-a6
+	movem.l (sp)+,d0-d7/a2
 	rts
 
 ammxlinefill_gotolessminus1:
 	bsr.w ammxlinefill_linemlessminus1
-	movem.l (sp)+,d0-d7/a0-a6
+	movem.l (sp)+,d0-d7/a2
 	rts
 
 ammxlinefill_dylessthan:
@@ -742,13 +731,13 @@ ammxlinefill_dylessthan:
 	cmp.w d2,d3
 	bls.s ammxlinefill_goto0tominus1
 	bsr.w ammxlinefill_linem0to1
-	movem.l (sp)+,d0-d7/a0-a6
+	movem.l (sp)+,d0-d7/a2
 	rts
 ammxlinefill_goto0tominus1:
 	bsr.w ammxlinefill_linem0tominus1
 ammxlinefill_endammxlinefillphase2:
 
-	movem.l (sp)+,d0-d7/a0-a6
+	movem.l (sp)+,d0-d7/a2
 	rts
 
 ; d0 ==> x

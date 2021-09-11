@@ -31,6 +31,6 @@ _drawing_test3d1:
   VERTEX_INIT           3,#-10,#10,#0
 
   bsr.w                 TRIANGLE3D
-  
   bsr.w                 processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
+  
   rts

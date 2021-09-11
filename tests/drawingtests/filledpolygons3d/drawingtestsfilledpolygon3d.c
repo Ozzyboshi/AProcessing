@@ -11,7 +11,7 @@ unsigned char *drawing_test3d1();
 
 
 struct _test TESTS[] = {
-    {.testId = 1, .test_function = drawing_test3d1, .nbitplanes=2, .nrows=256, .nbyterow=40,.title = "square rotated filled", .verbose=0},
+    {.testId = 1, .test_function = drawing_test3d1, .nbitplanes=2, .nrows=256, .nbyterow=40,.title = "triangle rotated filled", .verbose=2},
   
     {.testId = 0, .test_function = NULL}
 
