@@ -771,11 +771,11 @@ ammxlinefill_linem0to1:
 	swap d6 ; here we have the xstop value into d6
 	ENDC
 
-	move.w d2,d1 ; here we have ystart into d1
+	;move.w d2,d1 ; here we have ystart into d1
 
 	; Get address of first raw inside fill table
 	lea FILL_TABLE,a2
-	move.w d1,d5
+	move.w d2,d5
 	lsl.w #2,d5
 	adda.w d5,a2
 	
@@ -819,21 +819,28 @@ ammxlinefill_linem0to1_2:
 
 	moveq #0,d3
 
+	; here d1 should be free to use
+
 ammxlinefill_LINESTARTITER_F:
 
 	; interate for each x until x<=xend
 	cmp.w d0,d6
 	ble.s ammxlinefill_ENDLINE_F ; if x>=xend exit
 
+	move.w d6,d1
+	sub.w d0,d1
+	subq #1,d1
+cazzo:
+
 	cmp.w d3,d4 ; check if d<0
 	blt.s ammxlinefill_POINT_D_LESS_0_F ; branch if id<0
 
 	; we are here if d>=0
-    addq #1,d1 ; y = y+1
+    addq #1,d2 ; y = y+1
 
 	IFD USE_CLIPPING
 	; CLIPPING FEATURE if Y > 255 (or a negative number) exit
-    cmpi.w #255,d1
+    cmpi.w #255,d2
     bhi.s ammxlinefill_ENDLINE_F
 	ENDC
 
@@ -865,7 +872,9 @@ ammxlinefill_linem0to1_4:
 	ENDC
 
 	add.w d7,d4 ; d = i2+d
-	bra.s ammxlinefill_LINESTARTITER_F ; end d<0
+	;bra.s ammxlinefill_LINESTARTITER_F ; end d<0
+	dbra d1,cazzo
+	rts
 
 ammxlinefill_POINT_D_LESS_0_F:
 	; we are here if d<0
@@ -893,7 +902,8 @@ ammxlinefill_linem0to1_6:
 	ENDC
 
 	add.w d5,d4 ; d = i1 +d
-	bra.s ammxlinefill_LINESTARTITER_F
+	;bra.s ammxlinefill_LINESTARTITER_F
+	dbra d1,cazzo
 
 ammxlinefill_ENDLINE_F:
 	rts
