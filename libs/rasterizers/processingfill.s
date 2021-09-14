@@ -754,7 +754,9 @@ ammxlinefill_endammxlinefillphase2:
 ammxlinefill_linem0to1:
 	move.l LINEVERTEX_START_PUSHED,d2
 	move.l LINEVERTEX_END_PUSHED,d3
-	move.w LINEVERTEX_DELTAY,d4
+	;move.w LINEVERTEX_DELTAY,d4
+	move.w d3,d4
+	sub.w d2,d4
 
 	;Calculate dx = x2-x1
     ;Calculate dy = y2-y1
@@ -771,22 +773,19 @@ ammxlinefill_linem0to1:
 	swap d6 ; here we have the xstop value into d6
 	ENDC
 
-	;move.w d2,d1 ; here we have ystart into d1
-
 	; Get address of first raw inside fill table
 	lea FILL_TABLE,a2
 	move.w d2,d5
 	lsl.w #2,d5
 	adda.w d5,a2
-	
-	; calculate Ii into d5
-	move.w d4,d5
-	add.w d5,d5 ; I1 is now into d5
-	
+
 	move.w d4,d7 ; save for later I2 calculation
-    add.w d4,d4
-	move.w LINEVERTEX_DELTAX,d3
-    sub.w d3,d4 ; d4 = determinant
+	add.w d4,d4
+	move.w d4,d5
+	
+	move.w d6,d3
+	sub.w d0,d3
+	;move.w LINEVERTEX_DELTAX,d3
 
     ; start of I2 calc
     sub.w d3,d7 ; now we have deltaY-Deltax
@@ -817,22 +816,19 @@ ammxlinefill_linem0to1_2:
 	add.w LINEVERTEX_CLIP_X_OFFSET,d0 ; ONLY IF CLIPPING
 	ENDC
 
-	moveq #0,d3
-
-	; here d1 should be free to use
-
-ammxlinefill_LINESTARTITER_F:
-
-	; interate for each x until x<=xend
+	; iterate for each x until x<=xend
 	cmp.w d0,d6
 	ble.s ammxlinefill_ENDLINE_F ; if x>=xend exit
 
 	move.w d6,d1
 	sub.w d0,d1
 	subq #1,d1
-cazzo:
 
-	cmp.w d3,d4 ; check if d<0
+	sub.w d3,d4 ; d4 = determinant
+
+ammxlinefill_LINESTARTITER_F:
+
+	; check if d<0
 	blt.s ammxlinefill_POINT_D_LESS_0_F ; branch if id<0
 
 	; we are here if d>=0
@@ -872,8 +868,7 @@ ammxlinefill_linem0to1_4:
 	ENDC
 
 	add.w d7,d4 ; d = i2+d
-	;bra.s ammxlinefill_LINESTARTITER_F ; end d<0
-	dbra d1,cazzo
+	dbra d1,ammxlinefill_LINESTARTITER_F ; end d<0
 	rts
 
 ammxlinefill_POINT_D_LESS_0_F:
@@ -902,8 +897,7 @@ ammxlinefill_linem0to1_6:
 	ENDC
 
 	add.w d5,d4 ; d = i1 +d
-	;bra.s ammxlinefill_LINESTARTITER_F
-	dbra d1,cazzo
+	dbra d1,ammxlinefill_LINESTARTITER_F
 
 ammxlinefill_ENDLINE_F:
 	rts
@@ -928,6 +922,7 @@ ammxlinefill_linemgreater1:
 	
 	
 	move.w LINEVERTEX_DELTAX,d4
+
 	
 	; calculate Ii into d5
 	move.w d4,d5
