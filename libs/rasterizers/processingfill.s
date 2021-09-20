@@ -351,27 +351,15 @@ ammx_fill_table_single_line:
 	ENDC
 	addq #1,d5
 
-	; align to nearest byte
-	; address of the first point
-	;lea PLOTREFS,a3
-
-	;add.w d1,d1
-	;move.w 0(a4,d1.w),d1
 	move.w d6,d2
 	lsr.w #3,d2
 	add.w d1,d2
 	
 	; d2.w now has the address of the first byte let's calculate the fill for this byte
-	;move.w d6,d4 ; d6 can be trashed at this point
 	andi.w #$0007,d6
 	scc d3 ; I need to set d3 to FF, since andy ALWAYS clears C and V i use SCC who is faster than move.b
 	lsr.b d6,d3
 
-	;IFD USE_DBLBUF
-	;move.l SCREEN_PTR_0,a3
-	;ELSE
-	;lea SCREEN_0,a3
-	;ENDC
 	move.l a5,a3
 	add.w d2,a3
 
@@ -381,8 +369,6 @@ ammx_fill_table_single_line:
 	
 	; special case -  if d5 is negative we plotted too much
 	bpl.s ammx_fill_table_no_special_case
-    ;subq #1,d5
-	;not d5
 	neg.w d5
 	lsr.b d5,d3
 	lsl.b d5,d3
@@ -437,9 +423,8 @@ ammx_fill_table_no_firstbyte_0:
 
 	; start addr odd or even? store result on d4
 	IFND VAMPIRE
-	move.l a3,d4
-	btst #0,d4
-	beq.s ammx_fill_table_startiter
+	btst #0,d2
+	bne.s ammx_fill_table_startiter
 	cmpi.w #8,d5
 	bcs.w ammx_fill_table_no8 ; branch if lower (it will continue if we have at least 8 bits to fill)
 	or.b  d6,256*40(a3)
