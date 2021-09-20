@@ -794,7 +794,7 @@ ammxlinefill_linem0to1:
 	
 	; Save d0 X point into FILL_TABLE start
 	IFD USE_CLIPPING
-	sub.w LINEVERTEX_CLIP_X_OFFSET,d0 ; ONLY IF CLIPPING
+	sub.w LINEVERTEX_CLIP_X_OFFSET(PC),d0 ; ONLY IF CLIPPING
 	ENDC
 	IFD VAMPIRE
 	pminsw  -6(a2),d0,e0
@@ -908,15 +908,19 @@ ammxlinefill_linemgreater1:
 	move.l LINEVERTEX_START_PUSHED(PC),d2
 	move.l LINEVERTEX_END_PUSHED(PC),d3
 
+	move.l d2,d0 ; here we have the xstart value
+	move.l d3,d6 ; here we have the xstop value into d6
+
 	swap d2
 	swap d3
-
-	move.l d2,d0
-	swap d0 ; here we have the xstart value
-	move.l d3,d6
-	swap d6 ; here we have the xstop value into d6
-	
+		
 	move.w d2,d1 ; here we have ystart into d1
+
+	; save left point
+	lea FILL_TABLE(PC),a2
+	move.w d0,d5
+	lsl.w #2,d5
+	add.w d5,a2
 	
 	; calculate deltax	
 	move.w d3,d4
@@ -926,28 +930,18 @@ ammxlinefill_linemgreater1:
 	move.w d6,d3
 	sub.w d0,d3
 
-	; calculate Ii into d5
-	move.w d4,d5
-	add.w d5,d5 ; I1 is now into d5
-	
 	move.w d4,d7 ; save for later I2 calculation
+	
     add.w d4,d4
-    sub.w d3,d4 ; d4 = determinant
+	move.w d4,d5 ; I1 is now into d5
 
     ; start of I2 calc
     sub.w d3,d7 ; now we have deltaY-Deltax
     add.w d7,d7 ; now we have 2(deltaY-deltaX)
     
-    ; save left point
-	lea FILL_TABLE,a2
-	
-	move.w d0,d3
-	lsl.w #2,d3
-	add.w d3,a2
-	
 	; Save d0 X point into FILL_TABLE start
 	IFD USE_CLIPPING
-	sub.w LINEVERTEX_CLIP_X_OFFSET,d1 ; ONLY IF CLIPPING
+	sub.w LINEVERTEX_CLIP_X_OFFSET(PC),d1 ; ONLY IF CLIPPING
 	ENDC
 	IFD VAMPIRE
 	load #$0000000000000004,e4 ; never change e4, we will need later
@@ -967,24 +961,25 @@ ammxlinefill_linemgreater1_1:
 ammxlinefill_linemgreater1_2:
 	ENDC
 	IFD USE_CLIPPING
-	add.w LINEVERTEX_CLIP_X_OFFSET,d1 ; ONLY IF CLIPPING
+	add.w LINEVERTEX_CLIP_X_OFFSET(PC),d1 ; ONLY IF CLIPPING
 	ENDC
     ; Save d0 X point into FILL_TABLE end
 	
 	; interate for each x until x<=xend
 	cmp.w d0,d6
-	ble.s ammxlinefill_ENDLINE_F3 ; if x>=xend exit
+	ble.w ammxlinefill_ENDLINE_F3 ; if x>=xend exit
 
 	sub.w d0,d6
 	subq #1,d6
-ammxlinefill_LINESTARTITER_F3:
-	addq #4,a2
 
-	cmp.w #0,d4 ; check if d<0
+	sub.w d3,d4 ; d4 = determinant
+
+ammxlinefill_LINESTARTITER_F3:
+
 	blt.s ammxlinefill_POINT_D_LESS_0_F3 ; branch if id<0
 
 	; we are here if d>=0
-	add.w d7,d4 ; d = i2+d
+	addq #4,a2
     addq #1,d1 ; x = x+1
 
 	IFD USE_CLIPPING
@@ -998,28 +993,49 @@ ammxlinefill_LINESTARTITER_F3:
 	ENDC
 
 	IFND VAMPIRE
-    cmp.w (a2),d1
-	bge.s ammxlinefill_linemgreater1_3            ; if (a2)<=d0 branch (dont update the memory)
-    move.w d1,(a2)      ; we save only if is less     
-ammxlinefill_linemgreater1_3:
     cmp.w 2(a2),d1
     ble.s ammxlinefill_linemgreater1_4
     move.w d1,2(a2)
 ammxlinefill_linemgreater1_4:
 	ENDC
 	IFD USE_CLIPPING
-	add.w LINEVERTEX_CLIP_X_OFFSET,d1 ; ONLY IF CLIPPING
+	add.w LINEVERTEX_CLIP_X_OFFSET(PC),d1 ; ONLY IF CLIPPING
 	ENDC
 
-    bra.s ammxlinefill_POINT_D_END_F3
+	addq #1,d0
+
+	IFD USE_CLIPPING
+	sub.w LINEVERTEX_CLIP_X_OFFSET(PC),d1 ; ONLY IF CLIPPING
+	ENDC
+	IFD VAMPIRE
+	pminsw  -6(a2),d1,e0
+	pmaxsw  -4(a2),d1,e1
+	vperm #$67EF67EF,e0,e1,e2
+	storec e2,E4,(a2)
+	ENDC
+
+	IFND VAMPIRE
+	cmp.w (a2),d1
+	bge.s ammxlinefill_linemgreater1_5_1            ; if (a2)<=d0 branch (dont update the memory)
+    move.w d1,(a2)      ; we save only if is less     
+ammxlinefill_linemgreater1_5_1:
+    cmp.w 2(a2),d1
+    ble.s ammxlinefill_linemgreater1_6_1
+    move.w d1,2(a2)
+ammxlinefill_linemgreater1_6_1:
+	ENDC
+	IFD USE_CLIPPING
+	add.w LINEVERTEX_CLIP_X_OFFSET(PC),d1 ; ONLY IF CLIPPING
+	ENDC
+	add.w d7,d4 ; d = i2+d
+    
+	dbra d6,ammxlinefill_LINESTARTITER_F3
+	rts
 
 ammxlinefill_POINT_D_LESS_0_F3:
 	; we are here if d<0
-	
-	add.w d5,d4 ; d = i1 +d
-
-ammxlinefill_POINT_D_END_F3:
 	addq #1,d0
+	addq #4,a2
 
 	IFD USE_CLIPPING
 	sub.w LINEVERTEX_CLIP_X_OFFSET(PC),d1 ; ONLY IF CLIPPING
@@ -1044,11 +1060,13 @@ ammxlinefill_linemgreater1_6:
 	IFD USE_CLIPPING
 	add.w LINEVERTEX_CLIP_X_OFFSET(PC),d1 ; ONLY IF CLIPPING
 	ENDC
-	    
+	add.w d5,d4 ; d = i1 +d
 	dbra d6,ammxlinefill_LINESTARTITER_F3
 
 ammxlinefill_ENDLINE_F3:
 	rts
+
+
 
 ammxlinefill_linemlessminus1:
 	
@@ -1058,14 +1076,13 @@ ammxlinefill_linemlessminus1:
 	move.w d2,d4
 	move.w d3,d2
 	move.w d4,d3
+	;exg d2,d3
+
+	move.w d2,d0 ; here we have the xstart value
+	move.w d3,d6 ; here we have the xstop value into d6
 
 	swap d2
 	swap d3
-	
-	move.l d2,d0
-	swap d0 ; here we have the xstart value
-	move.l d3,d6
-	swap d6 ; here we have the xstop value into d6
 		
 	; calculate deltax
 	move.w d3,d4
