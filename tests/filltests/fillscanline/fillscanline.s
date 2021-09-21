@@ -15,7 +15,6 @@
   XDEF                  _fillscanline_test14
   XDEF                  _fillscanline_test15
 
-
   SECTION               PROCESSING,CODE_F
 
   include               "../../../libs/ammxmacros.i"

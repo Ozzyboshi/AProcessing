@@ -436,7 +436,8 @@ ammx_fill_table_no_firstbyte_0:
 ammx_fill_table_startiter:
 
 	; now we are byte aligned, evaluate how many bits we still have to fill
-	cmpi.w #64,d5
+	moveq #64,d2
+	cmp.w d2,d5
 	bcs.w ammx_fill_table_no64 ; branch if lower (it will continue if we have at least 64 bits to fill)
 
 	; here starts the code to fill 64 bits
@@ -445,7 +446,7 @@ ammx_fill_table_startiter:
 	STORE e6,256*40(a3)
 	POR (a3),e0,e6
 	STORE e6,(a3)+
-	subi.w #64,d5
+	sub.w d2,d5
 	bne.s ammx_fill_table_startiter
 	move.l (sp)+,d5
 	rts
@@ -458,14 +459,15 @@ ammx_fill_table_startiter:
 	or.l  d7,(a3)+
 	or.l  d7,(a3)+
 
-	subi.w #64,d5
+	sub.w d2,d5
 	bne.s ammx_fill_table_startiter
 	move.l (sp)+,d5
 	rts
 	ENDC
 	
 ammx_fill_table_no64:
-	cmpi.w #32,d5
+	moveq #32,d2
+	cmp.w d2,d5
 	bcs.w ammx_fill_table_no32 ; branch if lower (it will continue if we have at least 32 bits to fill)
 
 	IFD VAMPIRE
@@ -473,7 +475,7 @@ ammx_fill_table_no64:
 	or.l d0,256*40(a3)  ; second bitplane
 	vperm #$00000000,e0,e0,d0
 	or.l d0,(a3)+ ; first bitplane
-	subi.w #32,d5
+	sub.w d2,d5
 	bne.w ammx_fill_table_startiter
 	move.l (sp)+,d5
 	rts
@@ -484,13 +486,14 @@ ammx_fill_table_no64:
 	or.l  d6,256*40(a3)
 	or.l  d7,(a3)+
 
-	subi.w #32,d5
+	sub.w d2,d5
 	beq.s ammx_fill_table_no_end_0
 
 	ENDC
 	
 ammx_fill_table_no32:
-	cmpi.w #16,d5
+	moveq #16,d2
+	cmp.w d2,d5
 	bcs.w ammx_fill_table_no16 ; branch if lower (it will continue if we have at least 16 bits to fill)
 	
 	IFD VAMPIRE
@@ -508,7 +511,7 @@ ammx_fill_table_no32:
 	or.w  d6,256*40(a3)
 	or.w  d7,(a3)+
 
-	subi.w #16,d5
+	sub.w d2,d5
 	beq.s ammx_fill_table_no_end_0
 	ENDC
 	
@@ -550,6 +553,208 @@ ammx_fill_table_no_end_0
 	move.l (sp)+,d5
 	rts
 
+; ammx_fill_table_single_line - Fills a single line according to the fill table into first bitplane
+; Input:
+;	- d6.w : left X (0-319)
+;	- d7.w : right X (0-319)
+;	- d1.w : line number multiplied by 40 (line)
+;	- a4 : addr of plotrefs
+;   - a5 : addr of screen
+;
+; Defines:
+; - USE_CLIPPING
+; - USE_DBLBUF
+;
+; Trashes:
+;   - d0
+;   - d2
+;	- d3
+;	- d4
+;	- d6
+;	- d7
+; 	- a3
+ammx_fill_table_single_line_bpl1:
+	move.l d5,-(sp) ; stack save
+
+	move.w d7,d5 ; alternative to psubw
+	sub.w d6,d5
+	IFD USE_CLIPPING
+	bmi.w ammx_fill_table_no_end_0_bpl1 ; if Xright<0 we are sure that no pixel must be drawn so jump to whatever exit
+	ENDC
+	addq #1,d5
+
+	move.w d6,d2
+	lsr.w #3,d2
+	add.w d1,d2
+	
+	; d2.w now has the address of the first byte let's calculate the fill for this byte
+	andi.w #$0007,d6
+	scc d3 ; I need to set d3 to FF, since andy ALWAYS clears C and V i use SCC who is faster than move.b
+	lsr.b d6,d3
+
+	move.l a5,a3
+	add.w d2,a3
+
+	; bitprocessed = 8-d6
+	subq #8,d6 ; d6 must always be negative here!!!!
+	add.w d6,d5 ; totalcount must be decremented by written bits (using add because d4 is always negative)
+	
+	; special case -  if d5 is negative we plotted too much
+	bpl.s ammx_fill_table_no_special_case_bpl1
+	neg.w d5
+	lsr.b d5,d3
+	lsl.b d5,d3
+
+	or.b d3,(a3)+ ; Plot points!!
+ammx_fill_table_no_special_0_bpl1:
+	move.l (sp)+,d5
+	rts
+
+
+ammx_fill_table_no_special_case_bpl1:
+    ; end special case
+
+	; reset bitplane data
+	IFND VAMPIRE
+	moveq #0,d6
+	moveq #0,d7
+	ENDC
+	IFD VAMPIRE
+	REG_ZERO e0
+	REG_ZERO e1
+	ENDC
+    
+	
+ammx_fill_table_no_firstbyte_1_bpl1:
+    or.b d3,(a3)+ ; Plot points!!
+	IFND VAMPIRE
+	not.l d7
+	ENDC
+	IFD VAMPIRE
+	load #$FFFFFFFFFFFFFFFF,e0
+	ENDC
+
+	; start addr odd or even? store result on d4
+	IFND VAMPIRE
+	btst #0,d2
+	bne.s ammx_fill_table_startiter_bpl1
+	cmpi.w #8,d5
+	bcs.w ammx_fill_table_no8_bpl1 ; branch if lower (it will continue if we have at least 8 bits to fill)
+	or.b  d7,(a3)+
+	subq #8,d5
+	ENDC
+
+; start iteration until we are at the end
+ammx_fill_table_startiter_bpl1:
+
+	; now we are byte aligned, evaluate how many bits we still have to fill
+	moveq #64,d2
+	cmp.w d2,d5
+	bcs.w ammx_fill_table_no64_bpl1 ; branch if lower (it will continue if we have at least 64 bits to fill)
+
+	; here starts the code to fill 64 bits
+	IFD VAMPIRE
+	POR 256*40(a3),e1,e6
+	STORE e6,256*40(a3)
+	POR (a3),e0,e6
+	STORE e6,(a3)+
+	subi.w #64,d5
+	bne.s ammx_fill_table_startiter_bpl1
+	move.l (sp)+,d5
+	rts
+	ENDC
+	IFND VAMPIRE
+	
+	or.l  d7,(a3)+
+	or.l  d7,(a3)+
+
+	sub.w d2,d5
+	bne.s ammx_fill_table_startiter_bpl1
+	move.l (sp)+,d5
+	rts
+	ENDC
+	
+ammx_fill_table_no64_bpl1:
+	moveq #32,d2
+	cmp.w d2,d5
+	bcs.w ammx_fill_table_no32_bpl1 ; branch if lower (it will continue if we have at least 32 bits to fill)
+
+	IFD VAMPIRE
+	vperm #$00000000,e1,e1,d0
+	vperm #$00000000,e0,e0,d0
+	or.l d0,(a3)+ ; first bitplane
+	subi.w #32,d5
+	bne.w ammx_fill_table_startiter_bpl1
+	move.l (sp)+,d5
+	rts
+	ENDC
+	
+	IFND VAMPIRE
+	
+	or.l  d7,(a3)+
+
+	sub.w d2,d5
+	beq.s ammx_fill_table_no_end_0_bpl1
+
+	ENDC
+	
+ammx_fill_table_no32_bpl1:
+	moveq #16,d2
+	cmp.w d2,d5
+	bcs.w ammx_fill_table_no16_bpl1 ; branch if lower (it will continue if we have at least 16 bits to fill)
+	
+	IFD VAMPIRE
+	vperm #$00000000,e1,e1,d0
+	vperm #$00000000,e0,e0,d0
+	or.w d0,(a3)+ ; first bitplane
+	sub.w #16,d5
+	bne.w ammx_fill_table_no16_bpl1
+	move.l (sp)+,d5
+	rts
+	ENDC
+	
+	IFND VAMPIRE
+	or.w  d7,(a3)+
+
+	sub.w d2,d5
+	beq.s ammx_fill_table_no_end_0_bpl1
+	ENDC
+	
+ammx_fill_table_no16_bpl1:
+
+	cmpi.w #8,d5
+	bcs.w ammx_fill_table_no8_bpl1 ; branch if lower (it will continue if we have at least 8 bits to fill)
+	IFD VAMPIRE
+	vperm #$00000000,e1,e1,d0
+	vperm #$00000000,e0,e0,d0
+	or.b d0,(a3)+ ; first bitplane
+	ENDC
+
+	IFND VAMPIRE
+	or.b  d7,(a3)+
+	ENDC
+
+	subq #8,d5
+	beq.s ammx_fill_table_no_end_0_bpl1
+
+ammx_fill_table_no8_bpl1:
+
+	; we get here only and only if there is less then a byte to fill, in other words, d5<8
+	; in this case we must fill the MSG bytes of the byte wit a 1
+	moveq #8,d4
+	sub.w d5,d4
+	IFD VAMPIRE
+	vperm #$00000000,e1,e1,d6
+	vperm #$00000000,e0,e0,d7
+	ENDC
+	lsl.b d4,d6
+	lsl.b d4,d7
+
+	or.b d7,(a3)
+ammx_fill_table_no_end_0_bpl1
+	move.l (sp)+,d5
+	rts
+
 LINEVERTEX_START_PUSHED:
 LINEVERTEX_START_PUSHED_X:
 	dc.w 0 ; X1
@@ -567,10 +772,12 @@ LINEVERTEX_START_FINAL:
 LINEVERTEX_END_FINAL:
 	dc.w 1 ; X2
 	dc.w 8 ; Y2
+	IFD USE_CLIPPING
 LINEVERTEX_DELTAX:
     dc.w 0
 LINEVERTEX_DELTAY:
     dc.w 0
+	ENDC
 
 ; Line drawing with boundaries storing - entry function to select the correct drawing routine according to m
 ammxlinefill:
@@ -613,8 +820,10 @@ endammxlinefillphase1:  ; end of first check
     neg d4
 endammxlinefillphase1_max:
     ;save deltas
+	IFD USE_CLIPPING
     move.w d5,LINEVERTEX_DELTAX
     move.w d4,LINEVERTEX_DELTAY
+	ENDC
 
 	; - check if both coords are between screen limits start
 	IFD USE_CLIPPING
