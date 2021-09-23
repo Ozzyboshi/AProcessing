@@ -7,7 +7,9 @@ rm -f /tmp/vamosinfo
 cd testlibs && make clean && make && cd ..
 
 cd filltests/filllines && make clean && make && make test && cd .. && cd ..
+cd filltests/filllinesnoclip && make clean && make && make test && cd .. && cd ..
 cd filltests/fillscanline && make clean && make && make test && cd .. && cd ..
+cd filltests/fillscanlinenoclip && make clean && make && make test && cd .. && cd ..
 cd filltests/fillpolygon && make clean && make && make test && cd .. && cd ..
 cd filltests/filltransformations && make clean && make && make test && cd .. && cd ..
 cd filltests/filltransformations3d && make clean && make && make test && cd .. && cd ..

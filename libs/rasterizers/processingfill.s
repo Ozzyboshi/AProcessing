@@ -198,7 +198,7 @@ ammx_fill_table_end_noreset:
 	rts
 
 ammx_fill_table:
-	movem.l d0/d2-d7/a0/a3/a4/a5,-(sp) ; stack save
+	movem.l d0/d2-d7/a0/a2/a3/a4/a5/a6,-(sp) ; stack save
 
 	move.w #1,AMMX_FILL_TABLE_FIRST_DRAW
 	move.w AMMXFILLTABLE_END_ROW(PC),d5
@@ -215,9 +215,8 @@ ammx_fill_table:
 	MINUWORD d1,FILLTABLE_FRAME_MIN_Y
 	MAXUWORD d5,FILLTABLE_FRAME_MAX_Y
 
-	cmp.w d5,d1
-	bhi.s ammx_fill_table_end
 	sub.w d1,d5
+	bmi.s ammx_fill_table_end
 
 	lea PLOTREFS(PC),a4
 	add.w d1,d1
@@ -229,19 +228,22 @@ ammx_fill_table:
 	lea SCREEN_0,a5
 	ENDC
 
+	move.l #$7FFF8000,a2
+	move.w #40,a6
+
 ammx_fill_table_nextline:
 
 	move.w (a0),d6 ; start of fill line
 	move.w 2(a0),d7 ; end of fill line
-	move.l #$7FFF8000,(a0)+
+	move.l a2,(a0)+
 	
 	bsr.w ammx_fill_table_single_line
-	add.w #40,d1
+	add.w a6,d1
 	
 	dbra d5,ammx_fill_table_nextline
 ammx_fill_table_end:
 	move.w #-1,AMMXFILLTABLE_END_ROW
-	movem.l (sp)+,d0/d2-d7/a0/a3/a4/a5
+	movem.l (sp)+,d0/d2-d7/a0/a2/a3/a4/a5/a6
 	rts
 
 	IFD USE_CLIPPING
@@ -789,7 +791,7 @@ ammxlinefill:
 	move.l LINEVERTEX_START_FINAL(PC),d2
 	cmp.l LINEVERTEX_END_FINAL(PC),d2
 	blt.s ammxlinefill_lowestless ;  check if first x is lower if this is the case jump to endammxlinefill
-	move.l LINEVERTEX_START_FINAL(PC),d3
+	move.l d2,d3
 	move.l LINEVERTEX_END_FINAL(PC),d2
 	bra.s endammxlinefillphase1
 ammxlinefill_lowestless:
@@ -803,7 +805,6 @@ endammxlinefillphase1:  ; end of first check
 	; select one of the 4 drawing routines start
 	; take the delta (abs value of the difference) between lowest 2 words from d2 and d3 and put them in d4
 	
-	; IFND VAMPIRE
     move.l d3,d5
     move.w d3,d7 ; save the Y relative of the right point into d7
     swap d5      ; now I have the X of the right point into d5 lower part ready for subtraction
@@ -843,7 +844,7 @@ endammxlinefillphase1_max:
 	rts
 ammxlinefill_clip_ok:
 
-	; d0 will contain the min(X) and d1 the max(X)
+	; d0 will contain the min(X) and d1 the max(X) (questo pezzo pare inutile????)
     move.w LINEVERTEX_START_PUSHED_X(PC),d0
 	move.w LINEVERTEX_END_PUSHED_X(PC),d1
 	cmp.w d0,d1
@@ -874,8 +875,13 @@ ammxlinefill_clip_done:
 	ENDC
 
 	; save Y MIN and MAX
+	IFD USE_CLIPPING
 	move.w LINEVERTEX_START_PUSHED_Y(PC),d0
 	move.w LINEVERTEX_END_PUSHED_Y(PC),d1
+	ELSE
+	move.w d2,d0
+	move.w d3,d1
+	ENDC
 	IFD VAMPIRE
 	pminuw d0,d1,e0
 	pmaxuw d0,d1,e1

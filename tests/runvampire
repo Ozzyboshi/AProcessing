@@ -3,9 +3,19 @@ filllines
 filllinesvampire
 cd /
 cd /
+cd filltests/filllinesnoclip
+filllinesnoclip
+filllinesnoclipvampire
+cd /
+cd /
 cd filltests/fillscanline
 fillscanline
 fillscanlinevampire
+cd /
+cd /
+cd filltests/fillscanlinenoclip
+fillscanlinenoclip
+fillscanlinenoclipvampire
 cd /
 cd /
 cd filltests/fillpolygon

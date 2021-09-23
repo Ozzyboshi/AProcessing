@@ -1,8 +1,12 @@
 .vscode
 tests/filltests/fillscanline/fillscanline
+tests/filltests/fillscanline/fillscanlinenoclip
 tests/filltests/fillscanline/fillscanline.o
+tests/filltests/fillscanline/fillscanlinenoclip.o
 tests/filltests/fillscanline/fillscanlinevampire
+tests/filltests/fillscanline/fillscanlinenoclipvampire
 tests/filltests/fillscanline/fillscanlinevampire.o
+tests/filltests/fillscanline/fillscanlinenoclipvampire.o
 tests/filltests/filllines/filllines
 tests/filltests/filllines/filllines.o
 tests/filltests/filllines/filllinesvampire

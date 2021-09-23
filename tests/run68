@@ -2,8 +2,16 @@ cd filltests/filllines
 filllines
 cd /
 cd /
+cd filltests/filllinesnoclip
+filllinesnoclip
+cd /
+cd /
 cd filltests/fillscanline
 fillscanline
+cd /
+cd /
+cd filltests/fillscanlinenoclip
+fillscanlinenoclip
 cd /
 cd /
 cd filltests/fillpolygon
