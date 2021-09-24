@@ -811,59 +811,57 @@ ammxmatrixmul1X3_q10_6:
 	movem.l (sp)+,d0-d7
     rts
 	ELSE
-	movem.l d0-d2,-(sp) ; stack save
-	move.w OPERATOR1_TR_MATRIX_ROW1_WORD1,d0
-	muls.w OPERATOR2_TR_MATRIX_ROW1_WORD1,d0
+	movem.l d0-d1,-(sp) ; stack save
+	move.w OPERATOR1_TR_MATRIX_ROW1_WORD1(PC),d0
+	muls.w OPERATOR2_TR_MATRIX_ROW1_WORD1(PC),d0
 	lsr.l #6,d0
 	
-	move.w OPERATOR1_TR_MATRIX_ROW1_WORD2,d1
-	muls.w OPERATOR2_TR_MATRIX_ROW2_WORD1,d1
+	move.w OPERATOR1_TR_MATRIX_ROW1_WORD2(PC),d1
+	muls.w OPERATOR2_TR_MATRIX_ROW2_WORD1(PC),d1
 	lsr.l #6,d1
+	add.w d0,d1
 	
-	move.w OPERATOR1_TR_MATRIX_ROW1_WORD3,d2
-	muls.w OPERATOR2_TR_MATRIX_ROW3_WORD1,d2
-	lsr.l #6,d2
+	move.w OPERATOR1_TR_MATRIX_ROW1_WORD3(PC),d0
+	muls.w OPERATOR2_TR_MATRIX_ROW3_WORD1(PC),d0
+	lsr.l #6,d0
 	
 	add.w d0,d1
-	add.w d1,d2
-	move.w d2,OPERATOR3_TR_MATRIX_ROW1_WORD1
+	move.w d1,OPERATOR3_TR_MATRIX_ROW1_WORD1
 	
 	; start of second pass
-	move.w OPERATOR1_TR_MATRIX_ROW1_WORD1,d0
-	muls.w OPERATOR2_TR_MATRIX_ROW1_WORD2,d0
+	move.w OPERATOR1_TR_MATRIX_ROW1_WORD1(PC),d0
+	muls.w OPERATOR2_TR_MATRIX_ROW1_WORD2(PC),d0
 	lsr.l #6,d0
 	
-	move.w OPERATOR1_TR_MATRIX_ROW1_WORD2,d1
-	muls.w OPERATOR2_TR_MATRIX_ROW2_WORD2,d1
+	move.w OPERATOR1_TR_MATRIX_ROW1_WORD2(PC),d1
+	muls.w OPERATOR2_TR_MATRIX_ROW2_WORD2(PC),d1
 	lsr.l #6,d1
+	add.w d0,d1
 	
-	move.w OPERATOR1_TR_MATRIX_ROW1_WORD3,d2
-	muls.w OPERATOR2_TR_MATRIX_ROW3_WORD2,d2
-	lsr.l #6,d2
+	move.w OPERATOR1_TR_MATRIX_ROW1_WORD3(PC),d0
+	muls.w OPERATOR2_TR_MATRIX_ROW3_WORD2(PC),d0
+	lsr.l #6,d0
 	
 	add.w d0,d1
-	add.w d1,d2
-	move.w d2,OPERATOR3_TR_MATRIX_ROW1_WORD2
+	move.w d1,OPERATOR3_TR_MATRIX_ROW1_WORD2
     ; end of second pass
-
 	
     ; start of third pass
-	move.w OPERATOR1_TR_MATRIX_ROW1_WORD1,d0
-	muls.w OPERATOR2_TR_MATRIX_ROW1_WORD3,d0
+	move.w OPERATOR1_TR_MATRIX_ROW1_WORD1(PC),d0
+	muls.w OPERATOR2_TR_MATRIX_ROW1_WORD3(PC),d0
 	lsr.l #6,d0
 	
-	move.w OPERATOR1_TR_MATRIX_ROW1_WORD2,d1
-	muls.w OPERATOR2_TR_MATRIX_ROW2_WORD3,d1
+	move.w OPERATOR1_TR_MATRIX_ROW1_WORD2(PC),d1
+	muls.w OPERATOR2_TR_MATRIX_ROW2_WORD3(PC),d1
 	lsr.l #6,d1
+	add.w d0,d1
 	
-	move.w OPERATOR1_TR_MATRIX_ROW1_WORD3,d2
-	muls.w OPERATOR2_TR_MATRIX_ROW3_WORD3,d2
-	lsr.l #6,d2
+	move.w OPERATOR1_TR_MATRIX_ROW1_WORD3(PC),d0
+	muls.w OPERATOR2_TR_MATRIX_ROW3_WORD3(PC),d0
+	lsr.l #6,d0
 	
 	add.w d0,d1
-	add.w d1,d2
-	move.w d2,OPERATOR3_TR_MATRIX_ROW1_WORD3
-    
+	move.w d1,OPERATOR3_TR_MATRIX_ROW1_WORD3
     ;end of third pass
 
 	moveq #0,d0
@@ -872,7 +870,7 @@ ammxmatrixmul1X3_q10_6:
 	move.l d0,OPERATOR3_TR_MATRIX_ROW3_WORD0
 	move.l d0,OPERATOR3_TR_MATRIX_ROW3_WORD2
 
-	movem.l (sp)+,d0-d2
+	movem.l (sp)+,d0-d1
     rts
 	ENDC
 
