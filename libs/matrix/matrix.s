@@ -762,9 +762,9 @@ ammxmatrixmul3X3_q10_6:
 ; MATRIX 2 data must be put on e4,e5,d6
 ; OUTPUT inside E13
 ammxmatrixmul1X3_q10_6:
-	movem.l d0-d7/a0-a6,-(sp) ; stack save
     
     IFD VAMPIRE
+	movem.l d0-d7,-(sp) ; stack save
 	
 	REG_ZERO e21 ; zero register
 	REG_ZERO e2
@@ -807,7 +807,11 @@ ammxmatrixmul1X3_q10_6:
 
 	REG_ZERO e14
 	REG_ZERO e15
+
+	movem.l (sp)+,d0-d7
+    rts
 	ELSE
+	movem.l d0-d2,-(sp) ; stack save
 	move.w OPERATOR1_TR_MATRIX_ROW1_WORD1,d0
 	muls.w OPERATOR2_TR_MATRIX_ROW1_WORD1,d0
 	lsr.l #6,d0
@@ -824,9 +828,7 @@ ammxmatrixmul1X3_q10_6:
 	add.w d1,d2
 	move.w d2,OPERATOR3_TR_MATRIX_ROW1_WORD1
 	
-	
 	; start of second pass
-	
 	move.w OPERATOR1_TR_MATRIX_ROW1_WORD1,d0
 	muls.w OPERATOR2_TR_MATRIX_ROW1_WORD2,d0
 	lsr.l #6,d0
@@ -842,13 +844,10 @@ ammxmatrixmul1X3_q10_6:
 	add.w d0,d1
 	add.w d1,d2
 	move.w d2,OPERATOR3_TR_MATRIX_ROW1_WORD2
-
     ; end of second pass
 
 	
     ; start of third pass
-	
-	
 	move.w OPERATOR1_TR_MATRIX_ROW1_WORD1,d0
 	muls.w OPERATOR2_TR_MATRIX_ROW1_WORD3,d0
 	lsr.l #6,d0
@@ -867,16 +866,15 @@ ammxmatrixmul1X3_q10_6:
     
     ;end of third pass
 
-	move.l #$00000000,OPERATOR3_TR_MATRIX_ROW2_WORD0
-	move.l #$00000000,OPERATOR3_TR_MATRIX_ROW2_WORD2
+	moveq #0,d0
+	move.l d0,OPERATOR3_TR_MATRIX_ROW2_WORD0
+	move.l d0,OPERATOR3_TR_MATRIX_ROW2_WORD2
+	move.l d0,OPERATOR3_TR_MATRIX_ROW3_WORD0
+	move.l d0,OPERATOR3_TR_MATRIX_ROW3_WORD2
 
-	move.l #$00000000,OPERATOR3_TR_MATRIX_ROW3_WORD0
-	move.l #$00000000,OPERATOR3_TR_MATRIX_ROW3_WORD2
-    
-	ENDC
-
-	movem.l (sp)+,d0-d7/a0-a6
+	movem.l (sp)+,d0-d2
     rts
+	ENDC
 
 ; INPUT (LOAD BEFORE USING IT)
 ; MATRIX 1 data must be put on e1,e2,e3 (todo)
