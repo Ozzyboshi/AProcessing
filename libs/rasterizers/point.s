@@ -171,7 +171,6 @@ point_execute_transformation:
 ;		z into d2
 ; output will be into d0 d1 (register overwritten)
 point_execute_transformation_3d:
-	;movem.l d0-d1,-(sp)
 	IFD VAMPIRE
 	move.l d3,-(sp)
 	ENDC
@@ -187,10 +186,7 @@ point_execute_transformation_3d:
 	asl.w #6,d2
 
 	move.w d2,d3
-	swap d3
-
-	;move.l #$0040FFFF,d3
-	
+	swap d3	
 	move.w d1,d3
 
 	vperm #$4567EFCD,d0,d3,e1
@@ -234,7 +230,6 @@ point_execute_transformation_3d:
 	lsr.l #6,d1
 	lsr.l #6,d2
 
-	;movem.l (sp)+,d0-d1
 	IFD VAMPIRE
 	move.l (sp)+,d3
 	ENDC
@@ -247,7 +242,7 @@ point_project_3d:
 	;d0 ; Xe
 	;d1 ; Ye
 	;d2 ; Ze
-	move.l #256,d6 ; Zu
+	;move.l #256,d6 ; Zu
 
 	; start calc
 	asl.l #8,d0 ; xe*zu
@@ -258,8 +253,8 @@ point_project_3d:
 	divs.w d2,d0
 	divs.w d2,d1
 
-	add.w PROJECTION_CENTER_X,d0
-	add.w PROJECTION_CENTER_Y,d1
+	add.w PROJECTION_CENTER_X(PC),d0
+	add.w PROJECTION_CENTER_Y(PC),d1
 
 	rts
 	ENDC
