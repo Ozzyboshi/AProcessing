@@ -4,12 +4,12 @@ ammxlinefill_clip:
     
     ; START CHECK IF Yb IS ON THE TOP OF THE SCREEN (a negative Y)
 	move.w LINEVERTEX_END_PUSHED_Y,d5
-	cmp.w #0,d5  ; if d5>0 jump (drawable without clipping)
+	tst.w d5  ; if d5>0 jump (drawable without clipping)
 	bge.s ammxlinefill_clip_end_yb
 	; Yb OUT OF BOUNDS to TOP, we need to recalculate Y
     ; but first check if Ya is also negative, in that case the whole line wont be on the screen
     move.w LINEVERTEX_START_PUSHED_Y,d2
-    cmp.w #0,d2
+    tst.w d2
     ble.w ammxlinefill_clip_not_drawable ; if d2<0 jump to not drawable
     ; start of the clipping routine
     move.w LINEVERTEX_DELTAX,d7
@@ -51,7 +51,7 @@ ammxlinefill_clip_end_yb2:
 
 ; START CHECK IF Ya IS ON THE TOP OF THE SCREEN (a negative Y)
 	move.w LINEVERTEX_START_PUSHED_Y,d5
-	cmp.w #0,d5  ; if d5>0 jump (drawable without clipping)
+	tst.w d5  ; if d5>0 jump (drawable without clipping)
 	bge.s ammxlinefill_clip_end_ya
 	; Ya OUT OF BOUNDS to TOP, we need to recalculate Y
     ; start of the clipping routine

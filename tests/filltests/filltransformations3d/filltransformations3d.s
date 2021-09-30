@@ -6,6 +6,7 @@
   XDEF                                         _filltransformations3d_test6
   XDEF                                         _filltransformations3d_test7
   XDEF                                         _filltransformations3d_test8
+  XDEF                                         _filltransformations3d_test9
 
   SECTION                                      PROCESSING,CODE_F
   include                                      "../../../libs/rasterizers/globaloptions.s"
@@ -208,6 +209,30 @@ _filltransformations3d_test8:
   
   LOADIDENTITY
   ROTATE_X_INV_Q_5_11                          #90
+
+  move.w                                       #-50,d0
+  move.w                                       #50,d1
+  move.w                                       #0,d2
+
+  ; start of square
+  bsr.w                                        point_execute_transformation_3d
+  bsr.w                                        point_project_3d
+
+  ; save transformed values
+  lea                                          LINEVERTEX_START_FINAL,a1
+  move.w                                       d0,(a1)+
+  move.w                                       d1,(a1)+
+
+  move.l                                       #LINEVERTEX_START_FINAL,d0
+  movem.l                                      (sp)+,d2
+  rts
+
+_filltransformations3d_test9:
+  movem.l                                      d2,-(sp)
+  RESETFILLTABLE
+  
+  LOADIDENTITY
+  ROTATE_Y_INV_Q_5_11                          #90
 
   move.w                                       #-50,d0
   move.w                                       #50,d1

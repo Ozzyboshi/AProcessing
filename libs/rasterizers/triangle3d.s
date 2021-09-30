@@ -15,7 +15,7 @@ TRIANGLE3D:
   POINT_TRANSFORM_AND_STORE_IN_FILLTABLE_3D    VERTEX_LIST_3D_2,VERTEX_LIST_3D_2+2,VERTEX_LIST_3D_2+4,0
   bsr.w                                        ammxlinefill
 
-  move.l                                       AMMX_FILL_FUNCT_ADDR(PC),a1
+  move.l                                       AMMX_FILL_FUNCT_ADDR,a1
   jsr                                          (a1)
 
   movem.l                                      (sp)+,d0-d6/a1

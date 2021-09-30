@@ -19,3 +19,10 @@ REG_ZERO MACRO
    ; XDEF _ammxmatrixmul3X3
 	;XDEF _ammxmatrixmul3X3Trig
 	;XDEF _ammxmatrixmul1X3
+
+WAITBLITTER MACRO
+  btst      #6,$dff002
+.1\@
+  btst      #6,$dff002
+  bne.s     .1\@
+  ENDM
