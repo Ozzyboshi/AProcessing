@@ -45,5 +45,13 @@ tests/filltests/filltransformations3d/filltransformations3d
 tests/filltests/filltransformations3d/filltransformations3dvampire
 tests/filltests/filltransformations3d/filltransformations3d.o
 tests/filltests/filltransformations3d/filltransformations3dvampire.o
+tests/filltests/filllinesnoclip/filllinesnoclip
+tests/filltests/filllinesnoclip/filllinesnoclip.o
+tests/filltests/filllinesnoclip/filllinesnoclipvampire
+tests/filltests/filllinesnoclip/filllinesnoclipvampire.o
+tests/filltests/fillscanlinenoclip/fillscanlinenoclip
+tests/filltests/fillscanlinenoclip/fillscanlinenoclip.o
+tests/filltests/fillscanlinenoclip/fillscanlinenoclipvampire
+tests/filltests/fillscanlinenoclip/fillscanlinenoclipvampire.o
 DEADJOE
 lol

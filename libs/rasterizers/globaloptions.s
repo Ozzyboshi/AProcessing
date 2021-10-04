@@ -65,5 +65,42 @@ MAXUWORD MACRO
                         move.w                      \1,\2
 .1\@
                         ENDM
+
+; This macro does:
+; if d0.w<(a2.w) then (a2.w)=d0.w
+; if (d0.w>2(a2.w)) then 2(a2.w) = d0.w
+; a0 usually points to FILL_TABLE and
+; FILLTABLE is dcb.l 4*256,$7FFF8000 
+MINXMAXALL MACRO
+    IFD VAMPIRE
+	pminsw  -6(a2),d0,e0
+	pmaxsw  -4(a2),d0,e1
+	vperm #$67EF67EF,e0,e1,e2
+	storec E2,E4,(a2)
+	ELSE
+    cmp.w (a2),d0
+	bge.s .1\@            ; if (a2)<=d0 branch (dont update the memory)
+    move.w d0,(a2)      ; we save only if is less     
+.1\@:
+    cmp.w 2(a2),d0
+    ble.s .2\@
+    move.w d0,2(a2)
+.2\@:
+    ENDC
+    ENDM
+
+MINMAXDX MACRO
+    IFD VAMPIRE
+	pmaxsw  -4(a2),d0,e1
+	vperm #$67EF67EF,e0,e1,e2
+	storec E2,E4,(a2)
+	ELSE
+    cmp.w 2(a2),d0
+    ble.s .1\@
+    move.w d0,2(a2)
+.1\@:
+	ENDC
+    ENDM
+
 FILLTABLE_FRAME_MIN_Y:  dc.w                        -1
 FILLTABLE_FRAME_MAX_Y:  dc.w                        0

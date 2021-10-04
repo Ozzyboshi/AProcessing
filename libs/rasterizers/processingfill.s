@@ -955,8 +955,6 @@ ammxlinefill_endammxlinefillphase2:
 ; e6 ===> I1
 ; trash everything
 ammxlinefill_linem0to1:
-	;move.l LINEVERTEX_START_PUSHED(PC),d2
-	;move.l LINEVERTEX_END_PUSHED(PC),d3
 
 	; delta y calculation
 	move.w d3,d4
@@ -1000,23 +998,7 @@ ammxlinefill_linem0to1:
 	move.w LINEVERTEX_CLIP_X_OFFSET(PC),d1
 	sub.w d1,d0 ; ONLY IF CLIPPING
 	ENDC
-	IFD VAMPIRE
-	pminsw  -6(a2),d0,e0
-	pmaxsw  -4(a2),d0,e1
-	vperm #$67EF67EF,e0,e1,e2
-	storec E2,E4,(a2)
-	ENDC
-	IFND VAMPIRE
-	cmp.w (a2),d0
-	bge.s ammxlinefill_linem0to1_1            ; if (a2)<=d0 branch (dont update the memory)
-    move.w d0,(a2)      ; we save only if is less     
-ammxlinefill_linem0to1_1:
-    cmp.w 2(a2),d0
-    ble.s ammxlinefill_linem0to1_2
-    move.w d0,2(a2)
-ammxlinefill_linem0to1_2:
-    ; Save d0 X point into FILL_TABLE end
-	ENDC
+	MINXMAXALL
 	IFD USE_CLIPPING
 	add.w d1,d0 ; ONLY IF CLIPPING
 	ENDC
@@ -1034,11 +1016,11 @@ ammxlinefill_LINESTARTITER_F:
 	blt.s ammxlinefill_POINT_D_LESS_0_F ; branch if id<0
 
 	; we are here if d>=0
-    addq #1,d2 ; y = y+1
 
 	IFD USE_CLIPPING
 	; CLIPPING FEATURE if Y > 255 (or a negative number) exit
-    cmpi.w #255,d2
+    addq #1,d2 ; y = y+1
+	cmpi.w #255,d2
     bhi.s ammxlinefill_ENDLINE_F
 	ENDC
 
@@ -1049,22 +1031,7 @@ ammxlinefill_LINESTARTITER_F:
 	IFD USE_CLIPPING
 	sub.w d1,d0 ; ONLY IF CLIPPING
 	ENDC
-	IFD VAMPIRE
-	pminsw  -6(a2),d0,e0
-	pmaxsw  -4(a2),d0,e1
-	vperm #$67EF67EF,e0,e1,e2
-	storec E2,E4,(a2)
-	ENDC
-	IFND VAMPIRE
-    cmp.w (a2),d0
-	bge.s ammxlinefill_linem0to1_3            ; if (a2)<=d0 branch (dont update the memory)
-    move.w d0,(a2)      ; we save only if is less     
-ammxlinefill_linem0to1_3:
-    cmp.w 2(a2),d0
-    ble.s ammxlinefill_linem0to1_4
-    move.w d0,2(a2)
-ammxlinefill_linem0to1_4:
-	ENDC
+	MINXMAXALL
 	IFD USE_CLIPPING
 	add.w d1,d0 ; ONLY IF CLIPPING
 	ENDC
@@ -1077,32 +1044,64 @@ ammxlinefill_POINT_D_LESS_0_F:
 	; we are here if d<0
 	addq #1,d0
 	
-	; Save d0 X point into FILL_TABLE start
-	IFD USE_CLIPPING
-	sub.w LINEVERTEX_CLIP_X_OFFSET(PC),d0 ; ONLY IF CLIPPING
-	ENDC
-	IFD VAMPIRE
-	pmaxsw  -4(a2),d0,e1
-	vperm #$67EF67EF,e0,e1,e2
-	storec E2,E4,(a2)
-	ENDC
+	add.w d5,d4 ; d = i1 +d
+	dbra d6,ammxlinefill_LINESTARTITER_F_PARALLEL
 
-	IFND VAMPIRE
-    cmp.w 2(a2),d0
-    ble.s ammxlinefill_linem0to1_6
-    move.w d0,2(a2)
-ammxlinefill_linem0to1_6:
-    ; Save d0 X point into FILL_TABLE end
+	IFD USE_CLIPPING
+	sub.w d1,d0 ; ONLY IF CLIPPING
 	ENDC
+	MINMAXDX
 	IFD USE_CLIPPING
 	add.w d1,d0 ; ONLY IF CLIPPING
 	ENDC
 
-	add.w d5,d4 ; d = i1 +d
-	dbra d6,ammxlinefill_LINESTARTITER_F
-
 ammxlinefill_ENDLINE_F:
 	rts
+
+
+; start of parallel world
+ammxlinefill_LINESTARTITER_F_PARALLEL:
+
+	; check if d<0
+	blt.s ammxlinefill_POINT_D_LESS_0_F ; branch if id<0
+
+	IFD USE_CLIPPING
+	sub.w d1,d0 ; ONLY IF CLIPPING
+	ENDC
+	MINMAXDX
+	IFD USE_CLIPPING
+	add.w d1,d0 ; ONLY IF CLIPPING
+	ENDC
+
+	; we are here if d>=0
+
+	IFD USE_CLIPPING
+	; CLIPPING FEATURE if Y > 255 (or a negative number) exit
+    addq #1,d2 ; y = y+1
+	cmpi.w #255,d2
+    bhi.s ammxlinefill_ENDLINE_F
+	ENDC
+
+	addq #1,d0
+	addq #4,a2
+	
+	; Save d0 X point into FILL_TABLE start
+	IFD USE_CLIPPING
+	sub.w d1,d0 ; ONLY IF CLIPPING
+	ENDC
+	MINXMAXALL
+	IFD USE_CLIPPING
+	add.w d1,d0 ; ONLY IF CLIPPING
+	ENDC
+
+	add.w d7,d4 ; d = i2+d
+	dbra d6,ammxlinefill_LINESTARTITER_F ; end d<0
+	rts
+;end of parallel world
+
+
+
+
 
 ; start of vertical routines
 ammxlinefill_linemgreater1:
@@ -1399,10 +1398,6 @@ ENDLINE_F4:
 ; d4 ===> decision
 ; e6 ===> I1
 ammxlinefill_linem0tominus1:
-
-	;move.l LINEVERTEX_START_PUSHED(PC),d2
-	;move.l LINEVERTEX_END_PUSHED(PC),d3
-
 	; delta y calculation
 	move.w d2,d4
 	sub.w d3,d4
@@ -1411,9 +1406,7 @@ ammxlinefill_linem0tominus1:
 	load #$0000000000000004,e4 ; never change e4, we will need later
 	vperm #$CDCDCDCD,d2,d2,d0 ; here we have the xstart value
 	vperm #$CDCDCDCD,d3,d3,d6 ; here we have the xstop value into d6
-	ENDC
-
-	IFND VAMPIRE
+	ELSE
 	move.l d2,d0
 	swap d0 ; here we have the xstart value
 	move.l d3,d6
@@ -1441,22 +1434,7 @@ ammxlinefill_linem0tominus1:
 	move.w LINEVERTEX_CLIP_X_OFFSET(PC),d2
 	sub.w d2,d0 ; ONLY IF CLIPPING
 	ENDC
-	IFD VAMPIRE
-	pminsw  -6(a2),d0,e0
-	pmaxsw  -4(a2),d0,e1
-	vperm #$67EF67EF,e0,e1,e2
-	storec E2,E4,(a2)
-	ENDC
-	IFND VAMPIRE
-	cmp.w (a2),d0
-	bge.s ammxlinefill_linem0tominus1_1            ; if (a2)<=d0 branch (dont update the memory)
-    move.w d0,(a2)      ; we save only if is less     
-ammxlinefill_linem0tominus1_1:
-    cmp.w 2(a2),d0
-    ble.s ammxlinefill_linem0tominus1_2
-    move.w d0,2(a2)
-ammxlinefill_linem0tominus1_2:
-	ENDC
+	MINXMAXALL
 	IFD USE_CLIPPING
 	add.w d2,d0 ; ONLY IF CLIPPING
 	ENDC
@@ -1479,23 +1457,8 @@ ammxlinefill_LINESTARTITER_F2:
 
 	IFD USE_CLIPPING
 	sub.w d2,d0 ; ONLY IF CLIPPING
-	ENDC
-	IFD VAMPIRE
-	pminsw  -6(a2),d0,e0
-	pmaxsw  -4(a2),d0,e1
-	vperm #$67EF67EF,e0,e1,e2
-	storec E2,E4,(a2)
-	ENDC
-	IFND VAMPIRE
-	cmp.w (a2),d0
-	bge.s ammxlinefill_linem0tominus1_3            ; if (a2)<=d0 branch (dont update the memory)
-    move.w d0,(a2)      ; we save only if is less     
-ammxlinefill_linem0tominus1_3:
-    cmp.w 2(a2),d0
-    ble.s ammxlinefill_linem0tominus1_4
-    move.w d0,2(a2)
-ammxlinefill_linem0tominus1_4:
-	ENDC
+	ENDC	
+	MINXMAXALL
 	IFD USE_CLIPPING
 	add.w d2,d0 ; ONLY IF CLIPPING
 	ENDC
@@ -1508,30 +1471,52 @@ ammxlinefill_POINT_D_LESS_0_F2:
 	; we are here if d<0
 	addq #1,d0
 
+	add.w d5,d4 ; d = i1 +d 
+	dbra d6,ammxlinefill_LINESTARTITER_F2_PARALLEL
+
 	IFD USE_CLIPPING
 	sub.w d2,d0 ; ONLY IF CLIPPING
 	ENDC
 
-	IFD VAMPIRE
-	pmaxsw  -4(a2),d0,e1
-	vperm #$67EF67EF,e0,e1,e2
-	storec E2,E4,(a2)
+	MINMAXDX
+	IFD USE_CLIPPING
+	add.w d2,d0 ; ONLY IF CLIPPING
 	ENDC
-	IFND VAMPIRE
-    cmp.w 2(a2),d0
-    ble.s ammxlinefill_linem0tominus1_6
-    move.w d0,2(a2)
-ammxlinefill_linem0tominus1_6:
+
+ammxlinefill_ENDLINE_F2:
+	rts
+
+; start of parallel world
+ammxlinefill_LINESTARTITER_F2_PARALLEL:
+	; check if d<0
+	blt.s ammxlinefill_POINT_D_LESS_0_F2 ; branch if id<0
+
+	IFD USE_CLIPPING
+	sub.w d2,d0 ; ONLY IF CLIPPING
 	ENDC
+
+	MINMAXDX
+	IFD USE_CLIPPING
+	add.w d2,d0 ; ONLY IF CLIPPING
+	ENDC
+
+	; we are here if d>=0
+    addq #1,d0
+    subq #4,a2
+
+	IFD USE_CLIPPING
+	sub.w d2,d0 ; ONLY IF CLIPPING
+	ENDC	
+	MINXMAXALL
 	IFD USE_CLIPPING
 	add.w d2,d0 ; ONLY IF CLIPPING
 	ENDC
 	
-	add.w d5,d4 ; d = i1 +d 
+	add.w d7,d4 ; d = i2+d
 	dbra d6,ammxlinefill_LINESTARTITER_F2
-
-ammxlinefill_ENDLINE_F2:
 	rts
+
+;end of parallel world
 
 FILL_TABLE:
 	dcb.l 4*256,$7FFF8000
