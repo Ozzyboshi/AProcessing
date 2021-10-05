@@ -1254,27 +1254,15 @@ ammxlinefill_linemlessminus1:
 	
 	; Save d0 X point into FILL_TABLE start
 	IFD USE_CLIPPING
-	sub.w LINEVERTEX_CLIP_X_OFFSET(PC),d1 ; ONLY IF CLIPPING
+	move.w LINEVERTEX_CLIP_X_OFFSET(PC),d2
+	sub.w d2,d1 ; ONLY IF CLIPPING
 	ENDC
 	IFD VAMPIRE
-	pminsw  -6(a2),d1,e0
-	pmaxsw  -4(a2),d1,e1
-	vperm #$67EF67EF,e0,e1,e2
 	load #$0000000000000004,e4 ; never change e4, we will need later
-	storec E2,E4,(a2)
 	ENDC
-	IFND VAMPIRE
-	cmp.w (a2),d1
-	bge.s ammxlinefill_linemminus1_1            ; if (a2)<=d0 branch (dont update the memory)
-    move.w d1,(a2)      ; we save only if is less     
-ammxlinefill_linemminus1_1:
-    cmp.w 2(a2),d1
-    ble.s ammxlinefill_linemminus1_2
-    move.w d1,2(a2)
-ammxlinefill_linemminus1_2:
-	ENDC
+	MINXMAXALL d1
+
 	IFD USE_CLIPPING
-	move.w LINEVERTEX_CLIP_X_OFFSET(PC),d2
 	add.w d2,d1 ; ONLY IF CLIPPING
 	ENDC
 
@@ -1292,11 +1280,22 @@ ammxlinefill_LINESTARTITER_F4:
 	subq #1,d1 ; x = x-1
 	add.w d7,d4 ; d = i2+d
 
-	bra.s ammxlinefill_POINT_D_END_F4
+	addq #4,a2
+	addq #1,d0 ; process next y
+
+	IFD USE_CLIPPING
+	sub.w d2,d1 ; ONLY IF CLIPPING
+	ENDC
+	MINXMAXALL d1
+	IFD USE_CLIPPING
+	add.w d2,d1 ; ONLY IF CLIPPING
+	ENDC
+	
+	dbra d6,ammxlinefill_LINESTARTITER_F4
+	rts
 
 POINT_D_LESS_0_F4:
 	; we are here if d<0
-	add.w d5,d4 ; d = i1 +d
 	
 ammxlinefill_POINT_D_END_F4:
 	addq #4,a2
@@ -1305,27 +1304,12 @@ ammxlinefill_POINT_D_END_F4:
 	IFD USE_CLIPPING
 	sub.w d2,d1 ; ONLY IF CLIPPING
 	ENDC
-	IFD VAMPIRE
-	pminsw  -6(a2),d1,e0
-	pmaxsw  -4(a2),d1,e1
-	vperm #$67EF67EF,e0,e1,e2
-	storec E2,E4,(a2)
-	ENDC
-
-	IFND VAMPIRE
-	cmp.w (a2),d1
-	bge.s ammxlinefill_linemminus1_5 ; if (a2)<=d0 branch (dont update the memory)
-    move.w d1,(a2)      ; we save only if is less     
-ammxlinefill_linemminus1_5:
-    cmp.w 2(a2),d1
-    ble.s ammxlinefill_linemminus1_6
-    move.w d1,2(a2)
-ammxlinefill_linemminus1_6:
-	ENDC
+	MINXMAXALL d1
 	IFD USE_CLIPPING
 	add.w d2,d1 ; ONLY IF CLIPPING
 	ENDC
-	
+	add.w d5,d4 ; d = i1 +d
+
 	dbra d6,ammxlinefill_LINESTARTITER_F4
 
 ENDLINE_F4:
