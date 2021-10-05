@@ -1222,6 +1222,14 @@ ammxlinefill_linemlessminus1:
 
 	swap d2
 	swap d3
+
+	; save left point
+	lea FILL_TABLE(PC),a2
+	move.w d3,d1
+	
+	move.w d0,d1
+	lsl.w #2,d1
+	add.w d1,a2
 		
 	; calculate deltax
 	move.w d3,d4
@@ -1237,33 +1245,23 @@ ammxlinefill_linemlessminus1:
 	
 	move.w d4,d7 ; save for later I2 calculation
     add.w d4,d4
-    sub.w d1,d4 ; d4 = determinant
 
     ; start of I2 calc
     sub.w d1,d7 ; now we have deltaY-Deltax
-    add.w d7,d7 ; now we have 2(deltaY-deltaX)
-    
-    ; save left point
-	lea FILL_TABLE(PC),a2
-	
-	move.w d3,d1
-	
-	move.w d0,d3
-	lsl.w #2,d3
-	add.w d3,a2
+    add.w d7,d7 ; now we have 2(deltaY-deltaX)	
 	
 	; Save d0 X point into FILL_TABLE start
 	IFD USE_CLIPPING
 	move.w LINEVERTEX_CLIP_X_OFFSET(PC),d2
-	sub.w d2,d1 ; ONLY IF CLIPPING
+	sub.w d2,d3 ; ONLY IF CLIPPING
 	ENDC
 	IFD VAMPIRE
 	load #$0000000000000004,e4 ; never change e4, we will need later
 	ENDC
-	MINXMAXALL d1
+	MINXMAXALL d3
 
 	IFD USE_CLIPPING
-	add.w d2,d1 ; ONLY IF CLIPPING
+	add.w d2,d3 ; ONLY IF CLIPPING
 	ENDC
 
 	; iterate for each x until x<=xend
@@ -1271,26 +1269,28 @@ ammxlinefill_linemlessminus1:
 	ble.s ENDLINE_F4 ; if x>=xend exit
 	subq #1,d6
 
+	    sub.w d1,d4 ; d4 = determinant
+
+
 ammxlinefill_LINESTARTITER_F4:
 
-	tst.w d4 ; check if d<0
 	blt.s POINT_D_LESS_0_F4 ; branch if id<0
 
 	; we are here if d>=0
-	subq #1,d1 ; x = x-1
-	add.w d7,d4 ; d = i2+d
+	subq #1,d3 ; x = x-1
 
 	addq #4,a2
 	addq #1,d0 ; process next y
 
 	IFD USE_CLIPPING
-	sub.w d2,d1 ; ONLY IF CLIPPING
+	sub.w d2,d3 ; ONLY IF CLIPPING
 	ENDC
-	MINXMAXALL d1
+	MINXMAXALL d3
 	IFD USE_CLIPPING
-	add.w d2,d1 ; ONLY IF CLIPPING
+	add.w d2,d3 ; ONLY IF CLIPPING
 	ENDC
-	
+		add.w d7,d4 ; d = i2+d
+
 	dbra d6,ammxlinefill_LINESTARTITER_F4
 	rts
 
@@ -1302,11 +1302,11 @@ ammxlinefill_POINT_D_END_F4:
 	addq #1,d0 ; process next y
 
 	IFD USE_CLIPPING
-	sub.w d2,d1 ; ONLY IF CLIPPING
+	sub.w d2,d3 ; ONLY IF CLIPPING
 	ENDC
-	MINXMAXALL d1
+	MINXMAXALL d3
 	IFD USE_CLIPPING
-	add.w d2,d1 ; ONLY IF CLIPPING
+	add.w d2,d3 ; ONLY IF CLIPPING
 	ENDC
 	add.w d5,d4 ; d = i1 +d
 
