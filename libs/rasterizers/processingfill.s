@@ -1105,23 +1105,18 @@ ammxlinefill_LINESTARTITER_F_PARALLEL:
 
 ; start of vertical routines
 ammxlinefill_linemgreater1:
-		
-	;move.l LINEVERTEX_START_PUSHED(PC),d2
-	;move.l LINEVERTEX_END_PUSHED(PC),d3
 
 	move.l d2,d0 ; here we have the xstart value
 	move.l d3,d6 ; here we have the xstop value into d6
 
 	swap d2
 	swap d3
-		
-	;move.w d2,d1 ; here we have ystart into d1
 
 	; save left point
 	lea FILL_TABLE(PC),a2
 	move.w d0,d5
 	lsl.w #2,d5
-	add.w d5,a2
+	adda.w d5,a2
 	
 	; calculate deltax	
 	move.w d3,d4
@@ -1229,7 +1224,7 @@ ammxlinefill_linemlessminus1:
 	
 	move.w d0,d1
 	lsl.w #2,d1
-	add.w d1,a2
+	adda.w d1,a2
 		
 	; calculate deltax
 	move.w d3,d4
@@ -1269,8 +1264,7 @@ ammxlinefill_linemlessminus1:
 	ble.s ENDLINE_F4 ; if x>=xend exit
 	subq #1,d6
 
-	    sub.w d1,d4 ; d4 = determinant
-
+	sub.w d1,d4 ; d4 = determinant
 
 ammxlinefill_LINESTARTITER_F4:
 
@@ -1289,7 +1283,7 @@ ammxlinefill_LINESTARTITER_F4:
 	IFD USE_CLIPPING
 	add.w d2,d3 ; ONLY IF CLIPPING
 	ENDC
-		add.w d7,d4 ; d = i2+d
+	add.w d7,d4 ; d = i2+d
 
 	dbra d6,ammxlinefill_LINESTARTITER_F4
 	rts
@@ -1297,7 +1291,6 @@ ammxlinefill_LINESTARTITER_F4:
 POINT_D_LESS_0_F4:
 	; we are here if d<0
 	
-ammxlinefill_POINT_D_END_F4:
 	addq #4,a2
 	addq #1,d0 ; process next y
 
@@ -1340,7 +1333,7 @@ ammxlinefill_linem0tominus1:
 	lea FILL_TABLE,a2
 	move.w d2,d3
 	lsl.w #2,d3
-	add.w d3,a2
+	adda.w d3,a2
 	
 	; deltax calculation
 	move.w d6,d3
