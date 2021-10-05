@@ -1147,21 +1147,8 @@ ammxlinefill_linemgreater1:
 	ENDC
 	IFD VAMPIRE
 	load #$0000000000000004,e4 ; never change e4, we will need later
-	pminsw  -6(a2),d2,e0
-	pmaxsw  -4(a2),d2,e1
-	vperm #$67EF67EF,e0,e1,e2
-	storec e2,E4,(a2)
 	ENDC
-	IFND VAMPIRE
-	cmp.w (a2),d2
-	bge.s ammxlinefill_linemgreater1_1            ; if (a2)<=d0 branch (dont update the memory)
-    move.w d2,(a2)      ; we save only if is less     
-ammxlinefill_linemgreater1_1:
-    cmp.w 2(a2),d2
-    ble.s ammxlinefill_linemgreater1_2
-    move.w d2,2(a2)
-ammxlinefill_linemgreater1_2:
-	ENDC
+	MINXMAXALL d2
 	IFD USE_CLIPPING
 	add.w d1,d2 ; ONLY IF CLIPPING
 	ENDC
@@ -1185,19 +1172,7 @@ ammxlinefill_LINESTARTITER_F3:
 	IFD USE_CLIPPING
 	sub.w d1,d2 ; ONLY IF CLIPPING
 	ENDC
-	IFD VAMPIRE
-	pminsw  -6(a2),d2,e0
-	pmaxsw  -4(a2),d2,e1
-	vperm #$67EF67EF,e0,e1,e2
-	storec e2,E4,(a2)
-	ENDC
-
-	IFND VAMPIRE
-    cmp.w 2(a2),d2
-    ble.s ammxlinefill_linemgreater1_4
-    move.w d2,2(a2)
-ammxlinefill_linemgreater1_4:
-	ENDC
+	MINXMAXALL d2
 	IFD USE_CLIPPING
 	add.w d1,d2 ; ONLY IF CLIPPING
 	ENDC
@@ -1207,23 +1182,7 @@ ammxlinefill_linemgreater1_4:
 	IFD USE_CLIPPING
 	sub.w d1,d2 ; ONLY IF CLIPPING
 	ENDC
-	IFD VAMPIRE
-	pminsw  -6(a2),d2,e0
-	pmaxsw  -4(a2),d2,e1
-	vperm #$67EF67EF,e0,e1,e2
-	storec e2,E4,(a2)
-	ENDC
-
-	IFND VAMPIRE
-	cmp.w (a2),d2
-	bge.s ammxlinefill_linemgreater1_5_1            ; if (a2)<=d0 branch (dont update the memory)
-    move.w d2,(a2)      ; we save only if is less     
-ammxlinefill_linemgreater1_5_1:
-    cmp.w 2(a2),d2
-    ble.s ammxlinefill_linemgreater1_6_1
-    move.w d2,2(a2)
-ammxlinefill_linemgreater1_6_1:
-	ENDC
+	MINMAXDX d2
 	IFD USE_CLIPPING
 	add.w d1,d2 ; ONLY IF CLIPPING
 	ENDC
@@ -1240,23 +1199,7 @@ ammxlinefill_POINT_D_LESS_0_F3:
 	IFD USE_CLIPPING
 	sub.w d1,d2 ; ONLY IF CLIPPING
 	ENDC
-	IFD VAMPIRE
-	pminsw  -6(a2),d2,e0
-	pmaxsw  -4(a2),d2,e1
-	vperm #$67EF67EF,e0,e1,e2
-	storec e2,E4,(a2)
-	ENDC
-
-	IFND VAMPIRE
-	cmp.w (a2),d2
-	bge.s ammxlinefill_linemgreater1_5            ; if (a2)<=d0 branch (dont update the memory)
-    move.w d2,(a2)      ; we save only if is less     
-ammxlinefill_linemgreater1_5:
-    cmp.w 2(a2),d2
-    ble.s ammxlinefill_linemgreater1_6
-    move.w d2,2(a2)
-ammxlinefill_linemgreater1_6:
-	ENDC
+	MINXMAXALL d2
 	IFD USE_CLIPPING
 	add.w d1,d2 ; ONLY IF CLIPPING
 	ENDC
@@ -1269,9 +1212,6 @@ ammxlinefill_ENDLINE_F3:
 
 
 ammxlinefill_linemlessminus1:
-	
-	;move.l LINEVERTEX_START_PUSHED(PC),d2
-	;move.l LINEVERTEX_END_PUSHED(PC),d3
 
 	move.w d2,d4
 	move.w d3,d2
