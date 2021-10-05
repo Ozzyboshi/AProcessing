@@ -73,31 +73,31 @@ MAXUWORD MACRO
 ; FILLTABLE is dcb.l 4*256,$7FFF8000 
 MINXMAXALL MACRO
     IFD VAMPIRE
-	pminsw  -6(a2),d0,e0
-	pmaxsw  -4(a2),d0,e1
+	pminsw  -6(a2),\1,e0
+	pmaxsw  -4(a2),\1,e1
 	vperm #$67EF67EF,e0,e1,e2
 	storec E2,E4,(a2)
 	ELSE
-    cmp.w (a2),d0
+    cmp.w (a2),\1
 	bge.s .1\@            ; if (a2)<=d0 branch (dont update the memory)
-    move.w d0,(a2)      ; we save only if is less     
+    move.w \1,(a2)      ; we save only if is less     
 .1\@:
-    cmp.w 2(a2),d0
+    cmp.w 2(a2),\1
     ble.s .2\@
-    move.w d0,2(a2)
+    move.w \1,2(a2)
 .2\@:
     ENDC
     ENDM
 
 MINMAXDX MACRO
     IFD VAMPIRE
-	pmaxsw  -4(a2),d0,e1
+	pmaxsw  -4(a2),\1,e1
 	vperm #$67EF67EF,e0,e1,e2
 	storec E2,E4,(a2)
 	ELSE
-    cmp.w 2(a2),d0
+    cmp.w 2(a2),\1
     ble.s .1\@
-    move.w d0,2(a2)
+    move.w \1,2(a2)
 .1\@:
 	ENDC
     ENDM
