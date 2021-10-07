@@ -1242,53 +1242,51 @@ ammxmatrixmul3X3_q5_11:
 ;	move.w #28,d1
 ;	bsr.w TRANSLATE
 TRANSLATE:
-	movem.l d0-d2,-(sp) ; stack save
+	movem.l d0-d2/a0/a1,-(sp) ; stack save
 	IFD VAMPIRE
 	LOAD_CURRENT_TRANSFORMATION_MATRIX e4,e5,e6
 	REG_LOADI 0000,0040,0000,0000,e1  ; 0 1 0 0
     REG_LOADI 0000,0000,0040,0000,e2  ; 0 0 1 0
-	;move.w \1,d0
 	lsl.w #6,d0
     move.l #$0040FFFF,d2
-    ;move.w \2,d1
 	lsl.w #6,d1
 	move.w d1,d2
-	;move.l d2,d1
 	vperm #$CC67EFCD,d0,d2,e3
 	ELSE
 	LOAD_CURRENT_TRANSFORMATION_MATRIX OPERATOR2_TR_MATRIX_ROW1
-	move.l #$00000040,OPERATOR1_TR_MATRIX_ROW1
-	move.l #$00000000,OPERATOR1_TR_MATRIX_ROW1+4
-	move.l #$00000000,OPERATOR1_TR_MATRIX_ROW2
-	move.l #$00400000,OPERATOR1_TR_MATRIX_ROW2+4
-	move.w #$0000,OPERATOR1_TR_MATRIX_ROW3
-	;move.w \1,d0
+	moveq #0,d2
+	lea OPERATOR1_TR_MATRIX_ROW1(PC),a0
+	move.l #$00000040,(a0)+
+	move.l d2,(a0)+
+	move.l d2,(a0)+
+	move.l #$00400000,(a0)+
+	move.w d2,(a0)+
 	lsl.w #6,d0
-	move.w d0,OPERATOR1_TR_MATRIX_ROW3+2
-	;move.w \2,d1
+	move.w d0,(a0)+
 	lsl.w #6,d1
-	move.w d1,OPERATOR1_TR_MATRIX_ROW3+4
-	move.w #$0040,OPERATOR1_TR_MATRIX_ROW3+6
+	move.w d1,(a0)+
+	move.w #$0040,(a0)+
 	ENDC
 	bsr.w ammxmatrixmul3X3_q10_6
 	IFD VAMPIRE
 	UPDATE_CURRENT_TRANSFORMATION_MATRIX e13,e14,e15
 	ELSE
-	lea CURRENT_TRANSFORMATION_MATRIX,a0
-	move.l OPERATOR3_TR_MATRIX_ROW1,(a0)+
-	move.l OPERATOR3_TR_MATRIX_ROW1+4,(a0)+
+	lea CURRENT_TRANSFORMATION_MATRIX(PC),a0
+	lea OPERATOR3_TR_MATRIX_ROW1(PC),a1
+	move.l (a1)+,(a0)+
+	move.l (a1)+,(a0)+
 
-	move.l OPERATOR3_TR_MATRIX_ROW2,(a0)+
-	move.l OPERATOR3_TR_MATRIX_ROW2+4,(a0)+
+	move.l (a1)+,(a0)+
+	move.l (a1)+,(a0)+
 
-	move.l OPERATOR3_TR_MATRIX_ROW3,(a0)+
-	move.l OPERATOR3_TR_MATRIX_ROW3+4,(a0)+
+	move.l (a1)+,(a0)+
+	move.l (a1)+,(a0)+
 	ENDC
-	movem.l (sp)+,d0-d2
+	movem.l (sp)+,d0-d2/a0/a1
 	rts
 
 TRANSLATE3D:
-	movem.l d0-d2,-(sp) ; stack save
+	movem.l d0-d3/a0-a1,-(sp) ; stack save
 	IFD VAMPIRE
 	LOAD_CURRENT_TRANSFORMATION_MATRIX e4,e5,e6
 	REG_LOADI 0000,0040,0000,0000,e1  ; 0 1 0 0
@@ -1296,48 +1294,49 @@ TRANSLATE3D:
 	;move.w \1,d0
 	lsl.w #6,d0
     move.l #$0040FFFF,d3
-    ;move.w \2,d1
 	lsl.w #6,d1
 	lsl.w #6,d2
 	move.w d1,d3
 	swap d3
 	move.w d2,d3
 	swap d3
-	;move.l d3,d1
 	andi.l #$0000FFFF,d0
 	vperm #$4567EFCD,d0,d3,e3
 
 	ELSE
 	LOAD_CURRENT_TRANSFORMATION_MATRIX OPERATOR2_TR_MATRIX_ROW1
-	move.l #$00000040,OPERATOR1_TR_MATRIX_ROW1
-	move.l #$00000000,OPERATOR1_TR_MATRIX_ROW1+4
-	move.l #$00000000,OPERATOR1_TR_MATRIX_ROW2
-	move.l #$00400000,OPERATOR1_TR_MATRIX_ROW2+4
-	move.w #$0000,OPERATOR1_TR_MATRIX_ROW3
-	;move.w \1,d0
+	lea OPERATOR1_TR_MATRIX_ROW1(PC),a0
+	moveq #0,d3
+	move.w d3,(a0)+
+	move.w #$0040,(a0)+
+	move.l d3,(a0)+
+	move.l d3,(a0)+
+	move.w #$0040,(a0)+
+	move.w d3,(a0)+
+	move.w d3,(a0)+
 	lsl.w #6,d0
-	move.w d0,OPERATOR1_TR_MATRIX_ROW3+2
-	;move.w \2,d1
+	move.w d0,(a0)+
 	lsl.w #6,d1
-	move.w d1,OPERATOR1_TR_MATRIX_ROW3+4
+	move.w d1,(a0)+
 	lsl.w #6,d2
-	move.w d2,OPERATOR1_TR_MATRIX_ROW3+6
+	move.w d2,(a0)
 	ENDC
 	bsr.w ammxmatrixmul3X3_q10_6
 	IFD VAMPIRE
 	UPDATE_CURRENT_TRANSFORMATION_MATRIX e13,e14,e15
 	ELSE
-	lea CURRENT_TRANSFORMATION_MATRIX,a0
-	move.l OPERATOR3_TR_MATRIX_ROW1,(a0)+
-	move.l OPERATOR3_TR_MATRIX_ROW1+4,(a0)+
+	lea CURRENT_TRANSFORMATION_MATRIX(PC),a0
+	lea OPERATOR3_TR_MATRIX_ROW1(PC),a1
+	move.l (a1)+,(a0)+
+	move.l (a1)+,(a0)+
 
-	move.l OPERATOR3_TR_MATRIX_ROW2,(a0)+
-	move.l OPERATOR3_TR_MATRIX_ROW2+4,(a0)+
+	move.l (a1)+,(a0)+
+	move.l (a1)+,(a0)+
 
-	move.l OPERATOR3_TR_MATRIX_ROW3,(a0)+
-	move.l OPERATOR3_TR_MATRIX_ROW3+4,(a0)+
+	move.l (a1)+,(a0)+
+	move.l (a1),(a0)
 	ENDC
-	movem.l (sp)+,d0-d2
+	movem.l (sp)+,d0-d3/a0-a1
 	rts
 
 processing_first_matrix_addr:
