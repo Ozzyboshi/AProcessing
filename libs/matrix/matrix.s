@@ -1236,6 +1236,38 @@ ammxmatrixmul3X3_q5_11:
 
     rts
 
+LOADIDENTITYANDTRANSLATE:
+	movem.l d0-d2/a0,-(sp) ; stack save
+	asl.w                       #6,d0
+	asl.w                       #6,d1
+	IFD VAMPIRE
+	lea CURRENT_TRANSFORMATION_MATRIX,b0
+	REG_LOADI 0000,0040,0000,0000,e0
+    store e0,(b0)+
+	REG_LOADI 0000,0000,0040,0000,e0
+    store e0,(b0)+
+	swap d0
+	move.w d1,d0
+	move.l #$00000040,d2
+	;REG_LOADI 0000,d0,d1,0040,e0
+	vperm #$45CDEF67,d2,d0,e0
+    store e0,(b0)+
+	ELSE
+	lea CURRENT_TRANSFORMATION_MATRIX(PC),a0
+	moveq #0,d2
+	move.l #$00000040,(a0)+
+	move.l d2,(a0)+
+	move.l d2,(a0)+
+	move.l #$00400000,(a0)+
+	move.w d2,(a0)+
+	
+	move.w d0,(a0)+
+	move.w d1,(a0)+
+	move.w #$0040,(a0)+
+	ENDC
+	movem.l (sp)+,d0-d2/a0
+	rts
+
 ; Q_10_6 implementation
 ; Usage examples : 
 ;	move.w #60,d0

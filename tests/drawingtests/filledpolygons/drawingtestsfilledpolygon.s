@@ -556,11 +556,9 @@ _drawing_test21:
                            RESETFILLYVALS
                            CLEARFASTBITPLANES                                                                                       ; Clear fast bitplanes
 	
-                           RESET_CURRENT_TRANSFORMATION_MATRIX_Q_10_6
-
                            move.w                                        #160,d0
                            move.w                                        #128,d1
-                           jsr                                           TRANSLATE
+                           jsr                                           LOADIDENTITYANDTRANSLATE
 
                            move.w                                        #0,d0
                            move.w                                        #-5,d1
