@@ -3,10 +3,15 @@
 	XDEF _matrix_test2
 	XDEF _matrix_test3
 	XDEF _matrix_test4
+	XDEF _matrix_test5
+	XDEF _matrix_test6
+	XDEF _matrix_test7
+	XDEF _matrix_test8
 	
 	SECTION PROCESSING,CODE_F
 
 	include "../../../libs/ammxmacros.i"
+	include "../../../libs/trigtables.i"
 	include "../../../libs/matrix/matrix.s"
 
 _matrix_test1:
@@ -108,3 +113,26 @@ _matrix_test4:
 	bsr.w processing_current_transformation_matrix_addr
 	rts
 
+_matrix_test5:
+	move.w #10,d0
+	jsr LOADIDENTITYANDROTATEX
+	bsr.w processing_current_transformation_matrix_addr
+	rts
+
+_matrix_test6:
+	LOADIDENTITY
+    ROTATE_X_INV_Q_5_11    #10
+	bsr.w processing_current_transformation_matrix_addr
+	rts
+
+_matrix_test7:
+	move.w #100,d0
+	jsr LOADIDENTITYANDROTATEX
+	bsr.w processing_current_transformation_matrix_addr
+	rts
+
+_matrix_test8:
+	LOADIDENTITY
+    ROTATE_X_INV_Q_5_11    #100
+	bsr.w processing_current_transformation_matrix_addr
+	rts

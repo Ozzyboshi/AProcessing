@@ -1249,7 +1249,6 @@ LOADIDENTITYANDTRANSLATE:
 	swap d0
 	move.w d1,d0
 	move.l #$00000040,d2
-	;REG_LOADI 0000,d0,d1,0040,e0
 	vperm #$45CDEF67,d2,d0,e0
     store e0,(b0)+
 	ELSE
@@ -1266,6 +1265,113 @@ LOADIDENTITYANDTRANSLATE:
 	move.w #$0040,(a0)+
 	ENDC
 	movem.l (sp)+,d0-d2/a0
+	rts
+
+LOADIDENTITYANDROTATEY:
+	movem.l d0-d1/a0-a1,-(sp) ; stack save
+
+	lea ROT_Z_MATRIX_Q5_11,a0
+	IFD VAMPIRE
+	LOAD (b1,D0.w*8),E10 ; Load precalculated sin/cos values to register E10
+	ELSE
+	lsl.w #3,d0
+	add.w d0,a0
+	ENDC
+	moveq #0,d1
+
+	lea CURRENT_TRANSFORMATION_MATRIX(PC),a1
+
+	move.w d1,(a1)+
+	IFD VAMPIRE
+	vperm #$01010101,e10,e10,d0
+	ELSE
+	move.w (a0)+,d0
+	ENDC
+	asr.w #5,d0
+	move.w d0,(a1)+
+	move.w d1,(a1)+
+	IFD VAMPIRE
+	vperm #$23232323,e10,e10,d0
+	ELSE
+	move.w (a0)+,d0
+	ENDC
+	asr.w #5,d0
+	move.w d0,(a1)+
+
+	move.l d1,(a1)+
+	move.l #$00000040,(a1)+
+	
+	move.w d1,(a1)+
+	IFD VAMPIRE
+	vperm #$01010101,e10,e10,d0
+	ELSE
+	move.w (a0)+,d0
+	ENDC
+	asr.w #5,d0
+	move.w d0,(a1)+
+	move.w d1,(a1)+
+	IFD VAMPIRE
+	vperm #$23232323,e10,e10,d0
+	ELSE
+	move.w (a0)+,d0
+	ENDC
+	asr.w #5,d0
+	move.w d0,(a1)+
+	movem.l (sp)+,d0-d1/a0-a1
+	rts
+
+
+LOADIDENTITYANDROTATEX:
+	movem.l d0-d1/a0-a1,-(sp) ; stack save
+
+	lea ROT_Z_MATRIX_Q5_11,a0
+	IFD VAMPIRE
+	LOAD (a0,D0.w*8),E10 ; Load precalculated sin/cos values to register E10
+	ELSE
+	lsl.w #3,d0
+	add.w d0,a0
+	ENDC
+	moveq #0,d1
+
+	lea CURRENT_TRANSFORMATION_MATRIX(PC),a1
+
+	move.w d1,(a1)+
+	move.w #$0040,(a1)+
+	move.l d1,(a1)+
+
+	move.l d1,(a1)+
+	IFD VAMPIRE
+	vperm #$01010101,e10,e10,d0
+	ELSE
+	move.w (a0)+,d0
+	ENDC
+	asr.w #5,d0
+	move.w d0,(a1)+
+	IFD VAMPIRE
+	vperm #$23232323,e10,e10,d0
+	ELSE
+	move.w (a0)+,d0
+	ENDC
+	asr.w #5,d0
+	move.w d0,(a1)+
+
+	move.l d1,(a1)+
+	IFD VAMPIRE
+	vperm #$45454545,e10,e10,d0
+	ELSE
+	move.w (a0)+,d0
+	ENDC
+	asr.w #5,d0
+	move.w d0,(a1)+
+	IFD VAMPIRE
+	vperm #$67676767,e10,e10,d0
+	ELSE
+	move.w (a0)+,d0
+	ENDC
+	asr.w #5,d0
+	move.w d0,(a1)
+
+	movem.l (sp)+,d0-d1/a0-a1
 	rts
 
 ; Q_10_6 implementation
