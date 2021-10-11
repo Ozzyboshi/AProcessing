@@ -393,9 +393,9 @@ ROTATE_Y_INV_Q_5_11 MACRO
 
 	; Rotation matrix is the Multiplicand
 	REG_ZERO e21
-    vperm  #$FF01FF23,e10,e21,e1     ; first  row of the matrix  0 cos -sin 0
+    vperm  #$FF01FF45,e10,e21,e1     ; first  row of the matrix  0 cos 0 sin
 	REG_LOADI 0000,0000,0800,0000,e2 ; NOTE!!!!!!!!!!, first word must be 1* table multiplier!!!!
-    vperm  #$FF45FF67,e10,e21,e3     ; second row of the matrix  0 sin  cos 0
+    vperm  #$FF23FF67,e10,e21,e3     ; second row of the matrix  0 -sin  0 cos
 	; end loading matrix
 
 	UPDATE_CURRENT_TRANSFORMATION_MATRIX e13,e14,e15
@@ -411,7 +411,7 @@ ROTATE_Y_INV_Q_5_11 MACRO
 	move.w d0,OPERATOR1_TR_MATRIX_ROW1
 	move.w (a0)+,OPERATOR1_TR_MATRIX_ROW1+2
 	move.w d0,OPERATOR1_TR_MATRIX_ROW1+4
-	move.w (a0)+,OPERATOR1_TR_MATRIX_ROW1+6
+	move.w 2(a0),OPERATOR1_TR_MATRIX_ROW1+6
 
 	move.l d0,OPERATOR1_TR_MATRIX_ROW2
 	move.l #$08000000,OPERATOR1_TR_MATRIX_ROW2+4
@@ -419,7 +419,7 @@ ROTATE_Y_INV_Q_5_11 MACRO
 	move.w d0,OPERATOR1_TR_MATRIX_ROW3
 	move.w (a0)+,OPERATOR1_TR_MATRIX_ROW3+2
 	move.w d0,OPERATOR1_TR_MATRIX_ROW3+4
-	move.w (a0)+,OPERATOR1_TR_MATRIX_ROW3+6
+	move.w 2(a0),OPERATOR1_TR_MATRIX_ROW3+6
 
 	ENDC
 
@@ -1272,7 +1272,7 @@ LOADIDENTITYANDROTATEY:
 
 	lea ROT_Z_MATRIX_Q5_11,a0
 	IFD VAMPIRE
-	LOAD (b1,D0.w*8),E10 ; Load precalculated sin/cos values to register E10
+	LOAD (a0,D0.w*8),E10 ; Load precalculated sin/cos values to register E10
 	ELSE
 	lsl.w #3,d0
 	add.w d0,a0
@@ -1291,24 +1291,16 @@ LOADIDENTITYANDROTATEY:
 	move.w d0,(a1)+
 	move.w d1,(a1)+
 	IFD VAMPIRE
-	vperm #$23232323,e10,e10,d0
+	vperm #$45454545,e10,e10,d0
 	ELSE
-	move.w (a0)+,d0
+	move.w 2(a0),d0
 	ENDC
 	asr.w #5,d0
 	move.w d0,(a1)+
 
 	move.l d1,(a1)+
-	move.l #$00000040,(a1)+
+	move.l #$00400000,(a1)+
 	
-	move.w d1,(a1)+
-	IFD VAMPIRE
-	vperm #$01010101,e10,e10,d0
-	ELSE
-	move.w (a0)+,d0
-	ENDC
-	asr.w #5,d0
-	move.w d0,(a1)+
 	move.w d1,(a1)+
 	IFD VAMPIRE
 	vperm #$23232323,e10,e10,d0
@@ -1317,9 +1309,16 @@ LOADIDENTITYANDROTATEY:
 	ENDC
 	asr.w #5,d0
 	move.w d0,(a1)+
+	move.w d1,(a1)+
+	IFD VAMPIRE
+	vperm #$67676767,e10,e10,d0
+	ELSE
+	move.w 2(a0),d0
+	ENDC
+	asr.w #5,d0
+	move.w d0,(a1)
 	movem.l (sp)+,d0-d1/a0-a1
 	rts
-
 
 LOADIDENTITYANDROTATEX:
 	movem.l d0-d1/a0-a1,-(sp) ; stack save

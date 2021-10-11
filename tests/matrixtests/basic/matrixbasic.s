@@ -7,6 +7,8 @@
 	XDEF _matrix_test6
 	XDEF _matrix_test7
 	XDEF _matrix_test8
+	XDEF _matrix_test9
+	XDEF _matrix_test10
 	
 	SECTION PROCESSING,CODE_F
 
@@ -134,5 +136,17 @@ _matrix_test7:
 _matrix_test8:
 	LOADIDENTITY
     ROTATE_X_INV_Q_5_11    #100
+	bsr.w processing_current_transformation_matrix_addr
+	rts
+
+_matrix_test9:
+	move.w #10,d0
+	jsr LOADIDENTITYANDROTATEY
+	bsr.w processing_current_transformation_matrix_addr
+	rts
+
+_matrix_test10:
+	LOADIDENTITY
+    ROTATE_Y_INV_Q_5_11    #10
 	bsr.w processing_current_transformation_matrix_addr
 	rts
