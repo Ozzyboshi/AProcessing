@@ -270,14 +270,15 @@ ammx_fill_table_clip:
 	move.w 0(a4,d1.w),d1
 
 	IFD USE_DBLBUF
-	move.l SCREEN_PTR_0,a5
+	move.l SCREEN_PTR_0(PC),a5
 	ELSE
-	lea SCREEN_0,a5
+	lea SCREEN_0(PC),a5
 	ENDC
 
 	move.w #40,a6
 	move.l #$013F0000,a1
 	move.w #$7FFF,a2
+	move.w #$8000,a4
 
 ammx_fill_table_nextline_clip:
 
@@ -285,7 +286,7 @@ ammx_fill_table_nextline_clip:
 	move.w a2,(a0)+
 	move.l a1,d7
 	move.w (a0),d7 ; end of fill line
-	move.w #$8000,(a0)+
+	move.w a4,(a0)+
 	
 	; clip start
 	; if left is negative left is zero
@@ -566,7 +567,6 @@ ammx_fill_table_no_end_0
 ;	- d6.w : left X (0-319)
 ;	- d7.w : right X (0-319)
 ;	- d1.w : line number multiplied by 40 (line)
-;	- a4 : addr of plotrefs
 ;   - a5 : addr of screen
 ;
 ; Defines:
@@ -845,10 +845,6 @@ ammxlinefill_clip_ok:
 	; d0 will contain the min(X) and d1 the max(X) (questo pezzo pare inutile????)
     move.w LINEVERTEX_START_PUSHED_X(PC),d0
 	move.w LINEVERTEX_END_PUSHED_X(PC),d1
-	;cmp.w d0,d1
-	;bge.s ammxlinefill_noswap_x
-	;exg d1,d0
-;ammxlinefill_noswap_x:
 
 	; if x<0 we shift to right to normalize
     move.w #0,LINEVERTEX_CLIP_X_OFFSET

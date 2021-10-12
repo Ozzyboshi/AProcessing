@@ -108,10 +108,7 @@ POINT MACRO
 ;       y into d1
 ; output will be into d0 d1 (register overwritten)
 point_execute_transformation:
-	;movem.l d0-d1,-(sp)
-	IFD VAMPIRE
 	move.l d2,-(sp)
-	ENDC
 
 	and.l #$0000FFFF,d0
 	and.l #$0000FFFF,d1
@@ -132,9 +129,10 @@ point_execute_transformation:
 
 	IFND VAMPIRE
 	LOAD_CURRENT_TRANSFORMATION_MATRIX OPERATOR2_TR_MATRIX_ROW1
+	moveq #6,d2
 	move.w #$0000,OPERATOR1_TR_MATRIX_ROW1
-	asl.w #6,d0
-	asl.w #6,d1
+	asl.w d2,d0
+	asl.w d2,d1
 	move.w d0,OPERATOR1_TR_MATRIX_ROW1+2
 	move.w d1,OPERATOR1_TR_MATRIX_ROW1+4
 	move.w #$0040,OPERATOR1_TR_MATRIX_ROW1+6
@@ -146,23 +144,23 @@ point_execute_transformation:
 	IFD VAMPIRE
 	vperm #$FFFFFF23,e13,e2,d0
 	vperm #$FFFFFF45,e13,e2,d1
-	ENDC
-
-	IFND VAMPIRE	
-	move.w OPERATOR3_TR_MATRIX_ROW1+2,d0
-	move.w OPERATOR3_TR_MATRIX_ROW1+4,d1
+	ELSE	
+	move.w 2+OPERATOR3_TR_MATRIX_ROW1(PC),d0
+	move.w 4+OPERATOR3_TR_MATRIX_ROW1(PC),d1
 	ENDC
 
 	ext.l d0
 	ext.l d1
 	
+	IFD VAMPIRE
 	lsr.l #6,d0
 	lsr.l #6,d1
-
-	;movem.l (sp)+,d0-d1
-	IFD VAMPIRE
-	move.l (sp)+,d2
+	ELSE
+	lsr.l d2,d0
+	lsr.l d2,d1
 	ENDC
+
+	move.l (sp)+,d2
 	rts
 
 	IFD USE_3D
@@ -171,9 +169,9 @@ point_execute_transformation:
 ;		z into d2
 ; output will be into d0 d1 (register overwritten)
 point_execute_transformation_3d:
-	IFD VAMPIRE
+	;IFD VAMPIRE
 	move.l d3,-(sp)
-	ENDC
+	;ENDC
 
 	and.l #$0000FFFF,d0
 	and.l #$0000FFFF,d1
@@ -198,10 +196,11 @@ point_execute_transformation_3d:
 
 	IFND VAMPIRE
 	LOAD_CURRENT_TRANSFORMATION_MATRIX OPERATOR2_TR_MATRIX_ROW1
+	moveq #6,d3
 	move.w #$0000,OPERATOR1_TR_MATRIX_ROW1
-	asl.w #6,d0
-	asl.w #6,d1
-	asl.w #6,d2
+	asl.w d3,d0
+	asl.w d3,d1
+	asl.w d3,d2
 	move.w d0,OPERATOR1_TR_MATRIX_ROW1+2
 	move.w d1,OPERATOR1_TR_MATRIX_ROW1+4
 	move.w d2,OPERATOR1_TR_MATRIX_ROW1+6
@@ -226,13 +225,17 @@ point_execute_transformation_3d:
 	ext.l d1
 	ext.l d2
 	
+	IFD VAMPIRE
 	lsr.l #6,d0
 	lsr.l #6,d1
 	lsr.l #6,d2
-
-	IFD VAMPIRE
-	move.l (sp)+,d3
+	ELSE
+	lsr.l d3,d0
+	lsr.l d3,d1
+	lsr.l d3,d2
 	ENDC
+
+	move.l (sp)+,d3
 	rts
 
 PROJECTION_CENTER_X:	dc.w 160
