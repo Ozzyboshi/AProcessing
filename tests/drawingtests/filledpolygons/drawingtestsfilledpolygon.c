@@ -27,7 +27,9 @@ unsigned char *drawing_test18();
 unsigned char *drawing_test19();
 unsigned char *drawing_test20();
 unsigned char *drawing_test21();
-
+unsigned char *drawing_test22();
+unsigned char *drawing_test23();
+unsigned char *drawing_test24();
 
 struct _test TESTS[] = {
     {.testId = 1, .test_function = drawing_test1, .nbitplanes=2, .nrows=256, .nbyterow=40,.title = "square rotated filled", .verbose=0},
@@ -52,8 +54,10 @@ struct _test TESTS[] = {
     {.testId = 19, .test_function = drawing_test19, .nbitplanes=2, .nrows=256, .nbyterow=40,.title = "Square Rotated on the origin by 220 deg", .verbose=0},
     {.testId = 20, .test_function = drawing_test20, .nbitplanes=2, .nrows=256, .nbyterow=40,.title = "Triangle filled with blitter", .verbose=0},
     {.testId = 21, .test_function = drawing_test21, .nbitplanes=1, .nrows=2, .nbyterow=2,.title = "Triangle filled with blitter test min/max Y", .verbose=0},
-
-
+    // Start flipping
+    {.testId = 22, .test_function = drawing_test22, .nbitplanes=2, .nrows=256, .nbyterow=40,.title = "Triangle flipped horizontally", .verbose=0},
+    {.testId = 23, .test_function = drawing_test23, .nbitplanes=2, .nrows=256, .nbyterow=40,.title = "Triangle flipped vertically", .verbose=0},
+    {.testId = 24, .test_function = drawing_test24, .nbitplanes=2, .nrows=256, .nbyterow=40,.title = "Triangle flipped horizontally and vertically", .verbose=0},
 
     {.testId = 0, .test_function = NULL}
 

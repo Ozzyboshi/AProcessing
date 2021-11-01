@@ -19,6 +19,9 @@
                            XDEF                                          _drawing_test19
                            XDEF                                          _drawing_test20
                            XDEF                                          _drawing_test21
+                           XDEF                                          _drawing_test22
+                           XDEF                                          _drawing_test23
+                           XDEF                                          _drawing_test24
 
                            SECTION                                       PROCESSING,CODE_F
 
@@ -578,4 +581,109 @@ _drawing_test21:
                            move.l                                        #FILLTABLE_FRAME_MIN_Y,d0
                            move.l                                        AMMX_FILL_FUNCT_ADDR_OLD,AMMX_FILL_FUNCT_ADDR
 
+                           rts
+
+_drawing_test22:
+                           CLEARFASTBITPLANES                                                                                       ; Clear fast bitplanes
+	
+                           RESET_CURRENT_TRANSFORMATION_MATRIX_Q_10_6
+
+                           move.w                                        #160,d0
+                           move.w                                        #128,d1
+                           jsr                                           TRANSLATE
+
+                           ; flip horizontally (scale (-1,1))
+                          FLIPX
+
+                           move.w                                        #-10,d0
+                           move.w                                        #0,d1
+
+                           move.w                                        #-10,d6
+                           move.w                                        #100,d3
+
+                           move.w                                        #10,d4
+                           move.w                                        #100,d5
+
+                           STROKE                                        #3
+                           bsr.w                                         TRIANGLE
+
+                           ; output must be a triangle like this
+                           ;
+                           ;      /|
+                           ;     / |
+                           ;    /  |
+                           ;   /   |
+                           ;  /____|
+
+                           bsr.w                                         processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
+                           rts
+
+_drawing_test23:
+                           CLEARFASTBITPLANES                                                                                       ; Clear fast bitplanes
+	
+                           RESET_CURRENT_TRANSFORMATION_MATRIX_Q_10_6
+
+                           move.w                                        #160,d0
+                           move.w                                        #128,d1
+                           jsr                                           TRANSLATE
+
+                           ; flip vertically (scale (1,-1))
+                          FLIPY
+
+                           move.w                                        #-10,d0
+                           move.w                                        #0,d1
+
+                           move.w                                        #-10,d6
+                           move.w                                        #100,d3
+
+                           move.w                                        #10,d4
+                           move.w                                        #100,d5
+
+                           STROKE                                        #3
+                           bsr.w                                         TRIANGLE
+
+                           ; output must be a triangle like this
+                           ;  ______
+                           ;  |    /
+                           ;  |   / 
+                           ;  |  /  
+                           ;  | /   
+                           ;  |/
+
+                           bsr.w                                         processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
+                           rts
+
+_drawing_test24:
+                           CLEARFASTBITPLANES                                                                                       ; Clear fast bitplanes
+	
+                           RESET_CURRENT_TRANSFORMATION_MATRIX_Q_10_6
+
+                           move.w                                        #160,d0
+                           move.w                                        #128,d1
+                           jsr                                           TRANSLATE
+
+                           ; flip horizontally and vertically (scale (-1,-1))
+                          FLIPXY
+
+                           move.w                                        #-10,d0
+                           move.w                                        #0,d1
+
+                           move.w                                        #-10,d6
+                           move.w                                        #100,d3
+
+                           move.w                                        #10,d4
+                           move.w                                        #100,d5
+
+                           STROKE                                        #3
+                           bsr.w                                         TRIANGLE
+
+                           ; output must be a triangle like this
+                           ;  ______
+                           ;  \    |
+                           ;   \   | 
+                           ;    \  |  
+                           ;     \ |
+                           ;      \|
+
+                           bsr.w                                         processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
                            rts
