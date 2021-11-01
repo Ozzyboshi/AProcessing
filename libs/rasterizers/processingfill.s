@@ -430,15 +430,16 @@ ammx_fill_table_no_firstbyte_1:
 ammx_fill_table_no_firstbyte_0:
 	addq #1,a3
 
-	; start addr odd or even? store result on d4
+	moveq #8,d4
+	; start addr odd or even?
 	IFND VAMPIRE
 	btst #0,d2
 	bne.s ammx_fill_table_startiter
-	cmpi.w #8,d5
+	cmp.w d4,d5
 	bcs.w ammx_fill_table_no8 ; branch if lower (it will continue if we have at least 8 bits to fill)
 	or.b  d6,256*40(a3)
 	or.b  d7,(a3)+
-	subq #8,d5
+	subq.w #8,d5
 	ENDC
 
 ; start iteration until we are at the end
@@ -526,7 +527,7 @@ ammx_fill_table_no32:
 	
 ammx_fill_table_no16:
 
-	cmpi.w #8,d5
+	cmp.w d4,d5
 	bcs.w ammx_fill_table_no8 ; branch if lower (it will continue if we have at least 8 bits to fill)
 	IFD VAMPIRE
 	vperm #$00000000,e1,e1,d0
@@ -547,7 +548,7 @@ ammx_fill_table_no8:
 
 	; we get here only and only if there is less then a byte to fill, in other words, d5<8
 	; in this case we must fill the MSG bytes of the byte wit a 1
-	moveq #8,d4
+	;moveq #8,d4
 	sub.w d5,d4
 	IFD VAMPIRE
 	vperm #$00000000,e1,e1,d6
@@ -642,11 +643,12 @@ ammx_fill_table_no_firstbyte_1_bpl1:
 	load #$FFFFFFFFFFFFFFFF,e0
 	ENDC
 
-	; start addr odd or even? store result on d4
+	moveq #8,d4
+	; start addr odd or even?
 	IFND VAMPIRE
 	btst #0,d2
 	bne.s ammx_fill_table_startiter_bpl1
-	cmpi.w #8,d5
+	cmp.w d4,d5
 	bcs.w ammx_fill_table_no8_bpl1 ; branch if lower (it will continue if we have at least 8 bits to fill)
 	or.b  d7,(a3)+
 	subq #8,d5
@@ -729,8 +731,7 @@ ammx_fill_table_no32_bpl1:
 	ENDC
 	
 ammx_fill_table_no16_bpl1:
-
-	cmpi.w #8,d5
+	cmp.w d4,d5
 	bcs.w ammx_fill_table_no8_bpl1 ; branch if lower (it will continue if we have at least 8 bits to fill)
 	IFD VAMPIRE
 	vperm #$00000000,e1,e1,d0
@@ -749,13 +750,12 @@ ammx_fill_table_no8_bpl1:
 
 	; we get here only and only if there is less then a byte to fill, in other words, d5<8
 	; in this case we must fill the MSG bytes of the byte wit a 1
-	moveq #8,d4
+	;moveq #8,d4
 	sub.w d5,d4
 	IFD VAMPIRE
 	vperm #$00000000,e1,e1,d6
 	vperm #$00000000,e0,e0,d7
 	ENDC
-	;lsl.b d4,d6
 	lsl.b d4,d7
 
 	or.b d7,(a3)
@@ -855,8 +855,8 @@ ammxlinefill_clip_ok:
     add.w d0,LINEVERTEX_START_PUSHED_X
     add.w d0,LINEVERTEX_END_PUSHED_X
 ammxlinefill_no_clip_offset:
-    move.l LINEVERTEX_START_PUSHED,d2
-	move.l LINEVERTEX_END_PUSHED,d3
+    move.l LINEVERTEX_START_PUSHED(PC),d2
+	move.l LINEVERTEX_END_PUSHED(PC),d3
     move.l d3,d5 ; recalculate deltax
 	swap d5
 	swap d2
