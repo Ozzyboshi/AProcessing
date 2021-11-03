@@ -110,10 +110,10 @@ POINT MACRO
 point_execute_transformation:
 	move.l d2,-(sp)
 
+	IFD VAMPIRE
+
 	and.l #$0000FFFF,d0
 	and.l #$0000FFFF,d1
-
-	IFD VAMPIRE
 
 	asl.w #6,d0
 	move.l #$0040FFFF,d2
@@ -128,7 +128,7 @@ point_execute_transformation:
 	ENDC
 
 	IFND VAMPIRE
-	LOAD_CURRENT_TRANSFORMATION_MATRIX OPERATOR2_TR_MATRIX_ROW1
+	LOAD_CURRENT_TRANSFORMATION_MATRIX_PC OPERATOR2_TR_MATRIX_ROW1
 	moveq #6,d2
 	move.w #$0000,OPERATOR1_TR_MATRIX_ROW1
 	asl.w d2,d0
@@ -173,11 +173,11 @@ point_execute_transformation_3d:
 	move.l d3,-(sp)
 	;ENDC
 
+	IFD VAMPIRE
+
 	and.l #$0000FFFF,d0
 	and.l #$0000FFFF,d1
 	and.l #$0000FFFF,d2
-
-	IFD VAMPIRE
 
 	asl.w #6,d0
 	asl.w #6,d1
@@ -195,7 +195,7 @@ point_execute_transformation_3d:
 	ENDC
 
 	IFND VAMPIRE
-	LOAD_CURRENT_TRANSFORMATION_MATRIX OPERATOR2_TR_MATRIX_ROW1
+	LOAD_CURRENT_TRANSFORMATION_MATRIX_PC OPERATOR2_TR_MATRIX_ROW1
 	moveq #6,d3
 	move.w #$0000,OPERATOR1_TR_MATRIX_ROW1
 	asl.w d3,d0
@@ -216,9 +216,9 @@ point_execute_transformation_3d:
 	ENDC
 
 	IFND VAMPIRE	
-	move.w OPERATOR3_TR_MATRIX_ROW1+2,d0
-	move.w OPERATOR3_TR_MATRIX_ROW1+4,d1
-	move.w OPERATOR3_TR_MATRIX_ROW1+6,d2
+	move.w 2+OPERATOR3_TR_MATRIX_ROW1(PC),d0
+	move.w 4+OPERATOR3_TR_MATRIX_ROW1(PC),d1
+	move.w 6+OPERATOR3_TR_MATRIX_ROW1(PC),d2
 	ENDC
 
 	ext.l d0
