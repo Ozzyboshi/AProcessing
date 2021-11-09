@@ -246,6 +246,104 @@ ammx_fill_table_end:
 	movem.l (sp)+,d0/d2-d7/a0/a2/a3/a4/a5/a6
 	rts
 
+ammx_fill_table_bpl1:
+	movem.l d0/d2-d7/a0/a2/a3/a4/a5/a6,-(sp) ; stack save
+
+	move.w #1,AMMX_FILL_TABLE_FIRST_DRAW
+	move.w AMMXFILLTABLE_END_ROW(PC),d5
+
+	lea FILL_TABLE(PC),a0
+
+	; Reposition inside the fill table according to the starting row
+	move.w AMMXFILLTABLE_CURRENT_ROW(PC),d6
+	move.w d6,d1
+	lsl.w #2,d6
+	add.w d6,a0
+	; end of repositioning
+
+	MINUWORD d1,FILLTABLE_FRAME_MIN_Y
+	MAXUWORD d5,FILLTABLE_FRAME_MAX_Y
+
+	sub.w d1,d5
+	bmi.s ammx_fill_table_end_bpl1
+
+	lea PLOTREFS(PC),a4
+	add.w d1,d1
+	move.w 0(a4,d1.w),d1
+
+	IFD USE_DBLBUF
+	move.l SCREEN_PTR_0,a5
+	ELSE
+	lea SCREEN_0,a5
+	ENDC
+
+	move.l #$7FFF8000,a2
+	move.w #40,a6
+
+ammx_fill_table_nextline_bpl1:
+
+	move.w (a0),d6 ; start of fill line
+	move.w 2(a0),d7 ; end of fill line
+	move.l a2,(a0)+
+	
+	bsr.w ammx_fill_table_single_line_bpl1
+	add.w a6,d1
+	
+	dbra d5,ammx_fill_table_nextline_bpl1
+ammx_fill_table_end_bpl1:
+	move.w #-1,AMMXFILLTABLE_END_ROW
+	movem.l (sp)+,d0/d2-d7/a0/a2/a3/a4/a5/a6
+	rts
+
+ammx_fill_table_bpl2:
+	movem.l d0/d2-d7/a0/a2/a3/a4/a5/a6,-(sp) ; stack save
+
+	move.w #1,AMMX_FILL_TABLE_FIRST_DRAW
+	move.w AMMXFILLTABLE_END_ROW(PC),d5
+
+	lea FILL_TABLE(PC),a0
+
+	; Reposition inside the fill table according to the starting row
+	move.w AMMXFILLTABLE_CURRENT_ROW(PC),d6
+	move.w d6,d1
+	lsl.w #2,d6
+	add.w d6,a0
+	; end of repositioning
+
+	MINUWORD d1,FILLTABLE_FRAME_MIN_Y
+	MAXUWORD d5,FILLTABLE_FRAME_MAX_Y
+
+	sub.w d1,d5
+	bmi.s ammx_fill_table_end_bpl2
+
+	lea PLOTREFS(PC),a4
+	add.w d1,d1
+	move.w 0(a4,d1.w),d1
+
+	IFD USE_DBLBUF
+	move.l SCREEN_PTR_1,a5
+	ELSE
+	lea SCREEN_1,a5
+	ENDC
+
+	move.l #$7FFF8000,a2
+	move.w #40,a6
+
+ammx_fill_table_nextline_bpl2:
+
+	move.w (a0),d6 ; start of fill line
+	move.w 2(a0),d7 ; end of fill line
+	move.l a2,(a0)+
+	
+	bsr.w ammx_fill_table_single_line_bpl1
+	add.w a6,d1
+	
+	dbra d5,ammx_fill_table_nextline_bpl2
+ammx_fill_table_end_bpl2:
+	move.w #-1,AMMXFILLTABLE_END_ROW
+	movem.l (sp)+,d0/d2-d7/a0/a2/a3/a4/a5/a6
+	rts
+
 	IFD USE_CLIPPING
 ammx_fill_table_clip:
 	movem.l d0-d7/a0-a6,-(sp) ; stack save
@@ -563,7 +661,7 @@ ammx_fill_table_no_end_0
 	move.l (sp)+,d5
 	rts
 
-; ammx_fill_table_single_line - Fills a single line according to the fill table into first bitplane
+; ammx_fill_table_single_line_bpl1 - Fills a single line according to the fill table into first bitplane
 ; Input:
 ;	- d6.w : left X (0-319)
 ;	- d7.w : right X (0-319)

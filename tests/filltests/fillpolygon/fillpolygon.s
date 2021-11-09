@@ -14,7 +14,10 @@
   XDEF                  _fillpolygon_test13
   XDEF                  _fillpolygon_test14
   XDEF                  _fillpolygon_test15
-	
+  XDEF                  _fillpolygon_test16
+  XDEF                  _fillpolygon_test17
+  XDEF                  _fillpolygon_test18
+
   SECTION               PROCESSING,CODE_F
 
   include               "../../../libs/rasterizers/globaloptions.s"
@@ -42,10 +45,8 @@ _fillpolygon_test1:
   move.w                #26,(a1)+
   bsr.w                 ammxlinefill
 
- ;move.w                #2,AMMXFILLTABLE_CURRENT_ROW
-  ;move.w                #26,AMMXFILLTABLE_END_ROW                                  ; I want to fill up to first row (first row is elaborated)
-
   CLEARFASTBITPLANES                                                               ; Clear fast bitplanes
+  STROKE                #1
   bsr.w                 ammx_fill_table
   bsr.w                 processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
 
@@ -356,4 +357,71 @@ _fillpolygon_test15:
   STROKE                #1 
 
   DISABLE_CLIPPING
+  rts
+
+_fillpolygon_test16:
+  RESETFILLTABLE
+  lea                   LINEVERTEX_START_FINAL,a1
+  move.w                #16,(a1)+
+  move.w                #2,(a1)+
+  move.w                #8,(a1)+
+  move.w                #26,(a1)+
+  bsr.w                 ammxlinefill
+
+  lea                   LINEVERTEX_START_FINAL,a1
+  move.w                #16,(a1)+
+  move.w                #2,(a1)+
+  move.w                #28,(a1)+
+  move.w                #26,(a1)+
+  bsr.w                 ammxlinefill
+
+  CLEARFASTBITPLANES                                                               ; Clear fast bitplanes
+  bsr.w                 ammx_fill_table_bpl1
+  bsr.w                 processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
+
+  rts
+
+_fillpolygon_test17:
+  RESETFILLTABLE
+  lea                   LINEVERTEX_START_FINAL,a1
+  move.w                #16,(a1)+
+  move.w                #2,(a1)+
+  move.w                #8,(a1)+
+  move.w                #26,(a1)+
+  bsr.w                 ammxlinefill
+
+  lea                   LINEVERTEX_START_FINAL,a1
+  move.w                #16,(a1)+
+  move.w                #2,(a1)+
+  move.w                #28,(a1)+
+  move.w                #26,(a1)+
+  bsr.w                 ammxlinefill
+
+  CLEARFASTBITPLANES                                                               ; Clear fast bitplanes
+  STROKE                #2
+  bsr.w                 ammx_fill_table
+  bsr.w                 processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
+
+  rts
+
+_fillpolygon_test18:
+  RESETFILLTABLE
+  lea                   LINEVERTEX_START_FINAL,a1
+  move.w                #16,(a1)+
+  move.w                #2,(a1)+
+  move.w                #8,(a1)+
+  move.w                #26,(a1)+
+  bsr.w                 ammxlinefill
+
+  lea                   LINEVERTEX_START_FINAL,a1
+  move.w                #16,(a1)+
+  move.w                #2,(a1)+
+  move.w                #28,(a1)+
+  move.w                #26,(a1)+
+  bsr.w                 ammxlinefill
+
+  CLEARFASTBITPLANES                                                               ; Clear fast bitplanes
+  bsr.w                 ammx_fill_table_bpl2
+  bsr.w                 processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
+
   rts

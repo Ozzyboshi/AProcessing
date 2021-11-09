@@ -80,7 +80,7 @@ _filltransformations3d_test3:
   move.w                                       #50,d1
   move.w                                       #-50,d2
 
-  bsr.w                                        TRANSLATE3D
+  jsr                                          TRANSLATE3D
 
   move.w                                       #0,d0
   move.w                                       #0,d1
@@ -109,7 +109,7 @@ _filltransformations3d_test4:
   move.w                                       #0,d1
   move.w                                       #1,d2
 
-  bsr.w                                        TRANSLATE3D
+  jsr                                          TRANSLATE3D
 
   move.w                                       #10,d0
   move.w                                       #10,d1
@@ -173,8 +173,6 @@ _filltransformations3d_test6:
   bsr.w                                        ammxlinefill
 
   bsr.w                                        processing_fill_table_addr
-  ;move.l                                       #LINEVERTEX_START_FINAL,d0
-  ;move.l #VERTEX_LIST_3D,d0
   movem.l                                      (sp)+,d2
   rts
 
