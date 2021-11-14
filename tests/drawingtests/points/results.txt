@@ -1,0 +1,1 @@
+Result drawingtestspoint.c: All tests ok (1)

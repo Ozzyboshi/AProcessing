@@ -3,6 +3,8 @@ all:
 	vasmm68k_mot -devpac -Fhunk -quiet -esc -m68080 -DVAMPIRE ./drawingtestspoint.s  -o ./drawingtestspointvampire.o
 	m68k-amigaos-gcc  -ffast-math -m68000 -msoft-float -noixemul -fomit-frame-pointer  -Os -Wall  drawingtestspoint.c -o drawingtestspoint drawingtestspoint.o ../../testlibs/testlib.o 
 	m68k-amigaos-gcc  -ffast-math -m68000 -msoft-float -noixemul -fomit-frame-pointer  -Os -Wall  drawingtestspoint.c -o drawingtestspointvampire drawingtestspointvampire.o ../../testlibs/testlib.o 
+	chmod 777 drawingtestspoint
+	chmod 777 drawingtestspointvampire
 
 test: drawingtestspoint
 	vamos -v ./drawingtestspoint 2>>/tmp/vamosinfo

@@ -1,0 +1,1 @@
+Result fillpolygon.c: All tests ok (18)

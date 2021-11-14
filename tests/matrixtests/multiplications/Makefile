@@ -4,6 +4,9 @@ all:
 	m68k-amigaos-gcc  -ffast-math -m68000 -msoft-float -noixemul -fomit-frame-pointer  -Os -Wall  matrixmultiplications.c -o matrixmultiplications matrixmultiplications.o ../../testlibs/testlib.o 
 	m68k-amigaos-gcc  -ffast-math -m68000 -msoft-float -noixemul -fomit-frame-pointer  -Os -Wall  matrixmultiplications.c -o matrixmultiplicationsvampire matrixmultiplicationsvampire.o ../../testlibs/testlib.o 
 
+	chmod 777 matrixmultiplications
+	chmod 777 matrixmultiplicationsvampire
+
 test: matrixmultiplications
 	vamos -v ./matrixmultiplications 2>>/tmp/vamosinfo
 

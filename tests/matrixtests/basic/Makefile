@@ -4,6 +4,9 @@ all:
 	m68k-amigaos-gcc  -ffast-math -m68000 -msoft-float -noixemul -fomit-frame-pointer  -Os -Wall  matrixbasic.c -o matrixbasic matrixbasic.o ../../testlibs/testlib.o 
 	m68k-amigaos-gcc  -ffast-math -m68000 -msoft-float -noixemul -fomit-frame-pointer  -Os -Wall  matrixbasic.c -o matrixbasicvampire matrixbasicvampire.o ../../testlibs/testlib.o 
 
+	chmod 777 matrixbasic
+	chmod 777 matrixbasicvampire
+
 test: matrixbasic
 	vamos -v ./matrixbasic 2>>/tmp/vamosinfo
 

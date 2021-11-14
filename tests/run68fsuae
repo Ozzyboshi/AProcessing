@@ -1,0 +1,49 @@
+delete results.txt
+cd filltests/filllines
+filllines -o //results.txt
+cd /
+cd /
+cd filltests/filllinesnoclip
+filllinesnoclip -o //results.txt
+cd /
+cd /
+cd filltests/fillscanline
+fillscanline -o //results.txt
+cd /
+cd /
+cd filltests/fillscanlinenoclip
+fillscanlinenoclip -o //results.txt
+cd /
+cd /
+cd filltests/fillpolygon
+fillpolygon -o //results.txt
+cd /
+cd /
+cd filltests/filltransformations
+filltransformations -o //results.txt
+cd /
+cd /
+cd filltests/filltransformations3d
+filltransformations3d -o //results.txt
+cd /
+cd /
+cd matrixtests/basic
+matrixbasic -o //results.txt
+cd /
+cd /
+cd matrixtests/multiplications
+matrixmultiplications -o //results.txt
+cd /
+cd /
+cd drawingtests/points
+drawingtestspoint -o //results.txt
+cd /
+cd /
+cd drawingtests/filledpolygons
+drawingtestsfilledpolygon -o //results.txt
+cd /
+cd /
+cd drawingtests/filledpolygons3d
+drawingtestsfilledpolygon3d -o //results.txt
+cd /
+cd /

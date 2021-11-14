@@ -1,0 +1,1 @@
+Result drawingtestsfilledpolygon3d.c: All tests ok (5)

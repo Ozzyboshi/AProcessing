@@ -3,6 +3,8 @@ all:
 	vasmm68k_mot -devpac -Fhunk -quiet -esc -m68080 -DVAMPIRE ./filllinesnoclip.s  -o ./filllinesnoclipvampire.o
 	m68k-amigaos-gcc  -ffast-math -m68000 -msoft-float -noixemul -fomit-frame-pointer  -Os -Wall  filllinesnoclip.c -o filllinesnoclip filllinesnoclip.o ../../testlibs/testlib.o 
 	m68k-amigaos-gcc  -ffast-math -m68000 -msoft-float -noixemul -fomit-frame-pointer  -Os -Wall  filllinesnoclip.c -o filllinesnoclipvampire filllinesnoclipvampire.o ../../testlibs/testlib.o 
+	chmod 777 filllinesnoclip
+	chmod 777 filllinesnoclipvampire
 
 test: filllinesnoclip
 	vamos -v ./filllinesnoclip 2>>/tmp/vamosinfo

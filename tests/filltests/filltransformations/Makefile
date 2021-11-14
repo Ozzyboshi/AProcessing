@@ -4,6 +4,9 @@ all:
 	m68k-amigaos-gcc  -ffast-math -m68000 -msoft-float -noixemul -fomit-frame-pointer  -Os -Wall  filltransformations.c -o filltransformations filltransformations.o ../../testlibs/testlib.o 
 	m68k-amigaos-gcc  -ffast-math -m68000 -msoft-float -noixemul -fomit-frame-pointer  -Os -Wall  filltransformations.c -o filltransformationsvampire filltransformationsvampire.o ../../testlibs/testlib.o 
 
+	chmod 777 filltransformations
+	chmod 777 filltransformationsvampire
+	
 test: filltransformations
 	vamos -v ./filltransformations 2>>/tmp/vamosinfo
 

@@ -1,0 +1,1 @@
+Result matrixbasic.c: All tests ok (10)

@@ -55,3 +55,6 @@ tests/filltests/fillscanlinenoclip/fillscanlinenoclipvampire
 tests/filltests/fillscanlinenoclip/fillscanlinenoclipvampire.o
 DEADJOE
 lol
+tests/results.txt
+tests/results.txt.uaem
+*.uaem

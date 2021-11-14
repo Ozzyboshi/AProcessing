@@ -3,6 +3,8 @@ all:
 	vasmm68k_mot -devpac -Fhunk -quiet -esc -m68080 -DUSE_CLIPPING -DVAMPIRE ./fillpolygon.s  -o ./fillpolygonvampire.o
 	m68k-amigaos-gcc  -ffast-math -m68000 -msoft-float -noixemul -fomit-frame-pointer  -Os -Wall  fillpolygon.c -o fillpolygon fillpolygon.o ../../testlibs/testlib.o 
 	m68k-amigaos-gcc  -ffast-math -m68000 -msoft-float -noixemul -fomit-frame-pointer  -Os -Wall  fillpolygon.c -o fillpolygonvampire fillpolygonvampire.o ../../testlibs/testlib.o 
+	chmod 777 fillpolygon
+	chmod 777 fillpolygonvampire
 
 test: fillpolygon
 	vamos -v ./fillpolygon 2>>/tmp/vamosinfo

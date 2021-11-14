@@ -1,0 +1,1 @@
+Result fillscanlinenoclip.c: All tests ok (14)

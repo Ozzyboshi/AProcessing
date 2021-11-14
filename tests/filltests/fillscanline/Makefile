@@ -4,6 +4,9 @@ all:
 	m68k-amigaos-gcc -ffast-math -m68000 -msoft-float -noixemul -fomit-frame-pointer  -Os -Wall  fillscanline.c -o fillscanline fillscanline.o  ../../testlibs/testlib.o 
 	m68k-amigaos-gcc -Wall -O1 -noixemul fillscanline.c -o fillscanlinevampire fillscanlinevampire.o    ../../testlibs/testlib.o 
 
+	chmod 777 fillscanline
+	chmod 777 fillscanlinevampire
+
 test: fillscanline
 	vamos -v ./fillscanline 2>>/tmp/vamosinfo
 
