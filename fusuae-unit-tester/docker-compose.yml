@@ -1,0 +1,15 @@
+version: "3.9"
+services:
+  fsuae-unit-tester:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    image: fsuae-unit-tester:latest
+    environment: 
+        MODEL: A600
+        CHIP: 1024
+        KSROM: /tmp/shared/kick205.rom
+    volumes:
+        - "/home/ozzy/shared:/tmp/shared"
+    network_mode: "none"
+
