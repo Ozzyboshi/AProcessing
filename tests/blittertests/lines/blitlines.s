@@ -1,38 +1,63 @@
-                           XDEF                                          _blitline_test1
-                           SECTION                                       PROCESSING,CODE_F
+  XDEF                  _blitline_test1
+  XDEF                  _blitline_test2
 
-                           include                                       "../../../libs/rasterizers/globaloptions.s"
-                           include                                       "../../../libs/ammxmacros.i"
-                           include                                       "../../../libs/matrix/matrix.s"
-                           include                                       "../../../libs/matrix/scale.s"
-                           include                                       "../../../libs/trigtables.i"
-                           include                                       "../../../libs/rasterizers/processing_bitplanes_fast.s"
-                           include                                       "../../../libs/rasterizers/processing_table_plotrefs.s"
-                           include                                       "../../../libs/rasterizers/processingclearfunctions.s"
-                           include                                       "../../../libs/rasterizers/point.s"
-                           include                                       "../../../libs/rasterizers/square.s"
-                           include                                       "../../../libs/rasterizers/triangle.s"
-                           include                                       "../../../libs/rasterizers/rectangle.s"
-                           include                                       "../../../libs/rasterizers/circle.s"
-                           include                                       "../../../libs/rasterizers/processingfill.s"
-                           include                                       "../../../libs/rasterizers/clipping.s"
+  include               "../../../libs/rasterizers/processing_bitplanes_fast.s"
+  include               "../../../libs/rasterizers/globaloptions.s"
+  include               "../../../libs/ammxmacros.i"
+  include               "../../../libs/rasterizers/processingfill.s"
+  include               "../../../libs/matrix/matrix.s"
+  include               "../../../libs/trigtables.i"
+  include               "../../../libs/rasterizers/processing_table_plotrefs.s"
+  include               "../../../libs/rasterizers/processingclearfunctions.s"
+  include               "../../../libs/rasterizers/clipping.s"
+  include               "../../../libs/blitter/lines.s"
 
 _blitline_test1:
-	
-                           CLEARFASTBITPLANES                                                                                       ; Clear fast bitplanes
-                           RESET_CURRENT_TRANSFORMATION_MATRIX_Q_10_6
-                           move.w                                        #160,d0
-                           move.w                                        #128,d1
-                           jsr                                           TRANSLATE
+  move.l                d2,-(sp)
+  CLEARFASTBITPLANES 
+         
+  lea                   $dff000,a5
 
-                           ROTATE                                        #45
+  jsr                   InitLine                                                   ; inizializza line-mode
 
-                           move.w                                        #-5,d0
-                           move.w                                        #-5,d1
-                           move.w                                        #10,d5
+  move.w                #$ffff,d0                                                  ; linea continua
+  jsr                   SetPattern                                                 ; definisce pattern
 
-                           bsr.w                                         SQUARE                                                     ;#-5,#-5,#10
+  move.w                #0,d0                                                      ; x1
+  move.w                #0,d1                                                      ; y1
+  move.w                #10,d2                                                     ; x2
+  move.w                #0,d3                                                      ; y2
+  lea                   SCREEN_0,a0
+  MOVE.W                #%1000001111000000,$96(a5)
+  jsr                   Drawline
+  bsr.w                 processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
+  move.l                (sp)+,d2
+  rts
 
-                           bsr.w                                         processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
-                           rts
+_blitline_test2:
+  move.l                d2,-(sp)
+  CLEARFASTBITPLANES
 
+  ;	A0 = PlanePtr, A6 = $DFF002, D0/D1 = X0/Y0, D2/D3 = X1/Y1
+  ;	D4 = PlaneWidth > Kills: D0-D4/A0-A1 (+D5 in Fill Mode)
+          ;MOVE.W                #%1000001111000000,$dff096
+  lea                   $dff000,a6
+  jsr                   DL_Init
+
+  lea                   SCREEN_0,a0
+
+
+  move.w                #0,d0                                                      ; x1
+  move.w                #0,d1                                                      ; y1
+  move.w                #9,d2                                                      ; x2
+  move.w                #0,d3       
+  move.w                #40,d4
+    ;	A0 = PlanePtr, A6 = $DFF002, D0/D1 = X0/Y0, D2/D3 = X1/Y1
+  ;	D4 = PlaneWidth > Kills: D0-D4/A0-A1 (+D5 in Fill Mode)
+         
+  lea                   $dff002,a6
+  jsr                   DrawLine2
+  bsr.w                 processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
+
+  move.l                (sp)+,d2
+  rts
