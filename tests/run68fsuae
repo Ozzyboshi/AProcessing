@@ -47,3 +47,7 @@ cd drawingtests/filledpolygons3d
 drawingtestsfilledpolygon3d -o //results.txt
 cd /
 cd /
+cd blittertests/lines
+blitlines -o //results.txt
+cd /
+cd /

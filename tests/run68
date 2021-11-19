@@ -46,3 +46,7 @@ cd drawingtests/filledpolygons3d
 drawingtestsfilledpolygon3d
 cd /
 cd /
+cd blittertests/lines
+blitlines
+cd /
+cd /

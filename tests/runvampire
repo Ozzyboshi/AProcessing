@@ -58,3 +58,7 @@ drawingtestsfilledpolygon3d
 drawingtestsfilledpolygon3dvampire
 cd /
 cd /
+cd blittertests/lines
+blitlines
+cd /
+cd /
