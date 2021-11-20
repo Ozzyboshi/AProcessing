@@ -26,7 +26,7 @@ then
 else
       echo "Amiga kickstart is $KSROM"
 fi
-
+/usr/local/bin/buildtestadf.sh 1>/dev/null 2>/dev/null
 tpage --define model="$MODEL" --define chip="$CHIP" --define ksrom="$KSROM" ./fsconf.fs-uae.tt > fsconf"$MODEL".fs-uae
 xvfb-run -s '-screen 0 640x480x24' fs-uae ./fsconf"$MODEL".fs-uae 1>/dev/null 2>/dev/null &
 

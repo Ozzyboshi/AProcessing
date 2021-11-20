@@ -10,6 +10,25 @@ services:
         CHIP: 1024
         KSROM: /tmp/shared/kick205.rom
     volumes:
-        - "/home/ozzy/shared:/tmp/shared"
+        - "${HOME}/shared:/tmp/shared"
+        - "../../:/tmp/shared/PC"
     network_mode: "none"
 
+  fsuae-unit-tester-gui:
+    image: dorowu/ubuntu-desktop-lxde-vnc:bionic-lxqt
+    volumes:
+      - "${HOME}/shared:/tmp/shared"
+      - "../../:/tmp/shared/PC"
+    ports:
+      # VNC GUI client port
+      - 5900:5900
+      # Web GUI client port
+      - 6080:80
+    environment:
+      - VNC_PASSWORD=suucqu
+      - HTTP_PASSWORD=suucqu
+      - USER=sandbox
+      - PASSWORD=suucqu
+      - MODEL=A600
+      - CHIP=1024
+      - KSROM=/tmp/shared/kick205.rom
