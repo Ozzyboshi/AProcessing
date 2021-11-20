@@ -191,6 +191,7 @@ int make_test_patched(struct _test test, const char *file,struct _test test2)
     unsigned int error = 0;
     unsigned char buf;
     unsigned int verbose = test.verbose;
+    unsigned int errorv3 = 0;
 
     //printf("Start of test %d..\n", ++testcounter);
     Disable();
@@ -200,8 +201,7 @@ int make_test_patched(struct _test test, const char *file,struct _test test2)
 
     bitplanedatastart = bitplanedata;
     fflush(stdout);
-
-        fflush(stdout);
+    fflush(stdout);
 
     if (verbose) printf("Number of bitplanes %d\n",test.nbitplanes);
     fflush(stdout);
@@ -210,6 +210,8 @@ int make_test_patched(struct _test test, const char *file,struct _test test2)
     {
         printf("Expected file '%s' not found or not readable : %d -> %s\n",file,errno,strerror(errno));
         if (verbose<3) return 1;
+        errorv3 = 1;
+        goto writelog_verbose3;
     }
     if (verbose)
         printf("File %s open\n", file);
@@ -253,9 +255,6 @@ int make_test_patched(struct _test test, const char *file,struct _test test2)
     }
     fclose(fd);
 
-
-   
-    
     if ( error && verbose == 2)
     {
         bitplanedata = bitplanedatastart;
@@ -275,7 +274,8 @@ int make_test_patched(struct _test test, const char *file,struct _test test2)
         }
     }
 
-    if (error && verbose == 3 )
+writelog_verbose3:
+    if ((error || errorv3) && verbose == 3 )
     {
 
         FILE* fdwrite ;
