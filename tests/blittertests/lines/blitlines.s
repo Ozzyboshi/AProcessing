@@ -2,6 +2,7 @@
   XDEF                  _blitline_test2
   XDEF                  _blitline_test3
   XDEF                  _blitline_test4
+  XDEF                  _blitline_test5
 
   include               "../../../libs/rasterizers/processing_bitplanes_fast.s"
   include               "../../../libs/rasterizers/globaloptions.s"
@@ -105,5 +106,20 @@ _blitline_test4:
   jsr                   DrawLine2
   bsr.w                 processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
 
+  move.l                (sp)+,d2
+  rts
+
+_blitline_test5:
+  move.l                d2,-(sp)
+  CLEARFASTBITPLANES 
+         
+  move.w                #11,d0                                                      ; x1
+  move.w                #0,d1                                                      ; y1
+  move.w                #0,d2                                                     ; x2
+  move.w                #0,d3                                                      ; y2
+  lea                   SCREEN_0,a0
+  MOVE.W                #%1000001111000000,$96(a5)
+  jsr                   DrawLine3
+  bsr.w                 processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
   move.l                (sp)+,d2
   rts
