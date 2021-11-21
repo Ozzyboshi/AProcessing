@@ -50,3 +50,8 @@ cd blittertests/lines
 blitlines
 cd /
 cd /
+cd blittertests/filllines
+blitfilllines
+cd /
+cd /
+

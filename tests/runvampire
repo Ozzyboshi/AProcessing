@@ -60,5 +60,11 @@ cd /
 cd /
 cd blittertests/lines
 blitlines
+blitlinesvampire
+cd /
+cd /
+cd blittertests/filllines
+blitfilllines
+blitfilllinesvampire
 cd /
 cd /
