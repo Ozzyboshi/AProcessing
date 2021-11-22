@@ -261,3 +261,15 @@ point_project_3d:
 
 	rts
 	ENDC
+
+PLOTPOINT MACRO
+	lea PLOTREFS,a1
+	add.w d1,d1
+	move.w 0(a1,d1.w),d1
+	move.w d0,d4
+	lsr.w #3,d4
+	add.w d4,d1
+	not.b d0
+	;lea \1,a0 a0 is reg input
+	bset d0,(a0,d1.w)
+	ENDM
