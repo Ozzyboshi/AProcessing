@@ -55,6 +55,8 @@ tests/filltests/fillscanlinenoclip/fillscanlinenoclipvampire
 tests/filltests/fillscanlinenoclip/fillscanlinenoclipvampire.o
 tests/blittertests/filllines/blitfilllines
 tests/blittertests/filllines/blitfilllinesvampire
+tests/blittertests/filllines/blitfilllines.o
+tests/blittertests/filllines/blitfilllinesvampire.o
 DEADJOE
 lol
 tests/results.txt

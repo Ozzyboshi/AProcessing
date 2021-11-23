@@ -560,23 +560,23 @@ Fill_From_A_to_B:
   move.w                #$09f0,$40(a5)                                             ; BLTCON0 copia normale
 
   tst.w                 d0                                                         ; testa D0 per decidere il tipo di fill
-  bne.s                 fill_esclusivo
+  bne.s                 Fill_From_A_to_B_fill_esclusivo
   move.w                #$000a,d2                                                  ; valore di BLTCON1: settati i bit del
 					; fill inclusivo e del modo discendente
-  bra.s                 test_fill_carry
+  bra.s                 Fill_From_A_to_B_test_fill_carry
 
-fill_esclusivo:
+Fill_From_A_to_B_fill_esclusivo:
   move.w                #$0012,d2                                                  ; valore di BLTCON1: settati i bit del
 					; fill esclusivo e del modo discendente
 
-test_fill_carry:
+Fill_From_A_to_B_test_fill_carry:
   tst.w                 d1                                                         ; testa D1 per vedere se deve settare
 					; il bit FILL_CARRYIN
 
-  beq.s                 fatto_bltcon1                                              ; se D1=0 salta..
+  beq.s                 Fill_From_A_to_B_fatto_bltcon1                                              ; se D1=0 salta..
   bset                  #2,d2                                                      ; altrimenti setta il bit 2 di D2
 
-fatto_bltcon1:
+Fill_From_A_to_B_fatto_bltcon1:
   move.w                d2,$42(a5)                                                 ; BLTCON1
 
   ; calculate mod based on width
@@ -584,18 +584,18 @@ fatto_bltcon1:
   move.w                d5,d7
   asr.w                 #3,d5
   andi.b                #$07,d5
-  beq.s                 .notadd1
+  beq.s                 .Fill_From_A_to_B_notadd1
   addq                  #1,d5
-.notadd1
+.Fill_From_A_to_B_notadd1
   move.w                d5,d7
   move.w                d5,d3
   subq                  #2,d3                                                      ; d3 contains how many bytes is the width of the figure -2
   neg.w                 d7
   add.w                 #40,d7                                                     ; d7 contains the modulo for a 40 byte width screen
   asr.w                 #1,d5 
-  bcc.s                 .notadd2
+  bcc.s                 .Fill_From_A_to_B_notadd2
   addq                  #1,d5
-.notadd2 ; here d5 contains the width expressed in word
+.Fill_From_A_to_B_notadd2 ; here d5 contains the width expressed in word
 
   move.w                d7,$64(a5)                                                 ; BLTAMOD larghezza 2 words (40-4=36)
   move.w                d7,$66(a5)                                                 ; BLTDMOD (40-4=36)
