@@ -541,3 +541,127 @@ OK1_FILL:
           move.w         d1,$58(a5)              ; BLTSIZE
           rts
 	
+  ;****************************************************************************
+; Questa routine copia un rettangolo di schermo da una posizione fissa
+; ad un indirizzo specificato come parametro. Il rettangolo di schermo che
+; viene copiato racchiude interamente le 2 linee.
+; Durante la copia viene effettuato anche il riempmento. Il tipo di riempimento
+; e` specificato tramite i parametri.
+; I parametri sono:
+; A0 - indirizzo destinazione
+; D0 - se vale 0 allora effettua fill inclusivo, altrimenti fa fill esclusivo
+; D1 - se vale 0 allora effettua FILL_CARRYIN=0, altrimenti FILL_CARRYIN=1
+;****************************************************************************
+
+Fill_From_A_to_B:
+  WAITBLITTER
+
+
+  move.w                #$09f0,$40(a5)                                             ; BLTCON0 copia normale
+
+  tst.w                 d0                                                         ; testa D0 per decidere il tipo di fill
+  bne.s                 fill_esclusivo
+  move.w                #$000a,d2                                                  ; valore di BLTCON1: settati i bit del
+					; fill inclusivo e del modo discendente
+  bra.s                 test_fill_carry
+
+fill_esclusivo:
+  move.w                #$0012,d2                                                  ; valore di BLTCON1: settati i bit del
+					; fill esclusivo e del modo discendente
+
+test_fill_carry:
+  tst.w                 d1                                                         ; testa D1 per vedere se deve settare
+					; il bit FILL_CARRYIN
+
+  beq.s                 fatto_bltcon1                                              ; se D1=0 salta..
+  bset                  #2,d2                                                      ; altrimenti setta il bit 2 di D2
+
+fatto_bltcon1:
+  move.w                d2,$42(a5)                                                 ; BLTCON1
+
+  ; calculate mod based on width
+  sub.w                 d3,d5
+  move.w                d5,d7
+  asr.w                 #3,d5
+  andi.b                #$07,d5
+  beq.s                 .notadd1
+  addq                  #1,d5
+.notadd1
+  move.w                d5,d7
+  move.w                d5,d3
+  subq                  #2,d3                                                      ; d3 contains how many bytes is the width of the figure -2
+  neg.w                 d7
+  add.w                 #40,d7                                                     ; d7 contains the modulo for a 40 byte width screen
+  asr.w                 #1,d5 
+  bcc.s                 .notadd2
+  addq                  #1,d5
+.notadd2 ; here d5 contains the width expressed in word
+
+  move.w                d7,$64(a5)                                                 ; BLTAMOD larghezza 2 words (40-4=36)
+  move.w                d7,$66(a5)                                                 ; BLTDMOD (40-4=36)
+
+  ;move.w	#36,$64(a5)		; BLTAMOD larghezza 2 words (40-4=36)
+	;move.w	#36,$66(a5)		; BLTDMOD (40-4=36)
+
+  sub.w                 d4,d6
+  move.w d6,d4 ; save the Y difference into d4
+  muls.w                #40,d6
+  move.l                a0,d7
+  add.w                 d6,d7
+  add.w                 d3,d7
+  move.l                d7,$50(a5)
+  move.l                d7,FILL_ADDR_CACHE
+  ;move.l	#SCREEN_0+5*40+4-2,$50(a5)
+					; BLTAPT (fisso al rettangolo sorgente)
+					; il rettangolo sorgente racchiude
+					; interamente le 2 linee.
+					; puntiamo l'ultima word del rettangolo
+					; per via del modo discendente
+
+  move.l                a1,d7
+  add.w                 d6,d7
+  add.w                 d3,d7
+  move.l                d7,$54(a5)
+  ;move.l		#SCREEN_0+5*40+4-2,$54(a5)		; BLTDPT  carica il parametro
+  ;move.w                #(64*6),d7
+  move.w d4,d7
+  lsl.l #6,d7
+  or.w                  d5,d7
+  move.w                d7,$58(a5)
+  move.w                d7,FILL_ADDR_SIZE
+  ;move.w	#(64*6)+2,$58(a5)	; BLTSIZE (via al blitter !)
+					; larghezza 2 words
+					; altezza 6 righe (1 plane)
+  rts
+
+
+
+;In questo esempio vediamo come risolvere il problema delle linee chiuse.
+;Come abbiamo spiegato nella lezione, modifichiamo la routine di tracciamento
+;linee in modo che essa disegni dall'alto in basso. Per questo all'inizio
+;vengono confrontate le coordinate Y dei 2 punti, e se necessario i 2 punti
+;vengono scambiati. In questo modo tra l'altro si semplifica il calcolo
+;dell'ottante in quanto siamo limitati a 4 sole possibilita`.
+;Inoltre il primo punto della linea viene invertito mediante una BCHG in
+;modo da annullare l'effetto del tracciamento. Per questo scopo sono necessari
+;un po' di calcoli in piu` al fine di determinare il numero del bit e il
+;giusto indirizzo. Infatti, a differenza del blitter, la BCHG opera un byte
+;alla volta, quindi se necessario bisogna puntare il byte basso della word
+;puntata dall'indirizzo. Inoltre bisogna anche invertire (con la NOT) la
+;numerazione dei bit perche` la BCHG numera i bit da destra a sinistra e
+;invece le coordinate sono numerate da sinistra a destra.
+;Le altre routines sono identiche.
+
+
+
+FILL_ADDR_CACHE:
+  dc.l                  0
+FILL_ADDR_SIZE:
+  dc.w                  0
+Fill_From_A_to_B_Clear:
+  WAITBLITTER
+  move.w                #$0100,$dff040
+  move.w                #$0002,$dff042    
+  move.l                FILL_ADDR_CACHE,$dff054
+  move.w                FILL_ADDR_SIZE,$dff058
+  rts
