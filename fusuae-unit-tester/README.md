@@ -25,6 +25,8 @@ If you have all the ingredients listed in the prerequisites you can follow this 
   - assign
   - delete
   - execute
+  - avail
+  - version
 
 Make sure you have read execute permission for this files.
 

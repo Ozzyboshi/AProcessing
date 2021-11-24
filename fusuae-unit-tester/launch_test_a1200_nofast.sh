@@ -1,0 +1,1 @@
+docker-compose run --rm  fsuae-unit-tester_a1200

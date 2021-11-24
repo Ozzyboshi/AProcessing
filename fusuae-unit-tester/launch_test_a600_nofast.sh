@@ -1,3 +1,3 @@
 #!/bin/bash
 
-docker-compose run --rm  fsuae-unit-tester
+docker-compose run --rm  fsuae-unit-tester_a600

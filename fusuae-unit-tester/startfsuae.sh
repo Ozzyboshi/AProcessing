@@ -2,6 +2,7 @@
 
 rm -f /tmp/shared/PC/inizio*
 rm -f /tmp/shared/PC/fine*
+rm -f /tmp/shared/PC/testenvironment*
 
 if [ -z "$MODEL" ]
 then
@@ -35,6 +36,9 @@ do
      echo "waiting for tests to finish..."
      sleep 10
 done
+echo "Test Configuration:"
+cat /tmp/shared/PC/testenvironment.txt
+echo
 echo "Results:"
-cat /tmp/shared/PC/AProcessing/tests/results.txt
+cat /tmp/shared/PC/AProcessing/tests/results.txt 
 exit
