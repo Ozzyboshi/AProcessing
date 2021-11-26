@@ -4,6 +4,7 @@
   XDEF                  _blitfillline_test4
   XDEF                  _blitfillline_test5
   XDEF                  _blitfillline_test6
+  XDEF                  _blitfillline_test7
 
 
   include               "../../../libs/rasterizers/processing_bitplanes_fast.s"
@@ -334,6 +335,87 @@ _blitfillline_test6:
   WAITBLITTER
   bsr.w                 processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
   move.l                (sp)+,d2
+  rts
+
+
+
+_blitfillline_test7:
+  ;movem.l        d2/a4,-(sp)
+  move.l                d2,-(sp)
+  CLEARFASTBITPLANES
+         
+  lea                   $dff000,a5
+  jsr                   InitLine                                                   ; inizializza line-mode
+
+  move.w                #$ffff,d0                                                  ; linea continua
+  jsr                   SetPattern                                                 ; definisce pattern
+
+  MOVE.W                #%1000001111000000,$96(a5)
+
+  move.w                #0,d0                                                     ; x1
+  move.w                #0,d1                                                      ; y1
+  move.w                #0,d2                                                      ; x2
+  move.w                #255,d3                                                      ; y2
+  lea                   SCREEN_0,a0
+
+  bsr.w                 DrawlineFill
+
+
+  move.w                #0,d0                                                     ; x1
+  move.w                #0,d1                                                      ; y1
+  move.w                #319,d2                                                     ; x2
+  move.w                #255,d3                                                      ; y2
+  lea                   SCREEN_0,a0
+
+  bsr.w                 DrawlineFill
+
+  move.w                #0,d0                                                      ; x1
+  move.w                #255,d1                                                      ; y1
+  move.w                #319,d2                                                     ; x2
+  move.w                #255,d3                                                      ; y2
+  lea                   SCREEN_0,a0
+  bsr.w                 DrawlineFill
+
+  move.w                #0,d0                                                      ; inclusivo
+  move.w                #0,d1                                                      ; CARRYIN = 0
+
+  ; top left point into d3 and d4
+  move.w                #0,d3
+  move.w                #0,d4
+
+  ; bottom right pointo into d5 and d6
+  move.w                #319,d5
+  move.w                #255,d6
+
+  ; source is SCREEN_0
+  lea                   SCREEN_0,a0
+  ; destination is SCREEN_1
+  lea                   SCREEN_1,a1
+
+  ;we need a5
+  lea                   $dff000,a5
+
+  jsr                   Fill_From_A_to_B
+
+  WAITBLITTER
+  move.w                #0,d0                                                     ; x1
+  move.w                #0,d1                                                      ; y1
+  move.l                a1,a0
+  PLOTPOINT
+
+  move.w                #0,d0                                                      ; x1
+  move.w                #255,d1                                                      ; y1
+  PLOTPOINT
+
+  move.w                #319,d0                                                     ; x1
+  move.w                #255,d1                                                      ; y1
+  PLOTPOINT
+
+  jsr                   Fill_From_A_to_B_Clear
+  WAITBLITTER
+  bsr.w                 processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
+  move.l                (sp)+,d2
+  ;movem.l        (sp)+,d2/a4
   rts
 
 

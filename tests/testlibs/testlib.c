@@ -192,11 +192,14 @@ int make_test_patched(struct _test test, const char *file,struct _test test2)
     unsigned char buf;
     unsigned int verbose = test.verbose;
     unsigned int errorv3 = 0;
+    volatile unsigned int app = 0;
 
     //printf("Start of test %d..\n", ++testcounter);
+    app = verbose;
     Disable();
     bitplanedata = test.test_function();
     Enable();
+    verbose = app;
     test = test2;
 
     bitplanedatastart = bitplanedata;

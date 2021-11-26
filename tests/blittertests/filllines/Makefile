@@ -15,3 +15,4 @@ copy: blitfilllines
 clean:
 	rm -f *.o
 	rm -f ./blitfilllines
+	rm -f ./blitfilllinesvampire

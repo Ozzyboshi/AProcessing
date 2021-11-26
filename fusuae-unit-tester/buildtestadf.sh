@@ -14,6 +14,6 @@ echo "version > pc:testenvironment.txt" >> "$ADFDIR"/S/Startup-Sequence
 echo "avail >> pc:testenvironment.txt " >> "$ADFDIR"/S/Startup-Sequence
 echo "echo end > pc:fine" >> "$ADFDIR"/S/Startup-Sequence
 
-cp /tmp/shared/execute /tmp/shared/delete /tmp/shared/assign /tmp/shared/version /tmp/shared/avail "$ADFDIR"/C
+cp /tmp/shared/dir /tmp/shared/execute /tmp/shared/delete /tmp/shared/assign /tmp/shared/version /tmp/shared/avail "$ADFDIR"/C
 
 /tmp/shared/exe2adf-linux64bit -d "$ADFDIR"/ --label testfloppy -a /tmp/testfloppy.adf

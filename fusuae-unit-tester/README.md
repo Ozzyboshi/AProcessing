@@ -24,6 +24,7 @@ If you have all the ingredients listed in the prerequisites you can follow this 
 - copy the following files taken from the C: partition of your Amiga:
   - assign
   - delete
+  - dir (optional but very useful)
   - execute
   - avail
   - version

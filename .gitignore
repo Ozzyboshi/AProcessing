@@ -61,6 +61,7 @@ tests/blittertests/lines/blitlines
 tests/blittertests/lines/blitlines.o
 tests/blittertests/lines/blitlinesvampire
 tests/blittertests/lines/blitlinesvampire.o
+tests/testlibs/testlib.o
 DEADJOE
 lol
 tests/results.txt

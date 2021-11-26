@@ -581,14 +581,14 @@ Fill_From_A_to_B_fatto_bltcon1:
 
   ; calculate mod based on width
   sub.w                 d3,d5
-  move.w                d5,d7
   asr.w                 #3,d5
+  move.w                d5,d7
   andi.b                #$07,d5
   beq.s                 .Fill_From_A_to_B_notadd1
-  addq                  #1,d5
+  addq                  #1,d7
 .Fill_From_A_to_B_notadd1
-  move.w                d5,d7
-  move.w                d5,d3
+  move.w                d7,d3                                                      ; d7 contains how many bytes is the width of the figure
+  move.w                d3,d5                                                      ; save the bytes count in d5 for later to convert in words
   subq                  #2,d3                                                      ; d3 contains how many bytes is the width of the figure -2
   neg.w                 d7
   add.w                 #40,d7                                                     ; d7 contains the modulo for a 40 byte width screen
@@ -606,27 +606,31 @@ Fill_From_A_to_B_fatto_bltcon1:
   sub.w                 d4,d6
   move.w d6,d4 ; save the Y difference into d4
   muls.w                #40,d6
-  move.l                a0,d7
-  add.w                 d6,d7
-  add.w                 d3,d7
-  move.l                d7,$50(a5)
-  move.l                d7,FILL_ADDR_CACHE
-  ;move.l	#SCREEN_0+5*40+4-2,$50(a5)
+  move.l a0,a3
+  adda.w                 d6,a3
+  adda.w                 d3,a3
+  move.l                a3,$50(a5)
+  move.l                a3,FILL_ADDR_CACHE
+  ;move.l	#SCREEN_0+255*40+40-2,$50(a5)
 					; BLTAPT (fisso al rettangolo sorgente)
 					; il rettangolo sorgente racchiude
 					; interamente le 2 linee.
 					; puntiamo l'ultima word del rettangolo
 					; per via del modo discendente
 
-  move.l                a1,d7
-  add.w                 d6,d7
-  add.w                 d3,d7
-  move.l                d7,$54(a5)
-  ;move.l		#SCREEN_0+5*40+4-2,$54(a5)		; BLTDPT  carica il parametro
+  move.l a1,a3
+  adda.w                 d6,a3
+  adda.w                 d3,a3
+
+  move.l                a3,$54(a5)
+  ;move.l		#SCREEN_1+255*40+4-2,$54(a5)		; BLTDPT  carica il parametro
   ;move.w                #(64*6),d7
+  moveq #0,d7
   move.w d4,d7
   lsl.l #6,d7
   or.w                  d5,d7
+  ;move.l #SCREEN_1,SCREEN_0
+  ;move.l a1,SCREEN_0+8
   move.w                d7,$58(a5)
   move.w                d7,FILL_ADDR_SIZE
   ;move.w	#(64*6)+2,$58(a5)	; BLTSIZE (via al blitter !)
