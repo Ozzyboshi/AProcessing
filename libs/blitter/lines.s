@@ -1,5 +1,13 @@
+VERTEX_LIST_2D:
+VERTEX_LIST_2D_1:   dcb.b 4,0
+VERTEX_LIST_2D_2:   dcb.b 4,0
+VERTEX_LIST_2D_3:   dcb.b 4,0
+VERTEX_LIST_2D_4:   dcb.b 4,0
 
-
+VERTEX2D_INIT MACRO
+    move.w \2,VERTEX_LIST_2D_\1
+    move.w \3,VERTEX_LIST_2D_\1+2
+    ENDM
 
 
 
@@ -8,11 +16,8 @@
 ; cambiati tra una line e l'altra
 ;******************************************************************************
 
-InitLine
-          btst           #6,2(a5)                ; dmaconr
-WBlit_Init:
-          btst           #6,2(a5)                ; dmaconr - attendi che il blitter abbia finito
-          bne.s          WBlit_Init
+InitLine:
+          WAITBLITTER
 
           moveq.l        #-1,d5
           move.l         d5,$44(a5)              ; BLTAFWM/BLTALWM = $FFFF
@@ -160,10 +165,7 @@ OK1:
 ;******************************************************************************
 
 SetPattern:
-          btst           #6,2(a5)                ; dmaconr
-WBlit_Set:
-          btst           #6,2(a5)                ; dmaconr - attendi che il blitter abbia finito
-          bne.s          WBlit_Set
+          WAITBLITTER
 
           move.w         d0,$72(a5)              ; BLTBDAT = pattern della linea!
           rts
@@ -579,27 +581,77 @@ Fill_From_A_to_B_test_fill_carry:
 Fill_From_A_to_B_fatto_bltcon1:
   move.w                d2,$42(a5)                                                 ; BLTCON1
 
-  ; calculate mod based on width
-  sub.w                 d3,d5
-  asr.w                 #3,d5
-  move.w                d5,d7
-  andi.b                #$07,d5
-  beq.s                 .Fill_From_A_to_B_notadd1
-  addq                  #1,d7
+
+  ; start experimeng
+      swap     d6
+    lsr.w #4,d3 ; calculate start word for left
+    lsr.w #4,d5 ; calculate start word for right
+    
+    ; at this point d5 must be >= 0, if not something wrong happened before
+    ; now i need the difference +1
+    move.w d5,d7
+    addq #1,d7
+    ; now d7 contains the number of words we need to blit for each line
+    
+    ; since bplmod work on bytes we have to calculate 2*d7 an put into registers
+    move.w d7,d6
+    add.w d6,d6
+    sub.w #40,d6
+    neg d6
+    
+    move.w d6,FILL_ADDR_DMOD
+    move.w                d6,$64(a5)                                                 ; BLTAMOD larghezza 2 words (40-4=36)
+    move.w                d6,$66(a5)                                                 ; BLTAMOD larghezza 2 words (40-4=36)
+    
+    
+    swap     d6
+    sub.w                 d4,d6
+    move.w d6,d4 ; save the Y difference into d4
+    muls.w                #40,d6
+    move.l a0,a3
+    adda.w d6,a3
+    add.w d5,d5
+    adda.w d5,a3
+    move.l                a3,FILL_ADDR_CACHE
+    move.l                a3,$50(a5)
+    
+    move.l a1,a3
+    adda.w d6,a3
+    adda.w d5,a3
+    move.l                a3,$54(a5)
+    
+    ;start bltsize calc
+    moveq.l #0,d6
+    move.w d4,d6
+    lsl.l #6,d6
+    or.w                  d7,d6
+    move.w                d6,$58(a5)
+    move.w                d6,FILL_ADDR_SIZE
+    rts
+  ;end experiment
+
+
+
+   ; calculate mod based on width
+    sub.w                 d3,d5
+    move.w                d5,d7                                                     ; d7 here contains the horizontal lenght
+    asr.w                 #4,d7
+
+    andi.b                #$0F,d5
+    beq.s                 .Fill_From_A_to_B_notadd1
+    addq                  #1,d7
 .Fill_From_A_to_B_notadd1
-  move.w                d7,d3                                                      ; d7 contains how many bytes is the width of the figure
-  move.w                d3,d5                                                      ; save the bytes count in d5 for later to convert in words
-  subq                  #2,d3                                                      ; d3 contains how many bytes is the width of the figure -2
-  neg.w                 d7
-  add.w                 #40,d7                                                     ; d7 contains the modulo for a 40 byte width screen
-  asr.w                 #1,d5 
-  bcc.s                 .Fill_From_A_to_B_notadd2
-  addq                  #1,d5
-.Fill_From_A_to_B_notadd2 ; here d5 contains the width expressed in word
+    move.w                d7,d5                                                      ; save how many words is the width of the figure for later blitsize
+    add.w d7,d7                                                                      ; d7 will go into bplmod and must be expressed in bytes
+    move.w                d7,d3                                                      ; here d7 contains how many bytes is the width of the figure, save it to d3 for pointer calculation
+    subq.w                  #2,d3                                                      ; d3 now contains how many bytes is the width of the figure -2 (previous word)
+    neg.w                 d7
+    add.w                 #40,d7                                                     ; d7 contains the modulo for a 40 byte width screen
+
 
   move.w                d7,$64(a5)                                                 ; BLTAMOD larghezza 2 words (40-4=36)
   move.w                d7,$66(a5)                                                 ; BLTDMOD (40-4=36)
-
+  move.w d7,FILL_ADDR_DMOD
   ;move.w	#36,$64(a5)		; BLTAMOD larghezza 2 words (40-4=36)
 	;move.w	#36,$66(a5)		; BLTDMOD (40-4=36)
 
@@ -629,10 +681,15 @@ Fill_From_A_to_B_fatto_bltcon1:
   move.w d4,d7
   lsl.l #6,d7
   or.w                  d5,d7
-  ;move.l #SCREEN_1,SCREEN_0
-  ;move.l a1,SCREEN_0+8
+  
   move.w                d7,$58(a5)
   move.w                d7,FILL_ADDR_SIZE
+  
+  
+  ; move.l #SCREEN_0,SCREEN_0
+  ;move.l a0,SCREEN_0+4
+  ;move.w FILL_ADDR_DMOD,SCREEN_0+8
+  
   ;move.w	#(64*6)+2,$58(a5)	; BLTSIZE (via al blitter !)
 					; larghezza 2 words
 					; altezza 6 righe (1 plane)
@@ -662,10 +719,131 @@ FILL_ADDR_CACHE:
   dc.l                  0
 FILL_ADDR_SIZE:
   dc.w                  0
+FILL_ADDR_DMOD:
+  dc.w                  0
 Fill_From_A_to_B_Clear:
   WAITBLITTER
   move.w                #$0100,$dff040
-  move.w                #$0002,$dff042    
+  move.w                #$0002,$dff042
+  move.w FILL_ADDR_DMOD,$DFF066    
   move.l                FILL_ADDR_CACHE,$dff054
   move.w                FILL_ADDR_SIZE,$dff058
+  ;move.w FILL_ADDR_DMOD,SCREEN_0
+  ;move.w FILL_ADDR_SIZE,SCREEN_0+2
+  ;move.l #SCREEN_0,SCREEN_0+4
+  ;move.l FILL_ADDR_CACHE,SCREEN_0+8
   rts
+
+
+
+DrawlineOr:
+        ;move.l  mt_data,A0
+
+        ;move.l 4(sp),a0
+        ;move.l 8(sp),d0
+        ;move.l 12(sp),d1
+        
+        ;move.l 16(sp),d2
+        ;move.l 20(sp),d3
+
+* scelta ottante
+
+        sub.w   d0,d2           ; D2=X2-X1
+        bmi.s   DRAW4OR           ; se negativo salta, altrimenti D2=DiffX
+        sub.w   d1,d3           ; D3=Y2-Y1
+        bmi.s   DRAW2OR           ; se negativo salta, altrimenti D3=DiffY
+        cmp.w   d3,d2           ; confronta DiffX e DiffY
+        bmi.s   DRAW1OR           ; se D2<D3 salta..
+                                ; .. altrimenti D3=DY e D2=DX
+        moveq   #$10,d5         ; codice ottante
+        bra.s   DRAWLOR
+DRAW1OR:
+        exg.l   d2,d3           ; scambia D2 e D3, in modo che D3=DY e D2=DX
+        moveq   #0,d5           ; codice ottante
+        bra.s   DRAWLOR
+DRAW2OR:
+        neg.w   d3              ; rende D3 positivo
+        cmp.w   d3,d2           ; confronta DiffX e DiffY
+        bmi.s   DRAW3OR           ; se D2<D3 salta..
+                                ; .. altrimenti D3=DY e D2=DX
+        moveq   #$18,d5         ; codice ottante
+        bra.s   DRAWLOR
+DRAW3OR:
+        exg.l   d2,d3           ; scambia D2 e D3, in modo che D3=DY e D2=DX
+        moveq   #$04,d5         ; codice ottante
+        bra.s   DRAWLOR
+DRAW4OR:
+        neg.w   d2              ; rende D2 positivo
+        sub.w   d1,d3           ; D3=Y2-Y1
+        bmi.s   DRAW6OR           ; se negativo salta, altrimenti D3=DiffY
+        cmp.w   d3,d2           ; confronta DiffX e DiffY
+        bmi.s   DRAW5OR           ; se D2<D3 salta..
+                                ; .. altrimenti D3=DY e D2=DX
+        moveq   #$14,d5         ; codice ottante
+        bra.s   DRAWLOR
+DRAW5OR:
+        exg.l   d2,d3           ; scambia D2 e D3, in modo che D3=DY e D2=DX
+        moveq   #$08,d5         ; codice ottante
+        bra.s   DRAWLOR
+DRAW6OR:
+        neg.w   d3              ; rende D3 positivo
+        cmp.w   d3,d2           ; confronta DiffX e DiffY
+        bmi.s   DRAW7OR           ; se D2<D3 salta..
+                                ; .. altrimenti D3=DY e D2=DX
+        moveq   #$1c,d5         ; codice ottante
+        bra.s   DRAWLOR
+DRAW7OR:
+        exg.l   d2,d3           ; scambia D2 e D3, in modo che D3=DY e D2=DX
+        moveq   #$0c,d5         ; codice ottante
+
+; Quando l'esecuzione raggiunge questo punto, abbiamo:
+; D2 = DX
+; D3 = DY
+; D5 = codice ottante
+
+DRAWLOR:
+        mulu.w  #40,d1          ; offset Y
+        add.l   d1,a0           ; aggiunge l'offset Y all'indirizzo
+
+        move.w  d0,d1           ; copia la coordinata X
+        and.w   #$000F,d0       ; seleziona i 4 bit piu` bassi della X..
+        ror.w   #4,d0           ; .. e li sposta nei bit da 12 a 15
+        or.w    #$0BCA,d0       ; con un OR ottengo il valore da scrivere
+                                ; in BLTCON0. Con questo valore di LF ($CA)
+                                ; si disegnano linee in EOR con lo sfondo. 
+
+        lsr.w   #4,d1           ; cancella i 4 bit bassi della X
+        add.w   d1,d1           ; ottiene l'offset X in bytes   
+        add.w   d1,a0           ; aggiunge l'offset X all'indirizzo
+
+        move.w  d2,d1           ; copia DX in D1
+        addq.w  #1,d1           ; D1=DX+1
+        lsl.w   #$06,d1         ; calcola in D1 il valore da mettere in BLTSIZE
+        addq.w  #$0002,d1       ; aggiunge la larghezza, pari a 2 words
+
+        lsl.w   #$02,d3         ; D3=4*DY
+        add.w   d2,d2           ; D2=2*DX
+
+        btst    #6,$dff002
+WaitLineOR:
+        btst    #6,$dff002        ; aspetta blitter fermo
+        bne     WaitLineOR
+
+        move.w  d3,$dff062      ; BLTBMOD=4*DY
+        sub.w   d2,d3           ; D3=4*DY-2*DX
+        move.w  d3,$dff052      ; BLTAPTL=4*DY-2*DX
+
+                                ; prepara valore da scrivere in BLTCON1
+        or.w    #$0001,d5       ; setta bit 0 (attiva line-mode)
+        tst.w   d3
+        bpl.s   OK1OR             ; se 4*DY-2*DX>0 salta..
+        or.w    #$0040,d5       ; altrimenti setta il bit SIGN
+OK1OR:
+        move.w  d0,$dff040      ; BLTCON0
+        move.w  d5,$dff042      ; BLTCON1
+        sub.w   d2,d3           ; D3=4*DY-4*DX
+        move.w  d3,$dff064      ; BLTAMOD=4*DY-4*DX
+        move.l  a0,$dff048      ; BLTCPT - indirizzo schermo
+        move.l  a0,$dff054      ; BLTDPT - indirizzo schermo
+        move.w  d1,$dff058      ; BLTSIZE
+        rts
