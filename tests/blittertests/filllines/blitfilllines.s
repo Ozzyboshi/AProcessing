@@ -8,6 +8,7 @@
   XDEF                  _blitfillline_test8
   XDEF                  _blitfillline_test9
   XDEF                  _blitfillline_test10
+  XDEF                  _blitfillline_test11
 
   include               "../../../libs/rasterizers/processing_bitplanes_fast.s"
   ;include               "../../../libs/rasterizers/globaloptions.s"
@@ -539,6 +540,30 @@ _blitfillline_test10:
 
   VERTEX2D_INIT 1,#8,#255
   VERTEX2D_INIT 2,#16,#1
+  VERTEX2D_INIT 3,#8,#1
+         
+  lea                   $dff000,a5
+  jsr                   InitLine                                                   ; inizializza line-mode
+
+  move.w                #$ffff,d0                                                  ; linea continua
+  jsr                   SetPattern                                                 ; definisce pattern
+
+  MOVE.W                #%1000001111000000,$96(a5)
+
+  BLITTRIANGLE SCREEN_0,SCREEN_1
+
+  WAITBLITTER
+  bsr.w                 processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
+  move.l                (sp)+,d2
+  rts
+
+
+_blitfillline_test11:
+  move.l                d2,-(sp)
+  CLEARFASTBITPLANES
+
+  VERTEX2D_INIT 1,#16,#1
+  VERTEX2D_INIT 2,#8,#255
   VERTEX2D_INIT 3,#8,#1
          
   lea                   $dff000,a5
