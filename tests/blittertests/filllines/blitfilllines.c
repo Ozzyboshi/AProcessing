@@ -11,6 +11,7 @@ unsigned char *blitfillline_test6();
 unsigned char *blitfillline_test7();
 unsigned char *blitfillline_test8();
 unsigned char *blitfillline_test9();
+unsigned char *blitfillline_test10();
 
 struct _test TESTS[] = {
     {.testId = 1, .test_function = blitfillline_test1, .nbitplanes=2, .nrows=256, .nbyterow=40,.title = "a line 0,0-10,0 by RamJam", .verbose=0},
@@ -22,6 +23,7 @@ struct _test TESTS[] = {
     {.testId = 7, .test_function = blitfillline_test7, .nbitplanes=2, .nrows=256, .nbyterow=40,.title = "a filled triangle 0,0-0,255-319,255 by RamJam", .verbose=0},
     {.testId = 8, .test_function = blitfillline_test8, .nbitplanes=2, .nrows=256, .nbyterow=40,.title = "a filled triangle 8,1-16,1-8,255 by RamJam", .verbose=0},
     {.testId = 9, .test_function = blitfillline_test9, .nbitplanes=2, .nrows=256, .nbyterow=40,.title = "a filled triangle 8,1-16,1-8,255 by RamJam", .verbose=0},
+    {.testId = 10, .test_function = blitfillline_test10, .nbitplanes=2, .nrows=256, .nbyterow=40,.title = "a filled triangle 8,1-16,1-8,255 by RamJam", .verbose=0},
 
     {.testId = 0, .test_function = NULL}
 
