@@ -17,10 +17,11 @@
         char fileresult[100];\
         int writeresult=0;\
         FILE* fdres=0;\
-        while ((c = getopt (argc, argv, "s:e:o:")) != -1)\
+        while ((c = getopt (argc, argv, "s:e:o:i:")) != -1)\
         {\
             switch(c)\
             {\
+                case 'i': start = atoi(optarg); end = start; break;\
                 case 's': start = atoi(optarg); break;\
                 case 'e': end = atoi(optarg); break;\
                 case 'o': writeresult=snprintf(fileresult,99,"%s",optarg); fdres = fopen(fileresult,"a"); if (!fdres) { perror("Error writing to result file"); exit(1); } break;\
