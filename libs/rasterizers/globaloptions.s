@@ -7,7 +7,6 @@ GLOBAL_OPTIONS:
 DRAWING_OPTIONS:        dc.b                        $00                                           ; bit 0 = clipping enabled
 STROKE_DATA:            dc.b                        $01                                           ; colors here
 
-AMMX_FILL_FUNCT_ADDR    dc.l                        ammx_fill_table
 STROKE MACRO
                         IFD                         VAMPIRE 
                         PAND                        #$FFFFFFFFFFFFFF00,e22,e22                    ; last byte zeroed

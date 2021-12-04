@@ -63,6 +63,8 @@ tests/blittertests/lines/blitlinesvampire
 tests/blittertests/lines/blitlinesvampire.o
 tests/testlibs/testlib.o
 build/blitfilllines.o
+build/globaloptions.o
+build/offbitplanemem.o
 DEADJOE
 lol
 tests/results.txt

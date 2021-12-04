@@ -14,6 +14,9 @@ unsigned char *blitfillline_test9();
 unsigned char *blitfillline_test10();
 unsigned char *blitfillline_test11();
 unsigned char *blitfillline_test12();
+unsigned char *blitfillline_test13();
+unsigned char *blitfillline_test14();
+unsigned char *blitfillline_test15();
 
 struct _test TESTS[] = {
     {.testId = 1, .test_function = blitfillline_test1, .nbitplanes=2, .nrows=256, .nbyterow=40,.title = "a line 0,0-10,0 by RamJam", .verbose=0},
@@ -28,6 +31,9 @@ struct _test TESTS[] = {
     {.testId = 10, .test_function = blitfillline_test10, .nbitplanes=2, .nrows=256, .nbyterow=40,.title = "a filled triangle 8,1-16,1-8,255 by RamJam", .verbose=0},
     {.testId = 11, .test_function = blitfillline_test11, .nbitplanes=2, .nrows=256, .nbyterow=40,.title = "a filled triangle 8,1-16,1-8,255 by RamJam", .verbose=0},
     {.testId = 12, .test_function = blitfillline_test12, .nbitplanes=2, .nrows=256, .nbyterow=40,.title = "a filled triangle 0,0-160,255-319,0 by RamJam", .verbose=0},
+    {.testId = 13, .test_function = blitfillline_test13, .nbitplanes=2, .nrows=256, .nbyterow=40,.title = "a filled triangle vertical bpl2", .verbose=0},
+    {.testId = 14, .test_function = blitfillline_test14, .nbitplanes=2, .nrows=256, .nbyterow=40,.title = "a filled triangle vertical bpl1", .verbose=0},
+    {.testId = 15, .test_function = blitfillline_test15, .nbitplanes=2, .nrows=256, .nbyterow=40,.title = "a filled triangle vertical bpl1 and 2", .verbose=0},
 
     {.testId = 0, .test_function = NULL}
 
