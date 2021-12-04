@@ -13,6 +13,7 @@
   XDEF                  _blitfillline_test13
   XDEF                  _blitfillline_test14
   XDEF                  _blitfillline_test15
+  XDEF                  _blitfillline_test16
 
   include               "../../../libs/rasterizers/processing_bitplanes_fast.s"
   include               "../../../libs/rasterizers/globaloptions.s"
@@ -23,8 +24,8 @@
   include               "../../../libs/rasterizers/processing_table_plotrefs.s"
   include               "../../../libs/rasterizers/processingclearfunctions.s"
   ;include               "../../../libs/rasterizers/clipping.s"
-  include               "../../../libs/blitter/lines.s"
   include               "../../../libs/blitter/offbitplanemem.i"
+  include               "../../../libs/blitter/lines.s"
 
 _blitfillline_test1:
   move.l                d2,-(sp)
@@ -523,16 +524,11 @@ _blitfillline_test9:
   VERTEX2D_INIT 2,#16,#1
   VERTEX2D_INIT 3,#8,#255
          
-  lea                   $dff000,a5
-  jsr                   InitLine                                                   ; inizializza line-mode
-
-  move.w                #$ffff,d0                                                  ; linea continua
-  jsr                   SetPattern                                                 ; definisce pattern
-
-  MOVE.W                #%1000001111000000,$96(a5)
+  MOVE.W                #%1000001111000000,$dff096
 
   STROKE #2
-  BLITTRIANGLE OFFBITPLANEMEM
+  lea OFFBITPLANEMEM,a4
+  jsr BLITTRIANGLE
 
   WAITBLITTER
   bsr.w                 processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
@@ -548,16 +544,11 @@ _blitfillline_test10:
   VERTEX2D_INIT 2,#16,#1
   VERTEX2D_INIT 3,#8,#1
          
-  lea                   $dff000,a5
-  jsr                   InitLine                                                   ; inizializza line-mode
-
-  move.w                #$ffff,d0                                                  ; linea continua
-  jsr                   SetPattern                                                 ; definisce pattern
-
-  MOVE.W                #%1000001111000000,$96(a5)
+  MOVE.W                #%1000001111000000,$dff096
 
   STROKE #2
-  BLITTRIANGLE OFFBITPLANEMEM
+  lea OFFBITPLANEMEM,a4
+  jsr BLITTRIANGLE
 
   WAITBLITTER
   bsr.w                 processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
@@ -573,16 +564,11 @@ _blitfillline_test11:
   VERTEX2D_INIT 2,#8,#255
   VERTEX2D_INIT 3,#8,#1
          
-  lea                   $dff000,a5
-  jsr                   InitLine                                                   ; inizializza line-mode
-
-  move.w                #$ffff,d0                                                  ; linea continua
-  jsr                   SetPattern                                                 ; definisce pattern
-
-  MOVE.W                #%1000001111000000,$96(a5)
+  MOVE.W                #%1000001111000000,$dff096
 
   STROKE #2
-  BLITTRIANGLE OFFBITPLANEMEM
+  lea OFFBITPLANEMEM,a4
+  jsr BLITTRIANGLE
 
   WAITBLITTER
   bsr.w                 processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
@@ -597,16 +583,11 @@ _blitfillline_test12:
   VERTEX2D_INIT 2,#160,#255
   VERTEX2D_INIT 3,#319,#0
          
-  lea                   $dff000,a5
-  jsr                   InitLine                                                   ; inizializza line-mode
-
-  move.w                #$ffff,d0                                                  ; linea continua
-  jsr                   SetPattern                                                 ; definisce pattern
-
-  MOVE.W                #%1000001111000000,$96(a5)
+  MOVE.W                #%1000001111000000,$dff096
 
   STROKE #2
-  BLITTRIANGLE OFFBITPLANEMEM
+  lea OFFBITPLANEMEM,a4
+  jsr BLITTRIANGLE
 
   WAITBLITTER
   bsr.w                 processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
@@ -621,16 +602,11 @@ _blitfillline_test13:
   VERTEX2D_INIT 2,#160,#128+10
   VERTEX2D_INIT 3,#160,#128
          
-  lea                   $dff000,a5
-  jsr                   InitLine                                                   ; inizializza line-mode
-
-  move.w                #$ffff,d0                                                  ; linea continua
-  jsr                   SetPattern                                                 ; definisce pattern
-
-  MOVE.W                #%1000001111000000,$96(a5)
+  MOVE.W                #%1000001111000000,$dff096
 
   STROKE #2
-  BLITTRIANGLE OFFBITPLANEMEM
+  lea OFFBITPLANEMEM,a4
+  jsr BLITTRIANGLE
 
   WAITBLITTER
   bsr.w                 processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
@@ -645,16 +621,11 @@ _blitfillline_test14:
   VERTEX2D_INIT 2,#160,#128+10
   VERTEX2D_INIT 3,#160,#128
          
-  lea                   $dff000,a5
-  jsr                   InitLine                                                   ; inizializza line-mode
-
-  move.w                #$ffff,d0                                                  ; linea continua
-  jsr                   SetPattern                                                 ; definisce pattern
-
-  MOVE.W                #%1000001111000000,$96(a5)
+  MOVE.W                #%1000001111000000,$dff096
 
   STROKE #1
-  BLITTRIANGLE OFFBITPLANEMEM
+  lea OFFBITPLANEMEM,a4
+  jsr BLITTRIANGLE
 
   WAITBLITTER
   bsr.w                 processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
@@ -669,16 +640,30 @@ _blitfillline_test15:
   VERTEX2D_INIT 2,#160,#128+10
   VERTEX2D_INIT 3,#160,#128
          
-  lea                   $dff000,a5
-  jsr                   InitLine                                                   ; inizializza line-mode
-
-  move.w                #$ffff,d0                                                  ; linea continua
-  jsr                   SetPattern                                                 ; definisce pattern
-
-  MOVE.W                #%1000001111000000,$96(a5)
+  MOVE.W                #%1000001111000000,$dff096
 
   STROKE #3
-  BLITTRIANGLE OFFBITPLANEMEM
+  lea OFFBITPLANEMEM,a4
+  jsr BLITTRIANGLE
+
+  WAITBLITTER
+  bsr.w                 processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
+  move.l                (sp)+,d2
+  rts
+
+_blitfillline_test16:
+  move.l                d2,-(sp)
+  CLEARFASTBITPLANES
+
+  VERTEX2D_INIT 1,#160-10,#128
+  VERTEX2D_INIT 2,#160+10,#128
+  VERTEX2D_INIT 3,#160,#128
+         
+  MOVE.W                #%1000001111000000,$dff096
+
+  STROKE #3
+  lea OFFBITPLANEMEM,a4
+  jsr BLITTRIANGLE
 
   WAITBLITTER
   bsr.w                 processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0

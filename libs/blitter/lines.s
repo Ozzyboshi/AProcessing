@@ -11,7 +11,13 @@ VERTEX2D_INIT      MACRO
                    move.w         \3,VERTEX_LIST_2D_\1+2
                    ENDM
 
-BLITTRIANGLE       MACRO
+BLITTRIANGLE:
+                  lea                   $dff000,a5
+  jsr                   InitLine                                                   ; inizializza line-mode
+
+  move.w                #$ffff,d0                                                  ; linea continua
+  jsr                   SetPattern                                                 ; definisce pattern
+
                    move.w         VERTEX_LIST_2D_1,d0                 ; x1
                    move.w         VERTEX_LIST_2D_1+2,d1               ; y1
                    move.w         VERTEX_LIST_2D_2,d2                 ; x2
@@ -60,7 +66,9 @@ BLITTRIANGLE       MACRO
                    swap           d6
                    swap           d7
                   ; END COMPARISON
-                   lea            \1,a0
+                   ;lea            \1,a0
+                   
+                   move.l a4,a0
                    bsr.w          DrawlineFill                        ; first line
   
                   ; start of second line
@@ -97,7 +105,8 @@ BLITTRIANGLE       MACRO
                    swap           d7
                   ; END COMPARISON
   
-                   lea            \1,a0
+                   ;lea            \1,a0
+                   move.l a4,a0
                    bsr.w          DrawlineFill                        ; second line
 
                   ; start of third line
@@ -105,7 +114,8 @@ BLITTRIANGLE       MACRO
                    move.w         VERTEX_LIST_2D_2+2,d1               ; y1
                    move.w         VERTEX_LIST_2D_3,d2                 ; x2
                    move.w         VERTEX_LIST_2D_3+2,d3               ; y2
-                   lea            \1,a0
+                   ;lea            \1,a0
+                   move.l a4,a0
                    bsr.w          DrawlineFill                        ; third line
 
                    moveq.l        #0,d0                               ; inclusivo
@@ -126,12 +136,13 @@ BLITTRIANGLE       MACRO
                    move.w         d4,BLITTRIGSAVE+2
                    move.w         d5,BLITTRIGSAVE+4
                    move.w         d6,BLITTRIGSAVE+6
-
+                   
                   ; source
                   
                    btst           #0,STROKE_DATA
                    beq.w          .xblitnobpl0
-                   lea            \1,a0
+                   ;lea            \1,a0
+                   move.l a4,a0
 
                   ; destination
                    IFD            USE_DBLBUF
@@ -140,8 +151,7 @@ BLITTRIANGLE       MACRO
                    lea            SCREEN_0,a1
                    ENDC
 
-                  ;we need a5
-                   lea            $dff000,a5
+                  
 
   ;move.w d3,SCREEN_0
   ;move.w d4,2+SCREEN_0
@@ -149,7 +159,6 @@ BLITTRIANGLE       MACRO
   ;move.w d6,6+SCREEN_0
                    jsr            Fill_From_A_to_B
 
-                   lea            $dff000,a5
                    jsr            InitLine                            ; inizializza line-mode
 
                    move.w         #$ffff,d0                           ; linea continua
@@ -191,16 +200,14 @@ BLITTRIANGLE       MACRO
 .xblitnobpl0:
                    btst           #1,STROKE_DATA
                    beq.w          .xblitnobpl1
-                   lea            \1,a0
+                   move.l a4,a0
+                   ;lea            \1,a0
                   ; destination
                    IFD            USE_DBLBUF
                    move.l         SCREEN_PTR_1,a1
                    ELSE
                    lea            SCREEN_1,a1
                    ENDC
-
-                  ;we need a5
-                   lea            $dff000,a5
 
   ;move.w d3,SCREEN_0
   ;move.w d4,2+SCREEN_0
@@ -215,7 +222,6 @@ BLITTRIANGLE       MACRO
                    move.w         BLITTRIGSAVE+6,d6
 
                    jsr            Fill_From_A_to_B
-                   lea            $dff000,a5
                    jsr            InitLine                            ; inizializza line-mode
 
                    move.w         #$ffff,d0                           ; linea continua
@@ -257,7 +263,7 @@ BLITTRIANGLE       MACRO
 
                    jsr            Fill_From_A_to_B_Clear
 
-                   ENDM
+                   rts
 
 ;******************************************************************************
 ; Questa routine setta i registri del blitter che non devono essere
@@ -806,7 +812,6 @@ OK1_FILL:
 Fill_From_A_to_B:
                    WAITBLITTER
 
-
                    move.w         #$09f0,$40(a5)                      ; BLTCON0 copia normale
 
                    tst.w          d0                                  ; testa D0 per decidere il tipo di fill
@@ -854,6 +859,10 @@ Fill_From_A_to_B_fatto_bltcon1:
     
                    swap           d6
                    sub.w          d4,d6
+                   ; blitting 0 vertical lines proably means blit 1024 (the max) we dont want this so add 1
+                   bne.s  Fill_From_A_to_B_novertical
+                   moveq #1,d6
+Fill_From_A_to_B_novertical:
                    move.w         d6,d4                               ; save the Y difference into d4
                    muls.w         #40,d6
                    move.l         a0,a3
