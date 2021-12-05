@@ -812,7 +812,11 @@ OK1_FILL:
 Fill_From_A_to_B:
                    WAITBLITTER
 
-                   move.w         #$09f0,$40(a5)                      ; BLTCON0 copia normale
+                  ; AND MODE
+                   move.w         #$09f0,$40(a5)                      ; BLTCON0 AND COPY
+
+                  ; Or mode
+                  ; move.w         #$0dfc,$40(a5)                      ; BLTCON0 OR COPY
 
                    tst.w          d0                                  ; testa D0 per decidere il tipo di fill
                    bne.s          Fill_From_A_to_B_fill_esclusivo
@@ -835,7 +839,6 @@ Fill_From_A_to_B_fatto_bltcon1:
                    move.w         d2,$42(a5)                          ; BLTCON1
 
 
-  ; start experimeng
                    swap           d6
                    lsr.w          #4,d3                               ; calculate start word for left
                    lsr.w          #4,d5                               ; calculate start word for right
@@ -853,6 +856,7 @@ Fill_From_A_to_B_fatto_bltcon1:
                    neg            d6
     
                    move.w         d6,FILL_ADDR_DMOD
+                   ;move.w         d6,$62(a5) ; bltbmod only for OR Mode
                    move.w         d6,$64(a5)                          ; BLTAMOD larghezza 2 words (40-4=36)
                    move.w         d6,$66(a5)                          ; BLTAMOD larghezza 2 words (40-4=36)
     
@@ -875,6 +879,7 @@ Fill_From_A_to_B_novertical:
                    move.l         a1,a3
                    adda.w         d6,a3
                    adda.w         d5,a3
+                   ;move.l         a3,$4c(a5) ; BLTBPTH (only for OR)
                    move.l         a3,$54(a5)
     
     ;start bltsize calc

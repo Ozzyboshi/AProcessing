@@ -14,6 +14,7 @@
   XDEF                  _blitfillline_test14
   XDEF                  _blitfillline_test15
   XDEF                  _blitfillline_test16
+  XDEF                  _blitfillline_test17
 
   include               "../../../libs/rasterizers/processing_bitplanes_fast.s"
   include               "../../../libs/rasterizers/globaloptions.s"
@@ -662,6 +663,34 @@ _blitfillline_test16:
   MOVE.W                #%1000001111000000,$dff096
 
   STROKE #3
+  lea OFFBITPLANEMEM,a4
+  jsr BLITTRIANGLE
+
+  WAITBLITTER
+  bsr.w                 processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
+  move.l                (sp)+,d2
+  rts
+
+_blitfillline_test17:
+  move.l                d2,-(sp)
+  CLEARFASTBITPLANES
+
+  VERTEX2D_INIT 1,#160,#0
+  VERTEX2D_INIT 2,#0,#255
+  VERTEX2D_INIT 3,#319,#255
+         
+  MOVE.W                #%1000001111000000,$dff096
+
+  STROKE #1
+  lea OFFBITPLANEMEM,a4
+  jsr BLITTRIANGLE
+
+  VERTEX2D_INIT 1,#160,#255
+  VERTEX2D_INIT 2,#0,#0
+  VERTEX2D_INIT 3,#319,#0
+         
+
+  STROKE #2
   lea OFFBITPLANEMEM,a4
   jsr BLITTRIANGLE
 
