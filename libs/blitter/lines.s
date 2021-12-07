@@ -862,22 +862,23 @@ Fill_From_A_to_B_fatto_bltcon1:
     
     
                    swap           d6
+                   move.w d6,d0
                    sub.w          d4,d6
                    ; blitting 0 vertical lines proably means blit 1024 (the max) we dont want this so add 1
                    bne.s  Fill_From_A_to_B_novertical
                    moveq #1,d6
 Fill_From_A_to_B_novertical:
                    move.w         d6,d4                               ; save the Y difference into d4
-                   muls.w         #40,d6
+                   muls.w         #40,d0
                    move.l         a0,a3
-                   adda.w         d6,a3
+                   adda.w         d0,a3
                    add.w          d5,d5
                    adda.w         d5,a3
                    move.l         a3,FILL_ADDR_CACHE
                    move.l         a3,$50(a5)
     
                    move.l         a1,a3
-                   adda.w         d6,a3
+                   adda.w         d0,a3
                    adda.w         d5,a3
                    ;move.l         a3,$4c(a5) ; BLTBPTH (only for OR)
                    move.l         a3,$54(a5)

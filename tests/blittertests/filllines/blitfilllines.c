@@ -19,6 +19,11 @@ unsigned char *blitfillline_test14();
 unsigned char *blitfillline_test15();
 unsigned char *blitfillline_test16();
 unsigned char *blitfillline_test17();
+unsigned char *blitfillline_test18();
+unsigned char *blitfillline_test19();
+unsigned char *blitfillline_test20();
+unsigned char *blitfillline_test21();
+unsigned char *blitfillline_test22();
 
 struct _test TESTS[] = {
     {.testId = 1, .test_function = blitfillline_test1, .nbitplanes=2, .nrows=256, .nbyterow=40,.title = "a line 0,0-10,0 by RamJam", .verbose=0},
@@ -38,6 +43,11 @@ struct _test TESTS[] = {
     {.testId = 15, .test_function = blitfillline_test15, .nbitplanes=2, .nrows=256, .nbyterow=40,.title = "a filled triangle vertical bpl1 and 2", .verbose=0},
     {.testId = 16, .test_function = blitfillline_test16, .nbitplanes=2, .nrows=256, .nbyterow=40,.title = "a filled triangle horizontal bpl1 and 2", .verbose=0},
     {.testId = 17, .test_function = blitfillline_test17, .nbitplanes=2, .nrows=256, .nbyterow=40,.title = "2 or triangles overlapping whole screen", .verbose=0},
+    {.testId = 18, .test_function = blitfillline_test18, .nbitplanes=2, .nrows=256, .nbyterow=40,.title = "big horizontal triangle with base on left", .verbose=0},
+    {.testId = 19, .test_function = blitfillline_test19, .nbitplanes=2, .nrows=256, .nbyterow=40,.title = "big horizontal triangle with base on right", .verbose=0},
+    {.testId = 20, .test_function = blitfillline_test20, .nbitplanes=2, .nrows=256, .nbyterow=40,.title = "small horizontal triangle with base on right centered", .verbose=0},
+    {.testId = 21, .test_function = blitfillline_test21, .nbitplanes=2, .nrows=256, .nbyterow=40,.title = "2 triangles on different bitplanes", .verbose=0},
+    {.testId = 22, .test_function = blitfillline_test22, .nbitplanes=2, .nrows=256, .nbyterow=40,.title = "2 random triangles on different bitplanes", .verbose=0},
 
     {.testId = 0, .test_function = NULL}
 
