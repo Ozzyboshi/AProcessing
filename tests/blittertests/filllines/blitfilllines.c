@@ -24,6 +24,8 @@ unsigned char *blitfillline_test19();
 unsigned char *blitfillline_test20();
 unsigned char *blitfillline_test21();
 unsigned char *blitfillline_test22();
+unsigned char *blitfillline_test23();
+unsigned char *blitfillline_test24();
 
 struct _test TESTS[] = {
     {.testId = 1, .test_function = blitfillline_test1, .nbitplanes=2, .nrows=256, .nbyterow=40,.title = "a line 0,0-10,0 by RamJam", .verbose=0},
@@ -48,6 +50,8 @@ struct _test TESTS[] = {
     {.testId = 20, .test_function = blitfillline_test20, .nbitplanes=2, .nrows=256, .nbyterow=40,.title = "small horizontal triangle with base on right centered", .verbose=0},
     {.testId = 21, .test_function = blitfillline_test21, .nbitplanes=2, .nrows=256, .nbyterow=40,.title = "2 triangles on different bitplanes", .verbose=0},
     {.testId = 22, .test_function = blitfillline_test22, .nbitplanes=2, .nrows=256, .nbyterow=40,.title = "2 random triangles on different bitplanes", .verbose=0},
+    {.testId = 23, .test_function = blitfillline_test23, .nbitplanes=2, .nrows=256, .nbyterow=40,.title = "triangle 224,104 128,200 160,4", .verbose=0},
+    {.testId = 24, .test_function = blitfillline_test24, .nbitplanes=2, .nrows=256, .nbyterow=40,.title = "triangle 224,104 128,200 160,4 different order", .verbose=0},
 
     {.testId = 0, .test_function = NULL}
 

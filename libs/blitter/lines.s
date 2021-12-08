@@ -47,7 +47,8 @@ BLITTRIANGLE:
                    bra.s          .blittrigxdone
 .xgreaterequaltthan:
                   ; update xmax
-                   bcc.s          .blittrigxdone
+;                   cmp.w d2,d7
+;                   bcc.s          .blittrigxdone
                    move.w         d2,d7
 .blittrigxdone:
                   ; start comparing y
@@ -60,7 +61,8 @@ BLITTRIANGLE:
                    bra.s          .blittrigxdone2
 .ygreaterequaltthan:
                   ; update xmax
-                   bcc.s          .blittrigxdone2
+;                   cmp.w d3,d7
+;                   bcc.s          .blittrigxdone2
                    move.w         d3,d7
 .blittrigxdone2
                    swap           d6
@@ -85,6 +87,7 @@ BLITTRIANGLE:
                    bra.s          .xblittrigdone
 .xgreaterequaltthan2:
                   ; update xmax
+                  cmp.w          d2,d7
                    bcc.s          .xblittrigdone
                    move.w         d2,d7
 .xblittrigdone:
@@ -97,7 +100,8 @@ BLITTRIANGLE:
                    move.w         d3,d6
                    bra.s          .xblittrigdone2
 .ygreaterequaltthan2:
-                  ; update xmax
+                  ; update ymax
+                  cmp.w          d3,d7
                    bcc.s          .xblittrigdone2
                    move.w         d3,d7
 .xblittrigdone2
@@ -839,13 +843,14 @@ Fill_From_A_to_B_fatto_bltcon1:
                    move.w         d2,$42(a5)                          ; BLTCON1
 
 
-                   swap           d6
+                   move.w d6,d0 ;save bottom right of the rectangle in d0
                    lsr.w          #4,d3                               ; calculate start word for left
                    lsr.w          #4,d5                               ; calculate start word for right
     
     ; at this point d5 must be >= 0, if not something wrong happened before
     ; now i need the difference +1
                    move.w         d5,d7
+                   sub.w d3,d7 ; width difference on words
                    addq           #1,d7
     ; now d7 contains the number of words we need to blit for each line
     
@@ -854,15 +859,13 @@ Fill_From_A_to_B_fatto_bltcon1:
                    add.w          d6,d6
                    sub.w          #40,d6
                    neg            d6
-    
                    move.w         d6,FILL_ADDR_DMOD
                    ;move.w         d6,$62(a5) ; bltbmod only for OR Mode
                    move.w         d6,$64(a5)                          ; BLTAMOD larghezza 2 words (40-4=36)
                    move.w         d6,$66(a5)                          ; BLTAMOD larghezza 2 words (40-4=36)
     
     
-                   swap           d6
-                   move.w d6,d0
+                   move.w d0,d6 ; alessio
                    sub.w          d4,d6
                    ; blitting 0 vertical lines proably means blit 1024 (the max) we dont want this so add 1
                    bne.s  Fill_From_A_to_B_novertical
@@ -934,14 +937,6 @@ Fill_From_A_to_B_Clear:
 
 
 DrawlineOr:
-        ;move.l  mt_data,A0
-
-        ;move.l 4(sp),a0
-        ;move.l 8(sp),d0
-        ;move.l 12(sp),d1
-        
-        ;move.l 16(sp),d2
-        ;move.l 20(sp),d3
 
 * scelta ottante
 

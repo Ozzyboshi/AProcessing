@@ -20,6 +20,8 @@
   XDEF                  _blitfillline_test20
   XDEF                  _blitfillline_test21
   XDEF                  _blitfillline_test22
+  XDEF                  _blitfillline_test23
+  XDEF                  _blitfillline_test24
 
   include               "../../../libs/rasterizers/processing_bitplanes_fast.s"
   include               "../../../libs/rasterizers/globaloptions.s"
@@ -807,6 +809,49 @@ _blitfillline_test22:
   VERTEX2D_INIT 3,#13,#15
 
   STROKE #2
+  lea OFFBITPLANEMEM,a4
+  jsr BLITTRIANGLE
+
+  WAITBLITTER
+  bsr.w                 processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
+  move.l                (sp)+,d2
+  rts
+
+_blitfillline_test23:
+  move.l                d2,-(sp)
+  CLEARFASTBITPLANES
+         
+  MOVE.W                #%1000001111000000,$dff096
+
+  VERTEX2D_INIT 1,#224,#104
+  VERTEX2D_INIT 2,#128,#200
+  VERTEX2D_INIT 3,#160,#4
+
+  ;  VERTEX2D_INIT 1,#160,#4
+
+  ;VERTEX2D_INIT 2,#128,#200
+  ;VERTEX2D_INIT 3,#224,#104
+
+  STROKE #1
+  lea OFFBITPLANEMEM,a4
+  jsr BLITTRIANGLE
+
+  WAITBLITTER
+  bsr.w                 processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
+  move.l                (sp)+,d2
+  rts
+
+_blitfillline_test24:
+  move.l                d2,-(sp)
+  CLEARFASTBITPLANES
+         
+  MOVE.W                #%1000001111000000,$dff096
+
+  VERTEX2D_INIT 1,#160,#4
+  VERTEX2D_INIT 2,#128,#200
+  VERTEX2D_INIT 3,#224,#104
+
+  STROKE #1
   lea OFFBITPLANEMEM,a4
   jsr BLITTRIANGLE
 
