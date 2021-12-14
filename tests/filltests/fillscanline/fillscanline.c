@@ -29,6 +29,7 @@ unsigned char *fillscanline_test12();
 unsigned char *fillscanline_test13();
 unsigned char *fillscanline_test14();
 unsigned char *fillscanline_test15();
+unsigned char *fillscanline_test16();
 
 struct _test TESTS[] = {
     {.testId = 1, .test_function = fillscanline_test1, .nbitplanes=2,.nrows=256,.nbyterow=40, .title = "From px 15 to 102 first row", .verbose=0 }, // Pixel 15 up to 102 first line (line number 0)
@@ -46,6 +47,7 @@ struct _test TESTS[] = {
     {.testId = 13, .test_function = fillscanline_test13,  .nbitplanes=2,.nrows=256,.nbyterow=40, .title = "Row 0 from px 0 to 6 second bitplane " , .verbose=0}, // Whole first line
     {.testId = 14, .test_function = fillscanline_test14,  .nbitplanes=2,.nrows=256,.nbyterow=40, .title = "Row 0 from px 0 to <0  first bitplane " , .verbose=0}, // Whole first line
     {.testId = 15, .test_function = fillscanline_test15,  .nbitplanes=2,.nrows=256,.nbyterow=40, .title = "From px 15 to 102 first row with noreset" , .verbose=0}, // Whole first line
+    {.testId = 16, .test_function = fillscanline_test16, .nbitplanes=2,.nrows=256,.nbyterow=40, .title = "From px 15 to 102 first row color 2", .verbose=0 }, // Pixel 15 up to 102 first line (line number 0)
 
     {.testId = 0, .test_function = NULL}
 

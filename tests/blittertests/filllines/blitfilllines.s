@@ -22,6 +22,9 @@
   XDEF                  _blitfillline_test22
   XDEF                  _blitfillline_test23
   XDEF                  _blitfillline_test24
+  XDEF                  _blitfillline_test25
+  XDEF                  _blitfillline_test26
+  XDEF                  _blitfillline_test27
 
   include               "../../../libs/rasterizers/processing_bitplanes_fast.s"
   include               "../../../libs/rasterizers/globaloptions.s"
@@ -535,6 +538,7 @@ _blitfillline_test9:
   MOVE.W                #%1000001111000000,$dff096
 
   STROKE #2
+  FILL #2
   lea OFFBITPLANEMEM,a4
   jsr BLITTRIANGLE
 
@@ -555,6 +559,7 @@ _blitfillline_test10:
   MOVE.W                #%1000001111000000,$dff096
 
   STROKE #2
+  FILL #2
   lea OFFBITPLANEMEM,a4
   jsr BLITTRIANGLE
 
@@ -575,6 +580,7 @@ _blitfillline_test11:
   MOVE.W                #%1000001111000000,$dff096
 
   STROKE #2
+  FILL #2
   lea OFFBITPLANEMEM,a4
   jsr BLITTRIANGLE
 
@@ -594,6 +600,7 @@ _blitfillline_test12:
   MOVE.W                #%1000001111000000,$dff096
 
   STROKE #2
+  FILL #2
   lea OFFBITPLANEMEM,a4
   jsr BLITTRIANGLE
 
@@ -613,6 +620,7 @@ _blitfillline_test13:
   MOVE.W                #%1000001111000000,$dff096
 
   STROKE #2
+  FILL #2
   lea OFFBITPLANEMEM,a4
   jsr BLITTRIANGLE
 
@@ -632,6 +640,7 @@ _blitfillline_test14:
   MOVE.W                #%1000001111000000,$dff096
 
   STROKE #1
+  FILL #1
   lea OFFBITPLANEMEM,a4
   jsr BLITTRIANGLE
 
@@ -651,6 +660,7 @@ _blitfillline_test15:
   MOVE.W                #%1000001111000000,$dff096
 
   STROKE #3
+  FILL #3
   lea OFFBITPLANEMEM,a4
   jsr BLITTRIANGLE
 
@@ -670,6 +680,7 @@ _blitfillline_test16:
   MOVE.W                #%1000001111000000,$dff096
 
   STROKE #3
+  FILL #3
   lea OFFBITPLANEMEM,a4
   jsr BLITTRIANGLE
 
@@ -689,6 +700,7 @@ _blitfillline_test17:
   MOVE.W                #%1000001111000000,$dff096
 
   STROKE #1
+  FILL #1
   lea OFFBITPLANEMEM,a4
   jsr BLITTRIANGLE
 
@@ -698,6 +710,7 @@ _blitfillline_test17:
          
 
   STROKE #2
+  FILL #2
   lea OFFBITPLANEMEM,a4
   jsr BLITTRIANGLE
 
@@ -717,6 +730,7 @@ _blitfillline_test18:
   VERTEX2D_INIT 3,#0,#130
 
   STROKE #1
+  FILL #1
   lea OFFBITPLANEMEM,a4
   jsr BLITTRIANGLE
 
@@ -736,6 +750,7 @@ _blitfillline_test19:
   VERTEX2D_INIT 3,#319,#130
 
   STROKE #1
+  FILL #1
   lea OFFBITPLANEMEM,a4
   jsr BLITTRIANGLE
 
@@ -755,6 +770,7 @@ _blitfillline_test19:
   VERTEX2D_INIT 3,#150,#130
 
   STROKE #3
+  FILL #3
   lea OFFBITPLANEMEM,a4
   jsr BLITTRIANGLE
 
@@ -774,6 +790,7 @@ _blitfillline_test21:
   VERTEX2D_INIT 3,#150,#130
 
   STROKE #1
+  FILL #1
   lea OFFBITPLANEMEM,a4
   jsr BLITTRIANGLE
 
@@ -782,6 +799,7 @@ _blitfillline_test21:
   VERTEX2D_INIT 3,#170,#199
 
   STROKE #2
+  FILL #2
   lea OFFBITPLANEMEM,a4
   jsr BLITTRIANGLE
 
@@ -801,6 +819,7 @@ _blitfillline_test22:
   VERTEX2D_INIT 3,#15,#13
 
   STROKE #1
+  FILL #1
   lea OFFBITPLANEMEM,a4
   jsr BLITTRIANGLE
 
@@ -809,6 +828,7 @@ _blitfillline_test22:
   VERTEX2D_INIT 3,#13,#15
 
   STROKE #2
+  FILL #2
   lea OFFBITPLANEMEM,a4
   jsr BLITTRIANGLE
 
@@ -827,12 +847,8 @@ _blitfillline_test23:
   VERTEX2D_INIT 2,#128,#200
   VERTEX2D_INIT 3,#160,#4
 
-  ;  VERTEX2D_INIT 1,#160,#4
-
-  ;VERTEX2D_INIT 2,#128,#200
-  ;VERTEX2D_INIT 3,#224,#104
-
   STROKE #1
+  FILL #1
   lea OFFBITPLANEMEM,a4
   jsr BLITTRIANGLE
 
@@ -852,6 +868,67 @@ _blitfillline_test24:
   VERTEX2D_INIT 3,#224,#104
 
   STROKE #1
+  FILL #1
+  lea OFFBITPLANEMEM,a4
+  jsr BLITTRIANGLE
+
+  WAITBLITTER
+  bsr.w                 processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
+  move.l                (sp)+,d2
+  rts
+
+_blitfillline_test25:
+  move.l                d2,-(sp)
+  CLEARFASTBITPLANES
+         
+  MOVE.W                #%1000001111000000,$dff096
+
+  VERTEX2D_INIT 1,#160,#4
+  VERTEX2D_INIT 2,#128,#200
+  VERTEX2D_INIT 3,#224,#104
+
+  STROKE #2
+  FILL #1
+  lea OFFBITPLANEMEM,a4
+  jsr BLITTRIANGLE
+
+  WAITBLITTER
+  bsr.w                 processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
+  move.l                (sp)+,d2
+  rts
+
+_blitfillline_test26:
+  move.l                d2,-(sp)
+  CLEARFASTBITPLANES
+         
+  MOVE.W                #%1000001111000000,$dff096
+
+  VERTEX2D_INIT 1,#160,#4
+  VERTEX2D_INIT 2,#128,#200
+  VERTEX2D_INIT 3,#224,#104
+
+  STROKE #1
+  FILL #2
+  lea OFFBITPLANEMEM,a4
+  jsr BLITTRIANGLE
+
+  WAITBLITTER
+  bsr.w                 processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
+  move.l                (sp)+,d2
+  rts
+
+_blitfillline_test27:
+  move.l                d2,-(sp)
+  CLEARFASTBITPLANES
+         
+  MOVE.W                #%1000001111000000,$dff096
+
+  VERTEX2D_INIT 1,#160,#4
+  VERTEX2D_INIT 2,#128,#200
+  VERTEX2D_INIT 3,#224,#104
+
+  STROKE #1
+  FILL #3
   lea OFFBITPLANEMEM,a4
   jsr BLITTRIANGLE
 

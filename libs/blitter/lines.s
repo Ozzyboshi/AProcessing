@@ -12,11 +12,11 @@ VERTEX2D_INIT      MACRO
                    ENDM
 
 BLITTRIANGLE:
-                  lea                   $dff000,a5
-  jsr                   InitLine                                                   ; inizializza line-mode
+                   lea            $dff000,a5
+                   jsr            InitLine                            ; inizializza line-mode
 
-  move.w                #$ffff,d0                                                  ; linea continua
-  jsr                   SetPattern                                                 ; definisce pattern
+                   move.w         #$ffff,d0                           ; linea continua
+                   jsr            SetPattern                          ; definisce pattern
 
                    move.w         VERTEX_LIST_2D_1,d0                 ; x1
                    move.w         VERTEX_LIST_2D_1+2,d1               ; y1
@@ -70,7 +70,7 @@ BLITTRIANGLE:
                   ; END COMPARISON
                    ;lea            \1,a0
                    
-                   move.l a4,a0
+                   move.l         a4,a0
                    bsr.w          DrawlineFill                        ; first line
   
                   ; start of second line
@@ -87,7 +87,7 @@ BLITTRIANGLE:
                    bra.s          .xblittrigdone
 .xgreaterequaltthan2:
                   ; update xmax
-                  cmp.w          d2,d7
+                   cmp.w          d2,d7
                    bcc.s          .xblittrigdone
                    move.w         d2,d7
 .xblittrigdone:
@@ -101,7 +101,7 @@ BLITTRIANGLE:
                    bra.s          .xblittrigdone2
 .ygreaterequaltthan2:
                   ; update ymax
-                  cmp.w          d3,d7
+                   cmp.w          d3,d7
                    bcc.s          .xblittrigdone2
                    move.w         d3,d7
 .xblittrigdone2
@@ -110,7 +110,7 @@ BLITTRIANGLE:
                   ; END COMPARISON
   
                    ;lea            \1,a0
-                   move.l a4,a0
+                   move.l         a4,a0
                    bsr.w          DrawlineFill                        ; second line
 
                   ; start of third line
@@ -118,8 +118,7 @@ BLITTRIANGLE:
                    move.w         VERTEX_LIST_2D_2+2,d1               ; y1
                    move.w         VERTEX_LIST_2D_3,d2                 ; x2
                    move.w         VERTEX_LIST_2D_3+2,d3               ; y2
-                   ;lea            \1,a0
-                   move.l a4,a0
+                   move.l         a4,a0
                    bsr.w          DrawlineFill                        ; third line
 
                    moveq.l        #0,d0                               ; inclusivo
@@ -143,82 +142,83 @@ BLITTRIANGLE:
                    
                   ; source
                   
-                   btst           #0,STROKE_DATA
+                   btst           #0,FILL_DATA
                    beq.w          .xblitnobpl0
-                   ;lea            \1,a0
-                   move.l a4,a0
-
-                  ; destination
-                   IFD            USE_DBLBUF
-                   move.l         SCREEN_PTR_0,a1
-                   ELSE
-                   lea            SCREEN_0,a1
-                   ENDC
-
-                  
-
-  ;move.w d3,SCREEN_0
-  ;move.w d4,2+SCREEN_0
-  ;move.w d5,4+SCREEN_0
-  ;move.w d6,6+SCREEN_0
+                   move.l         a4,a0
+                    ; destination
+                   SETBITPLANE    0,a1
                    jsr            Fill_From_A_to_B
 
+                   ; if fill data != stroke data delete the stroke
+                   btst.b         #0,STROKE_DATA
+                   bne.s          .xblitnobpl0
+                   jsr            InitLine
+                   moveq          #0,d0
+                   jsr            SetPattern
+                   move.w         VERTEX_LIST_2D_1,d0                 ; x1
+                   move.w         VERTEX_LIST_2D_1+2,d1       
+                   move.w         VERTEX_LIST_2D_2,d2                 ; x1
+                   move.w         VERTEX_LIST_2D_2+2,d3
+                   SETBITPLANE    0,a0
+                   jsr            Drawline
+                   move.w         VERTEX_LIST_2D_1,d0                 ; x1
+                   move.w         VERTEX_LIST_2D_1+2,d1       
+                   move.w         VERTEX_LIST_2D_3,d2                 ; x1
+                   move.w         VERTEX_LIST_2D_3+2,d3
+                    
+                   SETBITPLANE    0,a0
+                   jsr            Drawline
+                   
+                   move.w         VERTEX_LIST_2D_2,d0                 ; x1
+                   move.w         VERTEX_LIST_2D_2+2,d1       
+                   move.w         VERTEX_LIST_2D_3,d2                 ; x1
+                   move.w         VERTEX_LIST_2D_3+2,d3
+                   SETBITPLANE    0,a0
+                   jsr            Drawline
+                   bra.w          .xblitnobpl0_stroke
+                   ; end of stroke delete
+
+.xblitnobpl0:
+                   btst.b         #0,STROKE_DATA
+                   beq.w          .xblitnobpl0_stroke
                    jsr            InitLine                            ; inizializza line-mode
 
                    move.w         #$ffff,d0                           ; linea continua
                    jsr            SetPattern  
 
-                   IFD            USE_DBLBUF
-                   move.l         SCREEN_PTR_0,a0
-                   ELSE
-                   lea            SCREEN_0,a0
-                   ENDC
+                  
                    move.w         VERTEX_LIST_2D_1,d0                 ; x1
                    move.w         VERTEX_LIST_2D_1+2,d1       
                    move.w         VERTEX_LIST_2D_2,d2                 ; x1
                    move.w         VERTEX_LIST_2D_2+2,d3
+                    ; destination
+                   SETBITPLANE    0,a0
                    jsr            DrawlineOr
 
-                   IFD            USE_DBLBUF
-                   move.l         SCREEN_PTR_0,a0
-                   ELSE
-                   lea            SCREEN_0,a0
-                   ENDC
                    move.w         VERTEX_LIST_2D_1,d0                 ; x1
                    move.w         VERTEX_LIST_2D_1+2,d1       
                    move.w         VERTEX_LIST_2D_3,d2                 ; x1
                    move.w         VERTEX_LIST_2D_3+2,d3
+                    
+                   SETBITPLANE    0,a0
                    jsr            DrawlineOr
 
-                   IFD            USE_DBLBUF
-                   move.l         SCREEN_PTR_0,a0
-                   ELSE
-                   lea            SCREEN_0,a0
-                   ENDC
                    move.w         VERTEX_LIST_2D_2,d0                 ; x1
                    move.w         VERTEX_LIST_2D_2+2,d1       
                    move.w         VERTEX_LIST_2D_3,d2                 ; x1
                    move.w         VERTEX_LIST_2D_3+2,d3
+                   SETBITPLANE    0,a0
                    jsr            DrawlineOr
 
-.xblitnobpl0:
-                   btst           #1,STROKE_DATA
+.xblitnobpl0_stroke:
+                   btst           #1,FILL_DATA
                    beq.w          .xblitnobpl1
-                   move.l a4,a0
-                   ;lea            \1,a0
-                  ; destination
-                   IFD            USE_DBLBUF
-                   move.l         SCREEN_PTR_1,a1
-                   ELSE
-                   lea            SCREEN_1,a1
-                   ENDC
+                   move.l         a4,a0
+                   ; destination
+                   SETBITPLANE    1,a1
 
-  ;move.w d3,SCREEN_0
-  ;move.w d4,2+SCREEN_0
-  ;move.w d5,4+SCREEN_0
-  ;move.w d6,6+SCREEN_0
                    ; restore rect points into regs
-                   moveq.l        #0,d0                               ; inclusivo
+                   moveq.l        #0,d0                               ; inclusive
                    moveq.l        #0,d1                               ; CARRYIN = 0
                    move.w         BLITTRIGSAVE,d3
                    move.w         BLITTRIGSAVE+2,d4
@@ -226,44 +226,71 @@ BLITTRIANGLE:
                    move.w         BLITTRIGSAVE+6,d6
 
                    jsr            Fill_From_A_to_B
+
+                    ; if fill data != stroke data delete the stroke
+                   btst.b         #1,STROKE_DATA
+                   bne.s          .xblitnobpl1
+                   jsr            InitLine
+                   moveq          #0,d0
+                   jsr            SetPattern
+                   move.w         VERTEX_LIST_2D_1,d0                 ; x1
+                   move.w         VERTEX_LIST_2D_1+2,d1       
+                   move.w         VERTEX_LIST_2D_2,d2                 ; x1
+                   move.w         VERTEX_LIST_2D_2+2,d3
+                   SETBITPLANE    1,a0
+                   jsr            Drawline
+                   move.w         VERTEX_LIST_2D_1,d0                 ; x1
+                   move.w         VERTEX_LIST_2D_1+2,d1       
+                   move.w         VERTEX_LIST_2D_3,d2                 ; x1
+                   move.w         VERTEX_LIST_2D_3+2,d3
+                    
+                   SETBITPLANE    1,a0
+                   jsr            Drawline
+                   
+                   move.w         VERTEX_LIST_2D_2,d0                 ; x1
+                   move.w         VERTEX_LIST_2D_2+2,d1       
+                   move.w         VERTEX_LIST_2D_3,d2                 ; x1
+                   move.w         VERTEX_LIST_2D_3+2,d3
+                   SETBITPLANE    1,a0
+                   jsr            Drawline
+                   bra.w          .xblitnobpl1_stroke
+                   ; end of stroke delete
+
+.xblitnobpl1:
+                   btst.b         #1,STROKE_DATA
+                   beq.w          .xblitnobpl1_stroke
+
                    jsr            InitLine                            ; inizializza line-mode
 
                    move.w         #$ffff,d0                           ; linea continua
                    jsr            SetPattern  
 
-                   IFD            USE_DBLBUF
-                   move.l         SCREEN_PTR_1,a0
-                   ELSE
-                   lea            SCREEN_1,a0
-                   ENDC
+
                    move.w         VERTEX_LIST_2D_1,d0                 ; x1
                    move.w         VERTEX_LIST_2D_1+2,d1       
                    move.w         VERTEX_LIST_2D_2,d2                 ; x1
                    move.w         VERTEX_LIST_2D_2+2,d3
+                   SETBITPLANE    1,a0
                    jsr            DrawlineOr
 
-                   IFD            USE_DBLBUF
-                   move.l         SCREEN_PTR_1,a0
-                   ELSE
-                   lea            SCREEN_1,a0
-                   ENDC
+                   
                    move.w         VERTEX_LIST_2D_1,d0                 ; x1
                    move.w         VERTEX_LIST_2D_1+2,d1       
                    move.w         VERTEX_LIST_2D_3,d2                 ; x1
                    move.w         VERTEX_LIST_2D_3+2,d3
+                   SETBITPLANE    1,a0
+
                    jsr            DrawlineOr
 
-                   IFD            USE_DBLBUF
-                   move.l         SCREEN_PTR_1,a0
-                   ELSE
-                   lea            SCREEN_1,a0
-                   ENDC
+                   
                    move.w         VERTEX_LIST_2D_2,d0                 ; x1
                    move.w         VERTEX_LIST_2D_2+2,d1       
                    move.w         VERTEX_LIST_2D_3,d2                 ; x1
                    move.w         VERTEX_LIST_2D_3+2,d3
+                   SETBITPLANE    1,a0
+
                    jsr            DrawlineOr
-.xblitnobpl1:
+.xblitnobpl1_stroke:
 
                    jsr            Fill_From_A_to_B_Clear
 
@@ -273,10 +300,8 @@ BLITTRIANGLE:
 ; Questa routine setta i registri del blitter che non devono essere
 ; cambiati tra una line e l'altra
 ;******************************************************************************
-
 InitLine:
                    WAITBLITTER
-
                    moveq.l        #-1,d5
                    move.l         d5,$44(a5)                          ; BLTAFWM/BLTALWM = $FFFF
                    move.w         #$8000,$74(a5)                      ; BLTADAT = $8000
@@ -843,14 +868,14 @@ Fill_From_A_to_B_fatto_bltcon1:
                    move.w         d2,$42(a5)                          ; BLTCON1
 
 
-                   move.w d6,d0 ;save bottom right of the rectangle in d0
+                   move.w         d6,d0                               ;save bottom right of the rectangle in d0
                    lsr.w          #4,d3                               ; calculate start word for left
                    lsr.w          #4,d5                               ; calculate start word for right
     
     ; at this point d5 must be >= 0, if not something wrong happened before
     ; now i need the difference +1
                    move.w         d5,d7
-                   sub.w d3,d7 ; width difference on words
+                   sub.w          d3,d7                               ; width difference on words
                    addq           #1,d7
     ; now d7 contains the number of words we need to blit for each line
     
@@ -865,11 +890,11 @@ Fill_From_A_to_B_fatto_bltcon1:
                    move.w         d6,$66(a5)                          ; BLTAMOD larghezza 2 words (40-4=36)
     
     
-                   move.w d0,d6 ; alessio
+                   move.w         d0,d6                               ; alessio
                    sub.w          d4,d6
                    ; blitting 0 vertical lines proably means blit 1024 (the max) we dont want this so add 1
-                   bne.s  Fill_From_A_to_B_novertical
-                   moveq #1,d6
+                   bne.s          Fill_From_A_to_B_novertical
+                   moveq          #1,d6
 Fill_From_A_to_B_novertical:
                    move.w         d6,d4                               ; save the Y difference into d4
                    muls.w         #40,d0
@@ -1017,9 +1042,8 @@ DRAWLOR:
                    add.w          d2,d2                               ; D2=2*DX
 
                    btst           #6,$dff002
-WaitLineOR:
-                   btst           #6,$dff002                          ; aspetta blitter fermo
-                   bne            WaitLineOR
+                   
+                   WAITBLITTER
 
                    move.w         d3,$dff062                          ; BLTBMOD=4*DY
                    sub.w          d2,d3                               ; D3=4*DY-2*DX
