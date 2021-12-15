@@ -26,6 +26,12 @@ now clone the AProcessing repo somewhere, if you used the docker image link it w
 docker run -v /home/ozzy/AProcessing:/data  -it --name AProcessing bebbo-amiga-gcc /bin/bash
 ```
 At this point just cd into tests directory and run ./runtestsvamos.sh, this script will execute the make in all subdirectories, compile the unit tester software, create the test executables and run vamos to compare the results with the expected files.
+
+if you prefer the docker version:
+```
+docker run --rm  -v /home/ozzy/AProcessing:/data -w /data/tests  -it --name AProcessing bebbo-amiga-gcc ./runtestsvamos.sh
+```
+
 The runtestsvamos will go also into test/blittertest directory to produce the test executables but wont run the test with vamos since vamos is unable to emulate Amiga blitter co-processor. If you want to run this type of test you will have to use fs-uae (see fusuae-unit-tester directory) or a real Amiga.
 
 Once the runtestsvamos is done you can just copy all the test directory into your real Amigas and run "run68" and "runvampire" executable.
