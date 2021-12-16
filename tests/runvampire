@@ -68,3 +68,8 @@ blitfilllines
 blitfilllinesvampire
 cd /
 cd /
+cd blittertests/drawpolygon
+drawpolygon
+drawpolygonvampire
+cd /
+cd /

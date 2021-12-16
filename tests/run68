@@ -54,4 +54,8 @@ cd blittertests/filllines
 blitfilllines
 cd /
 cd /
+cd blittertests/drawpolygon
+drawpolygon
+cd /
+cd /
 

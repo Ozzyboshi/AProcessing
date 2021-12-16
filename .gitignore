@@ -61,6 +61,10 @@ tests/blittertests/lines/blitlines
 tests/blittertests/lines/blitlines.o
 tests/blittertests/lines/blitlinesvampire
 tests/blittertests/lines/blitlinesvampire.o
+tests/blittertests/drawpolygon/drawpolygon.o
+tests/blittertests/drawpolygon/drawpolygon
+tests/blittertests/drawpolygon/drawpolygonvampire
+tests/blittertests/drawpolygon/drawpolygonvampire.o
 tests/testlibs/testlib.o
 build/blitfilllines.o
 build/globaloptions.o
@@ -70,3 +74,4 @@ lol
 tests/results.txt
 tests/results.txt.uaem
 *.uaem
+build/

@@ -55,3 +55,7 @@ cd blittertests/filllines
 blitfilllines -o //results.txt
 cd /
 cd /
+cd blittertests/drawpolygon
+drawpolygon
+cd /
+cd /
