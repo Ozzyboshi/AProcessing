@@ -1,5 +1,6 @@
   XDEF                                          _drawpolygon_test1
   XDEF                                          _drawpolygon_test2
+  XDEF                                          _drawpolygon_test3
 
   include                                       "../../../libs/rasterizers/processing_bitplanes_fast.s"
   include                                       "../../../libs/rasterizers/globaloptions.s"
@@ -53,7 +54,7 @@ _drawpolygon_test2:
   jsr                                           TRANSLATE
 
   ROTATE                                        #30
-  
+
   STROKE                                        #1
   FILL                                          #3
 
@@ -64,6 +65,34 @@ _drawpolygon_test2:
   lea                                           OFFBITPLANEMEM,a4
   jsr                                           TRIANGLE_BLIT
   
+  WAITBLITTER
+  bsr.w                                         processing_bitplanes_fast_screen0
+  move.l                                        (sp)+,d2
+  rts
+
+_drawpolygon_test3:
+  move.l                                        d2,-(sp)
+  CLEARFASTBITPLANES
+  RESET_CURRENT_TRANSFORMATION_MATRIX_Q_10_6
+         
+  MOVE.W                                        #%1000001111000000,$dff096
+
+  move.w                                        #30,d0
+  move.w                                        #128+30,d1
+  jsr                                           TRANSLATE
+
+  ROTATE                                        #0
+
+  VERTEX2D_INIT                                 1,#-15,#-26
+  VERTEX2D_INIT                                 2,#-30,#0
+  VERTEX2D_INIT                                 3,#0,#0
+
+  STROKE                                        #1
+  FILL                                          #2
+
+  lea                                           OFFBITPLANEMEM,a4
+  jsr                                           TRIANGLE_BLIT
+
   WAITBLITTER
   bsr.w                                         processing_bitplanes_fast_screen0
   move.l                                        (sp)+,d2
