@@ -1,6 +1,7 @@
 # AProcessing
 
-AProcessing is a set of routines meant for drawing on a Classic Amiga
+AProcessing is a set of routines meant for drawing on a Classic Amiga. 
+
 AProcessing is a mixed C/Asm code, the C part is only for unit testing, all the actual libraries are 100% M68K ASM code for max performance.
 Right know only planar drawing is supported but in the future I am planning to also support Chunky RTG modes with lib CyberGraphix.
 
