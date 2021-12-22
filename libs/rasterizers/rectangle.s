@@ -1,10 +1,21 @@
-; first point d0,d1
-; width d5
-; height d6
+; RECT - Draws a rectangle (CPU)
+; Input:
+;	- d0.w : First point X (0-319)
+;	- d1.w : First point Y (0-255)
+;	- d5.w : Width in pixels
+;	- d6.w : Height in pixels
+; Output:
+;   Nothing
+;
+; Defines:
+; - USE_CLIPPING
+; - USE_DBLBUF
+;
+; Trashes: nothing
 
 RECT:
   movem.l                                   d0-d7/a0-a1,-(sp)
-    
+
   ;line1 start
   move.w                                    d0,d3
   move.w                                    d1,d4
@@ -15,7 +26,7 @@ RECT:
   POINT_TRANSFORM_AND_STORE_IN_FILLTABLE    d7,d4,4
   bsr.w                                     ammxlinefill
   ;line 1 end
-    
+
   ;line 2 start
   move.w                                    d3,d0
   move.w                                    d4,d1
@@ -23,7 +34,6 @@ RECT:
   POINT_TRANSFORM_AND_STORE_IN_FILLTABLE    d0,d1,4
   bsr.w                                     ammxlinefill
   ;line2 end
-    
 
   ;line 3 start
   move.w                                    d3,d0
@@ -34,7 +44,6 @@ RECT:
 
   bsr.w                                     ammxlinefill
   ;line 3 end
-    
 
   ;line4 start
   move.w                                    d3,d0
@@ -42,10 +51,9 @@ RECT:
   POINT_TRANSFORM_AND_STORE_IN_FILLTABLE    d0,d4,4
   bsr.w                                     ammxlinefill
   ;line4 end
-    
+
   move.l                                    AMMX_FILL_FUNCT_ADDR,a0
   jsr                                       (a0)
 
   movem.l                                   (sp)+,d0-d7/a0-a1
   rts
-
