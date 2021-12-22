@@ -6,7 +6,7 @@ Right know only planar drawing is supported but in the future I am planning to a
 
 ### Structure of the repository
 The repository contains the following directorties:
-- docs : right now is empty but I obviously is meant for documentation
+- docs : documentation docs: see [docs/README](docs/README.md) for instructions documentation.
 - fusuae-unit-tester : this is meant for unit testing with fs uae, you could achieve the same results just copying the whole test directory into your real amiga. Inside this directory you will find a docker-compose.yml file that will build a docker image with fs uae and all the thing you need to run the tests. Of course you will have to add your own kickstart and SO files, more details about this in the [README](https://github.com/Ozzyboshi/AProcessing/blob/main/fusuae-unit-tester/README.md "README") file.
 - libs : where all the libs are located, you will have to include them in your project. Tested with vasm and Devpac.
 - tests : all the automated tests categorized by topic. Each subdirectory contains an "expected" subdirectory with contains the binary ram representation that each test is supposed to produce. The tests/testlibs is a special directory that contains the program to run the test.
