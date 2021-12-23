@@ -2,8 +2,8 @@
 ; Input:
 ;	- d0.w : First point X (0-319)
 ;	- d1.w : First point Y (0-255)
-;	- d5.w : Width in pixels
-;	- d6.w : Height in pixels
+;	- d5.w : Width in pixels -1 
+;	- d6.w : Height in pixels -1
 ; Output:
 ;   Nothing
 ;

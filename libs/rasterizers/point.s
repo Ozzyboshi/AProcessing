@@ -83,11 +83,24 @@ POINT_Q_10_6 MACRO
 	
 	ENDM
 
-POINT MACRO
-	and.l #$0000FFFF,d0
-	and.l #$0000FFFF,d1
-	move.w \1,d0
-	move.w \2,d1
+; POINT - Plots a point (CPU)
+; Input:
+;	- d0.w : Point X (0-319)
+;	- d1.w : Point Y (0-255)
+;
+; Output:
+;   Nothing
+;
+; Defines:
+; - USE_CLIPPING
+; - USE_DBLBUF
+;
+; Trashes:
+; - d0
+; - d1
+; - a0
+; - a1
+POINT:
 
 	bsr.w point_execute_transformation
 
@@ -99,10 +112,18 @@ POINT MACRO
 	lsr.w #3,d4
 	add.w d4,d1
 	not.b d0
-	lea SCREEN_0,a0
+	btst.b #0,STROKE_DATA
+	beq.s point_no_bpl_0
+	SETBITPLANE 0,a0
 	bset d0,(a0,d1.w)
+point_no_bpl_0:
+	btst.b #1,STROKE_DATA
+	beq.s point_no_bpl_1
+	SETBITPLANE 1,a0
+	bset d0,(a0,d1.w)
+point_no_bpl_1:
+	rts
 
-	ENDM
 
 ; place x into d0
 ;       y into d1
