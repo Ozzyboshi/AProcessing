@@ -56,6 +56,10 @@ blitfilllines -o //results.txt
 cd /
 cd /
 cd blittertests/drawpolygon
-drawpolygon
+drawpolygon -o //results.txt
+cd /
+cd /
+cd vectors/simpleops
+vectorssimpleops -o //results.txt
 cd /
 cd /

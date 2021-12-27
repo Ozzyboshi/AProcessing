@@ -58,4 +58,8 @@ cd blittertests/drawpolygon
 drawpolygon
 cd /
 cd /
+cd vectors/simpleops
+vectorssimpleops
+cd /
+cd /
 
