@@ -1,6 +1,31 @@
 ### CPU Drawing instructions
 
-- RECT - Draws a rectangle (CPU)
+- #### POINT - Plots a point (CPU)
+  Input:
+  - d0.w : Point X (0-319)
+  - d1.w : Point Y (0-255)
+
+  Output:
+    Nothing
+
+  Defines:
+  - USE_CLIPPING
+  - USE_DBLBUF
+
+  Trashes:
+  - d0
+  - d1
+  - a0
+  - a1
+
+  Example: Plot a point at coord X=5 and Y=5
+  ```
+  moveq #5,d0
+  moveq #5,d1
+  jsr POINT
+  ```
+
+- #### RECT - Draws a rectangle (CPU)
   Input:
   - d0.w : First point X (0-319)
   - d1.w : First point Y (0-255)
