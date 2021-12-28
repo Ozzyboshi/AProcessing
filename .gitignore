@@ -75,3 +75,4 @@ tests/results.txt
 tests/results.txt.uaem
 *.uaem
 build/
+*.o
