@@ -177,7 +177,7 @@ _vectorssimpleops_test7:
 _vectorssimpleops_test8:
   move.l               d2,-(sp)
 
-  ; vector 1 is 3,4
+  ; vector 1 is 5,6
   lea VECTOR2,a6
   moveq                #5,d0
   moveq                #6,d1
@@ -190,7 +190,7 @@ _vectorssimpleops_test8:
 _vectorssimpleops_test9:
   move.l               d2,-(sp)
 
-  ; vector 1 is 3,4
+  ; vector 1 is 10,11
   lea VECTOR1,a0
   moveq                #$A,d0
   moveq                #$B,d1
