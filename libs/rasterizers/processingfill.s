@@ -59,7 +59,7 @@ test_fill_carry:
 
   beq.s            fatto_bltcon1                                               ; se D1=0 salta..
   bset             #2,d2                                                       ; altrimenti setta il bit 2 di D2
-  fatto_bltcon1    :
+  fatto_bltcon1:
   move.w           d2,$42(a5)                                                  ; BLTCON1
 
   move.w           #0,$64(a5)                                                  ; BLTAMOD larghezza 20 words (40-40=0)

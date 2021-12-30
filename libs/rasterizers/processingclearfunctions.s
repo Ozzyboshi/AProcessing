@@ -7,26 +7,26 @@ CLEARFASTBITPLANES MACRO
 	ELSE
 	lea SCREEN_0,a0
 	lea SCREEN_1,a4
-	ENDIF
+	ENDC
 
     IFD VAMPIRE
     move.l #1279,d3
 	load #0,e0
-    ENDIF
+    ENDC
     IFND VAMPIRE
 	moveq #0,d0
     move.l #2560-1,d3
-    ENDIF
+    ENDC
 
 .clearfastbitplanesmacro:
     IFD VAMPIRE
     store e0,(a0)+
 	store e0,(a4)+
-    ENDIF
+    ENDC
     IFND VAMPIRE
     move.l d0,(a0)+
 	move.l d0,(a4)+
-    ENDIF
+    ENDC
 	dbra d3,.clearfastbitplanesmacro
 	ENDM
 
@@ -40,11 +40,11 @@ FILLFASTBITPLANES MACRO
     IFD VAMPIRE
     move.l #5*255,d3
 	load #$FFFFFFFFFFFFFFFF,e0
-    ENDIF
+    ENDC
     IFND VAMPIRE
 	move.l #$FFFFFFFF,d0
     move.l #2560-1,d3
-    ENDIF
+    ENDC
 
 	;move.l bitplane0,a1
 	;move.l bitplane1,a2
@@ -52,11 +52,11 @@ FILLFASTBITPLANES MACRO
     IFD VAMPIRE
     store e0,(a0)+
 	store e0,(a4)+
-    ENDIF
+    ENDC
     IFND VAMPIRE
     move.l d0,(a0)+
 	move.l d0,(a4)+
-    ENDIF
+    ENDC
 	;load (a0),e20
 	;load (a4),e21
 	;store e20,(a1)+
@@ -74,7 +74,7 @@ COPYBITPLANESANDCLEAR MACRO
 	ELSE
 	lea SCREEN_0,a0
 	lea SCREEN_1,a4
-	ENDIF
+	ENDC
 
 	move.l bitplane0,a1
 	move.l bitplane1,a2
@@ -104,7 +104,7 @@ PREPARESCREEN MACRO
 	ELSE
 	lea SCREEN_0,a0
 	lea SCREEN_1,a4
-	ENDIF
+	ENDC
 	
 	load #0,e0
 

@@ -28,7 +28,7 @@ SHEAR:
   move.l                                  #$00400000,OPERATOR1_TR_MATRIX_ROW2+4
   move.l                                  d2,OPERATOR1_TR_MATRIX_ROW3
   move.l                                  #$00000040,OPERATOR1_TR_MATRIX_ROW3+4
-  ENDIF
+  ENDC
   bsr.w                                   ammxmatrixmul3X3_q10_6
   IFD                                     VAMPIRE
   UPDATE_CURRENT_TRANSFORMATION_MATRIX    e13,e14,e15
@@ -42,6 +42,6 @@ SHEAR:
 
   move.l                                  OPERATOR3_TR_MATRIX_ROW3,(a0)+
   move.l                                  OPERATOR3_TR_MATRIX_ROW3+4,(a0)+
-  ENDIF
+  ENDC
   movem.l                                 (sp)+,d0-d2
   rts

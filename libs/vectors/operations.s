@@ -5,7 +5,7 @@
 ;   - address of the vector as first arg of the macro, can be a LABEL or register, in the latter case pass without brackets
 ; Output: nothing
 ; Trashes: nothing
-  MACRO     CREATE2DVECTOR
+CREATE2DVECTOR MACRO
   IFC '','\1'
   fail missing parameter!
   MEXIT
@@ -58,7 +58,7 @@
 ; Trashes:
 ;   - d0 (only on m68k mode)
 ;   - d1
-  MACRO     ADD2DVECTOR
+ADD2DVECTOR MACRO
   IFD       VAMPIRE
   LOAD      -4(a1),d1
   paddw     -4(a0),d1,d1
@@ -68,7 +68,7 @@
   move.w    2(a0),d1
   add.w     d0,(a1)
   add.w     d1,2(a1)
-  ENDIF
+  ENDC
   ENDM
 
 ; ADD2DVECTORSTATIC - add 2 2d vector and place the result in a third vector
@@ -80,7 +80,7 @@
 ; Trashes:
 ;   - d0 (only on m68k mode)
 ;   - d1
-  MACRO     ADD2DVECTORSTATIC
+ADD2DVECTORSTATIC MACRO
   IFD       VAMPIRE
   LOAD      -4(a1),d1
   paddw     -4(a0),d1,d1
@@ -92,7 +92,7 @@
   add.w     2(a1),d1
   move.w    d0,\1
   move.w    d1,2+\1
-  ENDIF
+  ENDC
   ENDM
 
 ; SUB2DVECTOR - subtract 2 2d vector and place the result in the second vector
@@ -104,7 +104,7 @@
 ; Trashes:
 ;   - d0
 ;   - d1 (only on m68k mode)
-  MACRO     SUB2DVECTOR
+SUB2DVECTOR MACRO
   IFD       VAMPIRE
   LOAD      -4(a0),d0
   psubw     -4(a1),d0,d0
@@ -116,7 +116,7 @@
   sub.w     2(a1),d1
   move.w    d0,(a1)
   move.w    d1,2(a1)
-  ENDIF
+  ENDC
   ENDM
 
 ; SUB2DVECTORSTATIC - subtract 2 2d vector and place the result in a third vector
@@ -128,7 +128,7 @@
 ; Trashes:
 ;   - d0
 ;   - d1 (only on m68k mode)
-  MACRO     SUB2DVECTORSTATIC
+SUB2DVECTORSTATIC MACRO
   IFD       VAMPIRE
   LOAD      -4(a0),d0
   psubw     -4(a1),d0,d0
@@ -140,7 +140,7 @@
   sub.w     2(a1),d1
   move.w    d0,\1
   move.w    d1,2+\1
-  ENDIF
+  ENDC
   ENDM
 
 ; MUL2DVECTOR - multiply 2 2d vector and place the result in the second vector
@@ -152,7 +152,7 @@
 ; Trashes:
 ;   - d0 (only on m68k mode)
 ;   - d1
-  MACRO     MUL2DVECTOR
+MUL2DVECTOR MACRO
   IFD       VAMPIRE
   LOAD      -4(a1),d1
   pmull     -4(a0),d1,d1
@@ -164,7 +164,7 @@
   muls.w    2(a1),d1
   move.w    d0,(a1)
   move.w    d1,2(a1)
-  ENDIF
+  ENDC
   ENDM
 
 ; MUL2DVECTORSTATIC - multiply 2 2d vector and place the result in a third vector
@@ -176,7 +176,7 @@
 ; Trashes:
 ;   - d0
 ;   - d1 (only on m68k mode)
-  MACRO     MUL2DVECTORSTATIC
+MUL2DVECTORSTATIC MACRO
   IFD       VAMPIRE
   LOAD      -4(a0),d0
   pmull     -4(a1),d0,d0
@@ -188,5 +188,5 @@
   muls.w    2(a1),d1
   move.w    d0,\1
   move.w    d1,2+\1
-  ENDIF
+  ENDC
   ENDM

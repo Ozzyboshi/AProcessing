@@ -48,11 +48,11 @@ SCALE:
   move.l                                  d2,(a0)+
   move.l                                  #$00000040,(a0)
     
-  ENDIF
+  ENDC
   bsr.w                                   ammxmatrixmul3X3_q10_6
   IFD                                     VAMPIRE
   UPDATE_CURRENT_TRANSFORMATION_MATRIX    e13,e14,e15
-  ENDIF
+  ENDC
   IFND                                    VAMPIRE
   lea                                     CURRENT_TRANSFORMATION_MATRIX(PC),a0
   move.l                                  OPERATOR3_TR_MATRIX_ROW1(PC),(a0)+
@@ -63,6 +63,6 @@ SCALE:
 
   move.l                                  OPERATOR3_TR_MATRIX_ROW3(PC),(a0)+
   move.l                                  4+OPERATOR3_TR_MATRIX_ROW3(PC),(a0)+
-  ENDIF
+  ENDC
   movem.l                                 (sp)+,d0-d2/a0
   rts
