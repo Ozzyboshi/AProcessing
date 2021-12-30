@@ -12,32 +12,27 @@ SHEAR:
   andi.l                                  #$0000FFFF,d1
   move.l                                  #$0040FFFF,d2
   move.w                                  d1,d2
-    	
-
 	; Transformation matrix is the Multiplicand
-  ;REG_LOADI                               0000,0040,0000,0000,e1
   vperm                                   #$CCCDEFCC,d0,d2,e1
   vperm                                   #$CC67CDCC,d0,d2,e2                      ; 0 0 d 0  - d is the vertical scaling factor
   REG_LOADI                               0000,0000,0000,0040,e3
-
-  ENDIF
-  IFND                                    VAMPIRE
+  ELSE
   LOAD_CURRENT_TRANSFORMATION_MATRIX      OPERATOR2_TR_MATRIX_ROW1
-  move.l                                  #$00000040,OPERATOR1_TR_MATRIX_ROW1
+  moveq                                   #0,d2
+  move.w                                  d2,OPERATOR1_TR_MATRIX_ROW1
+  move.w                                  #$0040,OPERATOR1_TR_MATRIX_ROW1+2
   move.w                                  d1,OPERATOR1_TR_MATRIX_ROW1+4
-  move.w                                  #$0000,OPERATOR1_TR_MATRIX_ROW1+6
-  move.w                                  #$0000,OPERATOR1_TR_MATRIX_ROW2
+  move.w                                  d2,OPERATOR1_TR_MATRIX_ROW1+6
+  move.w                                  d2,OPERATOR1_TR_MATRIX_ROW2
   move.w                                  d0,OPERATOR1_TR_MATRIX_ROW2+2
   move.l                                  #$00400000,OPERATOR1_TR_MATRIX_ROW2+4
-  move.l                                  #$00000000,OPERATOR1_TR_MATRIX_ROW3
+  move.l                                  d2,OPERATOR1_TR_MATRIX_ROW3
   move.l                                  #$00000040,OPERATOR1_TR_MATRIX_ROW3+4
-    
   ENDIF
   bsr.w                                   ammxmatrixmul3X3_q10_6
   IFD                                     VAMPIRE
   UPDATE_CURRENT_TRANSFORMATION_MATRIX    e13,e14,e15
-  ENDIF
-  IFND                                    VAMPIRE
+  ELSE
   lea                                     CURRENT_TRANSFORMATION_MATRIX,a0
   move.l                                  OPERATOR3_TR_MATRIX_ROW1,(a0)+
   move.l                                  OPERATOR3_TR_MATRIX_ROW1+4,(a0)+
