@@ -2,10 +2,49 @@
 ; Input: 
 ;   - d0.w: x value
 ;   - d1.w: y value
-;   - address of the vector as first arg of the macro
+;   - address of the vector as first arg of the macro, can be a LABEL or register, in the latter case pass without brackets
 ; Output: nothing
 ; Trashes: nothing
   MACRO     CREATE2DVECTOR
+  IFC '','\1'
+  fail missing parameter!
+  MEXIT
+  ENDC
+  IFC 'a0','\1'
+    move.w    d0,(\1)
+    move.w    d1,2(\1)
+    MEXIT
+  ENDC
+  IFC  'a1','\1'
+    move.w    d0,(\1)
+    move.w    d1,2(\1)
+    MEXIT
+  ENDC
+  IFC  'a2','\1'
+    move.w    d0,(\1)
+    move.w    d1,2(\1)
+    MEXIT
+  ENDC
+  IFC  'a3','\1'
+    move.w    d0,(\1)
+    move.w    d1,2(\1)
+    MEXIT
+  ENDC
+  IFC  'a4','\1'
+    move.w    d0,(\1)
+    move.w    d1,2(\1)
+    MEXIT
+  ENDC
+  IFC  'a5','\1'
+    move.w    d0,(\1)
+    move.w    d1,2(\1)
+    MEXIT
+  ENDC
+  IFC  'a6','\1'
+    move.w    d0,(\1)
+    move.w    d1,2(\1)
+    MEXIT
+  ENDC
   move.w    d0,\1
   move.w    d1,2+\1
   ENDM

@@ -76,3 +76,5 @@ tests/results.txt.uaem
 *.uaem
 build/
 *.o
+tests/vectors/simpleops/vectorssimpleops
+tests/vectors/simpleops/vectorssimpleopsvampire
