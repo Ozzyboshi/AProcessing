@@ -71,4 +71,15 @@
   moveq                #3,d0
   moveq                #4,d1
   CREATE2DVECTOR       VECTOR1    
-```
+  ```
+  
+  Example: Create a new 2d vector with x=10 and y=11 using addr register
+  ```
+  VECTOR1:
+  dc.l                 0
+  ...
+  lea VECTOR1,a0
+  moveq                #$A,d0
+  moveq                #$B,d1
+  CREATE2DVECTOR       a0
+  ```
