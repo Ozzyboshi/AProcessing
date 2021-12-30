@@ -48,4 +48,27 @@
     move.w            #2,d6
     
     jsr               RECT
+  ```
+
+### Vector instructions
+
+#### CREATE2DVECTOR - Create (or better, initializes) a 2d vector
+ Input: 
+   - d0.w: x value
+   - d1.w: y value
+   - address of the vector as first arg of the macro
+   - 
+ Output: nothing
+ 
+ Trashes: nothing
+ 
+ Example: Create a new 2d vector with x=3 and y=4
+  ```
+  VECTOR1:
+  dc.l                 0
+  ...
+  ; vector 1 is 3,4
+  moveq                #3,d0
+  moveq                #4,d1
+  CREATE2DVECTOR       VECTOR1    
 ```
