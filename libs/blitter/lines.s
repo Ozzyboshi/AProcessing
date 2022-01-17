@@ -453,6 +453,7 @@ DL_MInterns = $CA
 DL_MInterns = $4A
           ENDC
 
+  IFD EXTRA_BLIT_ALGOS
 ;­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­
 ;	A0 = PlanePtr, A6 = $DFF002, D0/D1 = X0/Y0, D2/D3 = X1/Y1
 ;	D4 = PlaneWidth > Kills: D0-D4/A0-A1 (+D5 in Fill Mode)
@@ -679,7 +680,7 @@ DrawLine3:
           move.w         d1,$DFF058
 
           rts
-
+  ENDC
 
 
 
@@ -695,7 +696,7 @@ DrawLine3:
 ; D3 - Y2 (coord. Y di P2)
 ; A0 - indirizzo bitplane
 ;******************************************************************************
-
+;
 ;	   ("`-/")_.-'"``-._
 ;	    . . `; -._    )-;-,_`)
 ;	   (v_,)'  _  )`-.\  ``-'
@@ -825,12 +826,12 @@ Fill_From_A_to_B:
 
           tst.w          d0                                  ; testa D0 per decidere il tipo di fill
           bne.s          Fill_From_A_to_B_fill_esclusivo
-          move.w         #$000a,d2                           ; valore di BLTCON1: settati i bit del
+          moveq          #$000a,d2                           ; valore di BLTCON1: settati i bit del
 					; fill inclusivo e del modo discendente
           bra.s          Fill_From_A_to_B_test_fill_carry
 
 Fill_From_A_to_B_fill_esclusivo:
-          move.w         #$0012,d2                           ; valore di BLTCON1: settati i bit del
+          moveq          #$0012,d2                           ; valore di BLTCON1: settati i bit del
 					; fill esclusivo e del modo discendente
 
 Fill_From_A_to_B_test_fill_carry:

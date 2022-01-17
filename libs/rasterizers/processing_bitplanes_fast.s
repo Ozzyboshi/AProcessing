@@ -22,6 +22,10 @@ SWAP_BPL MACRO
     SECTION ".data_chip",data
     ENDC
 
+    IFD USE_BPL_SECTION
+    SECTION BITPLANES,DATA_C
+    ENDIF
+
 SCREEN_0
     dcb.b 40*256,$00
 
