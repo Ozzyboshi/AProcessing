@@ -140,155 +140,41 @@ BLITTRIANGLE:
           move.w         d5,(a0)+
           move.w         d6,(a0)
 
-          ; source
-          btst           #0,FILL_DATA
-          beq.w          .xblitnobpl0
-          move.l         a4,a0
-
-          ; destination
+            ; destination
           SETBITPLANE    0,a1
-          bsr.w          Fill_From_A_to_B
 
-          ; if fill data != stroke data delete the stroke
-          btst.b         #0,STROKE_DATA
-          bne.s          .xblitnobpl0
-          bsr.w          InitLine
-          moveq          #0,d0
-          bsr.w          SetPattern
-          move.w         VERTEX_LIST_2D_1(PC),d0
-          move.w         2+VERTEX_LIST_2D_1(PC),d1
-          move.w         VERTEX_LIST_2D_2(PC),d2
-          move.w         2+VERTEX_LIST_2D_2(PC),d3
-          SETBITPLANE    0,a0
-          bsr.w          Drawline
-          move.w         VERTEX_LIST_2D_1(PC),d0
-          move.w         2+VERTEX_LIST_2D_1(PC),d1
-          move.w         VERTEX_LIST_2D_3(PC),d2
-          move.w         2+VERTEX_LIST_2D_3(PC),d3
-
-          SETBITPLANE    0,a0
-          bsr.w          Drawline
-
-          move.w         VERTEX_LIST_2D_2(PC),d0
-          move.w         2+VERTEX_LIST_2D_2(PC),d1
-          move.w         VERTEX_LIST_2D_3(PC),d2
-          move.w         2+VERTEX_LIST_2D_3(PC),d3
-          SETBITPLANE    0,a0
-          bsr.w          Drawline
-          bra.w          .xblitnobpl0_stroke
-                   ; end of stroke delete
-
-.xblitnobpl0:
-          btst.b         #0,STROKE_DATA
-          beq.w          .xblitnobpl0_stroke
-          bsr.w          InitLine                            ; inizializza line-mode
-
-          moveq          #-1,d0                              ; linea continua
-          bsr.w          SetPattern
-
-          move.w         VERTEX_LIST_2D_1(PC),d0
-          move.w         2+VERTEX_LIST_2D_1(PC),d1
-          move.w         VERTEX_LIST_2D_2(PC),d2
-          move.w         2+VERTEX_LIST_2D_2(PC),d3
-                    ; destination
-          SETBITPLANE    0,a0
-          bsr.w          DrawlineOr
-
-          move.w         VERTEX_LIST_2D_1(PC),d0
-          move.w         2+VERTEX_LIST_2D_1(PC),d1
-          move.w         VERTEX_LIST_2D_3(PC),d2
-          move.w         2+VERTEX_LIST_2D_3(PC),d3
-
-          SETBITPLANE    0,a0
-          bsr.w          DrawlineOr
-
-          move.w         VERTEX_LIST_2D_2(PC),d0
-          move.w         2+VERTEX_LIST_2D_2(PC),d1
-          move.w         VERTEX_LIST_2D_3(PC),d2
-          move.w         2+VERTEX_LIST_2D_3(PC),d3
-          SETBITPLANE    0,a0
-          bsr.w          DrawlineOr
-
-.xblitnobpl0_stroke:
-          btst           #1,FILL_DATA
-          beq.w          .xblitnobpl1
           move.l         a4,a0
-          ; destination
-          SETBITPLANE    1,a1
-
-          ; restore rect points into regs
-          moveq.l        #0,d0                               ; inclusive
-          moveq.l        #0,d1                               ; CARRYIN = 0
-          move.w         BLITTRIGSAVE(PC),d3
-          move.w         2+BLITTRIGSAVE(PC),d4
-          move.w         4+BLITTRIGSAVE(PC),d5
-          move.w         6+BLITTRIGSAVE(PC),d6
-
+          lea OFFBITPLANEMEM2,a1
           bsr.w          Fill_From_A_to_B
 
-                    ; if fill data != stroke data delete the stroke
-          btst.b         #1,STROKE_DATA
-          bne.s          .xblitnobpl1
-          bsr.w          InitLine
-          moveq          #0,d0
-          bsr.w          SetPattern
-          move.w         VERTEX_LIST_2D_1(PC),d0
-          move.w         2+VERTEX_LIST_2D_1(PC),d1
-          move.w         VERTEX_LIST_2D_2(PC),d2
-          move.w         2+VERTEX_LIST_2D_2(PC),d3
-          SETBITPLANE    1,a0
-          bsr.w          Drawline
-          move.w         VERTEX_LIST_2D_1(PC),d0
-          move.w         2+VERTEX_LIST_2D_1(PC),d1
-          move.w         VERTEX_LIST_2D_3(PC),d2
-          move.w         2+VERTEX_LIST_2D_3(PC),d3
-
-          SETBITPLANE    1,a0
-          bsr.w          Drawline
-
-          move.w         VERTEX_LIST_2D_2(PC),d0
-          move.w         2+VERTEX_LIST_2D_2(PC),d1
-          move.w         VERTEX_LIST_2D_3(PC),d2
-          move.w         2+VERTEX_LIST_2D_3(PC),d3
-          SETBITPLANE    1,a0
-          bsr.w          Drawline
-          bra.w          .xblitnobpl1_stroke
-          ; end of stroke delete
-
-.xblitnobpl1:
-          btst.b         #1,STROKE_DATA
-          beq.w          .xblitnobpl1_stroke
-
+          
           bsr.w          InitLine                            ; inizializza line-mode
 
           moveq          #-1,d0                              ; linea continua
           bsr.w          SetPattern
 
-          move.w         VERTEX_LIST_2D_1(PC),d0
-          move.w         2+VERTEX_LIST_2D_1(PC),d1
-          move.w         VERTEX_LIST_2D_2(PC),d2
-          move.w         2+VERTEX_LIST_2D_2(PC),d3
-          SETBITPLANE    1,a0
+          move.l         a4,a0
+          move.w         VERTEX_LIST_2D_1(PC),d0             ; x1
+          move.w         2+VERTEX_LIST_2D_1(PC),d1           ; y1
+          move.w         VERTEX_LIST_2D_2(PC),d2             ; x2
+          move.w         2+VERTEX_LIST_2D_2(PC),d3           ; y2
           bsr.w          DrawlineOr
 
-          move.w         VERTEX_LIST_2D_1(PC),d0
-          move.w         2+VERTEX_LIST_2D_1(PC),d1       
-          move.w         VERTEX_LIST_2D_3(PC),d2
-          move.w         2+VERTEX_LIST_2D_3(PC),d3
-          SETBITPLANE    1,a0
-
+          move.l         a4,a0
+          move.w         VERTEX_LIST_2D_1(PC),d0             ; x1
+          move.w         2+VERTEX_LIST_2D_1(PC),d1           ; y1
+          move.w         VERTEX_LIST_2D_3(PC),d2             ; x2
+          move.w         2+VERTEX_LIST_2D_3(PC),d3           ; y2
           bsr.w          DrawlineOr
 
+          move.l         a4,a0
           move.w         VERTEX_LIST_2D_2(PC),d0             ; x1
-          move.w         2+VERTEX_LIST_2D_2(PC),d1       
-          move.w         VERTEX_LIST_2D_3(PC),d2             ; x1
-          move.w         2+VERTEX_LIST_2D_3(PC),d3
-          SETBITPLANE    1,a0
-
+          move.w         2+VERTEX_LIST_2D_2(PC),d1           ; y1
+          move.w         VERTEX_LIST_2D_3(PC),d2             ; x2
+          move.w         2+VERTEX_LIST_2D_3(PC),d3           ; y2
           bsr.w          DrawlineOr
-.xblitnobpl1_stroke:
 
-          bsr.w          Fill_From_A_to_B_Clear
+          bsr.w          Blit_From_AB_to_D_Copy
 
           rts
 
@@ -438,6 +324,8 @@ SetPattern:
           move.w         d0,$72(a5)                          ; BLTBDAT = pattern della linea!
           rts
 
+  IFD EXTRA_BLIT_ALGOS
+
 *******************************************************************************
 *									      *
 *			'DrawLine V1.01' By TIP/SPREADPOINT		      *
@@ -453,7 +341,6 @@ DL_MInterns = $CA
 DL_MInterns = $4A
           ENDC
 
-  IFD EXTRA_BLIT_ALGOS
 ;­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­
 ;	A0 = PlanePtr, A6 = $DFF002, D0/D1 = X0/Y0, D2/D3 = X1/Y1
 ;	D4 = PlaneWidth > Kills: D0-D4/A0-A1 (+D5 in Fill Mode)
@@ -810,7 +697,8 @@ OK1_FILL:
 ; Durante la copia viene effettuato anche il riempmento. Il tipo di riempimento
 ; e` specificato tramite i parametri.
 ; I parametri sono:
-; A0 - indirizzo destinazione
+; A0 - Indirizzo sorgente
+; A1 - indirizzo destinazione
 ; D0 - se vale 0 allora effettua fill inclusivo, altrimenti fa fill esclusivo
 ; D1 - se vale 0 allora effettua FILL_CARRYIN=0, altrimenti FILL_CARRYIN=1
 ;****************************************************************************
@@ -862,17 +750,17 @@ Fill_From_A_to_B_fatto_bltcon1:
           sub.w          #40,d6
           neg            d6
           move.w         d6,FILL_ADDR_DMOD
-                   ;move.w         d6,$62(a5) ; bltbmod only for OR Mode
           move.w         d6,$64(a5)                          ; BLTAMOD larghezza 2 words (40-4=36)
           move.w         d6,$66(a5)                          ; BLTAMOD larghezza 2 words (40-4=36)
 
 
-          move.w         d0,d6                               ; alessio
+          move.w         d0,d6
           sub.w          d4,d6
-                   ; blitting 0 vertical lines proably means blit 1024 (the max) we dont want this so add 1
-          bne.s          Fill_From_A_to_B_novertical
-          moveq          #1,d6
-Fill_From_A_to_B_novertical:
+          addq #1,d6
+          ; blitting 0 vertical lines proably means blit 1024 (the max) we dont want this so add 1
+          ;bne.s          Fill_From_A_to_B_novertical
+          ;moveq          #1,d6
+;Fill_From_A_to_B_novertical:
           move.w         d6,d4                               ; save the Y difference into d4
           muls.w         #40,d0
           move.l         a0,a3
@@ -880,13 +768,17 @@ Fill_From_A_to_B_novertical:
           add.w          d5,d5
           adda.w         d5,a3
           move.l         a3,FILL_ADDR_CACHE
-          move.l         a3,$50(a5)
+          move.l         a3,$50(a5) ; BPLAPTR
+          ; save offset
+          suba.l         a0,a3
+          ;          DEBUG 1234
+
+          move.w         a3,FILL_ADDR_OFFSET
     
           move.l         a1,a3
           adda.w         d0,a3
           adda.w         d5,a3
-                   ;move.l         a3,$4c(a5) ; BLTBPTH (only for OR)
-          move.l         a3,$54(a5)
+          move.l         a3,$54(a5) ; BPLDPTR
     
     ;start bltsize calc
           moveq.l        #0,d6
@@ -898,19 +790,153 @@ Fill_From_A_to_B_novertical:
           rts
   ;end experiment
 
-FILL_ADDR_CACHE:
-          dc.l           0
+
+FILL_ADDR_OFFSET:
+          dc.w           0
 FILL_ADDR_SIZE:
           dc.w           0
 FILL_ADDR_DMOD:
           dc.w           0
-Fill_From_A_to_B_Clear:
+
+
+;/***************************************************/
+;/**** START OF DRAWING ROUTINE !!!!! ***/
+;/***********************************/
+Blit_From_AB_to_D_Copy:
+          lea            $dff000,a5
+
+          ; now we must calculate blt0con according to what we want to draw
+          GET_FILL       d0
+          GET_STROKE     d1
+          DEBUG 1235
+
+          and.w #1,d0
+          and.w #1,d1
+          lsl.w #1,d1
+          or.w d0,d1
+
+          ;if d1 == 0 we dont want to write anything, we can skip
+          ;if d1 == 1 we just need to write the fill part, the formula will be D = B-A
+          ;if d1 == 2 we just want to stroke, the formula will be D = A
+          ;if d1 == 3 we write anything,the formula will be D = A+B
+          beq.s Blit_From_AB_to_D_Copy_bpl2
+          cmpi.w #1,d1
+          bne.s Blit_From_AB_to_D_Copy_1_1
+          move.w #$0d0c,d2
+          bra.s Blit_From_AB_to_D_Copy_bpl1
+Blit_From_AB_to_D_Copy_1_1:
+          cmpi.w #2,d1
+          bne.s Blit_From_AB_to_D_Copy_1_2
+          move.w #$09F0,d2
+          bra.s Blit_From_AB_to_D_Copy_bpl1
+Blit_From_AB_to_D_Copy_1_2:
+          move.w #$0dfc,d2
+
+
+Blit_From_AB_to_D_Copy_bpl1:
+          moveq          #0,d0
+          move.w         FILL_ADDR_OFFSET(PC),d0
+          
+          move.w         FILL_ADDR_DMOD(PC),d1
+
           WAITBLITTER
-          move.w         #$0100,$40(a5)
+
+          move.w         d2,$40(a5)
           move.w         #$0002,$42(a5)
-          move.w         FILL_ADDR_DMOD(PC),$66(a5)
-          move.l         FILL_ADDR_CACHE(PC),$54(a5)
+
+          ; Addresses
+          lea            OFFBITPLANEMEM,a0
+          adda.l         d0,a0
+          move.l         a0,$50(a5) ; APTR
+
+          lea            OFFBITPLANEMEM2,a0
+          adda.l         d0,a0
+          move.l         a0,$4c(a5) ; BPTR
+
+
+          SETBITPLANE    0,a0
+          adda.l         d0,a0
+          move.l         a0,$54(a5) ; DPTR
+
+          move.w         d1,$64(a5) ; AMOD
+          move.w         d1,$62(a5) ; BMOD
+          move.w         d1,$66(a5) ; DMOD
+
           move.w         FILL_ADDR_SIZE(PC),$58(a5)
+
+          ; START OF SECOND BITPLANE!!!!
+Blit_From_AB_to_D_Copy_bpl2:
+          GET_FILL       d0
+          GET_STROKE     d1
+          DEBUG 1235
+
+          and.w #2,d0
+          and.w #2,d1
+          lsr.w #1,d0
+          or.w d0,d1
+          beq.s Blit_From_AB_to_D_Copy_bpl2_del
+          cmpi.w #1,d1
+          bne.s Blit_From_AB_to_D_Copy_2_1
+          move.w #$0d0c,d2
+          bra.s Blit_From_AB_to_D_Copy_bpl2_end
+Blit_From_AB_to_D_Copy_2_1:
+          cmpi.w #2,d1
+          bne.s Blit_From_AB_to_D_Copy_2_2
+          move.w #$09F0,d2
+          bra.s Blit_From_AB_to_D_Copy_bpl2_end
+Blit_From_AB_to_D_Copy_2_2:
+          move.w #$0dfc,d2
+Blit_From_AB_to_D_Copy_bpl2_end:
+          moveq          #0,d0
+          move.w         FILL_ADDR_OFFSET(PC),d0
+          move.w         FILL_ADDR_DMOD(PC),d1
+          WAITBLITTER
+
+          move.w         d2,$40(a5)
+          move.w         #$0002,$42(a5)
+
+          move.w         d1,$64(a5) ; AMOD
+          move.w         d1,$62(a5) ; BMOD
+          move.w         d1,$66(a5) ; DMOD
+
+          ; Addresses
+          lea            OFFBITPLANEMEM,a0
+          adda.l         d0,a0
+          move.l         a0,$50(a5) ; APTR
+
+          lea            OFFBITPLANEMEM2,a0
+          adda.l         d0,a0
+          move.l         a0,$4c(a5) ; BPTR
+
+
+          SETBITPLANE    1,a0
+          adda.l         d0,a0
+          move.l         a0,$54(a5) ; DPTR
+
+          move.w         FILL_ADDR_SIZE(PC),$58(a5)
+
+          ; DELETE TMP MEM 1!!!
+Blit_From_AB_to_D_Copy_bpl2_del:
+          moveq          #0,d0
+          move.w         FILL_ADDR_OFFSET(PC),d0
+          WAITBLITTER
+
+          move.w         #$0100,$40(a5)
+
+          lea            OFFBITPLANEMEM,a0
+          adda.l         d0,a0
+          move.l         a0,$54(a5) ; APTR
+          move.w         FILL_ADDR_SIZE(PC),$58(a5)
+
+          ; DELETE TMP MEM 1!!!
+          WAITBLITTER
+
+          lea            OFFBITPLANEMEM2,a0
+          adda.l         d0,a0
+          move.l         a0,$54(a5) ; APTR
+          move.w         FILL_ADDR_SIZE(PC),$58(a5)
+
+
           rts
 
 DrawlineOr:
@@ -1014,4 +1040,14 @@ OK1OR:
           move.l         a0,$48(a5)                          ; BLTCPT - indirizzo schermo
           move.l         a0,$54(a5)                          ; BLTDPT - indirizzo schermo
           move.w         d1,$58(a5)                          ; BLTSIZE
+          rts
+FILL_ADDR_CACHE:
+          dc.l           0
+Fill_From_A_to_B_Clear:
+          WAITBLITTER
+          move.w         #$0100,$40(a5)
+          move.w         #$0002,$42(a5)
+          move.w         FILL_ADDR_DMOD(PC),$66(a5)
+          move.l         FILL_ADDR_CACHE(PC),$54(a5)
+          move.w         FILL_ADDR_SIZE(PC),$58(a5)
           rts

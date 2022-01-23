@@ -15,9 +15,15 @@ STROKE MACRO
                         ENDC
                         move.b                      \1,STROKE_DATA
                         ENDM
+GET_STROKE MACRO
+                        move.b                      STROKE_DATA,\1
+                        ENDM
 
 FILL MACRO
                         move.b                      \1,FILL_DATA
+                        ENDM
+GET_FILL MACRO
+                        move.b                       FILL_DATA,\1
                         ENDM
 
 ENABLE_CLIPPING_VAMPIRE MACRO
@@ -116,3 +122,14 @@ MINMAXDX MACRO
 
 FILLTABLE_FRAME_MIN_Y:  dc.w                        -1
 FILLTABLE_FRAME_MAX_Y:  dc.w                        0
+
+DEBUG MACRO
+  clr.w                  $100
+  move.w                 #$\1,d3
+  ENDM
+
+DEBUG2 MACRO
+  clr.w                  $101
+  move.w                 #$\1,d3
+  ENDM
+
