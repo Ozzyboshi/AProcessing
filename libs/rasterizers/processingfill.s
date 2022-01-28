@@ -438,13 +438,13 @@ ammx_fill_table_end_clip:
 ; - USE_DBLBUF
 ;
 ; Trashes:
-;   - d0
-;   - d2
+; - d0
+; - d2
 ;	- d3
 ;	- d4
 ;	- d6
 ;	- d7
-; 	- a3
+; - a3
 ammx_fill_table_single_line:
   move.l           d5,-(sp)                                                    ; stack save
 

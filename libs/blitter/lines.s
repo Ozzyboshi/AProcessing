@@ -771,15 +771,14 @@ Fill_From_A_to_B_fatto_bltcon1:
           move.l         a3,$50(a5) ; BPLAPTR
           ; save offset
           suba.l         a0,a3
-          ;          DEBUG 1234
 
           move.w         a3,FILL_ADDR_OFFSET
-    
+
           move.l         a1,a3
           adda.w         d0,a3
           adda.w         d5,a3
           move.l         a3,$54(a5) ; BPLDPTR
-    
+
     ;start bltsize calc
           moveq.l        #0,d6
           move.w         d4,d6
@@ -799,46 +798,64 @@ FILL_ADDR_DMOD:
           dc.w           0
 
 
-;/***************************************************/
-;/**** START OF DRAWING ROUTINE !!!!! ***/
-;/***********************************/
+
+; Blit_From_AB_to_D_Copy - Copy a figure from off bitplane mem to another location
+; Input:
+;	- OFFBITPLANEMEM.w : Mem address of the stroke
+;	- OFFBITPLANEMEM2.w : Mem address of the filled figure
+; - FILL_ADDR_OFFSET.w : where to start blitting, offset from the above addresses (bottom right position of the figure)
+; Output:
+;   Nothing
+;
+; Defines:
+; - USE_OR_BLIT
+;
+; Trashes:
+; - d0
+; - d1
+;	- d2
+;	- a0
+;	- a1
+;	- a5
+; - a3
 Blit_From_AB_to_D_Copy:
           lea            $dff000,a5
 
           ; now we must calculate blt0con according to what we want to draw
           GET_FILL       d0
           GET_STROKE     d1
-          DEBUG 1235
 
-          and.w #1,d0
-          and.w #1,d1
-          lsl.w #1,d1
-          or.w d0,d1
+          andi.w         #1,d0
+          and.w          #1,d1
+          lsl.w          #1,d1
+          or.w           d0,d1
 
           ;if d1 == 0 we dont want to write anything, we can skip
           ;if d1 == 1 we just need to write the fill part, the formula will be D = B-A
           ;if d1 == 2 we just want to stroke, the formula will be D = A
           ;if d1 == 3 we write anything,the formula will be D = A+B
-          beq.s Blit_From_AB_to_D_Copy_bpl2
-          cmpi.w #1,d1
-          bne.s Blit_From_AB_to_D_Copy_1_1
-          move.w #$0d0c,d2
-          bra.s Blit_From_AB_to_D_Copy_bpl1
+          beq.w          Blit_From_AB_to_D_Copy_bpl2
+          cmpi.w         #1,d1
+          bne.s          Blit_From_AB_to_D_Copy_1_1
+          move.w         #$0d0c,d2
+          bra.s          Blit_From_AB_to_D_Copy_bpl1
 Blit_From_AB_to_D_Copy_1_1:
-          cmpi.w #2,d1
-          bne.s Blit_From_AB_to_D_Copy_1_2
-          move.w #$09F0,d2
-          bra.s Blit_From_AB_to_D_Copy_bpl1
+          cmpi.w         #2,d1
+          bne.s          Blit_From_AB_to_D_Copy_1_2
+          move.w         #$09F0,d2
+          bra.s          Blit_From_AB_to_D_Copy_bpl1
 Blit_From_AB_to_D_Copy_1_2:
-          move.w #$0dfc,d2
-
+          move.w         #$0dfc,d2
 
 Blit_From_AB_to_D_Copy_bpl1:
           moveq          #0,d0
           move.w         FILL_ADDR_OFFSET(PC),d0
-          
+
           move.w         FILL_ADDR_DMOD(PC),d1
 
+          IFD USE_OR_BLIT
+          ori.w          #$2AA,d2    ; apply OR if needed
+          ENDC
           WAITBLITTER
 
           move.w         d2,$40(a5)
@@ -857,6 +874,10 @@ Blit_From_AB_to_D_Copy_bpl1:
           SETBITPLANE    0,a0
           adda.l         d0,a0
           move.l         a0,$54(a5) ; DPTR
+          IFD USE_OR_BLIT
+          move.l         a0,$48(a5) ; CPTR
+          move.w         d1,$60(a5) ; CMOD
+          ENDC
 
           move.w         d1,$64(a5) ; AMOD
           move.w         d1,$62(a5) ; BMOD
@@ -868,28 +889,32 @@ Blit_From_AB_to_D_Copy_bpl1:
 Blit_From_AB_to_D_Copy_bpl2:
           GET_FILL       d0
           GET_STROKE     d1
-          DEBUG 1235
 
-          and.w #2,d0
-          and.w #2,d1
-          lsr.w #1,d0
-          or.w d0,d1
-          beq.s Blit_From_AB_to_D_Copy_bpl2_del
-          cmpi.w #1,d1
-          bne.s Blit_From_AB_to_D_Copy_2_1
-          move.w #$0d0c,d2
-          bra.s Blit_From_AB_to_D_Copy_bpl2_end
+          andi.w         #2,d0
+          andi.w         #2,d1
+          lsr.w          #1,d0
+          or.w           d0,d1
+          beq.w          Blit_From_AB_to_D_Copy_bpl2_del
+          cmpi.w         #1,d1
+          bne.s          Blit_From_AB_to_D_Copy_2_1
+          move.w         #$0d0c,d2
+          bra.s          Blit_From_AB_to_D_Copy_bpl2_end
 Blit_From_AB_to_D_Copy_2_1:
-          cmpi.w #2,d1
-          bne.s Blit_From_AB_to_D_Copy_2_2
-          move.w #$09F0,d2
-          bra.s Blit_From_AB_to_D_Copy_bpl2_end
+          cmpi.w         #2,d1
+          bne.s          Blit_From_AB_to_D_Copy_2_2
+          move.w         #$09F0,d2
+          bra.s          Blit_From_AB_to_D_Copy_bpl2_end
 Blit_From_AB_to_D_Copy_2_2:
-          move.w #$0dfc,d2
+          move.w         #$0dfc,d2
 Blit_From_AB_to_D_Copy_bpl2_end:
           moveq          #0,d0
           move.w         FILL_ADDR_OFFSET(PC),d0
           move.w         FILL_ADDR_DMOD(PC),d1
+
+          IFD USE_OR_BLIT
+          ori.w          #$2AA,d2    ; apply OR if needed
+          ENDC
+
           WAITBLITTER
 
           move.w         d2,$40(a5)
@@ -908,10 +933,14 @@ Blit_From_AB_to_D_Copy_bpl2_end:
           adda.l         d0,a0
           move.l         a0,$4c(a5) ; BPTR
 
-
           SETBITPLANE    1,a0
           adda.l         d0,a0
           move.l         a0,$54(a5) ; DPTR
+
+          IFD USE_OR_BLIT
+          move.l         a0,$48(a5) ; CPTR
+          move.w         d1,$60(a5) ; CMOD
+          ENDC
 
           move.w         FILL_ADDR_SIZE(PC),$58(a5)
 
@@ -928,14 +957,13 @@ Blit_From_AB_to_D_Copy_bpl2_del:
           move.l         a0,$54(a5) ; APTR
           move.w         FILL_ADDR_SIZE(PC),$58(a5)
 
-          ; DELETE TMP MEM 1!!!
+          ; DELETE TMP MEM 2!!!
           WAITBLITTER
 
           lea            OFFBITPLANEMEM2,a0
           adda.l         d0,a0
           move.l         a0,$54(a5) ; APTR
           move.w         FILL_ADDR_SIZE(PC),$58(a5)
-
 
           rts
 
