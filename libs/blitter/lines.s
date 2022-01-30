@@ -653,10 +653,9 @@ DRAWL_FILL:
           subq.w         #8,d1                               ; e rendi il numero del bit < 7
 NonCorreggi:
           not.b          d1                                  ; inverti la numerazione dei bit
-				; questa istruzione e` necessaria perche`
-				; all'interno del byte i bit sono numerati 
-				; da destra a sinistra, mentre le coordinate
-				; dei pixel vanno da sinistra a destra
+
+          WAITBLITTER
+          
           bchg           d1,(a1)                             ; inverti il primo pixel della linea
 
           move.w         d2,d1                               ; copia DX in D1
@@ -666,8 +665,6 @@ NonCorreggi:
 
           lsl.w          #$02,d3                             ; D3=4*DY
           add.w          d2,d2                               ; D2=2*DX
-
-          WAITBLITTER
 
           move.w         d3,$62(a5)                          ; BLTBMOD=4*DY
           sub.w          d2,d3                               ; D3=4*DY-2*DX
