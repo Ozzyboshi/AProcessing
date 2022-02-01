@@ -46,7 +46,7 @@ _blitfillline_test1:
   jsr                   InitLine                                                   ; inizializza line-mode
 
   move.w                #$ffff,d0                                                  ; linea continua
-  jsr                   SetPattern                                                 ; definisce pattern
+  SETPATTERN                                                 ; definisce pattern
 
   MOVE.W                #%1000001111000000,$96(a5)
 
@@ -72,7 +72,7 @@ _blitfillline_test2:
   jsr                   InitLine                                                   ; inizializza line-mode
 
   move.w                #$ffff,d0                                                  ; linea continua
-  jsr                   SetPattern                                                 ; definisce pattern
+  SETPATTERN                                                 ; definisce pattern
 
   MOVE.W                #%1000001111000000,$96(a5)
 
@@ -96,7 +96,7 @@ _blitfillline_test3:
   jsr                   InitLine                                                   ; inizializza line-mode
 
   move.w                #$ffff,d0                                                  ; linea continua
-  jsr                   SetPattern                                                 ; definisce pattern
+  SETPATTERN                                                 ; definisce pattern
 
   MOVE.W                #%1000001111000000,$96(a5)
 
@@ -153,7 +153,7 @@ _blitfillline_test4:
   jsr                   InitLine                                                   ; inizializza line-mode
 
   move.w                #$ffff,d0                                                  ; linea continua
-  jsr                   SetPattern                                                 ; definisce pattern
+  SETPATTERN                                                 ; definisce pattern
 
   MOVE.W                #%1000001111000000,$96(a5)
 
@@ -209,7 +209,7 @@ _blitfillline_test5:
   jsr                   InitLine                                                   ; inizializza line-mode
 
   move.w                #$ffff,d0                                                  ; linea continua
-  jsr                   SetPattern                                                 ; definisce pattern
+  SETPATTERN                                                 ; definisce pattern
 
   MOVE.W                #%1000001111000000,$96(a5)
 
@@ -288,7 +288,7 @@ _blitfillline_test6:
   jsr                   InitLine                                                   ; inizializza line-mode
 
   move.w                #$ffff,d0                                                  ; linea continua
-  jsr                   SetPattern                                                 ; definisce pattern
+  SETPATTERN                                                 ; definisce pattern
 
   MOVE.W                #%1000001111000000,$96(a5)
 
@@ -368,7 +368,7 @@ _blitfillline_test7:
   jsr                   InitLine                                                   ; inizializza line-mode
 
   move.w                #$ffff,d0                                                  ; linea continua
-  jsr                   SetPattern                                                 ; definisce pattern
+  SETPATTERN                                                 ; definisce pattern
 
   MOVE.W                #%1000001111000000,$96(a5)
 
@@ -446,7 +446,7 @@ _blitfillline_test8:
   jsr                   InitLine                                                   ; inizializza line-mode
 
   move.w                #$ffff,d0                                                  ; linea continua
-  jsr                   SetPattern                                                 ; definisce pattern
+  SETPATTERN                                                 ; definisce pattern
 
   MOVE.W                #%1000001111000000,$96(a5)
 
@@ -498,7 +498,7 @@ _blitfillline_test8:
   jsr                   InitLine                                                   ; inizializza line-mode
 
   move.w                #$ffff,d0                                                  ; linea continua
-  jsr                   SetPattern  
+  SETPATTERN  
 
   lea                   SCREEN_1,a0
    move.w                #8,d0                                                     ; x1

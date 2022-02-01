@@ -16,12 +16,20 @@ VERTEX2D_INIT      MACRO
           move.w         \3,VERTEX_LIST_2D_\1+2
           ENDM
 
+;******************************************************************************
+; Questa routine definisce il pattern che deve essere usato per disegnare
+; le linee. In pratica si limita a settare il registro BLTBDAT.
+; D0 - contiene il pattern della linea 
+;******************************************************************************
+
+SETPATTERN        MACRO
+          WAITBLITTER
+          move.w         d0,$72(a5)                          ; BLTBDAT = pattern della linea!
+          ENDM
+
 BLITTRIANGLE:
           lea            $dff000,a5
           bsr.w          InitLine                            ; inizializza line-mode
-
-          moveq          #-1,d0                              ; linea continua
-          bsr.w          SetPattern                          ; definisce pattern
 
           move.w         VERTEX_LIST_2D_1(PC),d0             ; x1
           move.w         2+VERTEX_LIST_2D_1(PC),d1           ; y1
@@ -71,6 +79,8 @@ BLITTRIANGLE:
           ; END COMPARISON
 
           move.l         a4,a0
+          WAITBLITTER
+          move.w         #$FFFF,$72(a5)                      ; Contigous line
           bsr.w          DrawlineFill                        ; first line
 
           ; start of second line
@@ -144,14 +154,10 @@ BLITTRIANGLE:
           SETBITPLANE    0,a1
 
           move.l         a4,a0
-          lea OFFBITPLANEMEM2,a1
+          lea            OFFBITPLANEMEM2,a1
           bsr.w          Fill_From_A_to_B
 
-          
           bsr.w          InitLine                            ; inizializza line-mode
-
-          moveq          #-1,d0                              ; linea continua
-          bsr.w          SetPattern
 
           move.l         a4,a0
           move.w         VERTEX_LIST_2D_1(PC),d0             ; x1
@@ -183,8 +189,8 @@ BLITTRIANGLE:
 ; cambiati tra una line e l'altra
 ;******************************************************************************
 InitLine:
-          WAITBLITTER
           moveq.l        #-1,d5
+          WAITBLITTER
           move.l         d5,$44(a5)                          ; BLTAFWM/BLTALWM = $FFFF
           move.w         #$8000,$74(a5)                      ; BLTADAT = $8000
           move.w         #40,$60(a5)                         ; BLTCMOD = 40
@@ -312,17 +318,6 @@ OK1:
 
           rts
 
-;******************************************************************************
-; Questa routine definisce il pattern che deve essere usato per disegnare
-; le linee. In pratica si limita a settare il registro BLTBDAT.
-; D0 - contiene il pattern della linea 
-;******************************************************************************
-
-SetPattern:
-          WAITBLITTER
-
-          move.w         d0,$72(a5)                          ; BLTBDAT = pattern della linea!
-          rts
 
   IFD EXTRA_BLIT_ALGOS
 
@@ -655,7 +650,6 @@ NonCorreggi:
           not.b          d1                                  ; inverti la numerazione dei bit
 
           WAITBLITTER
-          
           bchg           d1,(a1)                             ; inverti il primo pixel della linea
 
           move.w         d2,d1                               ; copia DX in D1
@@ -701,14 +695,6 @@ OK1_FILL:
 ;****************************************************************************
 
 Fill_From_A_to_B:
-          WAITBLITTER
-
-                  ; AND MODE
-          move.w         #$09f0,$40(a5)                      ; BLTCON0 AND COPY
-
-                  ; Or mode
-                  ; move.w         #$0dfc,$40(a5)                      ; BLTCON0 OR COPY
-
           tst.w          d0                                  ; testa D0 per decidere il tipo di fill
           bne.s          Fill_From_A_to_B_fill_esclusivo
           moveq          #$000a,d2                           ; valore di BLTCON1: settati i bit del
@@ -727,10 +713,12 @@ Fill_From_A_to_B_test_fill_carry:
           bset           #2,d2                               ; altrimenti setta il bit 2 di D2
 
 Fill_From_A_to_B_fatto_bltcon1:
+          WAITBLITTER
+
+          move.w         #$09f0,$40(a5)                      ; BLTCON0 AND COPY
           move.w         d2,$42(a5)                          ; BLTCON1
 
-
-          move.w         d6,d0                               ;save bottom right of the rectangle in d0
+          move.w         d6,d0                               ; save bottom right of the rectangle in d0
           lsr.w          #4,d3                               ; calculate start word for left
           lsr.w          #4,d5                               ; calculate start word for right
 
@@ -750,14 +738,10 @@ Fill_From_A_to_B_fatto_bltcon1:
           move.w         d6,$64(a5)                          ; BLTAMOD larghezza 2 words (40-4=36)
           move.w         d6,$66(a5)                          ; BLTAMOD larghezza 2 words (40-4=36)
 
-
           move.w         d0,d6
           sub.w          d4,d6
-          addq #1,d6
-          ; blitting 0 vertical lines proably means blit 1024 (the max) we dont want this so add 1
-          ;bne.s          Fill_From_A_to_B_novertical
-          ;moveq          #1,d6
-;Fill_From_A_to_B_novertical:
+          addq           #1,d6
+
           move.w         d6,d4                               ; save the Y difference into d4
           muls.w         #40,d0
           move.l         a0,a3
@@ -784,8 +768,6 @@ Fill_From_A_to_B_fatto_bltcon1:
           move.w         d6,$58(a5)
           move.w         d6,FILL_ADDR_SIZE
           rts
-  ;end experiment
-
 
 FILL_ADDR_OFFSET:
           dc.w           0
@@ -816,14 +798,13 @@ FILL_ADDR_DMOD:
 ;	- a5
 ; - a3
 Blit_From_AB_to_D_Copy:
-          lea            $dff000,a5
 
           ; now we must calculate blt0con according to what we want to draw
           GET_FILL       d0
           GET_STROKE     d1
 
           andi.w         #1,d0
-          and.w          #1,d1
+          andi.w         #1,d1
           lsl.w          #1,d1
           or.w           d0,d1
 

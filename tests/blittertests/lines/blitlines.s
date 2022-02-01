@@ -25,7 +25,7 @@ _blitline_test1:
   jsr                   InitLine                                                   ; inizializza line-mode
 
   move.w                #$ffff,d0                                                  ; linea continua
-  jsr                   SetPattern                                                 ; definisce pattern
+  SETPATTERN                                                ; definisce pattern
 
   move.w                #0,d0                                                      ; x1
   move.w                #0,d1                                                      ; y1
@@ -72,7 +72,7 @@ _blitline_test3:
   jsr                   InitLine                                                   ; inizializza line-mode
 
   move.w                #$ffff,d0                                                  ; linea continua
-  jsr                   SetPattern                                                 ; definisce pattern
+  SETPATTERN                                                 ; definisce pattern
 
   move.w                #0,d0                                                      ; x1
   move.w                #0,d1                                                      ; y1
