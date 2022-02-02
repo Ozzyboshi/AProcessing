@@ -1,47 +1,20 @@
-; POINT - Plots a point (CPU)
+; place x into d0
+;       y into d1
+; output will be into d0 d1 (register overwritten)
+; point_execute_transformation - Transform a point accordint to the current matrix
 ; Input:
 ;	- d0.w : Point X (0-319)
 ;	- d1.w : Point Y (0-255)
 ;
 ; Output:
-;   Nothing
-;
+;- d0.w : Point X transformed
+;- d1.w : Point Y transformed
+
 ; Defines:
-; - USE_CLIPPING
-; - USE_DBLBUF
+; - VAMPIRE
 ;
-; Trashes:
-; - d0
-; - d1
-; - a0
-; - a1
-POINT:
+; Trashes: nothing
 
-  bsr.w                                    point_execute_transformation
-
-	; start plot routine
-  lea                                      PLOTREFS,a1
-  add.w                                    d1,d1
-  move.w                                   0(a1,d1.w),d1
-  move.w                                   d0,d4
-  lsr.w                                    #3,d4
-  add.w                                    d4,d1
-  not.b                                    d0
-  btst.b                                   #0,STROKE_DATA
-  beq.s                                    point_no_bpl_0
-  SETBITPLANE                              0,a0
-  bset                                     d0,(a0,d1.w)
-point_no_bpl_0:
-  btst.b                                   #1,STROKE_DATA
-  beq.s                                    point_no_bpl_1
-  SETBITPLANE                              1,a0
-  bset                                     d0,(a0,d1.w)
-point_no_bpl_1:
-  rts
-
-; place x into d0
-;       y into d1
-; output will be into d0 d1 (register overwritten)
 point_execute_transformation:
   movem.l                                  d2/a0,-(sp)
 
