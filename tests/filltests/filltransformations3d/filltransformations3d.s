@@ -19,6 +19,7 @@
   include                                      "../../../libs/rasterizers/processing_table_plotrefs.s"
   include                                      "../../../libs/rasterizers/processingclearfunctions.s"
   include                                      "../../../libs/rasterizers/point.s"
+  include                                       "../../../libs/matrix/point.s"
   include                                      "../../../libs/rasterizers/square.s"
   include                                      "../../../libs/rasterizers/triangle3d.s"
   include                                      "../../../libs/rasterizers/rectangle.s"

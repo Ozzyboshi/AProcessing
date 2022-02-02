@@ -1,7 +1,6 @@
 SQUARE:
   movem.l    d0-d7/a1,-(sp)
 
-  lea        LINEVERTEX_START_FINAL,a1
     
     ; Start of line 1
   move.w     d0,d6
@@ -10,6 +9,7 @@ SQUARE:
   bsr.w      point_execute_transformation
 
     ; save transformed values
+  lea        LINEVERTEX_START_FINAL,a1
   move.w     d0,(a1)+
   move.w     d1,(a1)+
 

@@ -9,6 +9,7 @@
 	include "../../../libs/matrix/matrix.s"
 	include "../../../libs/trigtables.i"
 	include "../../../libs/rasterizers/point.s"
+	include "../../../libs/matrix/point.s"
 	include "../../../libs/rasterizers/processing_bitplanes_fast.s"
 	include "../../../libs/rasterizers/processing_table_plotrefs.s"
 	include "../../../libs/rasterizers/processingclearfunctions.s"
