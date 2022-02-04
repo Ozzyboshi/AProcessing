@@ -1284,6 +1284,7 @@ LOADIDENTITYANDTRANSLATE:
 	movem.l (sp)+,d0-d2/a0
 	rts
 
+	IFD USE_3D
 LOADIDENTITYANDROTATEY:
 	movem.l d0-d2/a0-a1,-(sp) ; stack save
 	moveq #5,d2
@@ -1389,6 +1390,7 @@ LOADIDENTITYANDROTATEX:
 
 	movem.l (sp)+,d0-d2/a0-a1
 	rts
+	ENDC
 
 ; Q_10_6 implementation
 ; Usage examples : 
