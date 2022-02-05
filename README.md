@@ -8,7 +8,7 @@ Right know only planar drawing is supported but in the future I am planning to a
 ### Structure of the repository
 The repository contains the following directorties:
 - docs : documentation docs: see [docs/README](docs/README.md) for instructions documentation.
-- fusuae-unit-tester : this is meant for unit testing with fs uae, you could achieve the same results just copying the whole test directory into your real amiga. Inside this directory you will find a docker-compose.yml file that will build a docker image with fs uae and all the thing you need to run the tests. Of course you will have to add your own kickstart and SO files, more details about this in the [README](https://github.com/Ozzyboshi/AProcessing/blob/main/fusuae-unit-tester/README.md "README") file.
+- fsuae-unit-tester : this is meant for unit testing with fs uae, you could achieve the same results just copying the whole test directory into your real amiga. Inside this directory you will find a docker-compose.yml file that will build a docker image with fs uae and all the thing you need to run the tests. Of course you will have to add your own kickstart and SO files, more details about this in the [README](https://github.com/Ozzyboshi/AProcessing/blob/main/fsuae-unit-tester/README.md "README") file.
 - libs : where all the libs are located, you will have to include them in your project. Tested with vasm and Devpac.
 - tests : all the automated tests categorized by topic. Each subdirectory contains an "expected" subdirectory with contains the binary ram representation that each test is supposed to produce. The tests/testlibs is a special directory that contains the program to run the test.
 
@@ -33,7 +33,7 @@ if you prefer the docker version:
 docker run --rm  -v /home/ozzy/AProcessing:/data -w /data/tests  -it --name AProcessing bebbo-amiga-gcc ./runtestsvamos.sh
 ```
 
-The runtestsvamos will go also into test/blittertest directory to produce the test executables but wont run the test with vamos since vamos is unable to emulate Amiga blitter co-processor. If you want to run this type of test you will have to use fs-uae (see fusuae-unit-tester directory) or a real Amiga.
+The runtestsvamos will go also into test/blittertest directory to produce the test executables but wont run the test with vamos since vamos is unable to emulate Amiga blitter co-processor. If you want to run this type of test you will have to use fs-uae (see fsuae-unit-tester directory) or a real Amiga.
 
 Once the runtestsvamos is done you can just copy all the test directory into your real Amigas and run "run68" and "runvampire" executable.
 The first one is meant for 68k Amigas, the second one used the AMMX instructions that are ONLY available for the Apollo Team cards, if you try to run elsewhere it will crash.

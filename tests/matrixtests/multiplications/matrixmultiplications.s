@@ -47,7 +47,7 @@ _matrix_multest1:
   AMMX_DUMP_REGS_TO_THIRD_OP                    e13,e14,e15
   ENDIF
 
-  bsr.w                                         processing_third_matrix_addr
+  processing_third_matrix_addr
 
   rts
 
@@ -93,7 +93,7 @@ _matrix_multest2:
   AMMX_DUMP_REGS_TO_THIRD_OP                    e13,e14,e15
   ENDIF
 
-  bsr.w                                         processing_third_matrix_addr
+  processing_third_matrix_addr
 
   rts
 
@@ -137,7 +137,7 @@ _matrix_multest3:
   AMMX_DUMP_REGS_TO_THIRD_OP                    e13,e14,e15
   ENDIF
 
-  bsr.w                                         processing_third_matrix_addr
+  processing_third_matrix_addr
 
   rts
 
@@ -176,7 +176,7 @@ _matrix_multest4:
   AMMX_DUMP_REGS_TO_THIRD_OP                    e13,e14,e15
   ENDIF
 
-  bsr.w                                         processing_third_matrix_addr
+  processing_third_matrix_addr
 
   rts
 
@@ -214,14 +214,14 @@ _matrix_multest5:
   AMMX_DUMP_REGS_TO_THIRD_OP                    e13,e14,e15
   ENDIF
 
-  bsr.w                                         processing_third_matrix_addr
+  processing_third_matrix_addr
 
   rts
 
 _matrix_multest6:
   RESET_CURRENT_TRANSFORMATION_MATRIX_Q_10_6
   TRANSLATE_INV_Q_10_6                          #160*64,#128*64
-  bsr.w                                         processing_current_transformation_matrix_addr
+  processing_current_transformation_matrix_addr
   rts
 
 _matrix_multest7:
@@ -237,7 +237,7 @@ _matrix_multest7:
   move.w                                        #100,d1
   bsr.w                                         TRANSLATE
 
-  bsr.w                                         processing_current_transformation_matrix_addr
+  processing_current_transformation_matrix_addr
   rts
 
 _matrix_multest8:
@@ -280,7 +280,7 @@ _matrix_multest8:
   AMMX_DUMP_REGS_TO_THIRD_OP                    e13,e14,e15
   ENDIF
 
-  bsr.w                                         processing_third_matrix_addr
+  processing_third_matrix_addr
 
   rts
 
@@ -290,7 +290,7 @@ _matrix_multest9:
 
   ROTATE_INV_Q_5_11                             #45
 
-  bsr.w                                         processing_current_transformation_matrix_addr
+  processing_current_transformation_matrix_addr
   rts
 
 ; rotate 90 deg and translate point 0,10 to center 
@@ -329,7 +329,7 @@ _matrix_multest10:
   AMMX_DUMP_REGS_TO_THIRD_OP                    e13,e14,e15
   ENDIF
 
-  bsr.w                                         processing_third_matrix_addr
+  processing_third_matrix_addr
   rts
 
 ; scale 0,5 X and Y point 10,0
@@ -361,7 +361,7 @@ _matrix_multest11:
   AMMX_DUMP_REGS_TO_THIRD_OP                    e13,e14,e15
   ENDIF
 
-  bsr.w                                         processing_third_matrix_addr
+  processing_third_matrix_addr
   rts
 
 
@@ -394,7 +394,7 @@ _matrix_multest12:
   AMMX_DUMP_REGS_TO_THIRD_OP                    e13,e14,e15
   ENDIF
 
-  bsr.w                                         processing_third_matrix_addr
+  processing_third_matrix_addr
   rts
 
 ; shear 3x and 4y , point 10,5
@@ -427,7 +427,7 @@ _matrix_multest13:
   AMMX_DUMP_REGS_TO_THIRD_OP                    e13,e14,e15
   ENDIF
 
-  bsr.w                                         processing_third_matrix_addr
+  processing_third_matrix_addr
 	; result must be 25 45 1
   rts
 
@@ -462,7 +462,7 @@ _matrix_multest14:
   AMMX_DUMP_REGS_TO_THIRD_OP                    e13,e14,e15
   ENDIF
 
-  bsr.w                                         processing_third_matrix_addr
+  processing_third_matrix_addr
 	 ;result -450,5 
   ; after normalization -7,0
   rts
@@ -494,7 +494,7 @@ _matrix_multest15:
   AMMX_DUMP_REGS_TO_THIRD_OP                    e13,e14,e15
   ENDIF
 
-  bsr.w                                         processing_third_matrix_addr
+  processing_third_matrix_addr
 
   ;result 0,-450 
   ; after normalization 0,7

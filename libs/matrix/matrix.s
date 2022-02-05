@@ -1441,6 +1441,7 @@ TRANSLATE:
 	movem.l (sp)+,d0-d2/a0/a1
 	rts
 
+	IFD USE_3D
 TRANSLATE3D:
 	movem.l d0-d3/a0-a1,-(sp) ; stack save
 	IFD VAMPIRE
@@ -1494,20 +1495,21 @@ TRANSLATE3D:
 	ENDC
 	movem.l (sp)+,d0-d3/a0-a1
 	rts
+	ENDIF
 
-processing_first_matrix_addr:
+processing_first_matrix_addr MACRO
 	move.l #OPERATOR1_TRANSFORMATION_MATRIX,d0
-	rts
+	ENDM
 
-processing_second_matrix_addr:
+processing_second_matrix_addr MACRO
 	move.l #OPERATOR2_TRANSFORMATION_MATRIX,d0
-	rts
+	ENDM
 
-processing_third_matrix_addr:
+processing_third_matrix_addr MACRO
 	move.l #OPERATOR3_TRANSFORMATION_MATRIX,d0
-	rts
+	ENDM
 
-processing_current_transformation_matrix_addr:
+processing_current_transformation_matrix_addr MACRO
 	move.l #CURRENT_TRANSFORMATION_MATRIX,d0
-	rts
+	ENDM
     

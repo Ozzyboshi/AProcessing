@@ -26,7 +26,7 @@ _matrix_test1:
 	LOAD_CURRENT_TRANSFORMATION_MATRIX OPERATOR1_TR_MATRIX_ROW1
 	ENDIF
 
-	bsr.w processing_first_matrix_addr
+	processing_first_matrix_addr
 
 	rts
 
@@ -40,7 +40,7 @@ _matrix_test2:
 	LOAD_CURRENT_TRANSFORMATION_MATRIX OPERATOR2_TR_MATRIX_ROW1
 	ENDIF
 
-	bsr.w processing_second_matrix_addr
+	processing_second_matrix_addr
 
 	rts
 	
@@ -63,7 +63,7 @@ _matrix_test3:
 	UPDATE_CURRENT_TRANSFORMATION_MATRIX OPERATOR1_TR_MATRIX_ROW1,OPERATOR1_TR_MATRIX_ROW2,OPERATOR1_TR_MATRIX_ROW3
 	ENDIF
 
-	bsr.w processing_first_matrix_addr
+	processing_first_matrix_addr
 
 	rts
 
@@ -112,41 +112,41 @@ _matrix_test4:
 	AMMX_DUMP_TRANSFORMATION_MATRIX_TO_RAM_OP1 e4,e5,e6
 	ENDIF
 
-	bsr.w processing_current_transformation_matrix_addr
+	processing_current_transformation_matrix_addr
 	rts
 
 _matrix_test5:
 	move.w #10,d0
 	jsr LOADIDENTITYANDROTATEX
-	bsr.w processing_current_transformation_matrix_addr
+	processing_current_transformation_matrix_addr
 	rts
 
 _matrix_test6:
 	LOADIDENTITY
     ROTATE_X_INV_Q_5_11    #10
-	bsr.w processing_current_transformation_matrix_addr
+	processing_current_transformation_matrix_addr
 	rts
 
 _matrix_test7:
 	move.w #100,d0
 	jsr LOADIDENTITYANDROTATEX
-	bsr.w processing_current_transformation_matrix_addr
+	processing_current_transformation_matrix_addr
 	rts
 
 _matrix_test8:
 	LOADIDENTITY
     ROTATE_X_INV_Q_5_11    #100
-	bsr.w processing_current_transformation_matrix_addr
+	processing_current_transformation_matrix_addr
 	rts
 
 _matrix_test9:
 	move.w #10,d0
 	jsr LOADIDENTITYANDROTATEY
-	bsr.w processing_current_transformation_matrix_addr
+	processing_current_transformation_matrix_addr
 	rts
 
 _matrix_test10:
 	LOADIDENTITY
     ROTATE_Y_INV_Q_5_11    #10
-	bsr.w processing_current_transformation_matrix_addr
+	processing_current_transformation_matrix_addr
 	rts
