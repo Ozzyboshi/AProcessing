@@ -16,6 +16,10 @@ VERTEX2D_INIT      MACRO
           move.w         \3,VERTEX_LIST_2D_\1+2
           ENDM
 
+VERTEX2D_INIT_I    MACRO
+          move.l         #$\2\3,VERTEX_LIST_2D_\1
+          ENDM
+
 ;******************************************************************************
 ; Questa routine definisce il pattern che deve essere usato per disegnare
 ; le linee. In pratica si limita a settare il registro BLTBDAT.

@@ -36,9 +36,9 @@ _drawpolygon_test1:
   STROKE                                        #1
   FILL                                          #3
 
-  VERTEX2D_INIT                                 1,#0,#0
-  VERTEX2D_INIT                                 2,#-10,#10
-  VERTEX2D_INIT                                 3,#10,#10
+  VERTEX2D_INIT_I                               1,0000,0000
+  VERTEX2D_INIT_I                               2,FFF6,000A
+  VERTEX2D_INIT_I                               3,000A,000A
 
 
   lea                                           OFFBITPLANEMEM,a4
@@ -65,9 +65,9 @@ _drawpolygon_test2:
   STROKE                                        #1
   FILL                                          #3
 
-  VERTEX2D_INIT                                 1,#0,#0
-  VERTEX2D_INIT                                 2,#-10,#10
-  VERTEX2D_INIT                                 3,#10,#10
+  VERTEX2D_INIT_I                               1,0000,0000
+  VERTEX2D_INIT_I                               2,FFF6,000A
+  VERTEX2D_INIT_I                               3,000A,000A
 
   lea                                           OFFBITPLANEMEM,a4
   jsr                                           TRIANGLE_BLIT
