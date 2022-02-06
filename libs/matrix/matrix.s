@@ -1495,7 +1495,7 @@ TRANSLATE3D:
 	ENDC
 	movem.l (sp)+,d0-d3/a0-a1
 	rts
-	ENDIF
+	ENDC
 
 processing_first_matrix_addr MACRO
 	move.l #OPERATOR1_TRANSFORMATION_MATRIX,d0
