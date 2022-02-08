@@ -21,6 +21,8 @@ unsigned char *matrix_multest12();
 unsigned char *matrix_multest13();
 unsigned char *matrix_multest14();
 unsigned char *matrix_multest15();
+unsigned char *matrix_multest16();
+unsigned char *matrix_multest17();
 
 
 struct _test TESTS[] = {
@@ -39,7 +41,8 @@ struct _test TESTS[] = {
     {.testId = 13, .test_function = matrix_multest13, .nbitplanes=1, .nrows=3, .nbyterow=8,.title = "point 10,5 sheared by 3x and 4y", .verbose=0},
     {.testId = 14, .test_function = matrix_multest14, .nbitplanes=1, .nrows=3, .nbyterow=8,.title = "point -5,-5 rotated by 45", .verbose=0},
     {.testId = 15, .test_function = matrix_multest15, .nbitplanes=1, .nrows=3, .nbyterow=8,.title = "point 5,-5 rotated by 45", .verbose=0},
-
+    {.testId = 16, .test_function = matrix_multest16, .nbitplanes=1, .nrows=3, .nbyterow=8,.title = "point 5,-5 rotated by 45", .verbose=0},
+    {.testId = 17, .test_function = matrix_multest17, .nbitplanes=1, .nrows=3, .nbyterow=8,.title = "point 10,0 rotated 90 deg and translated to center", .verbose=0},
 
     {.testId = 0, .test_function = NULL}
 

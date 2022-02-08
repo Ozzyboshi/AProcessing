@@ -1,7 +1,11 @@
 
 
 MATRIX_STACK_START:
+	IFD MATRIX_STACK_SIZE
+	dcb.b MATRIX_STACK_SIZE*256,$00
+	ELSE
 	dcb.b 24*256,$00
+	ENDC
 MATRIX_STACK_END:
 
 MATRIX_STACK_PTR: dc.l MATRIX_STACK_START
@@ -255,11 +259,10 @@ OPERATOR3_TR_MATRIX_ROW3_WORD3:
 
 
 ROTATE_INV_Q_5_11 MACRO
-
+	IFD VAMPIRE
 	andi.l #$0000FFFF,d0
 	andi.l #$0000FFFF,d1
 
-	IFD VAMPIRE
 	; Current transformation matrix is the Multiplier (second factor)
 	LOAD_CURRENT_TRANSFORMATION_MATRIX e4,e5,e6
 
@@ -303,7 +306,7 @@ ROTATE_INV_Q_5_11 MACRO
 	IFD VAMPIRE
 	UPDATE_CURRENT_TRANSFORMATION_MATRIX e13,e14,e15
 	ELSE
-	lea CURRENT_TRANSFORMATION_MATRIX,a0
+	lea    CURRENT_TRANSFORMATION_MATRIX,a0
 	move.l OPERATOR3_TR_MATRIX_ROW1,(a0)+
 	move.l OPERATOR3_TR_MATRIX_ROW1+4,(a0)+
 
@@ -315,6 +318,7 @@ ROTATE_INV_Q_5_11 MACRO
 	ENDC
 
 	ENDM
+
 
 ROTATEX MACRO
 	ROTATE_X_INV_Q_5_11 \1
@@ -1254,7 +1258,11 @@ ammxmatrixmul3X3_q5_11:
     rts
 
 LOADIDENTITYANDTRANSLATE:
+	IFD VAMPIRE
 	movem.l d0-d2/a0,-(sp) ; stack save
+	ELSE
+	movem.l d2/a0,-(sp) ; stack save
+	ENDC
 	asl.w                       #6,d0
 	asl.w                       #6,d1
 	IFD VAMPIRE
@@ -1268,6 +1276,8 @@ LOADIDENTITYANDTRANSLATE:
 	move.l #$00000040,d2
 	vperm #$45CDEF67,d2,d0,e0
     store e0,(b0)+
+	movem.l (sp)+,d0-d2/a0
+	rts
 	ELSE
 	lea CURRENT_TRANSFORMATION_MATRIX(PC),a0
 	moveq #0,d2
@@ -1276,13 +1286,13 @@ LOADIDENTITYANDTRANSLATE:
 	move.l d2,(a0)+
 	move.l #$00400000,(a0)+
 	move.w d2,(a0)+
-	
+
 	move.w d0,(a0)+
 	move.w d1,(a0)+
-	move.w #$0040,(a0)+
-	ENDC
-	movem.l (sp)+,d0-d2/a0
+	move.w #$0040,(a0)
+	movem.l (sp)+,d2/a0
 	rts
+	ENDC
 
 	IFD USE_3D
 LOADIDENTITYANDROTATEY:
@@ -1496,6 +1506,67 @@ TRANSLATE3D:
 	movem.l (sp)+,d0-d3/a0-a1
 	rts
 	ENDC
+
+ROTATE_INV_Q_5_11_F:
+	IFD VAMPIRE
+	andi.l #$0000FFFF,d0
+	andi.l #$0000FFFF,d1
+
+	; Current transformation matrix is the Multiplier (second factor)
+	LOAD_CURRENT_TRANSFORMATION_MATRIX e4,e5,e6
+
+	; read angle from input and load trig data
+	;move.w \1,d0
+	lea ROT_Z_MATRIX_Q5_11,b1   ; Cos and -SIN SIN COS in b1
+	LOAD (b1,D0.w*8),E10 ; Load precalculated sin/cos values to register E10
+
+	; Rotation matrix is the Multiplicand
+	REG_ZERO e21
+    vperm  #$FF0123FF,e10,e21,e1     ; first  row of the matrix  0 cos -sin 0
+    vperm  #$FF4567FF,e10,e21,e2     ; second row of the matrix  0 sin  cos 0
+	REG_LOADI 0000,0000,0000,0800,e3 ; NOTE!!!!!!!!!!, last word must be 1* table multiplier!!!!
+	; end loading matrix
+
+	UPDATE_CURRENT_TRANSFORMATION_MATRIX e13,e14,e15
+	ELSE
+	LOAD_CURRENT_TRANSFORMATION_MATRIX_PC OPERATOR2_TR_MATRIX_ROW1
+
+	;move.w \1,d0
+	lea ROT_Z_MATRIX_Q5_11,a0
+	lsl.w #3,d0
+	add.l d0,a0
+	moveq #0,d0
+
+	move.w d0,OPERATOR1_TR_MATRIX_ROW1
+	move.l (a0)+,OPERATOR1_TR_MATRIX_ROW1+2
+	move.w d0,OPERATOR1_TR_MATRIX_ROW1+6
+
+	move.w d0,OPERATOR1_TR_MATRIX_ROW2
+	move.l (a0)+,OPERATOR1_TR_MATRIX_ROW2+2
+	move.w d0,OPERATOR1_TR_MATRIX_ROW2+6
+
+	move.l d0,OPERATOR1_TR_MATRIX_ROW3
+	move.l #$00000800,OPERATOR1_TR_MATRIX_ROW3+4
+
+	ENDC
+
+	jsr ammxmatrixmul3X3_q5_11
+
+	IFD VAMPIRE
+	UPDATE_CURRENT_TRANSFORMATION_MATRIX e13,e14,e15
+	ELSE
+	lea    CURRENT_TRANSFORMATION_MATRIX(PC),a0
+	move.l OPERATOR3_TR_MATRIX_ROW1(PC),(a0)+
+	move.l OPERATOR3_TR_MATRIX_ROW1_WORD2(PC),(a0)+
+
+	move.l OPERATOR3_TR_MATRIX_ROW2(PC),(a0)+
+	move.l OPERATOR3_TR_MATRIX_ROW2_WORD2(PC),(a0)+
+
+	move.l OPERATOR3_TR_MATRIX_ROW3(PC),(a0)+
+	move.l OPERATOR3_TR_MATRIX_ROW3_WORD2(PC),(a0)+
+	ENDC
+	rts
+
 
 processing_first_matrix_addr MACRO
 	move.l #OPERATOR1_TRANSFORMATION_MATRIX,d0
