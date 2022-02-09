@@ -1094,17 +1094,17 @@ ammxmatrixmul3X3_q5_11:
 	muls.w OPERATOR2_TR_MATRIX_ROW1_WORD1(PC),d0
 	moveq #11,d2
 	lsr.l d2,d0
-	
+
 	move.w OPERATOR1_TR_MATRIX_ROW1_WORD2(PC),d1
 	muls.w OPERATOR2_TR_MATRIX_ROW2_WORD1(PC),d1
 	lsr.l d2,d1
 
 	add.w d0,d1
-	
+
 	move.w OPERATOR1_TR_MATRIX_ROW1_WORD3(PC),d0
 	muls.w OPERATOR2_TR_MATRIX_ROW3_WORD1(PC),d0
 	lsr.l d2,d0
-	
+
 	add.w d1,d0
 	move.w d0,(a0)
 
@@ -1112,7 +1112,7 @@ ammxmatrixmul3X3_q5_11:
 	move.w OPERATOR1_TR_MATRIX_ROW2_WORD1(PC),d0
 	muls.w OPERATOR2_TR_MATRIX_ROW1_WORD1(PC),d0
 	lsr.l d2,d0
-	
+
 	move.w OPERATOR1_TR_MATRIX_ROW2_WORD2(PC),d1
 	muls.w OPERATOR2_TR_MATRIX_ROW2_WORD1(PC),d1
 	lsr.l d2,d1
@@ -1121,24 +1121,24 @@ ammxmatrixmul3X3_q5_11:
 	move.w OPERATOR1_TR_MATRIX_ROW2_WORD3(PC),d0
 	muls.w OPERATOR2_TR_MATRIX_ROW3_WORD1(PC),d0
 	lsr.l d2,d0
-	
+
 	add.w d1,d0
 	move.w d0,8(a0)
-	
+
 	move.w OPERATOR1_TR_MATRIX_ROW1_WORD1(PC),d0
 	muls.w OPERATOR2_TR_MATRIX_ROW1_WORD2(PC),d0
 	lsr.l d2,d0
-	
+
 	move.w OPERATOR1_TR_MATRIX_ROW1_WORD2(PC),d1
 	muls.w OPERATOR2_TR_MATRIX_ROW2_WORD2(PC),d1
 	lsr.l d2,d1
 
 	add.w d0,d1
-	
+
 	move.w OPERATOR1_TR_MATRIX_ROW1_WORD3(PC),d0
 	muls.w OPERATOR2_TR_MATRIX_ROW3_WORD2(PC),d0
 	lsr.l d2,d0
-	
+
 	add.w d1,d0
 	move.w d0,2(a0)
 
@@ -1148,107 +1148,106 @@ ammxmatrixmul3X3_q5_11:
     move.w OPERATOR1_TR_MATRIX_ROW3_WORD1(PC),d0
 	muls.w OPERATOR2_TR_MATRIX_ROW1_WORD1(PC),d0
 	lsr.l d2,d0
-	
+
 	move.w OPERATOR1_TR_MATRIX_ROW3_WORD2(PC),d1
 	muls.w OPERATOR2_TR_MATRIX_ROW2_WORD1(PC),d1
 	lsr.l d2,d1
 	add.w d0,d1
-	
+
 	move.w OPERATOR1_TR_MATRIX_ROW3_WORD3(PC),d0
 	muls.w OPERATOR2_TR_MATRIX_ROW3_WORD1(PC),d0
 	lsr.l d2,d0
-	
+
 	add.w d1,d0
 	move.w d0,16(a0) ;OPERATOR3_TR_MATRIX_ROW3_WORD1
-	
+
 	move.w OPERATOR1_TR_MATRIX_ROW2_WORD1(PC),d0
 	muls.w OPERATOR2_TR_MATRIX_ROW1_WORD2(PC),d0
 	lsr.l d2,d0
-	
+
 	move.w OPERATOR1_TR_MATRIX_ROW2_WORD2(PC),d1
 	muls.w OPERATOR2_TR_MATRIX_ROW2_WORD2(PC),d1
 	lsr.l d2,d1
 
 	add.w d0,d1
-	
+
 	move.w OPERATOR1_TR_MATRIX_ROW2_WORD3(PC),d0
 	muls.w OPERATOR2_TR_MATRIX_ROW3_WORD2(PC),d0
 	lsr.l d2,d0
-	
+
 	add.w d1,d0
 	move.w d0,10(a0) ;OPERATOR3_TR_MATRIX_ROW2_WORD2
-	
+
 	move.w OPERATOR1_TR_MATRIX_ROW1_WORD1(PC),d0
 	muls.w OPERATOR2_TR_MATRIX_ROW1_WORD3(PC),d0
 	lsr.l d2,d0
-	
+
 	move.w OPERATOR1_TR_MATRIX_ROW1_WORD2(PC),d1
 	muls.w OPERATOR2_TR_MATRIX_ROW2_WORD3(PC),d1
 	lsr.l d2,d1
 	add.w d0,d1
-	
+
 	move.w OPERATOR1_TR_MATRIX_ROW1_WORD3(PC),d0
 	muls.w OPERATOR2_TR_MATRIX_ROW3_WORD3(PC),d0
 	lsr.l d2,d0
-	
+
 	add.w d1,d0
 	move.w d0,4(a0);OPERATOR3_TR_MATRIX_ROW1_WORD3
-    
+
     ;end of third pass
 
 	; start of 4th pass
     move.w OPERATOR1_TR_MATRIX_ROW2_WORD1(PC),d0
 	muls.w OPERATOR2_TR_MATRIX_ROW1_WORD3(PC),d0
 	lsr.l d2,d0
-	
+
 	move.w OPERATOR1_TR_MATRIX_ROW2_WORD2(PC),d1
 	muls.w OPERATOR2_TR_MATRIX_ROW2_WORD3(PC),d1
 	lsr.l d2,d1
 
 	add.w d0,d1
-	
+
 	move.w OPERATOR1_TR_MATRIX_ROW2_WORD3(PC),d0
 	muls.w OPERATOR2_TR_MATRIX_ROW3_WORD3(PC),d0
 	lsr.l d2,d0
-	
+
 	add.w d1,d0
 	move.w d0,12(a0);OPERATOR3_TR_MATRIX_ROW2_WORD3
-    
+
     move.w OPERATOR1_TR_MATRIX_ROW3_WORD1(PC),d0
 	muls.w OPERATOR2_TR_MATRIX_ROW1_WORD2(PC),d0
 	lsr.l d2,d0
-	
+
 	move.w OPERATOR1_TR_MATRIX_ROW3_WORD2(PC),d1
 	muls.w OPERATOR2_TR_MATRIX_ROW2_WORD2(PC),d1
 	lsr.l d2,d1
 
 	add.w d0,d1
-	
+
 	move.w OPERATOR1_TR_MATRIX_ROW3_WORD3(PC),d0
 	muls.w OPERATOR2_TR_MATRIX_ROW3_WORD2(PC),d0
 	lsr.l d2,d0
-	
+
 	add.w d1,d0
 	move.w d0,18(a0);OPERATOR3_TR_MATRIX_ROW3_WORD2
 
-	
 	; end of 4th pass
-	
+
 	; start of 5th pass
 	move.w OPERATOR1_TR_MATRIX_ROW3_WORD1(PC),d0
 	muls.w OPERATOR2_TR_MATRIX_ROW1_WORD3(PC),d0
 	lsr.l d2,d0
-	
+
 	move.w OPERATOR1_TR_MATRIX_ROW3_WORD2(PC),d1
 	muls.w OPERATOR2_TR_MATRIX_ROW2_WORD3(PC),d1
 	lsr.l d2,d1
 
 	add.w d0,d1
-	
+
 	move.w OPERATOR1_TR_MATRIX_ROW3_WORD3(PC),d0
 	muls.w OPERATOR2_TR_MATRIX_ROW3_WORD3(PC),d0
 	lsr.l d2,d0
-	
+
 	add.w d1,d0
 	move.w d0,20(a0);OPERATOR3_TR_MATRIX_ROW3_WORD3
 
@@ -1258,11 +1257,7 @@ ammxmatrixmul3X3_q5_11:
     rts
 
 LOADIDENTITYANDTRANSLATE:
-	IFD VAMPIRE
 	movem.l d0-d2/a0,-(sp) ; stack save
-	ELSE
-	movem.l d2/a0,-(sp) ; stack save
-	ENDC
 	asl.w                       #6,d0
 	asl.w                       #6,d1
 	IFD VAMPIRE
@@ -1276,8 +1271,6 @@ LOADIDENTITYANDTRANSLATE:
 	move.l #$00000040,d2
 	vperm #$45CDEF67,d2,d0,e0
     store e0,(b0)+
-	movem.l (sp)+,d0-d2/a0
-	rts
 	ELSE
 	lea CURRENT_TRANSFORMATION_MATRIX(PC),a0
 	moveq #0,d2
@@ -1290,9 +1283,9 @@ LOADIDENTITYANDTRANSLATE:
 	move.w d0,(a0)+
 	move.w d1,(a0)+
 	move.w #$0040,(a0)
-	movem.l (sp)+,d2/a0
-	rts
 	ENDC
+	movem.l (sp)+,d0-d2/a0
+	rts
 
 	IFD USE_3D
 LOADIDENTITYANDROTATEY:
@@ -1508,6 +1501,7 @@ TRANSLATE3D:
 	ENDC
 
 ROTATE_INV_Q_5_11_F:
+	movem.l a0/d0,-(sp)
 	IFD VAMPIRE
 	andi.l #$0000FFFF,d0
 	andi.l #$0000FFFF,d1
@@ -1531,22 +1525,20 @@ ROTATE_INV_Q_5_11_F:
 	ELSE
 	LOAD_CURRENT_TRANSFORMATION_MATRIX_PC OPERATOR2_TR_MATRIX_ROW1
 
-	;move.w \1,d0
-	lea ROT_Z_MATRIX_Q5_11,a0
-	lsl.w #3,d0
-	add.l d0,a0
-	moveq #0,d0
+	lea      ROT_Z_MATRIX_Q5_11,a0
+	lsl.w    #3,d0
+	move.l   0(a0,d0.w),OPERATOR1_TR_MATRIX_ROW1_WORD1
+	move.l   4(a0,d0.w),OPERATOR1_TR_MATRIX_ROW2_WORD1
 
-	move.w d0,OPERATOR1_TR_MATRIX_ROW1
-	move.l (a0)+,OPERATOR1_TR_MATRIX_ROW1+2
-	move.w d0,OPERATOR1_TR_MATRIX_ROW1+6
+	moveq    #0,d0
+	lea 	 OPERATOR1_TR_MATRIX_ROW1(PC),a0
 
-	move.w d0,OPERATOR1_TR_MATRIX_ROW2
-	move.l (a0)+,OPERATOR1_TR_MATRIX_ROW2+2
-	move.w d0,OPERATOR1_TR_MATRIX_ROW2+6
+	move.w   d0,(a0)   ; prima word
+	move.l   d0,6(a0)
+	move.l   d0,14(a0)
 
-	move.l d0,OPERATOR1_TR_MATRIX_ROW3
-	move.l #$00000800,OPERATOR1_TR_MATRIX_ROW3+4
+	move.l   d0,18(a0) ; prima e seconda word
+	move.w   #$0800,22(a0) ; terza e quarta word
 
 	ENDC
 
@@ -1555,18 +1547,18 @@ ROTATE_INV_Q_5_11_F:
 	IFD VAMPIRE
 	UPDATE_CURRENT_TRANSFORMATION_MATRIX e13,e14,e15
 	ELSE
-	lea    CURRENT_TRANSFORMATION_MATRIX(PC),a0
-	move.l OPERATOR3_TR_MATRIX_ROW1(PC),(a0)+
-	move.l OPERATOR3_TR_MATRIX_ROW1_WORD2(PC),(a0)+
+	lea      CURRENT_TRANSFORMATION_MATRIX(PC),a0
+	move.l   OPERATOR3_TR_MATRIX_ROW1(PC),(a0)+
+	move.l   OPERATOR3_TR_MATRIX_ROW1_WORD2(PC),(a0)+
 
-	move.l OPERATOR3_TR_MATRIX_ROW2(PC),(a0)+
-	move.l OPERATOR3_TR_MATRIX_ROW2_WORD2(PC),(a0)+
+	move.l   OPERATOR3_TR_MATRIX_ROW2(PC),(a0)+
+	move.l   OPERATOR3_TR_MATRIX_ROW2_WORD2(PC),(a0)+
 
-	move.l OPERATOR3_TR_MATRIX_ROW3(PC),(a0)+
-	move.l OPERATOR3_TR_MATRIX_ROW3_WORD2(PC),(a0)+
+	move.l   OPERATOR3_TR_MATRIX_ROW3(PC),(a0)+
+	move.l   OPERATOR3_TR_MATRIX_ROW3_WORD2(PC),(a0)
 	ENDC
+	movem.l (sp)+,a0/d0
 	rts
-
 
 processing_first_matrix_addr MACRO
 	move.l #OPERATOR1_TRANSFORMATION_MATRIX,d0
