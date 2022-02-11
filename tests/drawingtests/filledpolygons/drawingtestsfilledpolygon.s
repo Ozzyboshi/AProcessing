@@ -58,7 +58,7 @@ _drawing_test1:
 
                            bsr.w                                         SQUARE                                                     ;#-5,#-5,#10
 
-                           bsr.w                                         processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
+                           processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
                            rts
 
 _drawing_test2:
@@ -85,7 +85,7 @@ _drawing_test2:
 	
                            bsr.w                                         TRIANGLE
 
-                           bsr.w                                         processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
+                           processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
                            rts
 
 _drawing_test3:
@@ -116,7 +116,7 @@ _drawing_test3:
 	
                            bsr.w                                         TRIANGLE
 
-                           bsr.w                                         processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
+                           processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
 	;movem.l        (sp)+,d0-d7/a0-a6
                            rts
 
@@ -141,7 +141,7 @@ _drawing_test4:
 
                            bsr.w                                         RECT
 
-                           bsr.w                                         processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
+                           processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
 	;movem.l        (sp)+,d0-d7/a0-a6
                            rts
 
@@ -166,7 +166,7 @@ _drawing_test5:
 
                            bsr.w                                         RECT
 
-                           bsr.w                                         processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
+                           processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
 	;movem.l        (sp)+,d0-d7/a0-a6
                            rts
 
@@ -194,7 +194,7 @@ _drawing_test6:
 
                            bsr.w                                         RECT
 
-                           bsr.w                                         processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
+                           processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
 	;movem.l        (sp)+,d0-d7/a0-a6
                            rts
 
@@ -216,7 +216,7 @@ _drawing_test7:
 
                            bsr.w                                         CIRCLE
 
-                           bsr.w                                         processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
+                           processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
                            movem.l                                       (sp)+,d2
                            rts
 
@@ -247,7 +247,7 @@ _drawing_test8:
                            bsr.w                                         SQUARE  
 
                            STROKE                                        #1
-                           bsr.w                                         processing_bitplanes_fast_screen0
+                           processing_bitplanes_fast_screen0
   
                            movem.l                                       (sp)+,d2
                            rts
@@ -270,7 +270,7 @@ _drawing_test9:
 
                            DISABLE_CLIPPING
 
-                           bsr.w                                         processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
+                           processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
                            rts
 
 _drawing_test10:
@@ -291,7 +291,7 @@ _drawing_test10:
 
                            DISABLE_CLIPPING
 
-                           bsr.w                                         processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
+                           processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
                            rts
 
 _drawing_test11:
@@ -312,7 +312,7 @@ _drawing_test11:
 
                            DISABLE_CLIPPING
 
-                           bsr.w                                         processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
+                           processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
                            rts
 
 _drawing_test12:
@@ -333,7 +333,7 @@ _drawing_test12:
 
                            DISABLE_CLIPPING
 
-                           bsr.w                                         processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
+                           processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
                            rts
 
 _drawing_test13:
@@ -361,7 +361,7 @@ _drawing_test13:
 
                            DISABLE_CLIPPING
 
-                           bsr.w                                         processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
+                           processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
                            rts
 
 _drawing_test14:
@@ -389,7 +389,7 @@ _drawing_test14:
 
                            DISABLE_CLIPPING
 
-                           bsr.w                                         processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
+                           processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
                            rts
 
 _drawing_test15:
@@ -417,7 +417,7 @@ _drawing_test15:
 
                            DISABLE_CLIPPING
 
-                           bsr.w                                         processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
+                           processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
                            rts
 
 _drawing_test16:
@@ -445,7 +445,7 @@ _drawing_test16:
 
                            DISABLE_CLIPPING
 
-                           bsr.w                                         processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
+                           processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
                            rts
 
 _drawing_test17:
@@ -473,7 +473,7 @@ _drawing_test17:
 
                            DISABLE_CLIPPING
 
-                           bsr.w                                         processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
+                           processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
                            rts
 
 
@@ -505,7 +505,7 @@ _drawing_test18:
 
                            DISABLE_CLIPPING
 
-                           bsr.w                                         processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
+                           processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
                            rts
 
 _drawing_test19:
@@ -525,7 +525,7 @@ _drawing_test19:
 	
                            DISABLE_CLIPPING
 
-                           bsr.w                                         processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
+                           processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
                            rts
 
 AMMX_FILL_FUNCT_ADDR_OLD:  dc.l                                          0
@@ -552,7 +552,7 @@ _drawing_test20:
                            move.l                                        #ammx_fill_table_blit,AMMX_FILL_FUNCT_ADDR
                            bsr.w                                         TRIANGLE
 
-                           bsr.w                                         processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
+                           processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
                            move.l                                        AMMX_FILL_FUNCT_ADDR_OLD,AMMX_FILL_FUNCT_ADDR
                            rts
 
@@ -578,7 +578,7 @@ _drawing_test21:
                            move.l                                        #ammx_fill_table_blit,AMMX_FILL_FUNCT_ADDR
                            bsr.w                                         TRIANGLE
 
-                           bsr.w                                         processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
+                           processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
                            move.l                                        #FILLTABLE_FRAME_MIN_Y,d0
                            move.l                                        AMMX_FILL_FUNCT_ADDR_OLD,AMMX_FILL_FUNCT_ADDR
 
@@ -616,7 +616,7 @@ _drawing_test22:
                            ;   /   |
                            ;  /____|
 
-                           bsr.w                                         processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
+                           processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
                            rts
 
 _drawing_test23:
@@ -651,7 +651,7 @@ _drawing_test23:
                            ;  | /   
                            ;  |/
 
-                           bsr.w                                         processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
+                           processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
                            rts
 
 _drawing_test24:
@@ -686,5 +686,5 @@ _drawing_test24:
                            ;     \ |
                            ;      \|
 
-                           bsr.w                                         processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
+                           processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
                            rts

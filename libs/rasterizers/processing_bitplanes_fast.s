@@ -40,6 +40,6 @@ SCREEN_11
     dcb.b 40*256,$00
     ENDC
 
-processing_bitplanes_fast_screen0:
+processing_bitplanes_fast_screen0 MACRO
 	move.l #SCREEN_0,d0
-	rts
+	ENDM

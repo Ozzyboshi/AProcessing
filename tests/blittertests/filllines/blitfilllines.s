@@ -61,7 +61,7 @@ _blitfillline_test1:
   bsr.w                 DrawlineFill
 
 	
-  jsr                 processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
+  processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
   move.l                (sp)+,d2
   rts
 
@@ -85,7 +85,7 @@ _blitfillline_test2:
 
   bsr.w                 DrawlineFill
 
-  jsr                 processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
+  processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
   move.l                (sp)+,d2
   rts
 
@@ -141,7 +141,7 @@ _blitfillline_test3:
   move.w                #5,d1                                                      ; y1
   ;PLOTPOINT
 
-  jsr                 processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
+  processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
   move.l                (sp)+,d2
   rts
 
@@ -197,7 +197,7 @@ _blitfillline_test4:
   move.w                #5,d1                                                      ; y1
   ;PLOTPOINT
 
-  jsr                 processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
+  processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
   move.l                (sp)+,d2
   rts
 
@@ -275,7 +275,7 @@ _blitfillline_test5:
 
   jsr                   Fill_From_A_to_B_Clear
   WAITBLITTER
-  jsr                 processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
+  processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
   move.l                (sp)+,d2
   rts
 
@@ -354,7 +354,7 @@ _blitfillline_test6:
 
   jsr                   Fill_From_A_to_B_Clear
   WAITBLITTER
-  jsr                 processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
+  processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
   move.l                (sp)+,d2
   rts
 
@@ -434,7 +434,7 @@ _blitfillline_test7:
 
   jsr                   Fill_From_A_to_B_Clear
   WAITBLITTER
-  jsr                 processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
+  processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
   move.l                (sp)+,d2
   ;movem.l        (sp)+,d2/a4
   rts
@@ -524,7 +524,7 @@ _blitfillline_test8:
 
   jsr                   Fill_From_A_to_B_Clear
   WAITBLITTER
-  jsr                 processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
+  processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
   move.l                (sp)+,d2
   rts
 
@@ -544,7 +544,7 @@ _blitfillline_test9:
   jsr BLITTRIANGLE
 
   WAITBLITTER
-  jsr                 processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
+  processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
   move.l                (sp)+,d2
   rts
 
@@ -565,7 +565,7 @@ _blitfillline_test10:
   jsr BLITTRIANGLE
 
   WAITBLITTER
-  jsr                 processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
+  processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
   move.l                (sp)+,d2
   rts
 
@@ -586,7 +586,7 @@ _blitfillline_test11:
   jsr BLITTRIANGLE
 
   WAITBLITTER
-  jsr                 processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
+  processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
   move.l                (sp)+,d2
   rts
 
@@ -606,7 +606,7 @@ _blitfillline_test12:
   jsr BLITTRIANGLE
 
   WAITBLITTER
-  jsr                 processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
+  processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
   move.l                (sp)+,d2
   rts
 
@@ -626,7 +626,7 @@ _blitfillline_test13:
   jsr BLITTRIANGLE
 
   WAITBLITTER
-  jsr                 processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
+  processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
   move.l                (sp)+,d2
   rts
 
@@ -646,7 +646,7 @@ _blitfillline_test14:
   jsr BLITTRIANGLE
 
   WAITBLITTER
-  jsr                 processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
+  processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
   move.l                (sp)+,d2
   rts
 
@@ -666,7 +666,7 @@ _blitfillline_test15:
   jsr BLITTRIANGLE
 
   WAITBLITTER
-  jsr                 processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
+  processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
   move.l                (sp)+,d2
   rts
 
@@ -686,7 +686,7 @@ _blitfillline_test16:
   jsr BLITTRIANGLE
 
   WAITBLITTER
-  jsr                 processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
+  processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
   move.l                (sp)+,d2
   rts
 
@@ -716,7 +716,7 @@ _blitfillline_test17:
   jsr BLITTRIANGLE
 
   WAITBLITTER
-  jsr                 processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
+  processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
   move.l                (sp)+,d2
   rts
 
@@ -736,7 +736,7 @@ _blitfillline_test18:
   jsr BLITTRIANGLE
 
   WAITBLITTER
-  jsr                 processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
+  processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
   move.l                (sp)+,d2
   rts
 
@@ -756,7 +756,7 @@ _blitfillline_test19:
   jsr BLITTRIANGLE
 
   WAITBLITTER
-  jsr                 processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
+  processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
   move.l                (sp)+,d2
   rts
 
@@ -776,7 +776,7 @@ _blitfillline_test19:
   jsr BLITTRIANGLE
 
   WAITBLITTER
-  jsr                 processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
+  processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
   move.l                (sp)+,d2
   rts
 
@@ -805,7 +805,7 @@ _blitfillline_test21:
   jsr BLITTRIANGLE
 
   WAITBLITTER
-  jsr                 processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
+  processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
   move.l                (sp)+,d2
   rts
 
@@ -834,7 +834,7 @@ _blitfillline_test22:
   jsr BLITTRIANGLE
 
   WAITBLITTER
-  jsr                 processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
+  processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
   move.l                (sp)+,d2
   rts
 
@@ -854,7 +854,7 @@ _blitfillline_test23:
   jsr BLITTRIANGLE
 
   WAITBLITTER
-  jsr                 processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
+  processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
   move.l                (sp)+,d2
   rts
 
@@ -874,7 +874,7 @@ _blitfillline_test24:
   jsr BLITTRIANGLE
 
   WAITBLITTER
-  jsr                 processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
+  processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
   move.l                (sp)+,d2
   rts
 
@@ -894,7 +894,7 @@ _blitfillline_test25:
   jsr BLITTRIANGLE
 
   WAITBLITTER
-  jsr                 processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
+  processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
   move.l                (sp)+,d2
   rts
 
@@ -914,7 +914,7 @@ _blitfillline_test26:
   jsr BLITTRIANGLE
 
   WAITBLITTER
-  jsr                 processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
+  processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
   move.l                (sp)+,d2
   rts
 
@@ -934,6 +934,6 @@ _blitfillline_test27:
   jsr BLITTRIANGLE
 
   WAITBLITTER
-  jsr                 processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
+  processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
   move.l                (sp)+,d2
   rts

@@ -48,7 +48,7 @@ _fillpolygon_test1:
   CLEARFASTBITPLANES                                                               ; Clear fast bitplanes
   STROKE                #1
   bsr.w                 ammx_fill_table
-  bsr.w                 processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
+  processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
 
   rts
 
@@ -77,7 +77,7 @@ _fillpolygon_test2:
   CLEARFASTBITPLANES                                                               ; Clear fast bitplanes
 
   bsr.w                 ammx_fill_table
-  bsr.w                 processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
+  processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
   rts
 
 _fillpolygon_test3:
@@ -104,7 +104,7 @@ _fillpolygon_test3:
   CLEARFASTBITPLANES                                                               ; Clear fast bitplanes
 
   bsr.w                 ammx_fill_table
-  bsr.w                 processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
+  processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
   rts
 
 _fillpolygon_test4:
@@ -131,7 +131,7 @@ _fillpolygon_test4:
   CLEARFASTBITPLANES                                                               ; Clear fast bitplanes
 
   bsr.w                 ammx_fill_table
-  bsr.w                 processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
+  processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
   rts
 
 _fillpolygon_test5:
@@ -172,7 +172,7 @@ _fillpolygon_test5:
   CLEARFASTBITPLANES                                                               ; Clear fast bitplanes
 
   bsr.w                 ammx_fill_table
-  bsr.w                 processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
+  processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
   rts
 
 _fillpolygon_test6:
@@ -187,7 +187,7 @@ _fillpolygon_test6:
 
   CLEARFASTBITPLANES                                                               ; Clear fast bitplanes
   bsr.w                 ammx_fill_table_clip
-  bsr.w                 processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
+  processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
   DISABLE_CLIPPING
   rts
 
@@ -217,7 +217,7 @@ _fillpolygon_test7:
 
   CLEARFASTBITPLANES                                                               ; Clear fast bitplanes
   bsr.w                 ammx_fill_table_clip
-  bsr.w                 processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
+  processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
   DISABLE_CLIPPING
   rts
 
@@ -231,7 +231,7 @@ _fillpolygon_test8:
 
   CLEARFASTBITPLANES                                                               ; Clear fast bitplanes
   bsr.w                 ammx_fill_table_clip
-  bsr.w                 processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
+  processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
   DISABLE_CLIPPING
   rts
 
@@ -245,7 +245,7 @@ _fillpolygon_test9:
 
   CLEARFASTBITPLANES                                                               ; Clear fast bitplanes
   bsr.w                 ammx_fill_table_clip
-  bsr.w                 processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
+  processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
   DISABLE_CLIPPING
   rts
 
@@ -260,7 +260,7 @@ _fillpolygon_test10:
   LINE                  #319-5,#255+5,#319+5,#255+5
   CLEARFASTBITPLANES
   bsr.w                 ammx_fill_table_clip
-  bsr.w                 processing_bitplanes_fast_screen0  
+  processing_bitplanes_fast_screen0  
 
   STROKE                #1 
 
@@ -277,7 +277,7 @@ _fillpolygon_test11:
 
   LINE                  #319-5,#255+5,#319+5,#255+5
   bsr.w                 ammx_fill_table_clip
-  bsr.w                 processing_bitplanes_fast_screen0  
+  processing_bitplanes_fast_screen0  
 
   STROKE                #1 
 
@@ -296,7 +296,7 @@ _fillpolygon_test12:
   LINE                  #319+10,#255-5,#319+15,#255+5
   LINE                  #319+5,#255+5,#319+15,#255+5
   bsr.w                 ammx_fill_table_clip
-  bsr.w                 processing_bitplanes_fast_screen0  
+  processing_bitplanes_fast_screen0  
 
   STROKE                #1 
 
@@ -315,7 +315,7 @@ _fillpolygon_test13:
   LINE                  #319-5,#0+5,#319+5,#0+5
   CLEARFASTBITPLANES
   bsr.w                 ammx_fill_table_clip
-  bsr.w                 processing_bitplanes_fast_screen0  
+  processing_bitplanes_fast_screen0  
 
   STROKE                #1 
 
@@ -333,7 +333,7 @@ _fillpolygon_test14:
   LINE                  #319-5,#0-5,#319+5,#0-5
   CLEARFASTBITPLANES
   bsr.w                 ammx_fill_table_clip
-  bsr.w                 processing_bitplanes_fast_screen0  
+  processing_bitplanes_fast_screen0  
 
   STROKE                #1 
 
@@ -352,7 +352,7 @@ _fillpolygon_test15:
   LINE                  #329,#-10,#329,#265
   CLEARFASTBITPLANES
   bsr.w                 ammx_fill_table_clip
-  bsr.w                 processing_bitplanes_fast_screen0  
+  processing_bitplanes_fast_screen0  
 
   STROKE                #1 
 
@@ -377,7 +377,7 @@ _fillpolygon_test16:
 
   CLEARFASTBITPLANES                                                               ; Clear fast bitplanes
   bsr.w                 ammx_fill_table_bpl1
-  bsr.w                 processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
+  processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
 
   rts
 
@@ -400,7 +400,7 @@ _fillpolygon_test17:
   CLEARFASTBITPLANES                                                               ; Clear fast bitplanes
   STROKE                #2
   bsr.w                 ammx_fill_table
-  bsr.w                 processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
+  processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
 
   rts
 
@@ -422,6 +422,6 @@ _fillpolygon_test18:
 
   CLEARFASTBITPLANES                                                               ; Clear fast bitplanes
   bsr.w                 ammx_fill_table_bpl2
-  bsr.w                 processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
+  processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
 
   rts

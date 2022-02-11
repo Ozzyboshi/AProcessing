@@ -43,7 +43,7 @@ _drawing_test1:
 	moveq #5,d1
 	jsr POINT
 
-	bsr.w processing_bitplanes_fast_screen0 ; returns bitplanes addr in d0
+	processing_bitplanes_fast_screen0 ; returns bitplanes addr in d0
 	
 	rts
 
@@ -76,7 +76,7 @@ _drawing_test2:
 	moveq #5,d1
 	jsr POINT
 
-	bsr.w processing_bitplanes_fast_screen0 ; returns bitplanes addr in d0
+	processing_bitplanes_fast_screen0 ; returns bitplanes addr in d0
 	
 	rts
 
@@ -109,7 +109,7 @@ _drawing_test3:
 	moveq #5,d1
 	jsr POINT
 
-	bsr.w processing_bitplanes_fast_screen0 ; returns bitplanes addr in d0
+	processing_bitplanes_fast_screen0 ; returns bitplanes addr in d0
 	
 	rts
 

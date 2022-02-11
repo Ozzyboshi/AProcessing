@@ -39,7 +39,7 @@ _fillscanline_test1:
   move.w                #15,(a1)+
   move.w                #102,(a1)+
   bsr.w                 ammx_fill_table
-  bsr.w                 processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
+  processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
   rts
 
 _fillscanline_test2:
@@ -53,7 +53,7 @@ _fillscanline_test2:
   move.w                #1,(a1)+
   move.w                #2,(a1)+
   bsr.w                 ammx_fill_table
-  bsr.w                 processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
+  processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
   rts
 
 _fillscanline_test3:
@@ -68,7 +68,7 @@ _fillscanline_test3:
   move.w                #1,(a1)+
   move.w                #2,(a1)+
   bsr.w                 ammx_fill_table
-  bsr.w                 processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
+  processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
   rts
 
 _fillscanline_test4:
@@ -82,7 +82,7 @@ _fillscanline_test4:
   move.w                #0,(a1)+
   move.w                #319,(a1)+
   bsr.w                 ammx_fill_table
-  bsr.w                 processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
+  processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
   rts
 
 _fillscanline_test5:
@@ -98,7 +98,7 @@ _fillscanline_test5:
   move.w                #0,(a1)+
   move.w                #319,(a1)+
   bsr.w                 ammx_fill_table
-  bsr.w                 processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
+  processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
   rts
 
 _fillscanline_test6:
@@ -114,7 +114,7 @@ _fillscanline_test6:
   move.w                #0,(a1)+
   move.w                #0,(a1)+
   bsr.w                 ammx_fill_table
-  bsr.w                 processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
+  processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
   rts
 
 _fillscanline_test7:
@@ -129,7 +129,7 @@ _fillscanline_test7:
   move.w                #2,(a1)+
   STROKE                #3
   bsr.w                 ammx_fill_table
-  bsr.w                 processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
+  processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
   rts
 
 _fillscanline_test8:
@@ -144,7 +144,7 @@ _fillscanline_test8:
   move.w                #7,(a1)+
   STROKE                #3
   bsr.w                 ammx_fill_table
-  bsr.w                 processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
+  processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
   rts
 
 _fillscanline_test9:
@@ -159,7 +159,7 @@ _fillscanline_test9:
   move.w                #319,(a1)+
   STROKE                #3
   bsr.w                 ammx_fill_table
-  bsr.w                 processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
+  processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
   rts
 
 _fillscanline_test10:
@@ -176,7 +176,7 @@ _fillscanline_test10:
   move.w                #16,(a1)+
   STROKE                #3
   bsr.w                 ammx_fill_table
-  bsr.w                 processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
+  processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
   rts
 
 _fillscanline_test11:
@@ -192,7 +192,7 @@ _fillscanline_test11:
 
   STROKE                #3
   bsr.w                 ammx_fill_table
-  bsr.w                 processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
+  processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
   rts
 
 _fillscanline_test12:
@@ -209,7 +209,7 @@ _fillscanline_test12:
   move.w                #31,(a1)+
   STROKE                #2
   bsr.w                 ammx_fill_table
-  bsr.w                 processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
+  processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
   rts
 
 _fillscanline_test13:
@@ -224,7 +224,7 @@ _fillscanline_test13:
   move.w                #6,(a1)+
   STROKE                #2
   bsr.w                 ammx_fill_table
-  bsr.w                 processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
+  processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
   rts
 
 _fillscanline_test14:
@@ -243,7 +243,7 @@ _fillscanline_test14:
   move.l                AMMX_FILL_FUNCT_ADDR,a0
   jsr                   (a0)
   DISABLE_CLIPPING
-  bsr.w                 processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
+  processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
   rts
 
 _fillscanline_test15:
@@ -260,7 +260,7 @@ _fillscanline_test15:
   move.w                #15,(a1)+
   move.w                #102,(a1)+
   bsr.w                 ammx_fill_table_noreset
-  bsr.w                 processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
+  processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
   rts
 
 _fillscanline_test16:
@@ -276,5 +276,5 @@ _fillscanline_test16:
   move.w                #102,(a1)+
   STROKE #2
   bsr.w                 ammx_fill_table
-  bsr.w                 processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
+  processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
   rts

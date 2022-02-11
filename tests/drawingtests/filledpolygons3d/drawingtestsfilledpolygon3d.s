@@ -36,7 +36,7 @@ _drawing_test3d1:
   VERTEX_INIT            3,#-10,#10,#0
 
   bsr.w                  TRIANGLE3D
-  bsr.w                  processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
+  processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
   
   rts
 
@@ -62,7 +62,7 @@ _drawing_test3d2:
 
   bsr.w                  TRIANGLE3D
   
-  bsr.w                  processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
+  processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
   
   rts
 
@@ -80,7 +80,7 @@ _drawing_test3d3:
   STROKE                 #3
 
   bsr.w                  FOURSIDEPOLYGON3D
-  bsr.w                  processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
+  processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
   
   rts
 
@@ -100,7 +100,7 @@ _drawing_test3d4:
   ROTATEX #70
 
   bsr.w                  FOURSIDEPOLYGON3D
-  bsr.w                  processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
+  processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
   
   rts
 
@@ -120,6 +120,6 @@ _drawing_test3d5:
   ROTATEY #70
 
   bsr.w                  FOURSIDEPOLYGON3D
-  bsr.w                  processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
+  processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
   
   rts

@@ -45,7 +45,7 @@ _drawpolygon_test1:
   jsr                                           TRIANGLE_BLIT
 
   WAITBLITTER
-  jsr                                         processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
+  processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
   move.l                                        (sp)+,d2
   rts
 
@@ -73,7 +73,7 @@ _drawpolygon_test2:
   jsr                                           TRIANGLE_BLIT
   
   WAITBLITTER
-  jsr                                         processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
+  processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
   move.l                                        (sp)+,d2
   rts
 
@@ -101,7 +101,7 @@ _drawpolygon_test3:
   jsr                                           TRIANGLE_BLIT
 
   WAITBLITTER
-  jsr                                         processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
+  processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
   move.l                                        (sp)+,d2
   rts
 
@@ -129,7 +129,7 @@ _drawpolygon_test4:
   jsr                                           TRIANGLE_BLIT
 
   WAITBLITTER
-  jsr                                         processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
+  processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
   move.l                                        (sp)+,d2
   rts
 
@@ -156,7 +156,7 @@ _drawpolygon_test5:
   jsr                                           TRIANGLE_BLIT
 
   WAITBLITTER
-  jsr                                         processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
+  processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
   move.l                                        (sp)+,d2
   rts
 
@@ -184,7 +184,7 @@ _drawpolygon_test6:
   jsr                                           TRIANGLE_BLIT
 
   WAITBLITTER
-  jsr                                         processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
+  processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
   move.l                                        (sp)+,d2
   rts
 
@@ -211,7 +211,7 @@ _drawpolygon_test7:
   jsr                                           TRIANGLE_BLIT
 
   WAITBLITTER
-  jsr                                           processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
+  processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
   move.l                                        (sp)+,d2
   rts
 
@@ -239,7 +239,7 @@ _drawpolygon_test8:
   jsr                                           TRIANGLE_BLIT
 
   WAITBLITTER
-  jsr                                           processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
+  processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
   move.l                                        (sp)+,d2
   rts
 
@@ -264,6 +264,6 @@ _drawpolygon_test9:
   jsr                    TRIANGLE_BLIT
 
   WAITBLITTER
-  jsr                                         processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
+  processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
   move.l                                        (sp)+,d2
   rts

@@ -34,7 +34,7 @@ _blitline_test1:
   lea                   SCREEN_0,a0
   MOVE.W                #%1000001111000000,$96(a5)
   jsr                   Drawline
-  jsr                 processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
+  processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
   move.l                (sp)+,d2
   rts
 
@@ -58,7 +58,7 @@ _blitline_test2:
   ;	D4 = PlaneWidth > Kills: D0-D4/A0-A1 (+D5 in Fill Mode)       
   lea                   $dff002,a6
   jsr                   DrawLine2
-  jsr                   processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
+  processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
 
   move.l                (sp)+,d2
   rts
@@ -81,7 +81,7 @@ _blitline_test3:
   lea                   SCREEN_0,a0
   MOVE.W                #%1000001111000000,$96(a5)
   jsr                   Drawline
-  jsr                   processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
+  processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
   move.l                (sp)+,d2
   rts
 
@@ -105,7 +105,7 @@ _blitline_test4:
          
   lea                   $dff002,a6
   jsr                   DrawLine2
-  jsr                   processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
+  processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
 
   move.l                (sp)+,d2
   rts
@@ -121,6 +121,6 @@ _blitline_test5:
   lea                   SCREEN_0,a0
   MOVE.W                #%1000001111000000,$96(a5)
   jsr                   DrawLine3
-  jsr                   processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
+  processing_bitplanes_fast_screen0                          ; returns bitplanes addr in d0
   move.l                (sp)+,d2
   rts
