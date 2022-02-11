@@ -1272,8 +1272,8 @@ LOADIDENTITYANDTRANSLATE:
 	vperm #$45CDEF67,d2,d0,e0
     store e0,(b0)+
 	ELSE
-	lea CURRENT_TRANSFORMATION_MATRIX(PC),a0
-	moveq #0,d2
+	lea    CURRENT_TRANSFORMATION_MATRIX(PC),a0
+	moveq  #0,d2
 	move.l #$00000040,(a0)+
 	move.l d2,(a0)+
 	move.l d2,(a0)+
@@ -1542,7 +1542,7 @@ ROTATE_INV_Q_5_11_F:
 
 	ENDC
 
-	jsr ammxmatrixmul3X3_q5_11
+	bsr.w    ammxmatrixmul3X3_q5_11
 
 	IFD VAMPIRE
 	UPDATE_CURRENT_TRANSFORMATION_MATRIX e13,e14,e15

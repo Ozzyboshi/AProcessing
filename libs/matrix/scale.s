@@ -36,18 +36,18 @@ SCALE:
   REG_LOADI                               0000,0000,0000,0040,e3
 
   ELSE
-  LOAD_CURRENT_TRANSFORMATION_MATRIX      OPERATOR2_TR_MATRIX_ROW1
-  moveq #0,d2
-  lea OPERATOR1_TR_MATRIX_ROW1(PC),a0
+  LOAD_CURRENT_TRANSFORMATION_MATRIX_PC   OPERATOR2_TR_MATRIX_ROW1
+  moveq                                   #0,d2
+  lea                                     OPERATOR1_TR_MATRIX_ROW1(PC),a0
   move.w                                  d2,(a0)+
   move.w                                  d0,(a0)+
   move.l                                  d2,(a0)+
   move.l                                  d2,(a0)+
   move.w                                  d1,(a0)+
-  move.w                                  d2,(a0)+
   move.l                                  d2,(a0)+
-  move.l                                  #$00000040,(a0)
-    
+  move.l                                  d2,(a0)+
+  move.w                                  #$0040,(a0)
+
   ENDC
   bsr.w                                   ammxmatrixmul3X3_q10_6
   IFD                                     VAMPIRE
