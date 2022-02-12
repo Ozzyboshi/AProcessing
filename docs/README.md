@@ -57,7 +57,7 @@
    - d0.w: x value
    - d1.w: y value
    - address of the vector as first arg of the macro
-   - 
+ 
  Output: nothing
  
  Trashes: nothing
@@ -82,4 +82,22 @@
   moveq                #$A,d0
   moveq                #$B,d1
   CREATE2DVECTOR       a0
+  ```
+
+### Matrix operation instructions
+
+#### SCALE - Increases or decreases the size of a shape by expanding and contracting vertices.
+ Input: 
+   - d0.w: x value (Q10,6 format)
+   - d1.w: y value (Q10,6 format)
+ 
+ Output: nothing
+ 
+ Trashes: nothing
+ 
+ Example: scale 0,5 on Y axis
+  ```
+ move.w #%0000000001000000,d0
+ move.w #%0000000000100000,d1
+ jsr    SCALE
   ```
