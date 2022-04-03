@@ -83,6 +83,32 @@
   moveq                #$B,d1
   CREATE2DVECTOR       a0
   ```
+  
+#### SUB2DVECTORSTATIC - Subtract 2 2d vectors and place the result in the third
+ Input: 
+   - a0.l: address of first vector (minuend)
+   - a1.l: address of second vector (subtrahend)
+   - address of the destination vector
+ 
+ Output: nothing
+ 
+ Trashes: ???
+ 
+ Example: Store VECTOR1-VECTOR2 to VECTOR3
+  ```
+  VECTOR1:
+  dc.l                 0
+  
+  VECTOR2:
+  dc.l                 0
+  
+  VECTOR3:
+  dc.l                 0
+  ...
+  lea                  VECTOR1,a0
+  lea                  VECTOR2,a1
+  SUB2DVECTORSTATIC    VECTOR3    
+  ```
 
 ### GET2DMAGNITUDE - get magnitude of 2d vector
   Input: 
