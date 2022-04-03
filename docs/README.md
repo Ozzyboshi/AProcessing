@@ -83,48 +83,78 @@
   moveq                #$B,d1
   CREATE2DVECTOR       a0
   ```
+  
+#### SUB2DVECTORSTATIC - Subtract 2 2d vectors and place the result in the third
+ Input: 
+   - a0.l: address of first vector (minuend)
+   - a1.l: address of second vector (subtrahend)
+   - address of the destination vector
+ 
+ Output: nothing
+ 
+ Trashes: ???
+ 
+ Example: Store VECTOR1-VECTOR2 to VECTOR3
+  ```
+  VECTOR1:
+  dc.l                 0
+  
+  VECTOR2:
+  dc.l                 0
+  
+  VECTOR3:
+  dc.l                 0
+  ...
+  lea                  VECTOR1,a0
+  lea                  VECTOR2,a1
+  SUB2DVECTORSTATIC    VECTOR3    
+  ```
 
 ### GET2DMAGNITUDE - get magnitude of 2d vector
-  Input: 
-    - a0.l: address of vector
-  Output:
-    - d0.w: magnitude of the vector (rounded to integer)
-  Trashes:
-    - d0
-    - d1
+ Input: 
+   - a0.l: address of vector
+    
+ Output:
+   - d0.w: magnitude of the vector (rounded to integer)
+    
+ Trashes:
+   - d0
+   - d1
 
-  Example: get the magnitude of vector 3,4
+ Example: get the magnitude of vector 3,4
 
-  ```
-  lea VECTOR1,a0
-  moveq                #$3,d0
-  moveq                #$4,d1
-  CREATE2DVECTOR       a0
-  GET2DMAGNITUDE
-  ; here d0 holds the value 5 which is the magnitude
-  ```
+ ```
+ lea VECTOR1,a0
+ moveq                #$3,d0
+ moveq                #$4,d1
+ CREATE2DVECTOR       a0
+ GET2DMAGNITUDE
+ ; here d0 holds the value 5 which is the magnitude
+ ```
 
 ### SET2DMAGNITUDE - set magnitude of 2d vector
-  Input: 
-    - a0.l: address of vector
-  Output:
-    - d7.w: desired magnitude (integer)
-  Trashes:
-    - d0
-    - d1
-    - d2
+ Input: 
+   - a0.l: address of vector
+    
+ Output:
+   - d7.w: desired magnitude (integer)
+    
+ Trashes:
+   - d0
+   - d1
+   - d2
 
-  Example: set the magnitude of vector 3,4 to 100
+ Example: set the magnitude of vector 3,4 to 100
 
-  ```
-  lea VECTOR1,a0
-  moveq                #$3,d0
-  moveq                #$4,d1
-  CREATE2DVECTOR       a0
-  moveq #100,d7
-  jsr                  SET2DMAGNITUDE
-  ; here a0 holds the address of the vector with magnitude set to 100
-  ```
+ ```
+ lea VECTOR1,a0
+ moveq                #$3,d0
+ moveq                #$4,d1
+ CREATE2DVECTOR       a0
+ moveq #100,d7
+ jsr                  SET2DMAGNITUDE
+ ; here a0 holds the address of the vector with magnitude set to 100
+ ```
 
   Note: in order to use GET2DMAGNITUDE and SET2DMAGNITUDE use one of the following DEFINES according to the vector length:
   - -DSQRT_SMALL
