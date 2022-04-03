@@ -13,7 +13,7 @@
   XDEF                 _vectorssimpleops_test13
   XDEF                 _vectorssimpleops_test14
   XDEF                 _vectorssimpleops_test15
-
+  XDEF                 _vectorssimpleops_test16
 
   include              "../../../libs/rasterizers/globaloptions.s"
   include              "../../../libs/vectors/operations.s"
@@ -290,6 +290,39 @@ _vectorssimpleops_test15:
   
   moveq                #100,d7
   jsr                  SET2DMAGNITUDE
+  move.l               #VECTOR1,d0
+  move.l               (sp)+,d2
+  rts
+
+_vectorssimpleops_test16:
+  move.l               d2,-(sp)
+
+  ; vector 1 is $90,$30
+  lea VECTOR1,a0
+  move.w               #$90,d0
+  move.w               #$30,d1
+  CREATE2DVECTOR       a0
+
+  ; vector 2 is $60,$A0
+  lea VECTOR2,a0
+  move.w               #$60,d0
+  move.w               #$a0,d1
+  CREATE2DVECTOR       a0
+
+  lea                  VECTOR2,a0
+  lea                  VECTOR1,a1
+
+  SUB2DVECTORSTATIC    VECTOR3
+
+  ; set magnitude 1
+  moveq                #3,d7
+  lea                  VECTOR3,a0
+  jsr                  SET2DMAGNITUDE
+
+  lea                  VECTOR3,a0
+  lea                  VECTOR1,a1
+  ADD2DVECTOR
+
   move.l               #VECTOR1,d0
   move.l               (sp)+,d2
   rts

@@ -216,7 +216,13 @@ SET2DMAGNITUDE:
   GET2DMAGNITUDE
 
   move.w    (a0),d1
+  beq SET2DMAGNITUDE_END
+
   move.w    2(a0),d2
+  beq SET2DMAGNITUDE_END
+
+  tst.w d7
+  beq SET2DMAGNITUDE_END
 
   muls d7,d1
   muls d7,d2
@@ -226,6 +232,7 @@ SET2DMAGNITUDE:
 
   move.w d1,(a0)
   move.w d2,2(a0)
+SET2DMAGNITUDE_END:
   rts 
 
 

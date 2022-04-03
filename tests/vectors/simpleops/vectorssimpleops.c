@@ -17,6 +17,7 @@ unsigned char *vectorssimpleops_test12();
 unsigned char *vectorssimpleops_test13();
 unsigned char *vectorssimpleops_test14();
 unsigned char *vectorssimpleops_test15();
+unsigned char *vectorssimpleops_test16();
 
 struct _test TESTS[] = {
     {.testId = 1, .test_function = vectorssimpleops_test1, .nbitplanes=1, .nrows=2, .nbyterow=2,.title = "static add v1(3,4) with v2(5,6)", .verbose=0},
@@ -34,6 +35,7 @@ struct _test TESTS[] = {
     {.testId = 13, .test_function = vectorssimpleops_test13, .nbitplanes=1, .nrows=2, .nbyterow=2,.title = "set magnitude of 100 to 2dvector 3,4", .verbose=0},
     {.testId = 14, .test_function = vectorssimpleops_test14, .nbitplanes=1, .nrows=2, .nbyterow=2,.title = "set magnitude of 100 to 2dvector 3*64,4*64", .verbose=0},
     {.testId = 15, .test_function = vectorssimpleops_test15, .nbitplanes=1, .nrows=2, .nbyterow=2,.title = "set magnitude of 100 to 2dvector -3*64,4*64", .verbose=0},
+    {.testId = 16, .test_function = vectorssimpleops_test16, .nbitplanes=1, .nrows=2, .nbyterow=2,.title = "mixed ops", .verbose=0},
 
     {.testId = 0, .test_function = NULL}
 
