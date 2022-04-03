@@ -1,6 +1,7 @@
 [fs-uae]
 amiga_model = [% model %]
 chip_memory = [% chip %]
+fast_memory = [% fast %]
 floppy_drive_0 = /tmp/testfloppy.adf
 hard_drive_0 = /tmp/shared/PC
 kickstart_file = [% ksrom %]

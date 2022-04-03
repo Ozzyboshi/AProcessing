@@ -8,6 +8,22 @@ services:
     environment: 
         MODEL: A600
         CHIP: 1024
+        FAST: 0
+        KSROM: /tmp/shared/kick205.rom
+    volumes:
+        - "${HOME}/shared:/tmp/shared"
+        - "../../:/tmp/shared/PC"
+    network_mode: "none"
+
+  fsuae-unit-tester_a600_fast:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    image: fsuae-unit-tester:latest
+    environment: 
+        MODEL: A600
+        CHIP: 1024
+        FAST: 2048
         KSROM: /tmp/shared/kick205.rom
     volumes:
         - "${HOME}/shared:/tmp/shared"
@@ -22,6 +38,7 @@ services:
     environment: 
         MODEL: A1200
         CHIP: 2048
+        FAST: 0
         KSROM: /tmp/shared/Kick-3.0_39.106.A1200.rom
     volumes:
         - "${HOME}/shared:/tmp/shared"

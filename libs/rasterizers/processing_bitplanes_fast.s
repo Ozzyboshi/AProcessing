@@ -19,7 +19,7 @@ SWAP_BPL MACRO
     ENDC
     
     IFD USE_VIDEOCHIP
-    SECTION ".data_chip",data
+    section .datachip
     ENDC
 
     IFD USE_BPL_SECTION

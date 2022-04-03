@@ -20,6 +20,14 @@ else
       echo "Amiga chip ram is $CHIP"
 fi
 
+if [ -z "$FAST" ]
+then
+      echo "FAST is empty"
+      exit 1
+else
+      echo "Amiga fast ram is $FAST"
+fi
+
 if [ -z "$KSROM" ]
 then
       echo "KSROM is empty"
@@ -28,7 +36,7 @@ else
       echo "Amiga kickstart is $KSROM"
 fi
 /usr/local/bin/buildtestadf.sh 1>/dev/null 2>/dev/null
-tpage --define model="$MODEL" --define chip="$CHIP" --define ksrom="$KSROM" ./fsconf.fs-uae.tt > fsconf"$MODEL".fs-uae
+tpage --define model="$MODEL" --define chip="$CHIP" --define fast="$FAST" --define ksrom="$KSROM" ./fsconf.fs-uae.tt > fsconf"$MODEL".fs-uae
 xvfb-run -s '-screen 0 640x480x24' fs-uae ./fsconf"$MODEL".fs-uae 1>/dev/null 2>/dev/null &
 
 until [ -f /tmp/shared/PC/fine ]

@@ -6,6 +6,7 @@ RUN fs-uae 1>/dev/null 2>/dev/null || echo "Fsuae directory created"
 COPY fsconf.fs-uae.tt /root/FS-UAE/Configurations
 ENV MODEL=A600
 ENV CHIP=1024
+ENV FAST=0
 ENV KSROM=/tmp/shared/kick205.rom
 COPY startfsuae.sh /usr/local/bin
 COPY buildtestadf.sh /usr/local/bin
