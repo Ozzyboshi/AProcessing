@@ -18,6 +18,11 @@ unsigned char *vectorssimpleops_test13();
 unsigned char *vectorssimpleops_test14();
 unsigned char *vectorssimpleops_test15();
 unsigned char *vectorssimpleops_test16();
+unsigned char *vectorssimpleops_test17();
+unsigned char *vectorssimpleops_test18();
+unsigned char *vectorssimpleops_test19();
+unsigned char *vectorssimpleops_test20();
+unsigned char *vectorssimpleops_test21();
 
 struct _test TESTS[] = {
     {.testId = 1, .test_function = vectorssimpleops_test1, .nbitplanes=1, .nrows=2, .nbyterow=2,.title = "static add v1(3,4) with v2(5,6)", .verbose=0},
@@ -36,6 +41,12 @@ struct _test TESTS[] = {
     {.testId = 14, .test_function = vectorssimpleops_test14, .nbitplanes=1, .nrows=2, .nbyterow=2,.title = "set magnitude of 100 to 2dvector 3*64,4*64", .verbose=0},
     {.testId = 15, .test_function = vectorssimpleops_test15, .nbitplanes=1, .nrows=2, .nbyterow=2,.title = "set magnitude of 100 to 2dvector -3*64,4*64", .verbose=0},
     {.testId = 16, .test_function = vectorssimpleops_test16, .nbitplanes=1, .nrows=2, .nbyterow=2,.title = "mixed ops", .verbose=0},
+    {.testId = 17, .test_function = vectorssimpleops_test17, .nbitplanes=1, .nrows=2, .nbyterow=2,.title = "south vector normalization", .verbose=0},
+    {.testId = 18, .test_function = vectorssimpleops_test18, .nbitplanes=1, .nrows=2, .nbyterow=2,.title = "north vector normalization", .verbose=0},
+    {.testId = 19, .test_function = vectorssimpleops_test19, .nbitplanes=1, .nrows=2, .nbyterow=2,.title = "west vector normalization", .verbose=0},
+    {.testId = 20, .test_function = vectorssimpleops_test20, .nbitplanes=1, .nrows=2, .nbyterow=2,.title = "east vector normalization", .verbose=0},
+    {.testId = 21, .test_function = vectorssimpleops_test21, .nbitplanes=1, .nrows=2, .nbyterow=2,.title = "zero vector normalization", .verbose=0},
+
 
     {.testId = 0, .test_function = NULL}
 

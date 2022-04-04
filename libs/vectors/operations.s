@@ -215,25 +215,25 @@ GET2DMAGNITUDE MACRO
 SET2DMAGNITUDE:
   GET2DMAGNITUDE
 
+  tst.w     d0
+  bne.s     GET2DMAGNITUDE_NODIV
+  move.l    #0,(a0)
+  rts
+GET2DMAGNITUDE_NODIV:
+
   move.w    (a0),d1
-  beq SET2DMAGNITUDE_END
-
   move.w    2(a0),d2
-  beq SET2DMAGNITUDE_END
 
-  tst.w d7
-  beq SET2DMAGNITUDE_END
-
-  muls d7,d1
-  muls d7,d2
+  muls      d7,d1
+  muls      d7,d2
 
   divs d0,d1
   divs d0,d2
 
   move.w d1,(a0)
   move.w d2,2(a0)
-SET2DMAGNITUDE_END:
   rts 
+
 
 
 *************************************************************************
@@ -289,11 +289,17 @@ GET2DMAGNITUDE MACRO
 SET2DMAGNITUDE:
   GET2DMAGNITUDE
 
+  tst.w     d0
+  bne.s     GET2DMAGNITUDE_NODIV
+  move.l    #0,(a0)
+  rts
+GET2DMAGNITUDE_NODIV:
+
   move.w    (a0),d1
   move.w    2(a0),d2
 
-  muls d7,d1
-  muls d7,d2
+  muls      d7,d1
+  muls      d7,d2
 
   divs d0,d1
   divs d0,d2
@@ -301,6 +307,7 @@ SET2DMAGNITUDE:
   move.w d1,(a0)
   move.w d2,2(a0)
   rts 
+
 
 
 *************************************************************************
@@ -371,11 +378,17 @@ GET2DMAGNITUDE MACRO
 SET2DMAGNITUDE:
   GET2DMAGNITUDE
 
+  tst.w     d0
+  bne.s     GET2DMAGNITUDE_NODIV
+  move.l    #0,(a0)
+  rts
+GET2DMAGNITUDE_NODIV:
+
   move.w    (a0),d1
   move.w    2(a0),d2
 
-  muls d7,d1
-  muls d7,d2
+  muls      d7,d1
+  muls      d7,d2
 
   divs d0,d1
   divs d0,d2

@@ -14,6 +14,12 @@
   XDEF                 _vectorssimpleops_test14
   XDEF                 _vectorssimpleops_test15
   XDEF                 _vectorssimpleops_test16
+  XDEF                 _vectorssimpleops_test17
+  XDEF                 _vectorssimpleops_test18
+  XDEF                 _vectorssimpleops_test19
+  XDEF                 _vectorssimpleops_test20
+  XDEF                 _vectorssimpleops_test21
+
 
   include              "../../../libs/rasterizers/globaloptions.s"
   include              "../../../libs/vectors/operations.s"
@@ -314,8 +320,171 @@ _vectorssimpleops_test16:
 
   SUB2DVECTORSTATIC    VECTOR3
 
-  ; set magnitude 1
+  ; set magnitude 3
   moveq                #3,d7
+  lea                  VECTOR3,a0
+  jsr                  SET2DMAGNITUDE
+
+  lea                  VECTOR3,a0
+  lea                  VECTOR1,a1
+  ADD2DVECTOR
+
+  move.l               #VECTOR1,d0
+  move.l               (sp)+,d2
+  rts
+
+_vectorssimpleops_test17:
+  move.l               d2,-(sp)
+
+  ; vector 1 is $90,$30
+  lea VECTOR1,a0
+  move.w               #$90,d0
+  move.w               #$30,d1
+  CREATE2DVECTOR       a0
+
+  ; vector 2 is $60,$A0
+  lea VECTOR2,a0
+  move.w               #$90,d0
+  move.w               #$a0,d1
+  CREATE2DVECTOR       a0
+
+  lea                  VECTOR2,a0
+  lea                  VECTOR1,a1
+
+  SUB2DVECTORSTATIC    VECTOR3
+
+  ; set magnitude 1
+  moveq                #1,d7
+  lea                  VECTOR3,a0
+  jsr                  SET2DMAGNITUDE
+
+  lea                  VECTOR3,a0
+  lea                  VECTOR1,a1
+  ADD2DVECTOR
+
+  move.l               #VECTOR1,d0
+  move.l               (sp)+,d2
+  rts
+
+_vectorssimpleops_test18:
+  move.l               d2,-(sp)
+
+  ; vector 1 is $90,$30
+  lea VECTOR1,a0
+  move.w               #$90,d0
+  move.w               #$a0,d1
+  CREATE2DVECTOR       a0
+
+  ; vector 2 is $60,$A0
+  lea VECTOR2,a0
+  move.w               #$90,d0
+  move.w               #$30,d1
+  CREATE2DVECTOR       a0
+
+  lea                  VECTOR2,a0
+  lea                  VECTOR1,a1
+
+  SUB2DVECTORSTATIC    VECTOR3
+
+  ; set magnitude 1
+  moveq                #1,d7
+  lea                  VECTOR3,a0
+  jsr                  SET2DMAGNITUDE
+
+  lea                  VECTOR3,a0
+  lea                  VECTOR1,a1
+  ADD2DVECTOR
+
+  move.l               #VECTOR1,d0
+  move.l               (sp)+,d2
+  rts
+
+_vectorssimpleops_test19:
+  move.l               d2,-(sp)
+
+  ; vector 1 is $90,$30
+  lea VECTOR1,a0
+  move.w               #$90,d0
+  move.w               #$30,d1
+  CREATE2DVECTOR       a0
+
+  ; vector 2 is $60,$A0
+  lea VECTOR2,a0
+  move.w               #$80,d0
+  move.w               #$30,d1
+  CREATE2DVECTOR       a0
+
+  lea                  VECTOR2,a0
+  lea                  VECTOR1,a1
+
+  SUB2DVECTORSTATIC    VECTOR3
+
+  ; set magnitude 1
+  moveq                #1,d7
+  lea                  VECTOR3,a0
+  jsr                  SET2DMAGNITUDE
+
+  lea                  VECTOR3,a0
+  lea                  VECTOR1,a1
+  ADD2DVECTOR
+
+  move.l               #VECTOR1,d0
+  move.l               (sp)+,d2
+  rts
+
+_vectorssimpleops_test20:
+  move.l               d2,-(sp)
+
+  ; vector 1 is $90,$30
+  lea VECTOR1,a0
+  move.w               #$80,d0
+  move.w               #$30,d1
+  CREATE2DVECTOR       a0
+
+  ; vector 2 is $60,$A0
+  lea VECTOR2,a0
+  move.w               #$90,d0
+  move.w               #$30,d1
+  CREATE2DVECTOR       a0
+
+  lea                  VECTOR2,a0
+  lea                  VECTOR1,a1
+
+  SUB2DVECTORSTATIC    VECTOR3
+
+  ; set magnitude 1
+  moveq                #1,d7
+  lea                  VECTOR3,a0
+  jsr                  SET2DMAGNITUDE
+
+  lea                  VECTOR3,a0
+  lea                  VECTOR1,a1
+  ADD2DVECTOR
+
+  move.l               #VECTOR1,d0
+  move.l               (sp)+,d2
+  rts
+
+_vectorssimpleops_test21:
+  move.l               d2,-(sp)
+
+  ; vector 1 is $90,$30
+  move.w               #$80,d0
+  move.w               #$30,d1
+  CREATE2DVECTOR       VECTOR1
+
+  ; vector 2 is $60,$A0
+  move.w               #$80,d0
+  move.w               #$30,d1
+  CREATE2DVECTOR       VECTOR2
+
+  lea                  VECTOR2,a0
+  lea                  VECTOR1,a1
+
+  SUB2DVECTORSTATIC    VECTOR3
+
+  ; set magnitude 1
+  moveq                #10,d7
   lea                  VECTOR3,a0
   jsr                  SET2DMAGNITUDE
 
