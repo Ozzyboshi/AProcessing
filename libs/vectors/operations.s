@@ -473,3 +473,45 @@ lsqrt4  move.w d2,d0    (4)
         movem.l (sp)+,d1-d4 (44)
         rts             (16)
   ENDC
+
+  ; Set2dmagnitude_fake
+  ; Does not perform pitagora for normalizing
+  ; instead it assume ipotenusa = cateto1+cateto2
+  ; load vector addr in a0
+  ; set magnitude in d7 as integer
+  ; Warning!!!!!!! input & result will use least significant 6 digits for decimal part
+  ; so if you need only the integer part right shift each vector component to the
+  ; right by 6
+  IFD SQRT_FAKE
+  
+SET2DMAGNITUDE_FAKE:
+  moveq #0,d1
+  moveq #0,d2
+  move.w (a0),d1
+  move.w 2(a0),d2
+
+  move.w d1,d5
+  move.w d2,d6
+  asr.w #6,d5
+  asr.w #6,d6
+
+  add.w d5,d6
+  beq.s SET2DMAGNITUDE_FAKE_RET_ZERO
+
+  ; Normalize
+  divs.w d6,d1
+  divs.w d6,d2
+
+  muls.w d7,d1
+  muls.w d7,d2
+  asr.l #6,d1
+  asr.l #6,d2
+
+  move.w d1,(a0)
+  move.w d2,2(a0)
+
+  rts
+SET2DMAGNITUDE_FAKE_RET_ZERO:
+  move.l #0,(a0)
+  rts
+  ENDC
