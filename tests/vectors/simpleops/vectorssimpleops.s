@@ -20,7 +20,8 @@
   XDEF                 _vectorssimpleops_test20
   XDEF                 _vectorssimpleops_test21
   XDEF                 _vectorssimpleops_test22
-
+  XDEF                 _vectorssimpleops_test23
+  XDEF                 _vectorssimpleops_test24
 
   include              "../../../libs/rasterizers/globaloptions.s"
   include              "../../../libs/vectors/operations.s"
@@ -529,6 +530,54 @@ _vectorssimpleops_test22:
   lea                  VECTOR3,a0
   lea                  VECTOR1,a1
   ADD2DVECTOR
+
+  move.l               #VECTOR1,d0
+  move.l               (sp)+,d2
+  rts
+
+_vectorssimpleops_test23:
+  move.l               d2,-(sp)
+
+  ; vector 1 is $30,$90
+  move.w               #$2400,d0 ; 48
+  move.w               #$0c00,d1 ; 144
+  
+  CREATE2DVECTOR       VECTOR1
+
+  ; vector 2 is $a0,$90
+  move.w               #$2300,d0 ; 160
+  move.w               #$0c00,d1 ; 152
+  
+  CREATE2DVECTOR       VECTOR2
+
+  lea                  VECTOR2,a0
+  lea                  VECTOR1,a1
+
+  SUB2DVECTORSTATIC    VECTOR3
+
+  ; set magnitude 1
+  move.w                #1*64,d7
+  lea                  VECTOR3,a0
+  jsr                  SET2DMAGNITUDE_FAKE
+
+  lea                  VECTOR3,a0
+  lea                  VECTOR1,a1
+  ADD2DVECTOR
+
+  move.l               #VECTOR1,d0
+  move.l               (sp)+,d2
+  rts
+
+_vectorssimpleops_test24:
+  move.l               d2,-(sp)
+  move.w                #$ff00,d0
+  moveq                #0,d1
+  CREATE2DVECTOR       VECTOR1
+
+  ; set magnitude 1
+  move.w                #1*64,d7
+  lea                  VECTOR1,a0
+  jsr                  SET2DMAGNITUDE_FAKE
 
   move.l               #VECTOR1,d0
   move.l               (sp)+,d2

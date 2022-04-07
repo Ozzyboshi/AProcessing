@@ -24,6 +24,8 @@ unsigned char *vectorssimpleops_test19();
 unsigned char *vectorssimpleops_test20();
 unsigned char *vectorssimpleops_test21();
 unsigned char *vectorssimpleops_test22();
+unsigned char *vectorssimpleops_test23();
+unsigned char *vectorssimpleops_test24();
 
 struct _test TESTS[] = {
     {.testId = 1, .test_function = vectorssimpleops_test1, .nbitplanes=1, .nrows=2, .nbyterow=2,.title = "static add v1(3,4) with v2(5,6)", .verbose=0},
@@ -48,6 +50,8 @@ struct _test TESTS[] = {
     {.testId = 20, .test_function = vectorssimpleops_test20, .nbitplanes=1, .nrows=2, .nbyterow=2,.title = "east vector normalization", .verbose=0},
     {.testId = 21, .test_function = vectorssimpleops_test21, .nbitplanes=1, .nrows=2, .nbyterow=2,.title = "zero vector normalization", .verbose=0},
     {.testId = 22, .test_function = vectorssimpleops_test22, .nbitplanes=1, .nrows=2, .nbyterow=2,.title = "decimal vector with sqrt fake", .verbose=0},
+    {.testId = 23, .test_function = vectorssimpleops_test23, .nbitplanes=1, .nrows=2, .nbyterow=2,.title = "decimal vector with sqrt fake going left", .verbose=0},
+    {.testId = 24, .test_function = vectorssimpleops_test24, .nbitplanes=1, .nrows=2, .nbyterow=2,.title = "setmag fake with negative x", .verbose=0},
 
 
     {.testId = 0, .test_function = NULL}

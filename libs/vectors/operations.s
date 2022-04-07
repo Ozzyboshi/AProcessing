@@ -491,7 +491,14 @@ SET2DMAGNITUDE_FAKE:
   move.w 2(a0),d2
 
   move.w d1,d5
+  bpl.s SET2DMAGNITUDE_FAKE_ABS_1
+  neg.w d5
+SET2DMAGNITUDE_FAKE_ABS_1:
   move.w d2,d6
+  bpl.s SET2DMAGNITUDE_FAKE_ABS_2
+  neg.w d6
+SET2DMAGNITUDE_FAKE_ABS_2:
+  
   asr.w #6,d5
   asr.w #6,d6
 
@@ -499,7 +506,9 @@ SET2DMAGNITUDE_FAKE:
   beq.s SET2DMAGNITUDE_FAKE_RET_ZERO
 
   ; Normalize
+  ext.l d1
   divs.w d6,d1
+  ext.l d2
   divs.w d6,d2
 
   muls.w d7,d1
