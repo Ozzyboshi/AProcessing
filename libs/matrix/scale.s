@@ -62,7 +62,7 @@ SCALE:
   move.l                                  4+OPERATOR3_TR_MATRIX_ROW2(PC),(a0)+
 
   move.l                                  OPERATOR3_TR_MATRIX_ROW3(PC),(a0)+
-  move.l                                  4+OPERATOR3_TR_MATRIX_ROW3(PC),(a0)+
+  move.l                                  4+OPERATOR3_TR_MATRIX_ROW3(PC),(a0)
   ENDC
   movem.l                                 (sp)+,d0-d2/a0
   rts
