@@ -144,9 +144,7 @@ BLITTRIANGLE:
           move.l         d7,d6
           swap           d6
 
-            ; destination
-          SETBITPLANE    0,a1
-
+          ; destination
           move.l         a4,a0
           lea            OFFBITPLANEMEM2,a1
           bsr.w          Fill_From_A_to_B

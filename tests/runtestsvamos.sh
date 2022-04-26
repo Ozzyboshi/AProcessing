@@ -19,6 +19,7 @@ cd drawingtests/points && make clean && make && make test && cd .. && cd ..
 cd drawingtests/filledpolygons && make clean && make && make test && cd .. && cd ..
 cd drawingtests/filledpolygons3d && make clean && make && make test && cd .. && cd ..
 cd vectors/simpleops && make clean && make && make test && cd .. && cd ..
+cd precalc/simpleops && make clean && make && make test && cd .. && cd ..
 cd blittertests/lines && make clean && make && cd .. && cd ..
 cd blittertests/filllines && make clean && make && cd .. && cd ..
 cd blittertests/drawpolygon && make clean && make && cd .. && cd ..
