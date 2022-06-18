@@ -237,3 +237,22 @@
  move.w #%0000000000100000,d1
  jsr    SCALE
   ```
+  
+ #### SHEAR - Shear a shape by X and Y values
+
+ Input:
+
+- d0.w: x value (Q10,6 format)
+- d1.w: y value (Q10,6 format)
+
+ Output: nothing
+
+ Trashes: nothing
+
+ Example: shear 3x and 4y
+
+  ```
+ move.w                                        #%0000000011000000,d0
+ move.w                                        #%0000000100000000,d1
+ bsr.w                                         SHEAR
+  ```
