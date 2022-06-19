@@ -5,10 +5,12 @@
   XDEF                 _precalcsimpleops_test5
   XDEF                 _precalcsimpleops_test6
   XDEF                 _precalcsimpleops_test7
+  XDEF                 _precalcsimpleops_test8
 
   include              "../../../libs/rasterizers/globaloptions.s"
   include              "../../../libs/precalc/precalc_by_sin.s"
   include              "../../../libs/precalc/precalc_col_table.s"
+  include              "../../../libs/precalc/double_byte.s"
   include              "../../../libs/trigtables_sin.i"
   include              "../../../libs/trigtables.i"
   include              "../../../libs/ammxmacros.i"
@@ -116,5 +118,14 @@ precalcsimpleops_test7_clearloop:
     
   jsr buildcolortable
   move.l               #COLORSTABLE3,d0                                    ; returns addr in d0
+  move.l               (sp)+,d2
+  rts
+
+_precalcsimpleops_test8:
+  move.l               d2,-(sp)
+  move.w #%00001110,d0
+  jsr DOUBLE_BYTE
+  move.w               d0,COLORSTABLE1
+  move.l               #COLORSTABLE1,d0                                    ; returns addr in d0
   move.l               (sp)+,d2
   rts

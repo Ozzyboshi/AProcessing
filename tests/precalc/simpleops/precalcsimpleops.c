@@ -9,6 +9,7 @@ unsigned char *precalcsimpleops_test4();
 unsigned char *precalcsimpleops_test5();
 unsigned char *precalcsimpleops_test6();
 unsigned char *precalcsimpleops_test7();
+unsigned char *precalcsimpleops_test8();
 
 struct _test TESTS[] = {
     {.testId = 1, .test_function = precalcsimpleops_test1, .nbitplanes=1, .nrows=361, .nbyterow=8,.title = "default table", .verbose=0},
@@ -18,6 +19,7 @@ struct _test TESTS[] = {
     {.testId = 5, .test_function = precalcsimpleops_test5, .nbitplanes=1, .nrows=16, .nbyterow=2,.title = "Color table from de8 to 315 in 16 steps", .verbose=0},
     {.testId = 6, .test_function = precalcsimpleops_test6, .nbitplanes=1, .nrows=32, .nbyterow=2,.title = "Color table from de8 to 315 in 32 steps", .verbose=0},
     {.testId = 7, .test_function = precalcsimpleops_test7, .nbitplanes=1, .nrows=64, .nbyterow=2,.title = "Color table from de8 to 315 in 64 steps", .verbose=0},
+    {.testId = 8, .test_function = precalcsimpleops_test8, .nbitplanes=1, .nrows=1, .nbyterow=2,.title = "Duplicate binary 00001110", .verbose=0},
 
 
     {.testId = 0, .test_function = NULL}
