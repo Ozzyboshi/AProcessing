@@ -924,34 +924,41 @@ ammxmatrixmul1X3_q10_6:
 	ELSE
 	movem.l d0-d2/a0,-(sp) ; stack save
 	moveq #6,d2
-	lea OPERATOR3_TR_MATRIX_ROW1_WORD1(PC),a0
-	move.w OPERATOR1_TR_MATRIX_ROW1_WORD1(PC),d0
-	muls.w OPERATOR2_TR_MATRIX_ROW1_WORD1(PC),d0
+	lea OPERATOR1_TR_MATRIX_ROW1_WORD1(PC),a0
+	move.w (a0)+,d0
+	;muls.w OPERATOR2_TR_MATRIX_ROW1_WORD1(PC),d0
+	muls.w 2*4*3-2(a0),d0
 	lsr.l d2,d0
 	
-	move.w OPERATOR1_TR_MATRIX_ROW1_WORD2(PC),d1
-	muls.w OPERATOR2_TR_MATRIX_ROW2_WORD1(PC),d1
+	move.w (a0)+,d1
+	;muls.w OPERATOR2_TR_MATRIX_ROW2_WORD1(PC),d1
+	muls.w 2*4*3-2+6(a0),d1
 	lsr.l d2,d1
 	add.w d0,d1
 	
-	move.w OPERATOR1_TR_MATRIX_ROW1_WORD3(PC),d0
+	move.w (a0),d0
 	muls.w OPERATOR2_TR_MATRIX_ROW3_WORD1(PC),d0
+	;muls.w 2*4*3(a0),d0
 	lsr.l d2,d0
 	
 	add.w d0,d1
+	lea OPERATOR3_TR_MATRIX_ROW1_WORD1(PC),a0
 	move.w d1,(a0)+
 	
 	; start of second pass
-	move.w OPERATOR1_TR_MATRIX_ROW1_WORD1(PC),d0
+	;move.w OPERATOR1_TR_MATRIX_ROW1_WORD1(PC),d0
+	move.w  -2-8-8-8-8-8-8(a0),d0
 	muls.w OPERATOR2_TR_MATRIX_ROW1_WORD2(PC),d0
 	lsr.l d2,d0
 	
-	move.w OPERATOR1_TR_MATRIX_ROW1_WORD2(PC),d1
+	;move.w OPERATOR1_TR_MATRIX_ROW1_WORD2(PC),d1
+	move.w  -2-8-8-8-8-8-8+2(a0),d1
 	muls.w OPERATOR2_TR_MATRIX_ROW2_WORD2(PC),d1
 	lsr.l d2,d1
 	add.w d0,d1
 	
 	move.w OPERATOR1_TR_MATRIX_ROW1_WORD3(PC),d0
+	;move.w -2-8-8-8-8-8-8+2+2,d0
 	muls.w OPERATOR2_TR_MATRIX_ROW3_WORD2(PC),d0
 	lsr.l d2,d0
 	
