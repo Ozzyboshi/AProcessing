@@ -23,7 +23,9 @@ unsigned char *matrix_multest14();
 unsigned char *matrix_multest15();
 unsigned char *matrix_multest16();
 unsigned char *matrix_multest17();
-
+unsigned char *matrix_multest18();
+unsigned char *matrix_multest19();
+unsigned char *matrix_multest20();
 
 struct _test TESTS[] = {
     {.testId = 1, .test_function = matrix_multest1, .nbitplanes=1, .nrows=3, .nbyterow=8,.title = "default tr matrix vs all ones", .verbose=0},
@@ -43,6 +45,10 @@ struct _test TESTS[] = {
     {.testId = 15, .test_function = matrix_multest15, .nbitplanes=1, .nrows=3, .nbyterow=8,.title = "point 5,-5 rotated by 45", .verbose=0},
     {.testId = 16, .test_function = matrix_multest16, .nbitplanes=1, .nrows=3, .nbyterow=8,.title = "point 5,-5 rotated by 45", .verbose=0},
     {.testId = 17, .test_function = matrix_multest17, .nbitplanes=1, .nrows=3, .nbyterow=8,.title = "point 10,0 rotated 90 deg and translated to center", .verbose=0},
+    {.testId = 18, .test_function = matrix_multest18, .nbitplanes=1, .nrows=3, .nbyterow=8,.title = "default tr matrix vs all ones with register as args", .verbose=0},
+    {.testId = 19, .test_function = matrix_multest19, .nbitplanes=1, .nrows=3, .nbyterow=8,.title = "all positive ractional numbers reg", .verbose=0},
+    {.testId = 20, .test_function = matrix_multest20, .nbitplanes=1, .nrows=3, .nbyterow=8,.title = "as above but with -1 on first row matrix reg", .verbose=0},
+
 
     {.testId = 0, .test_function = NULL}
 

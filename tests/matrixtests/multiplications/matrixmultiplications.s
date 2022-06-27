@@ -15,11 +15,15 @@
   XDEF                                          _matrix_multest15
   XDEF                                          _matrix_multest16
   XDEF                                          _matrix_multest17
+  XDEF                                          _matrix_multest18
+  XDEF                                          _matrix_multest19
+  XDEF                                          _matrix_multest20
 
   SECTION                                       PROCESSING,CODE_F
 
   include                                       "../../../libs/ammxmacros.i"
   include                                       "../../../libs/matrix/matrix.s"
+  include                                       "../../../libs/matrix/matrixreg.s"
   include                                       "../../../libs/matrix/scale.s"
   include                                       "../../../libs/matrix/shear.s"
   include                                       "../../../libs/trigtables.i"
@@ -571,4 +575,79 @@ _matrix_multest17:
   ENDIF
 
   processing_third_matrix_addr
+  rts
+
+_matrix_multest18:
+  move.l d2,-(sp)
+  RESET_CURRENT_TRANSFORMATION_MATRIX_Q_10_6
+
+  lea CURRENT_TRANSFORMATION_MATRIX,a6
+  LOAD_M1_REG
+  move.l                                        #$00400040,d0
+  move.l                                        #$00400040,d1
+  move.l                                        #$00400040,d2
+  move.l                                        #$00400040,d3
+  move.w                                        #$0040,d4
+
+  lea CURRENT_TRANSFORMATION_MATRIX,a6
+  bsr.w                                         matrixmul3X3_reg_q10_6
+
+
+  move.l #CURRENT_TRANSFORMATION_MATRIX,d0
+  move.l (sp)+,d2
+  rts
+
+_matrix_multest19:
+  move.l d2,-(sp)
+
+  RESET_CURRENT_TRANSFORMATION_MATRIX_Q_10_6
+
+  	; 1.5 2.5 3,5 / 4.25 5.25 6.25 / 7.111 8.111 9.111
+  move.l                                        #$006000A0,a0
+  move.l                                        #$00E00110,a1
+  move.l                                        #$01500190,a2
+  move.l                                        #$01C70207,a3
+  move.l                                        #$00000247,a4
+
+    ; 11.5 12.5 13,5 / 14.25 15.25 16.25 / 17.111 18.111 19.111
+  move.l                                        #$02E00320,d0
+  move.l                                        #$03600390,d1
+  move.l                                        #$03D00410,d2
+  move.l                                        #$04470487,d3
+  move.l                                        #$000004C7,d4
+  
+  lea CURRENT_TRANSFORMATION_MATRIX,a6
+  bsr.w                                         matrixmul3X3_reg_q10_6
+
+
+  move.l #CURRENT_TRANSFORMATION_MATRIX,d0
+  move.l (sp)+,d2
+  rts
+
+_matrix_multest20:
+  move.l d2,-(sp)
+
+  RESET_CURRENT_TRANSFORMATION_MATRIX_Q_10_6
+
+  ; -1 2.5 3,5 / 4.25 5.25 6.25 / 7.111 8.111 9.111
+  move.l                                        #$FFC000A0,a0
+  move.l                                        #$00E00110,a1
+  move.l                                        #$01500190,a2
+  move.l                                        #$01C70207,a3
+  move.l                                        #$00000247,a4
+
+    ; 11.5 12.5 13,5 / 14.25 15.25 16.25 / 17.111 18.111 19.111
+  move.l                                        #$02E00320,d0
+  move.l                                        #$03600390,d1
+  move.l                                        #$03D00410,d2
+  move.l                                        #$04470487,d3
+  move.l                                        #$000004C7,d4
+
+  
+  lea CURRENT_TRANSFORMATION_MATRIX,a6
+  bsr.w                                         matrixmul3X3_reg_q10_6
+
+
+  move.l #CURRENT_TRANSFORMATION_MATRIX,d0
+  move.l (sp)+,d2
   rts
