@@ -5,7 +5,7 @@
 ;move.w #%0000000000100000,d1
 ;bsr.w SHEAR_REG
 SHEAR_REG:
-  movem.l                                 d0-d2/a0-a4,-(sp)                              ; stack save
+  movem.l                                 d0-d2/a0-a4/a6,-(sp)                              ; stack save
   moveq #0,d2
   move.w d1,d2
   swap d2
@@ -22,7 +22,6 @@ SHEAR_REG:
   LOAD_M2_REG
 
   bsr.w                                   matrixmul3X3_reg_q10_6
-
   
-  movem.l                                 (sp)+,d0-d2/a0-a4
+  movem.l                                 (sp)+,d0-d2/a0-a4/a6
   rts
