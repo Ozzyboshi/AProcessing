@@ -11,6 +11,16 @@ LOAD_M1_REG MACRO
 	move.l d1,a4
     ENDM
 
+LOAD_M2_REG MACRO
+	move.l 2(a6),d0
+	move.w 6(a6),d1
+	swap d1
+	move.w 10(a6),d1
+	move.l 12(a6),d2
+	move.l 18(a6),d3
+	moveq #0,d4
+	move.w 22(a6),d4
+    ENDM
 
 M1_1_1 MACRO
     move.l a0,\1

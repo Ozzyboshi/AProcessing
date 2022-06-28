@@ -18,6 +18,8 @@
   XDEF                                          _matrix_multest18
   XDEF                                          _matrix_multest19
   XDEF                                          _matrix_multest20
+  XDEF                                          _matrix_multest21
+  XDEF                                          _matrix_multest22
 
   SECTION                                       PROCESSING,CODE_F
 
@@ -26,6 +28,7 @@
   include                                       "../../../libs/matrix/matrixreg.s"
   include                                       "../../../libs/matrix/scale.s"
   include                                       "../../../libs/matrix/shear.s"
+  include                                       "../../../libs/matrix/shearreg.s"
   include                                       "../../../libs/trigtables.i"
 
 _matrix_multest1:
@@ -650,4 +653,70 @@ _matrix_multest20:
 
   move.l #CURRENT_TRANSFORMATION_MATRIX,d0
   move.l (sp)+,d2
+  rts
+
+_matrix_multest21:
+  move.l d2,-(sp)
+
+  RESET_CURRENT_TRANSFORMATION_MATRIX_Q_10_6
+
+  ; -1 2.5 3,5 / 4.25 5.25 6.25 / 7.111 8.111 9.111
+  move.l                                        #$FFC000A0,a0
+  move.l                                        #$00E00110,a1
+  move.l                                        #$01500190,a2
+  move.l                                        #$01C70207,a3
+  move.l                                        #$00000247,a4
+  
+
+  ; 11.5 12.5 13,5 / 14.25 15.25 16.25 / 17.111 18.111 19.111
+  move.l                                        #$000002E0,OPERATOR2_TR_MATRIX_ROW1
+  move.l                                        #$03200360,OPERATOR2_TR_MATRIX_ROW1+4
+  move.l                                        #$00000390,OPERATOR2_TR_MATRIX_ROW2
+  move.l                                        #$03D00410,OPERATOR2_TR_MATRIX_ROW2+4
+  move.l                                        #$00000447,OPERATOR2_TR_MATRIX_ROW3
+  move.l                                        #$048704C7,OPERATOR2_TR_MATRIX_ROW3+4
+
+  lea OPERATOR2_TR_MATRIX_ROW1,a6
+  LOAD_M2_REG
+  
+  lea CURRENT_TRANSFORMATION_MATRIX,a6
+  bsr.w                                         matrixmul3X3_reg_q10_6
+
+
+  move.l #CURRENT_TRANSFORMATION_MATRIX,d0
+  move.l (sp)+,d2
+  rts
+
+; shear 3x and 4y , point 10,5 with reg
+_matrix_multest22:
+  RESET_CURRENT_TRANSFORMATION_MATRIX_Q_10_6
+
+  move.w                                        #%0000000011000000,d0
+  move.w                                        #%0000000100000000,d1
+  bsr.w                                         SHEAR_REG
+	
+  IFD                                           VAMPIRE
+
+	; Current transformation matrix is the Multiplier (second factor)
+  LOAD_CURRENT_TRANSFORMATION_MATRIX            e4,e5,e6
+  REG_LOADI                                     0000,0280,0140,0040,e1
+
+  ENDIF
+
+  IFND                                          VAMPIRE
+  LOAD_CURRENT_TRANSFORMATION_MATRIX            OPERATOR2_TR_MATRIX_ROW1
+
+  move.l                                        #$00000280,OPERATOR1_TR_MATRIX_ROW1
+  move.l                                        #$01400040,OPERATOR1_TR_MATRIX_ROW1+4
+  ENDIF
+
+  bsr.w                                         ammxmatrixmul1X3_q10_6
+
+
+  IFD                                           VAMPIRE
+  AMMX_DUMP_REGS_TO_THIRD_OP                    e13,e14,e15
+  ENDIF
+
+  processing_third_matrix_addr
+	; result must be 25 45 1
   rts
