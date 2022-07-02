@@ -78,6 +78,12 @@ M2_NORMALIZE_AND_ADD MACRO
     add.l d6,d5
     ENDM
 
+M2_NORMALIZE_AND_ADD_11 MACRO
+    moveq #11,d7
+    asr.l d7,d6
+    add.l d6,d5
+    ENDM
+
 matrixmul3X3_reg_q10_6:
     movem.l d0-d7/a0-a6,-(sp)
     
@@ -410,12 +416,12 @@ matrixmul3X3_reg_q5_11:
     M1_2_2 d6
     M2_2_2 d7
     muls d7,d6
-    M2_NORMALIZE_AND_ADD
+    M2_NORMALIZE_AND_ADD_11
     
     ; d6 = M1(2,3) x M2(3,2)
     M1_2_3 d6
     muls d3,d6
-    M2_NORMALIZE_AND_ADD
+    M2_NORMALIZE_AND_ADD_11
     move.w d5,12(a6)
     
 ; Start calculation of output position  M-output(2,3)
@@ -429,12 +435,12 @@ matrixmul3X3_reg_q5_11:
     ; d6 = M1(2,2) x M2(2,3)
     M1_2_2 d6
     muls d2,d6
-    M2_NORMALIZE_AND_ADD
+    M2_NORMALIZE_AND_ADD_11
     
     ; d6 = M1(2,3) x M2(3,3)
      M1_2_3 d6
      muls d4,d6
-     M2_NORMALIZE_AND_ADD
+     M2_NORMALIZE_AND_ADD_11
      move.w d5,14(a6)
     
 ; Start calculation of output position  M-output(3,1)
@@ -447,13 +453,13 @@ matrixmul3X3_reg_q5_11:
     ; d6 = M1(3,2) x M2(2,1)
     M1_3_2 d6
     muls d1,d6
-    M2_NORMALIZE_AND_ADD
+    M2_NORMALIZE_AND_ADD_11
 
     ; d6 = M1(3,3) x M2(3,1)
     M1_3_3 d6
     M2_3_1 d7
     muls d7,d6
-    M2_NORMALIZE_AND_ADD
+    M2_NORMALIZE_AND_ADD_11
 
     move.w d5,18(a6)
     
@@ -468,12 +474,12 @@ matrixmul3X3_reg_q5_11:
     M1_3_2 d6
     M2_2_2 d7
     muls d7,d6
-    M2_NORMALIZE_AND_ADD
+    M2_NORMALIZE_AND_ADD_11
     
     ; d6 = M1(3,3) x M2(3,2)
     M1_3_3 d6
     muls d3,d6
-    M2_NORMALIZE_AND_ADD
+    M2_NORMALIZE_AND_ADD_11
     move.w d5,20(a6)
     
 ; Start calculation of output position  M-output(3,3)
@@ -487,12 +493,12 @@ matrixmul3X3_reg_q5_11:
     ; d6 = M1(3,2) x M2(2,3)
     M1_3_2 d6
     muls d2,d6
-    M2_NORMALIZE_AND_ADD
+    M2_NORMALIZE_AND_ADD_11
     
     ; d6 = M1(3,3) x M2(3,3)
     M1_3_3 d6
     muls d4,d6
-    M2_NORMALIZE_AND_ADD
+    M2_NORMALIZE_AND_ADD_11
     move.w d5,22(a6)
     
     movem.l (sp)+,d0-d7/a0-a6

@@ -28,6 +28,9 @@ unsigned char *matrix_multest19();
 unsigned char *matrix_multest20();
 unsigned char *matrix_multest21();
 unsigned char *matrix_multest22();
+unsigned char *matrix_multest23();
+unsigned char *matrix_multest24();
+
 
 struct _test TESTS[] = {
     {.testId = 1, .test_function = matrix_multest1, .nbitplanes=1, .nrows=3, .nbyterow=8,.title = "default tr matrix vs all ones", .verbose=0},
@@ -52,6 +55,8 @@ struct _test TESTS[] = {
     {.testId = 20, .test_function = matrix_multest20, .nbitplanes=1, .nrows=3, .nbyterow=8,.title = "as above but with -1 on first row matrix reg", .verbose=0},
     {.testId = 21, .test_function = matrix_multest21, .nbitplanes=1, .nrows=3, .nbyterow=8,.title = "as above but with -1 on first row matrix reg with op2 load", .verbose=0},
     {.testId = 22, .test_function = matrix_multest22, .nbitplanes=1, .nrows=3, .nbyterow=8,.title = "point 10,5 sheared by 3x and 4y with reg", .verbose=0},
+    {.testId = 23, .test_function = matrix_multest23, .nbitplanes=1, .nrows=3, .nbyterow=8,.title = "point 5,-5 rotated by 45 reg", .verbose=0},
+    {.testId = 24, .test_function = matrix_multest17, .nbitplanes=1, .nrows=3, .nbyterow=8,.title = "point 10,0 rotated 90 deg and translated to center reg", .verbose=0},
 
 
     {.testId = 0, .test_function = NULL}
