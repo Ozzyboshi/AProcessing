@@ -29,6 +29,7 @@
   include                                       "../../../libs/matrix/scale.s"
   include                                       "../../../libs/matrix/shear.s"
   include                                       "../../../libs/matrix/shearreg.s"
+  include                                       "../../../libs/matrix/rotatereg.s"
   include                                       "../../../libs/trigtables.i"
 
 _matrix_multest1:
