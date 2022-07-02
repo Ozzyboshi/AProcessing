@@ -219,6 +219,22 @@
 
 ### Matrix operation instructions
 
+#### ROTATE - Rotate the current transformation matrix along the Z-Axis
+
+ Input:
+
+- d0.w: degrees (integer format)
+
+ Output: nothing
+
+ Trashes: nothing
+
+ Example: Rotate transformation matrix of 45 counterclockwise
+  ```
+  moveq #90,d0
+  jsr ROTATE
+  ```
+
 #### SCALE - Increases or decreases the size of a shape by expanding and contracting vertices
 
  Input:
