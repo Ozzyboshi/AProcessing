@@ -231,7 +231,7 @@
 
  Example: Rotate transformation matrix of 45 counterclockwise
   ```
-  moveq #90,d0
+  moveq #45,d0
   jsr ROTATE
   ```
 
