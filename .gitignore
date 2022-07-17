@@ -65,6 +65,8 @@ tests/blittertests/drawpolygon/drawpolygon.o
 tests/blittertests/drawpolygon/drawpolygon
 tests/blittertests/drawpolygon/drawpolygonvampire
 tests/blittertests/drawpolygon/drawpolygonvampire.o
+tests/precalc/simpleops/precalcsimpleops
+tests/precalc/simpleops/precalcsimpleopsvampire
 tests/testlibs/testlib.o
 build/blitfilllines.o
 build/globaloptions.o
