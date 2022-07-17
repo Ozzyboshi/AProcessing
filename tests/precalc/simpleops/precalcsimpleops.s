@@ -6,6 +6,7 @@
   XDEF                 _precalcsimpleops_test6
   XDEF                 _precalcsimpleops_test7
   XDEF                 _precalcsimpleops_test8
+  XDEF                 _precalcsimpleops_test9
 
   include              "../../../libs/rasterizers/globaloptions.s"
   include              "../../../libs/precalc/precalc_by_sin.s"
@@ -129,3 +130,24 @@ _precalcsimpleops_test8:
   move.l               #COLORSTABLE1,d0                                    ; returns addr in d0
   move.l               (sp)+,d2
   rts
+
+SKY_COLORSTABLE_0:
+  dcb.w 128,$00
+  
+_precalcsimpleops_test9:
+  move.l               d2,-(sp)
+  move.w #$0006,d0
+  move.w #$0b36,d1
+  moveq  #(128/2)-1,d7
+  lea SKY_COLORSTABLE_0,a0
+  jsr buildcolortable
+
+  move.w #$0b36,d0
+  move.w #$0003,d1
+  moveq  #(128/2)-1,d7
+  lea SKY_COLORSTABLE_0+128/2*2,a0
+  jsr buildcolortable
+  move.l #SKY_COLORSTABLE_0,d0
+  move.l               (sp)+,d2
+  rts
+
