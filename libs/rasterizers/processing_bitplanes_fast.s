@@ -1,3 +1,6 @@
+WIDTH       EQU     320
+HEIGHT      EQU     256
+
 ; Fast bitplanes
 ; This bitplanes will be copied into chip ram by PREPARESCREEN MACRO
     IFD USE_DBLBUF

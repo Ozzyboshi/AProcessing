@@ -126,7 +126,7 @@ RESET_CURRENT_TRANSFORMATION_MATRIX_Q_10_6 MACRO
 	move.l #$00000000,(a0)+
 	move.l #$00400000,(a0)+
 	move.l #$00000000,(a0)+
-	move.l #$00000040,(a0)+
+	move.l #$00000040,(a0)
 	ENDC
 	ENDM
 

@@ -219,6 +219,17 @@
 
 ### Matrix operation instructions
 
+#### RESETMATRIX - Resets current transformation matrix to defaults in Q16,6 format
+
+Input: Nothing
+
+Output: Nothing
+
+ Example: Rotate transformation matrix of 45 counterclockwise
+  ```
+  RESETMATRIX
+  ```
+
 #### ROTATE - Rotate the current transformation matrix along the Z-Axis
 
  Input:
