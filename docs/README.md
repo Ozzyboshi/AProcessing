@@ -225,7 +225,11 @@ Input: Nothing
 
 Output: Nothing
 
- Example: Rotate transformation matrix of 45 counterclockwise
+ Example: Set the current transformation matrix to
+ 1 0 0
+ 0 1 0
+ 0 0 1
+ 
   ```
   RESETMATRIX
   ```
