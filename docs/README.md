@@ -226,9 +226,11 @@ Input: Nothing
 Output: Nothing
 
  Example: Set the current transformation matrix to
+```
  1 0 0
  0 1 0
  0 0 1
+```
  
   ```
   RESETMATRIX
