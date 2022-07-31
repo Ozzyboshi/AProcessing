@@ -1,5 +1,18 @@
 CLEARFASTBITPLANES MACRO
 
+	IFD RTG
+    IFD RTG_640_300_3
+	lea SCREEN_0,a0
+	move.w #300-1,d4
+.rtgclearloop1
+	move.w #640*3/4-1,d3
+.rtgclearloop2
+	move.l #0,(a0)+
+	dbra d3,.rtgclearloop2
+	dbra d4,.rtgclearloop1
+	ENDC
+	ELSE
+
 	; copy from fast bitplanes to slow bitplanes
 	IFD USE_DBLBUF
 	move.l SCREEN_PTR_0,a0
@@ -28,6 +41,7 @@ CLEARFASTBITPLANES MACRO
 	move.l d0,(a4)+
     ENDC
 	dbra d3,.clearfastbitplanesmacro
+	ENDC
 	ENDM
 
 FILLFASTBITPLANES MACRO

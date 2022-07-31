@@ -15,3 +15,4 @@ copy: drawingtestspoint
 clean:
 	rm -f *.o
 	rm -f ./drawingtestspoint
+	rm -f ./drawingtestspointvampire

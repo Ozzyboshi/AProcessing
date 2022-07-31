@@ -83,6 +83,54 @@ POINT_Q_10_6 MACRO
 	
 	ENDM
 
+	IFD RTG
+	IFD RTG_640_300_3
+	
+
+; POINT - Plots a point (CPU)
+; Input:
+;	- d0.w : Point X (0-319)
+;	- d1.w : Point Y (0-255)
+;
+; Output:
+;   Nothing
+;
+; Defines:
+; - USE_CLIPPING
+; - USE_DBLBUF
+;
+; Trashes:
+; - d0
+; - d1
+; - d7
+; - a0
+; - a1
+POINT:
+	bsr.w               point_execute_transformation
+
+	SETBITPLANE         0,a0 				; a0 now points to my chunky screen
+	IFD VAMPIRE
+	lea 				(a0,d0.w),a0
+	lea 				(a0,d0.w*2),a0
+	ELSE
+	muls 				#RTG_PIXEL_SIZE,d0
+	adda.l 				d0,a0
+	ENDC
+	mulu 				#WIDTH*RTG_PIXEL_SIZE,d1 			; d1 now holds byte offset for current y position
+	adda.l 				d1,a0
+;.pointcycle
+	lea					STROKE_DATA_RTG+1,a1
+	IFD VAMPIRE		
+	move.b 				(a1)+,(a0)+   ; set pixel color high part
+	move.w              (a1),(a0)    ; low part
+	ELSE
+	move.b 				(a1)+,(a0)+
+	move.b 				(a1)+,(a0)+
+	move.b 				(a1)+,(a0)+
+	ENDC
+	rts
+	ENDC
+	ELSE
 ; POINT - Plots a point (CPU)
 ; Input:
 ;	- d0.w : Point X (0-319)
@@ -123,6 +171,7 @@ point_no_bpl_0:
   bset                                     d0,(a0,d1.w)
 point_no_bpl_1:
   rts
+  ENDC
 
 
 PLOTPOINT MACRO

@@ -1,5 +1,20 @@
-WIDTH       EQU     320
-HEIGHT      EQU     256
+    IFD RTG
+    IFD RTG_640_300_3
+WIDTH           EQU     640
+HEIGHT          EQU     300
+RTG_PIXEL_SIZE  EQU     3
+    ENDC
+    
+    IFD RTG_640_300_4
+WIDTH           EQU     640
+HEIGHT          EQU     300
+RTG_PIXEL_SIZE  EQU     4
+    ENDC
+    
+    ELSE
+WIDTH       EQU 320
+HEIGHT      EQU 256
+    ENDC
 
 ; Fast bitplanes
 ; This bitplanes will be copied into chip ram by PREPARESCREEN MACRO
@@ -29,18 +44,32 @@ SWAP_BPL MACRO
     SECTION BITPLANES,DATA_C
     ENDC
 
-SCREEN_0
+    IFD RTG
+    IFD RTG_640_300_3
+SCREEN_0:    dcb.b 640*300*3
+SCREEN_1:
+    ENDC
+    
+    IFD RTG_640_300_4
+SCREEN_0:    dcb.b 640*300*4
+SCREEN_1:
+    ENDC
+
+    ELSE
+
+SCREEN_0:
     dcb.b 40*256,$00
 
-SCREEN_1
+SCREEN_1:
     dcb.b 40*256,$00
 
     IFD USE_DBLBUF
-SCREEN_00
+SCREEN_00:
     dcb.b 40*256,$00
 
-SCREEN_11
+SCREEN_11:
     dcb.b 40*256,$00
+    ENDC
     ENDC
 
 processing_bitplanes_fast_screen0 MACRO

@@ -8,12 +8,20 @@ FILL_DATA:              dc.b                        $01                         
 DRAWING_OPTIONS:        dc.b                        $00                                           ; bit 0 = clipping enabled
 STROKE_DATA:            dc.b                        $01                                           ; stroke colors here
 
+  IFD RTG
+STROKE_DATA_RTG:        dc.l                        $FFFFFFFF
+  ENDC
+
 STROKE MACRO
+                        IFD RTG
+                        move.l                      \1,STROKE_DATA_RTG
+                        ELSE
                         IFD                         VAMPIRE 
                         PAND                        #$FFFFFFFFFFFFFF00,e22,e22                    ; last byte zeroed
                         POR                         \1,e22,e22                                    ; last byte reserved for bitplanes
                         ENDC
                         move.b                      \1,STROKE_DATA
+                        ENDC
                         ENDM
 GET_STROKE MACRO
                         move.b                      STROKE_DATA,\1
