@@ -118,7 +118,6 @@ POINT:
 	ENDC
 	mulu 				#WIDTH*RTG_PIXEL_SIZE,d1 			; d1 now holds byte offset for current y position
 	adda.l 				d1,a0
-;.pointcycle
 	lea					STROKE_DATA_RTG+1,a1
 	IFD VAMPIRE		
 	move.b 				(a1)+,(a0)+   ; set pixel color high part

@@ -43,6 +43,8 @@ _drawing_test1:
 
 _drawing_test2:
 
+	move.l               d2,-(sp)
+
 	CLEARFASTBITPLANES ; Clear fast bitplanes
 	RESET_CURRENT_TRANSFORMATION_MATRIX_Q_10_6
 
@@ -52,7 +54,7 @@ _drawing_test2:
 
 	ROTATE #45
 
-	STROKE #2
+	STROKE #$FFFFFF
 
 	moveq #-5,d0
 	moveq #-5,d1
@@ -71,11 +73,11 @@ _drawing_test2:
 	jsr POINT
 
 	processing_bitplanes_fast_screen0 ; returns bitplanes addr in d0
-	
+	move.l               (sp)+,d2
 	rts
 
 _drawing_test3:
-
+	move.l               d2,-(sp)
 	CLEARFASTBITPLANES ; Clear fast bitplanes
 	RESET_CURRENT_TRANSFORMATION_MATRIX_Q_10_6
 
@@ -85,7 +87,7 @@ _drawing_test3:
 
 	ROTATE #45
 
-	STROKE #3
+	STROKE #$ABCDEF
 
 	moveq #-5,d0
 	moveq #-5,d1
@@ -104,6 +106,6 @@ _drawing_test3:
 	jsr POINT
 
 	processing_bitplanes_fast_screen0 ; returns bitplanes addr in d0
-	
+	move.l               (sp)+,d2
 	rts
 
