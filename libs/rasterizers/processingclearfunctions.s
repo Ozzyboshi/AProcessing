@@ -1,15 +1,19 @@
 CLEARFASTBITPLANES MACRO
 
 	IFD RTG
-    IFD RTG_640_300_4
+    IFD RTG_640_400_3
 	lea SCREEN_0,a0
-	move.w #300-1,d4
-.rtgclearloop1
-	move.w #640*3/4-1,d3
-.rtgclearloop2
-	move.l #0,(a0)+
-	dbra d3,.rtgclearloop2
-	dbra d4,.rtgclearloop1
+	move.l #(640*3*400/4)-1,d7
+.rtgclearloop:
+	clr.l (a0)+
+	dbra d7,.rtgclearloop
+	ENDC
+	IFD RTG_640_400_4
+	lea SCREEN_0,a0
+	move.l #(640*4*400/4)-1,d7
+.rtgclearloop:
+	clr.l (a0)+
+	dbra d7,.rtgclearloop
 	ENDC
 	ELSE
 
