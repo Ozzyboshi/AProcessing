@@ -23,6 +23,7 @@
   XDEF                                          _matrix_multest23
   XDEF                                          _matrix_multest24
   XDEF                                          _matrix_multest25
+  XDEF                                          _matrix_multest26
 
   SECTION                                       PROCESSING,CODE_F
 
@@ -827,5 +828,38 @@ _matrix_multest25:
 
   processing_third_matrix_addr
   rts
+
+; scale  2X and 3Y point 10,5
+_matrix_multest26:
+  RESET_CURRENT_TRANSFORMATION_MATRIX_Q_10_6
+
+  move.w                                        #%0000000010000000,d0
+  move.w                                        #%0000000011000000,d1
+  bsr.w                                         SCALE_REG
+	
+  IFD                                           VAMPIRE
+	; Current transformation matrix is the Multiplier (second factor)
+  LOAD_CURRENT_TRANSFORMATION_MATRIX            e4,e5,e6
+  REG_LOADI                                     0000,0280,0140,0040,e1
+
+  ENDIF
+
+  IFND                                          VAMPIRE
+  LOAD_CURRENT_TRANSFORMATION_MATRIX            OPERATOR2_TR_MATRIX_ROW1
+
+  move.l                                        #$00000280,OPERATOR1_TR_MATRIX_ROW1
+  move.l                                        #$01400040,OPERATOR1_TR_MATRIX_ROW1+4
+  ENDIF
+
+  bsr.w                                         ammxmatrixmul1X3_q10_6
+
+
+  IFD                                           VAMPIRE
+  AMMX_DUMP_REGS_TO_THIRD_OP                    e13,e14,e15
+  ENDIF
+
+  processing_third_matrix_addr
+  rts
+
 
 

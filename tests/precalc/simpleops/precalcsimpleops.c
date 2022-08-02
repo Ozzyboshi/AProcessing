@@ -21,7 +21,7 @@ struct _test TESTS[] = {
     {.testId = 6, .test_function = precalcsimpleops_test6, .nbitplanes=1, .nrows=32, .nbyterow=2,.title = "Color table from de8 to 315 in 32 steps", .verbose=0},
     {.testId = 7, .test_function = precalcsimpleops_test7, .nbitplanes=1, .nrows=64, .nbyterow=2,.title = "Color table from de8 to 315 in 64 steps", .verbose=0},
     {.testId = 8, .test_function = precalcsimpleops_test8, .nbitplanes=1, .nrows=1, .nbyterow=2,.title = "Duplicate binary 00001110", .verbose=0},
-    {.testId = 9, .test_function = precalcsimpleops_test9, .nbitplanes=1, .nrows=128, .nbyterow=2,.title = "Blue to purple then black", .verbose=3},
+    {.testId = 9, .test_function = precalcsimpleops_test9, .nbitplanes=1, .nrows=128, .nbyterow=2,.title = "Blue to purple then black", .verbose=0},
 
 
     {.testId = 0, .test_function = NULL}
