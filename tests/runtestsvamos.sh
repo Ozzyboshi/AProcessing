@@ -16,6 +16,7 @@ cd filltests/filltransformations3d && make clean && make && make test && cd .. &
 cd matrixtests/basic && make clean && make && make test && cd .. && cd ..
 cd matrixtests/multiplications && make clean && make && make test && cd .. && cd ..
 cd drawingtests/points && make clean && make && make test && cd .. && cd ..
+cd drawingtests/pointsrtg_640_400_3 && make clean && make && make test && cd .. && cd ..
 cd drawingtests/filledpolygons && make clean && make && make test && cd .. && cd ..
 cd drawingtests/filledpolygons3d && make clean && make && make test && cd .. && cd ..
 cd vectors/simpleops && make clean && make && make test && cd .. && cd ..

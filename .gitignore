@@ -67,8 +67,8 @@ tests/blittertests/drawpolygon/drawpolygonvampire
 tests/blittertests/drawpolygon/drawpolygonvampire.o
 tests/precalc/simpleops/precalcsimpleops
 tests/precalc/simpleops/precalcsimpleopsvampire
-tests/drawingtests/pointsrtg_640_300_3/drawingtestspointrtg
-tests/drawingtests/pointsrtg_640_300_3/drawingtestspointrtgvampire
+tests/drawingtests/pointsrtg_640_400_3/drawingtestspointrtg
+tests/drawingtests/pointsrtg_640_400_3/drawingtestspointrtgvampire
 tests/testlibs/testlib.o
 build/blitfilllines.o
 build/globaloptions.o

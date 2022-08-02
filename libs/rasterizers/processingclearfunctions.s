@@ -1,7 +1,7 @@
 CLEARFASTBITPLANES MACRO
 
 	IFD RTG
-    IFD RTG_640_300_3
+    IFD RTG_640_300_4
 	lea SCREEN_0,a0
 	move.w #300-1,d4
 .rtgclearloop1

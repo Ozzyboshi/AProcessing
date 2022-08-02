@@ -84,7 +84,7 @@ POINT_Q_10_6 MACRO
 	ENDM
 
 	IFD RTG
-	IFD RTG_640_300_3
+	IFD RTG_640_400_3
 	
 
 ; POINT - Plots a point (CPU)

@@ -83,7 +83,7 @@ precalcsimpleops
 precalcsimpleopsvampire
 cd /
 cd /
-cd drawingtests/pointsrtg_640_300_3
+cd drawingtests/pointsrtg_640_400_3
 drawingtestspointrtg
 drawingtestspointrtgvampire
 cd /
