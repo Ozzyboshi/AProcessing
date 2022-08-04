@@ -225,9 +225,9 @@ _fillpolygon_test8:
   RESETFILLTABLE
   ENABLE_CLIPPING
 
-  LINE                  #-10,#-5,#-15,#5
-  LINE                  #-15,#-5,#-5,#5
-  LINE                  #-10,#-5,#-5,#5
+  LINE_NODRAW                  #-10,#-5,#-15,#5
+  LINE_NODRAW                  #-15,#-5,#-5,#5
+  LINE_NODRAW                  #-10,#-5,#-5,#5
 
   CLEARFASTBITPLANES                                                               ; Clear fast bitplanes
   bsr.w                 ammx_fill_table_clip
@@ -239,9 +239,9 @@ _fillpolygon_test9:
   RESETFILLTABLE
   ENABLE_CLIPPING
 
-  LINE                  #10,#-5,#5,#5
-  LINE                  #5,#-5,#15,#5
-  LINE                  #10,#-5,#15,#5
+  LINE_NODRAW                  #10,#-5,#5,#5
+  LINE_NODRAW                  #5,#-5,#15,#5
+  LINE_NODRAW                  #10,#-5,#15,#5
 
   CLEARFASTBITPLANES                                                               ; Clear fast bitplanes
   bsr.w                 ammx_fill_table_clip
@@ -255,9 +255,9 @@ _fillpolygon_test10:
 
   STROKE                #3
 
-  LINE                  #319,#255-5,#319-5,#255+5
-  LINE                  #319,#255-5,#319+5,#255+5
-  LINE                  #319-5,#255+5,#319+5,#255+5
+  LINE_NODRAW                  #319,#255-5,#319-5,#255+5
+  LINE_NODRAW                  #319,#255-5,#319+5,#255+5
+  LINE_NODRAW                  #319-5,#255+5,#319+5,#255+5
   CLEARFASTBITPLANES
   bsr.w                 ammx_fill_table_clip
   processing_bitplanes_fast_screen0  
@@ -275,7 +275,7 @@ _fillpolygon_test11:
 
   STROKE                #3
 
-  LINE                  #319-5,#255+5,#319+5,#255+5
+  LINE_NODRAW                  #319-5,#255+5,#319+5,#255+5
   bsr.w                 ammx_fill_table_clip
   processing_bitplanes_fast_screen0  
 
@@ -292,9 +292,9 @@ _fillpolygon_test12:
 
   STROKE                #3
 
-  LINE                  #319+10,#255-5,#319+5,#255+5
-  LINE                  #319+10,#255-5,#319+15,#255+5
-  LINE                  #319+5,#255+5,#319+15,#255+5
+  LINE_NODRAW                  #319+10,#255-5,#319+5,#255+5
+  LINE_NODRAW                  #319+10,#255-5,#319+15,#255+5
+  LINE_NODRAW                  #319+5,#255+5,#319+15,#255+5
   bsr.w                 ammx_fill_table_clip
   processing_bitplanes_fast_screen0  
 
@@ -310,9 +310,9 @@ _fillpolygon_test13:
 
   STROKE                #3
 
-  LINE                  #319,#0-5,#319-5,#0+5
-  LINE                  #319,#0-5,#319+5,#0+5
-  LINE                  #319-5,#0+5,#319+5,#0+5
+  LINE_NODRAW                  #319,#0-5,#319-5,#0+5
+  LINE_NODRAW                  #319,#0-5,#319+5,#0+5
+  LINE_NODRAW                  #319-5,#0+5,#319+5,#0+5
   CLEARFASTBITPLANES
   bsr.w                 ammx_fill_table_clip
   processing_bitplanes_fast_screen0  
@@ -328,9 +328,9 @@ _fillpolygon_test14:
 
   STROKE                #3
 
-  LINE                  #319,#0-15,#319-5,#0-5
-  LINE                  #319,#0-15,#319+5,#0-5
-  LINE                  #319-5,#0-5,#319+5,#0-5
+  LINE_NODRAW                  #319,#0-15,#319-5,#0-5
+  LINE_NODRAW                  #319,#0-15,#319+5,#0-5
+  LINE_NODRAW                  #319-5,#0-5,#319+5,#0-5
   CLEARFASTBITPLANES
   bsr.w                 ammx_fill_table_clip
   processing_bitplanes_fast_screen0  
@@ -346,10 +346,10 @@ _fillpolygon_test15:
 
   STROKE                #3
 
-  LINE                  #-10,#-10,#329,#-10
-  LINE                  #-10,#265,#329,#265
-  LINE                  #-10,#-10,#-10,#265
-  LINE                  #329,#-10,#329,#265
+  LINE_NODRAW                  #-10,#-10,#329,#-10
+  LINE_NODRAW                  #-10,#265,#329,#265
+  LINE_NODRAW                  #-10,#-10,#-10,#265
+  LINE_NODRAW                  #329,#-10,#329,#265
   CLEARFASTBITPLANES
   bsr.w                 ammx_fill_table_clip
   processing_bitplanes_fast_screen0  
