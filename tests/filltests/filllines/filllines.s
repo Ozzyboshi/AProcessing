@@ -617,9 +617,9 @@ _filline_test19:
                 ENABLE_CLIPPING
                 ENDIF
 
-                LINE                #0,#-5,#-5,#5
-                LINE                #-5,#5,#5,#5
-                LINE                #0,#-5,#5,#5
+                LINE_NODRAW                #0,#-5,#-5,#5
+                LINE_NODRAW                #-5,#5,#5,#5
+                LINE_NODRAW                #0,#-5,#5,#5
 
                 bsr.w               processing_fill_table_addr                                 ; fill table addr in d0
 
@@ -635,7 +635,7 @@ _filline_test20:
                 ENABLE_CLIPPING
                 ENDIF
 
-                LINE                #-100,#0,#600,#0
+                LINE_NODRAW                #-100,#0,#600,#0
 
                 bsr.w               processing_fill_table_addr                                 ; fill table addr in d0
 
@@ -650,7 +650,7 @@ _filline_test21:
                 RESETFILLTABLE
                 ENABLE_CLIPPING
 
-                LINE                #8,#10,#350,#2
+                LINE_NODRAW                #8,#10,#350,#2
                 bsr.w               processing_fill_table_addr                                 ; fill table addr in d0
 
                 DISABLE_CLIPPING
@@ -659,7 +659,7 @@ _filline_test21:
 _filline_test22:
                 RESETFILLTABLE
                 ENABLE_CLIPPING
-                LINE                #350,#2,#8,#10
+                LINE_NODRAW                #350,#2,#8,#10
                 bsr.w               processing_fill_table_addr                                 ; fill table addr in d0
                 DISABLE_CLIPPING
                 rts
@@ -667,7 +667,7 @@ _filline_test22:
 _filline_test23:
                 RESETFILLTABLE
                 ENABLE_CLIPPING
-                LINE                #321,#2,#350,#8
+                LINE_NODRAW                #321,#2,#350,#8
                 bsr.w               ammxlinefill
                 bsr.w               processing_fill_table_addr                                 ; fill table addr in d0
                 DISABLE_CLIPPING
@@ -680,7 +680,7 @@ _filline_test24:
                 ENABLE_CLIPPING
 
                 lea                 LINEVERTEX_START_FINAL,a1
-                LINE                #319,#2,#320,#2
+                LINE_NODRAW                #319,#2,#320,#2
 
                 bsr.w               processing_fill_table_addr                                 ; fill table addr in d0
                 DISABLE_CLIPPING
@@ -691,7 +691,7 @@ _filline_test25:
                 RESETFILLTABLE
 
                 ENABLE_CLIPPING
-                LINE                #-1,#2,#-10,#20
+                LINE_NODRAW                #-1,#2,#-10,#20
 
                 bsr.w               processing_fill_table_addr                                 ; fill table addr in d0
                 DISABLE_CLIPPING
@@ -704,7 +704,7 @@ _filline_test26:
                 ENABLE_CLIPPING
 
                 lea                 LINEVERTEX_START_FINAL,a1
-                LINE                #10,#20,#-1,#2
+                LINE_NODRAW                #10,#20,#-1,#2
                 bsr.w               processing_fill_table_addr                                 ; fill table addr in d0
                 DISABLE_CLIPPING
                 rts
@@ -714,7 +714,7 @@ _filline_test27:
                 RESETFILLTABLE
 
                 ENABLE_CLIPPING
-                LINE                #-100,#128,#400,#128
+                LINE_NODRAW                #-100,#128,#400,#128
                 bsr.w               processing_fill_table_addr                                 ; fill table addr in d0
                 DISABLE_CLIPPING
                 rts
@@ -724,7 +724,7 @@ _filline_test28:
                 RESETFILLTABLE
 
                 ENABLE_CLIPPING
-                LINE                #400,#128,#-100,#128
+                LINE_NODRAW                #400,#128,#-100,#128
                 bsr.w               processing_fill_table_addr                                 ; fill table addr in d0
                 DISABLE_CLIPPING
                 rts
@@ -733,7 +733,7 @@ _filline_test29:
                 RESETFILLTABLE
 
                 ENABLE_CLIPPING
-                LINE                #-10,#-1,#399,#265
+                LINE_NODRAW                #-10,#-1,#399,#265
                 bsr.w               processing_fill_table_addr                                 ; fill table addr in d0
                 DISABLE_CLIPPING
                 rts
@@ -743,7 +743,7 @@ _filline_test30:
                 RESETFILLTABLE
 
                 ENABLE_CLIPPING
-                LINE                #110,#-20,#100,#300
+                LINE_NODRAW                #110,#-20,#100,#300
                 bsr.w               processing_fill_table_addr                                 ; fill table addr in d0
                 DISABLE_CLIPPING
                 rts
@@ -753,7 +753,7 @@ _filline_test31:
                 RESETFILLTABLE
 
                 ENABLE_CLIPPING
-                LINE                #-10,#-20,#100,#300
+                LINE_NODRAW                #-10,#-20,#100,#300
                 bsr.w               processing_fill_table_addr                                 ; fill table addr in d0
                 DISABLE_CLIPPING
                 rts
@@ -763,7 +763,7 @@ _filline_test32:
                 RESETFILLTABLE
 
                 ENABLE_CLIPPING
-                LINE                #-1,#-1,#1,#1
+                LINE_NODRAW                #-1,#-1,#1,#1
 
                 bsr.w               processing_fill_table_addr                                 ; fill table addr in d0
                 DISABLE_CLIPPING
@@ -774,7 +774,7 @@ _filline_test33:
                 RESETFILLTABLE
 
                 ENABLE_CLIPPING
-                LINE                #100,#254,#101,#256
+                LINE_NODRAW                #100,#254,#101,#256
                 bsr.w               processing_fill_table_addr                                 ; fill table addr in d0
                 DISABLE_CLIPPING
                 rts
@@ -785,7 +785,7 @@ _filline_test34:
 
                 ENABLE_CLIPPING
                 lea                 LINEVERTEX_START_FINAL,a1
-                LINE                #101,#256,#100,#254
+                LINE_NODRAW                #101,#256,#100,#254
                 bsr.w               processing_fill_table_addr                                 ; fill table addr in d0
                 DISABLE_CLIPPING
                 rts
@@ -795,7 +795,7 @@ _filline_test35:
                 RESETFILLTABLE
 
                 ENABLE_CLIPPING
-                LINE                #100,#-100,#100,#1000
+                LINE_NODRAW                #100,#-100,#100,#1000
                 bsr.w               processing_fill_table_addr                                 ; fill table addr in d0
                 DISABLE_CLIPPING
                 rts
@@ -805,7 +805,7 @@ _filline_test36:
                 RESETFILLTABLE
 
                 ENABLE_CLIPPING
-                LINE                #200,#260,#400,#220
+                LINE_NODRAW                #200,#260,#400,#220
                 bsr.w               processing_fill_table_addr                                 ; fill table addr in d0
                 DISABLE_CLIPPING
                 rts
@@ -815,7 +815,7 @@ _filline_test37:
                 RESETFILLTABLE
 
                 ENABLE_CLIPPING
-                LINE                #-1,#-1,#256,#256
+                LINE_NODRAW                #-1,#-1,#256,#256
                 bsr.w               processing_fill_table_addr                                 ; fill table addr in d0
                 DISABLE_CLIPPING
                 rts
@@ -827,7 +827,7 @@ _filline_test38:
                 ENABLE_CLIPPING
 
                 lea                 LINEVERTEX_START_FINAL,a1
-                LINE                #-1500,#-1500,#2000,#1000
+                LINE_NODRAW                #-1500,#-1500,#2000,#1000
                 bsr.w               processing_fill_table_addr                                 ; fill table addr in d0
                 DISABLE_CLIPPING
                 rts
@@ -838,7 +838,7 @@ _filline_test39:
 
                 ENABLE_CLIPPING
 
-                LINE                #-1500,#-1500,#555,#700
+                LINE_NODRAW                #-1500,#-1500,#555,#700
 
                 bsr.w               processing_fill_table_addr                                 ; fill table addr in d0
                 DISABLE_CLIPPING
@@ -848,7 +848,7 @@ _filline_test40:
 
                 RESETFILLTABLE
                 ENABLE_CLIPPING
-                LINE                #300,#500,#320,#-10
+                LINE_NODRAW                #300,#500,#320,#-10
                 bsr.w               processing_fill_table_addr                                 ; fill table addr in d0
                 DISABLE_CLIPPING
                 rts
@@ -857,7 +857,7 @@ _filline_test41:
 
                 RESETFILLTABLE
                 ENABLE_CLIPPING
-                LINE                #0,#-5,#-5,#5
+                LINE_NODRAW                #0,#-5,#-5,#5
                 bsr.w               processing_fill_table_addr                                 ; fill table addr in d0
                 DISABLE_CLIPPING
                 rts
@@ -866,7 +866,7 @@ _filline_test42:
 
                 RESETFILLTABLE
                 ENABLE_CLIPPING
-                LINE                #319,#255-5,#319-5,#255+5
+                LINE_NODRAW                #319,#255-5,#319-5,#255+5
 
                 bsr.w               processing_fill_table_addr                                 ; fill table addr in d0
                 DISABLE_CLIPPING
@@ -875,7 +875,7 @@ _filline_test43:
 
                 RESETFILLTABLE
                 ENABLE_CLIPPING
-                LINE                #319,#255-5,#319+5,#255+5
+                LINE_NODRAW                #319,#255-5,#319+5,#255+5
 
                 bsr.w               processing_fill_table_addr                                 ; fill table addr in d0
                 DISABLE_CLIPPING
@@ -884,8 +884,8 @@ _filline_test44:
                 RESETFILLTABLE
                 ENABLE_CLIPPING
 
-                LINE                #319,#255-5,#319-5,#255+5
-                LINE                #319,#255-5,#319+5,#255+5
+                LINE_NODRAW                #319,#255-5,#319-5,#255+5
+                LINE_NODRAW                #319,#255-5,#319+5,#255+5
 
                 bsr.w               processing_fill_table_addr                                 ; fill table addr in d0
                 DISABLE_CLIPPING
@@ -895,7 +895,7 @@ _filline_test45:
                 RESETFILLTABLE
                 ENABLE_CLIPPING
 
-                LINE                  #319-5,#255+5,#319+5,#255+5
+                LINE_NODRAW                  #319-5,#255+5,#319+5,#255+5
 
                 bsr.w               processing_fill_table_addr                                 ; fill table addr in d0
                 DISABLE_CLIPPING
