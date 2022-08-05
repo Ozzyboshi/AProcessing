@@ -28,6 +28,34 @@
   moveq #5,d1
   jsr POINT
   ```
+  
+- #### LINE - Draws a line (CPU) (FILLTABLE) (MACRO)
+
+  Input:
+  - param1 : Point X1 (0-319)
+  - param2 : Point Y1 (0-255)
+  - param3 : Point X2 (0-319)
+  - param4 : Point Y2 (0-255)
+
+  Output:
+    Nothing
+
+  Defines:
+  - USE_CLIPPING
+  - USE_DBLBUF
+
+  Trashes:
+  - a1
+
+  Example: Draw cartesian axes with the origin at the center of the screen
+
+  ```asm
+  LINE                  #WIDTH/2,#0,#WIDTH/2,#HEIGHT-1
+  LINE                  #0,#HEIGHT/2,#WIDTH-1,#HEIGHT/2
+  ```
+  
+  **Note**: The *LINE_NODRAW* macro perform the same exact operation but just sets up the fill table and does not print anything on the screen.
+  To print run function which addr is inside *AMMX_FILL_FUNCT_ADDR*.
 
 - #### RECT - Draws a rectangle (CPU)
 
