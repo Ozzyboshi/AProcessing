@@ -15,6 +15,8 @@
   include                                       "../../../libs/matrix/matrix.s"
   include                                       "../../../libs/rasterizers/point.s"
   include                                       "../../../libs/matrix/point.s"
+  include                                       "../../../libs/matrix/matrixreg.s"
+  include                                       "../../../libs/matrix/pointreg.s"
   include                                       "../../../libs/blitter/triangle.s"
   include                                       "../../../libs/trigtables.i"
   include                                       "../../../libs/rasterizers/processing_table_plotrefs.s"

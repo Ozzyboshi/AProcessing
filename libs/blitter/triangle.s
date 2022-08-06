@@ -7,7 +7,7 @@ TRIANGLE_BLIT:
 triangle_blit_loopstart:  
   move.w     (a1),d0                          ; x1
   move.w     2(a1),d1
-  jsr        point_execute_transformation
+  jsr        point_execute_transformation_reg
   move.w     d0,(a1)+
   move.w     d1,(a1)+
   dbra       d2,triangle_blit_loopstart

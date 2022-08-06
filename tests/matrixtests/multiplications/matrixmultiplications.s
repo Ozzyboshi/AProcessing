@@ -24,6 +24,7 @@
   XDEF                                          _matrix_multest24
   XDEF                                          _matrix_multest25
   XDEF                                          _matrix_multest26
+  XDEF                                          _matrix_multest27
 
   SECTION                                       PROCESSING,CODE_F
 
@@ -33,6 +34,7 @@
   include                                       "../../../libs/matrix/matrixreg.s"
   include                                       "../../../libs/matrix/scale.s"
   include                                       "../../../libs/matrix/scalereg.s"
+  include                                       "../../../libs/matrix/pointreg.s"
   include                                       "../../../libs/matrix/shear.s"
   include                                       "../../../libs/matrix/shearreg.s"
   include                                       "../../../libs/matrix/rotatereg.s"
@@ -861,6 +863,31 @@ _matrix_multest26:
 
   processing_third_matrix_addr
   rts
+
+_matrix_multest27:
+  move.l d2,-(sp)
+  RESET_CURRENT_TRANSFORMATION_MATRIX_Q_10_6
+
+  
+	
+	; -1 2.5 1
+  move.l                                        #$FFC000A0,a0
+  move.l                                        #$00000040,a1
+
+    ; 11.5 12.5 13,5 / 14.25 15.25 16.25 / 17.111 18.111 19.111
+  move.l                                        #$02E00320,d0
+  move.l                                        #$03600390,d1
+  move.l                                        #$03D00410,d2
+  move.l                                        #$04470487,d3
+  move.l                                        #$000004C7,d4
+
+  bsr.w                                         matrixmul1X3_reg_q10_6_point_2d
+  move.l                                        d4,OPERATOR3_TR_MATRIX_ROW1
+
+  processing_third_matrix_addr
+  move.l (sp)+,d2
+  rts
+
 
 
 

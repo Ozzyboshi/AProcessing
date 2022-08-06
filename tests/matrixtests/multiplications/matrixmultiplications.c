@@ -32,6 +32,7 @@ unsigned char *matrix_multest23();
 unsigned char *matrix_multest24();
 unsigned char *matrix_multest25();
 unsigned char *matrix_multest26();
+unsigned char *matrix_multest27();
 
 struct _test TESTS[] = {
     {.testId = 1, .test_function = matrix_multest1, .nbitplanes=1, .nrows=3, .nbyterow=8,.title = "default tr matrix vs all ones", .verbose=0},
@@ -60,6 +61,7 @@ struct _test TESTS[] = {
     {.testId = 24, .test_function = matrix_multest24, .nbitplanes=1, .nrows=3, .nbyterow=8,.title = "point 10,0 rotated 90 deg and translated to center reg", .verbose=0},
     {.testId = 25, .test_function = matrix_multest25, .nbitplanes=1, .nrows=3, .nbyterow=8,.title = "point 10,0 scaled by 0,5 on x and y reg", .verbose=0},
     {.testId = 26, .test_function = matrix_multest26, .nbitplanes=1, .nrows=3, .nbyterow=8,.title = "point 10,5 scaled by  2x and 3y reg", .verbose=0},
+    {.testId = 27, .test_function = matrix_multest27, .nbitplanes=1, .nrows=1, .nbyterow=4,.title = "point -1,2,5,1 * 11.5 12.5 13,5 / 14.25 15.25 16.25 / 17.111 18.111 19.111", .verbose=0},
 
 
     {.testId = 0, .test_function = NULL}
