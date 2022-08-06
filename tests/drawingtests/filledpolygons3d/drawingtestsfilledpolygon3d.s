@@ -8,6 +8,7 @@
 
   include                "../../../libs/rasterizers/globaloptions.s"
   include                "../../../libs/ammxmacros.i"
+  include                "../../../libs/matrix/matrixcommon.s"
   include                "../../../libs/matrix/matrix.s"
   include                "../../../libs/matrix/scale.s"
   include                "../../../libs/trigtables.i"

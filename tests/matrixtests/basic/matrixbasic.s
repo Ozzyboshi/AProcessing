@@ -14,6 +14,7 @@
 
 	include "../../../libs/ammxmacros.i"
 	include "../../../libs/trigtables.i"
+	include "../../../libs/matrix/matrixcommon.s"
 	include "../../../libs/matrix/matrix.s"
 
 _matrix_test1:

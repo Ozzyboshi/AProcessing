@@ -8,6 +8,7 @@
   include               "../../../libs/rasterizers/globaloptions.s"
   include               "../../../libs/ammxmacros.i"
   include               "../../../libs/rasterizers/processingfill.s"
+  include               "../../../libs/matrix/matrixcommon.s"
   include               "../../../libs/matrix/matrix.s"
   include               "../../../libs/trigtables.i"
   include               "../../../libs/rasterizers/processing_table_plotrefs.s"

@@ -11,6 +11,7 @@
   include                                       "../../../libs/rasterizers/processing_bitplanes_fast.s"
   include                                       "../../../libs/rasterizers/globaloptions.s"
   include                                       "../../../libs/ammxmacros.i"
+  include                                       "../../../libs/matrix/matrixcommon.s"
   include                                       "../../../libs/matrix/matrix.s"
   include                                       "../../../libs/rasterizers/point.s"
   include                                       "../../../libs/matrix/point.s"

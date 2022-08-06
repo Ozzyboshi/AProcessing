@@ -28,6 +28,7 @@
   SECTION                                       PROCESSING,CODE_F
 
   include                                       "../../../libs/ammxmacros.i"
+  include                                       "../../../libs/matrix/matrixcommon.s"
   include                                       "../../../libs/matrix/matrix.s"
   include                                       "../../../libs/matrix/matrixreg.s"
   include                                       "../../../libs/matrix/scale.s"
