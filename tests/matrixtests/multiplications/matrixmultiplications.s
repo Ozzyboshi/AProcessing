@@ -698,6 +698,7 @@ _matrix_multest21:
 
 ; shear 3x and 4y , point 10,5 with reg
 _matrix_multest22:
+    move.l d2,-(sp)
   RESET_CURRENT_TRANSFORMATION_MATRIX_Q_10_6
 
   move.w                                        #%0000000011000000,d0
@@ -728,9 +729,11 @@ _matrix_multest22:
 
   processing_third_matrix_addr
 	; result must be 25 45 1
+  move.l d2,(sp)+
   rts
 
 _matrix_multest23:
+  move.l d2,-(sp)
   RESET_CURRENT_TRANSFORMATION_MATRIX_Q_10_6
 
   moveq #45,d0
@@ -762,10 +765,11 @@ _matrix_multest23:
 
   ;result 0,-450 
   ; after normalization 0,7
-	
+  move.l d2,(sp)+
   rts
 
 _matrix_multest24:
+  move.l d2,-(sp)
   RESET_CURRENT_TRANSFORMATION_MATRIX_Q_10_6
 
   move.w                                        #160,d0
@@ -798,6 +802,7 @@ _matrix_multest24:
   ENDIF
 
   processing_third_matrix_addr
+  move.l d2,(sp)+
   rts
 
 ; scale 0,5 X and Y point 10,0
