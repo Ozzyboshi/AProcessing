@@ -30,6 +30,8 @@ SETPATTERN        MACRO
 
 BLITTRIANGLE:
           lea            $dff000,a5
+          lea            OFFBITPLANEMEM,a4
+
           bsr.w          InitLine                            ; inizializza line-mode
 
           move.w         VERTEX_LIST_2D_1(PC),d0             ; x1
@@ -255,8 +257,6 @@ DRAWLOR:
 
           lsl.w          #$02,d3                             ; D3=4*DY
           add.w          d2,d2                               ; D2=2*DX
-
-          btst           #6,$dff002
 
           WAITBLITTER
 

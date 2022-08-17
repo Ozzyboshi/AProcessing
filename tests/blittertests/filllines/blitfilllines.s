@@ -541,7 +541,6 @@ _blitfillline_test9:
 
   STROKE #2
   FILL #2
-  lea OFFBITPLANEMEM,a4
   jsr BLITTRIANGLE
 
   WAITBLITTER
@@ -562,7 +561,6 @@ _blitfillline_test10:
 
   STROKE #2
   FILL #2
-  lea OFFBITPLANEMEM,a4
   jsr BLITTRIANGLE
 
   WAITBLITTER
@@ -583,7 +581,6 @@ _blitfillline_test11:
 
   STROKE #2
   FILL #2
-  lea OFFBITPLANEMEM,a4
   jsr BLITTRIANGLE
 
   WAITBLITTER
@@ -603,7 +600,6 @@ _blitfillline_test12:
 
   STROKE #2
   FILL #2
-  lea OFFBITPLANEMEM,a4
   jsr BLITTRIANGLE
 
   WAITBLITTER
@@ -623,7 +619,6 @@ _blitfillline_test13:
 
   STROKE #2
   FILL #2
-  lea OFFBITPLANEMEM,a4
   jsr BLITTRIANGLE
 
   WAITBLITTER
@@ -643,7 +638,6 @@ _blitfillline_test14:
 
   STROKE #1
   FILL #1
-  lea OFFBITPLANEMEM,a4
   jsr BLITTRIANGLE
 
   WAITBLITTER
@@ -663,7 +657,6 @@ _blitfillline_test15:
 
   STROKE #3
   FILL #3
-  lea OFFBITPLANEMEM,a4
   jsr BLITTRIANGLE
 
   WAITBLITTER
@@ -683,7 +676,6 @@ _blitfillline_test16:
 
   STROKE #3
   FILL #3
-  lea OFFBITPLANEMEM,a4
   jsr BLITTRIANGLE
 
   WAITBLITTER
@@ -703,7 +695,6 @@ _blitfillline_test17:
 
   STROKE #1
   FILL #1
-  lea OFFBITPLANEMEM,a4
   jsr BLITTRIANGLE
 
   VERTEX2D_INIT 1,#160,#255
@@ -713,7 +704,6 @@ _blitfillline_test17:
 
   STROKE #2
   FILL #2
-  lea OFFBITPLANEMEM,a4
   jsr BLITTRIANGLE
 
   WAITBLITTER
@@ -733,7 +723,6 @@ _blitfillline_test18:
 
   STROKE #1
   FILL #1
-  lea OFFBITPLANEMEM,a4
   jsr BLITTRIANGLE
 
   WAITBLITTER
@@ -753,7 +742,6 @@ _blitfillline_test19:
 
   STROKE #1
   FILL #1
-  lea OFFBITPLANEMEM,a4
   jsr BLITTRIANGLE
 
   WAITBLITTER
@@ -773,7 +761,6 @@ _blitfillline_test19:
 
   STROKE #3
   FILL #3
-  lea OFFBITPLANEMEM,a4
   jsr BLITTRIANGLE
 
   WAITBLITTER
@@ -793,7 +780,6 @@ _blitfillline_test21:
 
   STROKE #1
   FILL #1
-  lea OFFBITPLANEMEM,a4
   jsr BLITTRIANGLE
 
   VERTEX2D_INIT 1,#150,#200
@@ -802,7 +788,6 @@ _blitfillline_test21:
 
   STROKE #2
   FILL #2
-  lea OFFBITPLANEMEM,a4
   jsr BLITTRIANGLE
 
   WAITBLITTER
@@ -822,7 +807,6 @@ _blitfillline_test22:
 
   STROKE #1
   FILL #1
-  lea OFFBITPLANEMEM,a4
   jsr BLITTRIANGLE
 
   VERTEX2D_INIT 1,#224,#104
@@ -831,7 +815,6 @@ _blitfillline_test22:
 
   STROKE #2
   FILL #2
-  lea OFFBITPLANEMEM,a4
   jsr BLITTRIANGLE
 
   WAITBLITTER
@@ -851,7 +834,6 @@ _blitfillline_test23:
 
   STROKE #1
   FILL #1
-  lea OFFBITPLANEMEM,a4
   jsr BLITTRIANGLE
 
   WAITBLITTER
@@ -871,7 +853,6 @@ _blitfillline_test24:
 
   STROKE #1
   FILL #1
-  lea OFFBITPLANEMEM,a4
   jsr BLITTRIANGLE
 
   WAITBLITTER
@@ -891,7 +872,6 @@ _blitfillline_test25:
 
   STROKE #2
   FILL #1
-  lea OFFBITPLANEMEM,a4
   jsr BLITTRIANGLE
 
   WAITBLITTER
@@ -911,7 +891,6 @@ _blitfillline_test26:
 
   STROKE #1
   FILL #2
-  lea OFFBITPLANEMEM,a4
   jsr BLITTRIANGLE
 
   WAITBLITTER
@@ -931,7 +910,6 @@ _blitfillline_test27:
 
   STROKE #1
   FILL #3
-  lea OFFBITPLANEMEM,a4
   jsr BLITTRIANGLE
 
   WAITBLITTER
