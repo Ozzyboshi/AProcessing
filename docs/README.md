@@ -57,6 +57,37 @@
   **Note**: The *LINE_NODRAW* macro perform the same exact operation but just sets up the fill table and does not print anything on the screen.
   To print run function which addr is inside *AMMX_FILL_FUNCT_ADDR*.
 
+  **Note**: The *LINE_NODRAW* macro is ment to be used in combination with *FILL_TABLE* and does not take into account the transformation matrix. If you want the draw to be done according to the transformation matrix use LINEDRAW instead (description following)
+
+#### LINEDRAW - Draws a line (CPU) (FILLTABLE) (MACRO)
+##### This version is different from DRAW because it takes into account the transformation matrix.
+
+  Input:
+  - param1 : Point X1 (0-319)
+  - param2 : Point Y1 (0-255)
+  - param3 : Point X2 (0-319)
+  - param4 : Point Y2 (0-255)
+
+  Output:
+    Nothing
+
+  Defines:
+  - USE_CLIPPING
+  - USE_DBLBUF
+
+  Trashes: nothing
+
+  Example: Draw cartesian Y axis with the origin at the center of the screen
+
+  ```asm
+  ; Go to the center
+  move.w #WIDTH/2,d0
+  move.w #HEIGHT/2,d1
+  jsr TRANSLATE
+
+  LINEDRAW                  #0,#-HEIGHT/2,#0,#HEIGHT/2
+  ```
+
 - #### RECT - Draws a rectangle (CPU)
 
   Input:
