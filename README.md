@@ -13,7 +13,7 @@ The repository contains the following directorties:
 - tests : all the automated tests categorized by topic. Each subdirectory contains an "expected" subdirectory with contains the binary ram representation that each test is supposed to produce. The tests/testlibs is a special directory that contains the program to run the test.
 
 ### How to compile the tests
-In order to compile the whole prokect you will need [Bebbo gcc](https://github.com/bebbo/amiga-gcc), [vasm](http://sun.hasenbraten.de/vasm/) and [vamos](https://github.com/cnvogelg/amitools/blob/master/docs/vamos.md) installed and in path on your GNU/Linux machine.
+In order to compile the whole project you will need [Bebbo gcc](https://github.com/bebbo/amiga-gcc), [vasm](http://sun.hasenbraten.de/vasm/) and [vamos](https://github.com/cnvogelg/amitools/blob/master/docs/vamos.md) installed and in path on your GNU/Linux machine.
 If you dont have it you can use my Docker image:
 
 ```
