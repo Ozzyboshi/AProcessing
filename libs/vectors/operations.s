@@ -1,3 +1,6 @@
+XVECTOR EQU 0
+YVECTOR EQU 2
+
 ; CREATE2DVECTOR - Create (or better, initializes) a 2d vector
 ; Input: 
 ;   - d0.w: x value
