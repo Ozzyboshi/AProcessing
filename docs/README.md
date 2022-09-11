@@ -375,3 +375,32 @@ Output: Nothing
  move.w                                        #%0000000100000000,d1
  bsr.w                                         SHEAR
   ```
+
+### Miscellaneous
+
+- #### MAP -  Re-maps a number from one range to another
+
+  Input:
+  - d0.w : Number to remap
+  - d1.w : Range 1 start
+  - d2.w : Range 1 end
+  - d3.w : Range 2 start
+  - d4.w : Range 3 end
+
+  Output:
+    d4.w will be used to return new number
+
+  Defines: nothing
+
+  Trashes: nothing
+
+  Example: Map 127 from range 0,254 to range 500,5500, result in d4
+
+  ```asm
+  move.w #127,d0
+  move.w #0,d1
+  move.w #254,d2
+  move.w #500,d3
+  move.w #5500,d4
+  jsr MAP
+  ```
