@@ -7,11 +7,15 @@
   XDEF                 _precalcsimpleops_test7
   XDEF                 _precalcsimpleops_test8
   XDEF                 _precalcsimpleops_test9
+  XDEF                 _precalcsimpleops_test10
+  XDEF                 _precalcsimpleops_test11
+
 
   include              "../../../libs/rasterizers/globaloptions.s"
   include              "../../../libs/precalc/precalc_by_sin.s"
   include              "../../../libs/precalc/precalc_col_table.s"
   include              "../../../libs/precalc/double_byte.s"
+  include              "../../../libs/precalc/map.s"
   include              "../../../libs/trigtables_sin.i"
   include              "../../../libs/trigtables.i"
   include              "../../../libs/ammxmacros.i"
@@ -151,3 +155,29 @@ _precalcsimpleops_test9:
   move.l               (sp)+,d2
   rts
 
+mapdata: dc.w 0
+_precalcsimpleops_test10:
+  move.l               d2,-(sp)
+  move.w #127,d0
+  move.w #0,d1
+  move.w #254,d2
+  move.w #500,d3
+  move.w #5500,d4
+  jsr MAP
+  move.w d4,mapdata
+  move.l #mapdata,d0
+  move.l               (sp)+,d2
+  rts
+
+_precalcsimpleops_test11:
+  move.l               d2,-(sp)
+  move.w #700,d0
+  move.w #500,d1
+  move.w #5500,d2
+  move.w #0,d3
+  move.w #254,d4
+  jsr MAP
+  move.w d4,mapdata
+  move.l #mapdata,d0
+  move.l               (sp)+,d2
+  rts
