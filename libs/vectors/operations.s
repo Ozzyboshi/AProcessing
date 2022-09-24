@@ -217,6 +217,7 @@ GET2DMAGNITUDE MACRO
 ; d7 magnitude
 SET2DMAGNITUDE:
   GET2DMAGNITUDE
+SET2DMAGNITUDE_NOGET:
 
   tst.w     d0
   bne.s     GET2DMAGNITUDE_NODIV
@@ -291,7 +292,7 @@ GET2DMAGNITUDE MACRO
 ; d7 magnitude
 SET2DMAGNITUDE:
   GET2DMAGNITUDE
-
+SET2DMAGNITUDE_NOGET:
   tst.w     d0
   bne.s     GET2DMAGNITUDE_NODIV
   move.l    #0,(a0)
@@ -380,7 +381,7 @@ GET2DMAGNITUDE MACRO
 ; d7 magnitude
 SET2DMAGNITUDE:
   GET2DMAGNITUDE
-
+SET2DMAGNITUDE_NOGET:
   tst.w     d0
   bne.s     GET2DMAGNITUDE_NODIV
   move.l    #0,(a0)
@@ -527,3 +528,20 @@ SET2DMAGNITUDE_FAKE_RET_ZERO:
   move.l #0,(a0)
   rts
   ENDC
+
+; LIMIT2DVECTOR - Limit the magnitude of this vector to the value used for the max parameter
+; Input: 
+;   - a0.l: address of the vector to check agains the limit
+;   - d7.w: the maximum magnitude for the vector
+; Output: nothing
+; Trashes:
+;   - d0
+;   - d1
+;   - d7
+LIMIT2DVECTOR:
+	GET2DMAGNITUDE
+	cmp.w     d0,d7
+	bgt.s     limit2dvector_nochange
+	jsr       SET2DMAGNITUDE_NOGET
+limit2dvector_nochange:
+	rts

@@ -26,6 +26,10 @@ unsigned char *vectorssimpleops_test21();
 unsigned char *vectorssimpleops_test22();
 unsigned char *vectorssimpleops_test23();
 unsigned char *vectorssimpleops_test24();
+unsigned char *vectorssimpleops_test25();
+unsigned char *vectorssimpleops_test26();
+unsigned char *vectorssimpleops_test27();
+unsigned char *vectorssimpleops_test28();
 
 struct _test TESTS[] = {
     {.testId = 1, .test_function = vectorssimpleops_test1, .nbitplanes=1, .nrows=2, .nbyterow=2,.title = "static add v1(3,4) with v2(5,6)", .verbose=0},
@@ -52,6 +56,10 @@ struct _test TESTS[] = {
     {.testId = 22, .test_function = vectorssimpleops_test22, .nbitplanes=1, .nrows=2, .nbyterow=2,.title = "decimal vector with sqrt fake", .verbose=0},
     {.testId = 23, .test_function = vectorssimpleops_test23, .nbitplanes=1, .nrows=2, .nbyterow=2,.title = "decimal vector with sqrt fake going left", .verbose=0},
     {.testId = 24, .test_function = vectorssimpleops_test24, .nbitplanes=1, .nrows=2, .nbyterow=2,.title = "setmag fake with negative x", .verbose=0},
+    {.testId = 25, .test_function = vectorssimpleops_test25, .nbitplanes=1, .nrows=2, .nbyterow=2,.title = "limit 2d vector 100,100 to 10", .verbose=0},
+    {.testId = 26, .test_function = vectorssimpleops_test26, .nbitplanes=1, .nrows=2, .nbyterow=2,.title = "limit 2d vector 100,-100 10 10", .verbose=0},
+    {.testId = 27, .test_function = vectorssimpleops_test27, .nbitplanes=1, .nrows=2, .nbyterow=2,.title = "limit 2d vector 10,20 to 2", .verbose=0},
+    {.testId = 28, .test_function = vectorssimpleops_test28, .nbitplanes=1, .nrows=2, .nbyterow=2,.title = "limit 2d vector 10,20 to 25", .verbose=0},
 
 
     {.testId = 0, .test_function = NULL}

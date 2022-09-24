@@ -22,6 +22,10 @@
   XDEF                 _vectorssimpleops_test22
   XDEF                 _vectorssimpleops_test23
   XDEF                 _vectorssimpleops_test24
+  XDEF                 _vectorssimpleops_test25
+  XDEF                 _vectorssimpleops_test26
+  XDEF                 _vectorssimpleops_test27
+  XDEF                 _vectorssimpleops_test28
 
   include              "../../../libs/rasterizers/globaloptions.s"
   include              "../../../libs/vectors/operations.s"
@@ -578,6 +582,62 @@ _vectorssimpleops_test24:
   move.w                #1*64,d7
   lea                  VECTOR1,a0
   jsr                  SET2DMAGNITUDE_FAKE
+
+  move.l               #VECTOR1,d0
+  move.l               (sp)+,d2
+  rts
+
+_vectorssimpleops_test25:
+  move.l               d2,-(sp)
+  move.w                #100,d0
+  move.w                #100,d1
+  CREATE2DVECTOR       VECTOR1
+
+  move.w                #10,d7
+  lea                  VECTOR1,a0
+  jsr                  LIMIT2DVECTOR
+
+  move.l               #VECTOR1,d0
+  move.l               (sp)+,d2
+  rts
+
+_vectorssimpleops_test26:
+  move.l               d2,-(sp)
+  move.w                #100,d0
+  move.w                #-100,d1
+  CREATE2DVECTOR       VECTOR1
+
+  move.w                #10,d7
+  lea                  VECTOR1,a0
+  jsr                  LIMIT2DVECTOR
+
+  move.l               #VECTOR1,d0
+  move.l               (sp)+,d2
+  rts
+
+_vectorssimpleops_test27:
+  move.l               d2,-(sp)
+  move.w                #10,d0
+  move.w                #20,d1
+  CREATE2DVECTOR       VECTOR1
+
+  move.w                #2,d7
+  lea                  VECTOR1,a0
+  jsr                  LIMIT2DVECTOR
+
+  move.l               #VECTOR1,d0
+  move.l               (sp)+,d2
+  rts
+
+_vectorssimpleops_test28:
+  move.l               d2,-(sp)
+  move.w                #10,d0
+  move.w                #20,d1
+  CREATE2DVECTOR       VECTOR1
+
+  move.w                #25,d7
+  lea                  VECTOR1,a0
+  jsr                  LIMIT2DVECTOR
 
   move.l               #VECTOR1,d0
   move.l               (sp)+,d2
