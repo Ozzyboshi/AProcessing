@@ -302,6 +302,35 @@
  ```
 
   Note: in order to use SET2DMAGNITUDE_FAKE use SQRT_FAKE define
+  
+ 
+### LIMIT2DVECTOR - Limit the magnitude of this vector to the value used for the max parameter
+
+ Input:
+
+- a0.l: address of the vector to check agains the limit
+- d7.w: the maximum magnitude for the vector
+ 
+ Output: Nothing
+
+ Trashes:
+
+- d0
+- d1
+- d7
+
+ Example: set the magnitude of vector 3,4 to 1
+
+ ```asm
+ move.w                #100,d0
+ move.w                #100,d1
+ CREATE2DVECTOR       VECTOR1
+
+ move.w                #10,d7
+ lea                  VECTOR1,a0
+ jsr                  LIMIT2DVECTOR
+ ; here new vector will hold values 7,7 according to the new magnitude
+ ```
 
 ### Matrix operation instructions
 
@@ -322,7 +351,7 @@ Output: Nothing
   RESETMATRIX
   ```
   
-#### LOADIDETITYANDTRANSLATE - Reset matrix and Specifies an displace the origin of the axis within the display window
+#### LOADIDENTITYANDTRANSLATE - Reset matrix and Specifies an displace the origin of the axis within the display window
 
  Input:
 
