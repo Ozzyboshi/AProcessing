@@ -321,6 +321,25 @@ Output: Nothing
   ```
   RESETMATRIX
   ```
+  
+#### LOADIDETITYANDTRANSLATE - Reset matrix and Specifies an displace the origin of the axis within the display window
+
+ Input:
+
+- d0.w: x displacement (integer format)
+- d1.w: y displacement (integer format)
+
+ Output: nothing
+
+ Trashes: nothing
+  
+ Example: change the origin to the center of the screen
+
+   ```
+   move.w                                        #WIDTH/2,d0
+   move.w                                        #HEIGHT/2,d1
+   jsr                                           LOADIDENTITYANDTRANSLATE
+   ```
 
 #### ROTATE - Rotate the current transformation matrix along the Z-Axis
 
