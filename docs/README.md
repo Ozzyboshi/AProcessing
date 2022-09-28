@@ -209,6 +209,71 @@
   SUB2DVECTORSTATIC    VECTOR3    
   ```
 
+#### DIV2DVECTOR - Divide 2 2d vectors and place the result in the second vector
+
+ Input:
+
+- a0.l: address of first vector (dividend or numerator)
+- a1.l: address of second vector (divisor) (the content will be overwritten with the result of the operation)
+
+ Output: nothing
+
+ Trashes:
+ 
+ - d0
+ - d1
+ 
+ Warning: division by zero is not checked, if there is a zero on VECTOR2 it will result in a divide by zero exception!
+
+ Example: Store VECTOR1/VECTOR2 to VECTOR3
+
+  ```asm
+  VECTOR1:
+  dc.l                 0
+  
+  VECTOR2:
+  dc.l                 0
+  
+  ...
+  lea                  VECTOR1,a0
+  lea                  VECTOR2,a1
+  DIV2DVECTOR    
+  ```
+
+#### DIV2DVECTORSTATIC - Divide 2 2d vectors and place the result in the third (MACRO)
+
+ Input:
+
+- a0.l: address of first vector (dividend or numerator)
+- a1.l: address of second vector (divisor)
+- address of the destination vector
+
+ Output: nothing
+
+ Trashes:
+ 
+ - d0
+ - d1
+ 
+ Warning: division by zero is not checked, if there is a zero on VECTOR2 it will result in a divide by zero exception!
+
+ Example: Store VECTOR1/VECTOR2 to VECTOR3
+
+  ```asm
+  VECTOR1:
+  dc.l                 0
+  
+  VECTOR2:
+  dc.l                 0
+  
+  VECTOR3:
+  dc.l                 0
+  ...
+  lea                  VECTOR1,a0
+  lea                  VECTOR2,a1
+  DIV2DVECTORSTATIC    VECTOR3    
+  ```
+
 ### GET2DMAGNITUDE - get magnitude of 2d vector
 
  Input:
