@@ -26,7 +26,11 @@
   XDEF                 _vectorssimpleops_test26
   XDEF                 _vectorssimpleops_test27
   XDEF                 _vectorssimpleops_test28
-
+  XDEF                 _vectorssimpleops_test29
+  XDEF                 _vectorssimpleops_test30
+  XDEF                 _vectorssimpleops_test31
+  XDEF                 _vectorssimpleops_test32
+  
   include              "../../../libs/rasterizers/globaloptions.s"
   include              "../../../libs/vectors/operations.s"
   include              "../../../libs/ammxmacros.i"
@@ -640,5 +644,97 @@ _vectorssimpleops_test28:
   jsr                  LIMIT2DVECTOR
 
   move.l               #VECTOR1,d0
+  move.l               (sp)+,d2
+  rts
+
+_vectorssimpleops_test29:
+  move.l               d2,-(sp)
+
+  ; vector 1 is 99,4
+  moveq                #99,d0
+  moveq                #4,d1
+  CREATE2DVECTOR       VECTOR1
+
+  ; vector 2 is 3,2
+  moveq                #3,d0
+  moveq                #2,d1
+  CREATE2DVECTOR       VECTOR2
+
+  lea                  VECTOR1,a0
+  lea                  VECTOR2,a1
+
+  ; sub them
+  DIV2DVECTORSTATIC    VECTOR3
+
+  move.l               #VECTOR3,d0                                    ; returns addr in d0
+  move.l               (sp)+,d2
+  rts
+
+_vectorssimpleops_test30:
+  move.l               d2,-(sp)
+
+  ; vector 1 is 99,4
+  moveq                #99,d0
+  moveq                #4,d1
+  CREATE2DVECTOR       VECTOR1
+
+  ; vector 2 is 3,2
+  moveq                #3,d0
+  moveq                #2,d1
+  CREATE2DVECTOR       VECTOR2
+
+  lea                  VECTOR1,a0
+  lea                  VECTOR2,a1
+
+  ; sub them
+  DIV2DVECTOR
+
+  move.l               #VECTOR2,d0                                    ; returns addr in d0
+  move.l               (sp)+,d2
+  rts
+
+_vectorssimpleops_test31:
+  move.l               d2,-(sp)
+
+  ; vector 1 is 0,8
+  moveq                #0,d0
+  moveq                #8,d1
+  CREATE2DVECTOR       VECTOR1
+
+  ; vector 2 is 2,2
+  move.l                #$10000002,d0
+  move.l                #$10000002,d1
+  CREATE2DVECTOR       VECTOR2
+
+  lea                  VECTOR1,a0
+  lea                  VECTOR2,a1
+
+  ; sub them
+  DIV2DVECTORSTATIC    VECTOR3
+
+  move.l               #VECTOR3,d0                                    ; returns addr in d0
+  move.l               (sp)+,d2
+  rts
+
+_vectorssimpleops_test32:
+  move.l               d2,-(sp)
+
+  ; vector 1 is 0,8
+  moveq                #0,d0
+  moveq                #8,d1
+  CREATE2DVECTOR       VECTOR1
+
+  ; vector 2 is 2,2
+  move.l               #$10000002,d0
+  move.l               #$10000002,d1
+  CREATE2DVECTOR       VECTOR2
+
+  lea                  VECTOR1,a0
+  lea                  VECTOR2,a1
+
+  ; sub them
+  DIV2DVECTOR
+
+  move.l               #VECTOR2,d0                                    ; returns addr in d0
   move.l               (sp)+,d2
   rts

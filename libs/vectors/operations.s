@@ -170,7 +170,27 @@ MUL2DVECTOR MACRO
   ENDC
   ENDM
 
-; MUL2DVECTORSTATIC - multiply 2 2d vector and place the result in a third vector
+; DIV2DVECTOR - divide 2 2d vectors and place the result in the second vector
+; Input: 
+;   - a0.l: address of first vector
+;   - a1.l: address of second vector
+;   - address of the result vector as first arg of the macro
+; Output: nothing
+; Trashes:
+;   - d0
+;   - d1
+DIV2DVECTOR MACRO
+  move.w    (a0),d0
+  move.w    2(a0),d1
+  ext.l     d0
+  ext.l     d1
+  divs      (a1),d0
+  divs      2(a1),d1
+  move.w    d0,(a1)
+  move.w    d1,2(a1)
+  ENDM
+
+; MUL2DVECTORSTATIC - multiply 2 2d vectors and place the result in a third vector
 ; Input: 
 ;   - a0.l: address of first vector
 ;   - a1.l: address of second vector
@@ -192,6 +212,26 @@ MUL2DVECTORSTATIC MACRO
   move.w    d0,\1
   move.w    d1,2+\1
   ENDC
+  ENDM
+
+; DIV2DVECTORSTATIC - divide 2 2d vectors and place the result in a third vector
+; Input: 
+;   - a0.l: address of first vector
+;   - a1.l: address of second vector
+;   - address of the result vector as first arg of the macro
+; Output: nothing
+; Trashes:
+;   - d0
+;   - d1
+DIV2DVECTORSTATIC MACRO
+  move.w    (a0),d0
+  move.w    2(a0),d1
+  ext.l     d0
+  ext.l     d1
+  divs      (a1),d0
+  divs      2(a1),d1
+  move.w    d0,\1
+  move.w    d1,2+\1
   ENDM
 
 ; GET2DMAGNITUDE - get magnitude of 2d vector
