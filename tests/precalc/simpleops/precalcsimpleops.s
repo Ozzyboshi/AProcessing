@@ -9,7 +9,8 @@
   XDEF                 _precalcsimpleops_test9
   XDEF                 _precalcsimpleops_test10
   XDEF                 _precalcsimpleops_test11
-
+  XDEF                 _precalcsimpleops_test12
+  XDEF                 _precalcsimpleops_test13
 
   include              "../../../libs/rasterizers/globaloptions.s"
   include              "../../../libs/precalc/precalc_by_sin.s"
@@ -176,6 +177,32 @@ _precalcsimpleops_test11:
   move.w #5500,d2
   move.w #0,d3
   move.w #254,d4
+  jsr MAP
+  move.w d4,mapdata
+  move.l #mapdata,d0
+  move.l               (sp)+,d2
+  rts
+
+_precalcsimpleops_test12:
+  move.l               d2,-(sp)
+  move.w #10,d0
+  move.w #-10,d1
+  move.w #10,d2
+  move.w #-160,d3
+  move.w #160,d4
+  jsr MAP
+  move.w d4,mapdata
+  move.l #mapdata,d0
+  move.l               (sp)+,d2
+  rts
+
+_precalcsimpleops_test13:
+  move.l               d2,-(sp)
+  move.w #10,d0
+  move.w #-160,d1
+  move.w #160,d2
+  move.w #-10,d3
+  move.w #10,d4
   jsr MAP
   move.w d4,mapdata
   move.l #mapdata,d0

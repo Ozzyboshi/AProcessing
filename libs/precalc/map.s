@@ -19,7 +19,7 @@ MAP:
     ;output = output_start + ((output_end - output_start) / (input_end - input_start)) * (input - input_start)
     sub.w d3,d4 ;d4 = output_end - output_start
     sub.w d1,d2 ;d2 = input_end - input_start
-    sub.w d1,d0 ; d1 = (input - input_start)
+    sub.w d1,d0 ; d0 = (input - input_start)
 
     muls d0,d4
     divs d2,d4
