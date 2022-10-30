@@ -585,3 +585,17 @@ LIMIT2DVECTOR:
 	jsr       SET2DMAGNITUDE_NOGET
 limit2dvector_nochange:
 	rts
+
+; CREATE2DVECTORFROMANGLE - Create a new vector using an angle
+; Input: 
+;   - a0.l: address of the vector to initialize
+;   - d7.w: angle in degrees (range 0-359)
+; Output: nothing
+; Trashes:
+;   - a0
+;   - d7
+CREATE2DVECTORFROMANGLE MACRO
+	lea VECTOR_TRIGTABLE,a1
+  lsl.w #2,d7
+  move.l (a1,d7.w),(a0)
+	ENDM

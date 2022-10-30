@@ -30,10 +30,13 @@
   XDEF                 _vectorssimpleops_test30
   XDEF                 _vectorssimpleops_test31
   XDEF                 _vectorssimpleops_test32
-  
+  XDEF                 _vectorssimpleops_test33
+  XDEF                 _vectorssimpleops_test34
+
   include              "../../../libs/rasterizers/globaloptions.s"
   include              "../../../libs/vectors/operations.s"
   include              "../../../libs/ammxmacros.i"
+  include              "../../../libs/vectors/trigtables.i"
 
 VECTOR1:
   dc.l                 0
@@ -734,6 +737,28 @@ _vectorssimpleops_test32:
 
   ; sub them
   DIV2DVECTOR
+
+  move.l               #VECTOR2,d0                                    ; returns addr in d0
+  move.l               (sp)+,d2
+  rts
+
+_vectorssimpleops_test33:
+  move.l               d2,-(sp)
+
+  lea VECTOR2,a0
+  move.w               #0,d7
+  CREATE2DVECTORFROMANGLE
+
+  move.l               #VECTOR2,d0                                    ; returns addr in d0
+  move.l               (sp)+,d2
+  rts
+
+_vectorssimpleops_test34:
+  move.l               d2,-(sp)
+
+  lea VECTOR2,a0
+  move.w               #90,d7
+  CREATE2DVECTORFROMANGLE
 
   move.l               #VECTOR2,d0                                    ; returns addr in d0
   move.l               (sp)+,d2

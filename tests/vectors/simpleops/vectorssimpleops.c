@@ -34,6 +34,8 @@ unsigned char *vectorssimpleops_test29();
 unsigned char *vectorssimpleops_test30();
 unsigned char *vectorssimpleops_test31();
 unsigned char *vectorssimpleops_test32();
+unsigned char *vectorssimpleops_test33();
+unsigned char *vectorssimpleops_test34();
 
 struct _test TESTS[] = {
     {.testId = 1, .test_function = vectorssimpleops_test1, .nbitplanes=1, .nrows=2, .nbyterow=2,.title = "static add v1(3,4) with v2(5,6)", .verbose=0},
@@ -68,6 +70,8 @@ struct _test TESTS[] = {
     {.testId = 30, .test_function = vectorssimpleops_test30, .nbitplanes=1, .nrows=2, .nbyterow=2,.title = "div v1(99,4) with v2(3,2)", .verbose=0},
     {.testId = 31, .test_function = vectorssimpleops_test31, .nbitplanes=1, .nrows=2, .nbyterow=2,.title = "static div v1(0,8) with v2(2,2)", .verbose=0},
     {.testId = 32, .test_function = vectorssimpleops_test32, .nbitplanes=1, .nrows=2, .nbyterow=2,.title = "div v1(0,8) with v2(2,2)", .verbose=0},
+    {.testId = 33, .test_function = vectorssimpleops_test33, .nbitplanes=1, .nrows=2, .nbyterow=2,.title = "create vector from angle 0", .verbose=0},
+    {.testId = 34, .test_function = vectorssimpleops_test34, .nbitplanes=1, .nrows=2, .nbyterow=2,.title = "create vector from angle 90", .verbose=0},
 
 
     {.testId = 0, .test_function = NULL}
