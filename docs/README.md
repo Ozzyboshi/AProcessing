@@ -153,6 +153,31 @@
   CREATE2DVECTOR       a0
   ```
   
+ #### CREATE2DVECTORFROMANGLE - Create (or better, initializes) a 2d vector using an angle as the input, the magnitude of the vector will be one (MACRO)
+
+ Input:
+
+- a0.l: address of vector to initialize
+- d7.w: Angle in degrees (range 0-359)
+
+ Output: nothing
+
+ Trashes:
+ - a0
+ - d7
+
+ Example: Create a new 2d vector with angle 90 and length = 1
+
+  ```asm
+  VECTOR1:
+  dc.l                 0
+  ...
+  ; vector 1 is 3,4
+  moveq                #90,d7
+  lea                  VECTOR1,a0
+  CREATE2DVECTORFROMANGLE    
+  ```
+  
 #### ADD2DVECTOR - add 2 2d vectors and place the result in the second vector
   Input: 
   
