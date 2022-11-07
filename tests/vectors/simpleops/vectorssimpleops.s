@@ -32,6 +32,7 @@
   XDEF                 _vectorssimpleops_test32
   XDEF                 _vectorssimpleops_test33
   XDEF                 _vectorssimpleops_test34
+  XDEF                 _vectorssimpleops_test35
 
   include              "../../../libs/rasterizers/globaloptions.s"
   include              "../../../libs/vectors/operations.s"
@@ -759,6 +760,27 @@ _vectorssimpleops_test34:
   lea VECTOR2,a0
   move.w               #90,d7
   CREATE2DVECTORFROMANGLE
+
+  move.l               #VECTOR2,d0                                    ; returns addr in d0
+  move.l               (sp)+,d2
+  rts
+
+_vectorssimpleops_test35:
+  move.l               d2,-(sp)
+
+  ; vector 1 is 3
+  move.w #3,VECTOR1
+
+  ; vector 2 is 5,6
+  moveq                #5,d0
+  moveq                #7,d1
+  CREATE2DVECTOR       VECTOR2
+
+  lea                  VECTOR1,a0
+  lea                  VECTOR2,a1
+
+  ; mul them
+  MUL2DVECTOR1X2
 
   move.l               #VECTOR2,d0                                    ; returns addr in d0
   move.l               (sp)+,d2

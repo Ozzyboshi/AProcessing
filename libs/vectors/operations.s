@@ -599,3 +599,20 @@ CREATE2DVECTORFROMANGLE MACRO
   lsl.w #2,d7
   move.l (a1,d7.w),(a0)
 	ENDM
+
+; MUL2DVECTOR1X2 - multiply a scalar value with a 2d vector and place the result in the 2d vector
+; Input: 
+;   - a0.l: address of first monodimentional vector
+;   - a1.l: address of second 2d vector vector
+; Output: nothing
+; Trashes:
+;   - d0
+;   - d1
+MUL2DVECTOR1X2 MACRO
+    move.w   (a1),d0
+    move.w    2(a1),d1
+    muls.w    (a0),d0
+    muls.w    (a0),d1
+    move.w    d0,(a1)
+    move.w    d1,2(a1)
+    ENDM
