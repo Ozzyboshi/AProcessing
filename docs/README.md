@@ -239,7 +239,7 @@
  Input:
 
 - a0.l: address of first monodimentional vector
-- a1.l: address of second 2d vector vector
+- a1.l: address of second 2d vector
 
  Output: nothing
 
