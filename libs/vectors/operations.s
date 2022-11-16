@@ -616,3 +616,28 @@ MUL2DVECTOR1X2 MACRO
     move.w    d0,(a1)
     move.w    d1,2(a1)
     ENDM
+
+; GET2DMAGNITUDE_Q10_6_TABLE_LOOKUP - get magnitude of 2d vector
+; Input: 
+;   - a0.l: address of vector
+; Output:
+;   - d0.w: magnitude of the vector (rounded to integer)
+; Trashes:
+;   - d0
+;   - d1
+;   - a1
+  IFD SQRT_TABLE_LOOKUP
+GET2DMAGNITUDE_Q10_6_TABLE_LOOKUP MACRO
+	move.w    (a0),d0
+  muls.w     d0,d0
+  move.w    2(a0),d1
+  muls.w     d1,d1
+  lsr.l      #6,d0
+  lsr.l      #6,d1
+  add.l      d1,d0
+  lsl.l      #1,d0
+  lea        SQRT_TABLE_Q10_6,a1
+  adda.l     d0,a1
+  move.w     (a1),d0
+  ENDM
+  ENDC

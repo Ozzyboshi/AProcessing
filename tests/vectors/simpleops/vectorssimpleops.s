@@ -33,6 +33,11 @@
   XDEF                 _vectorssimpleops_test33
   XDEF                 _vectorssimpleops_test34
   XDEF                 _vectorssimpleops_test35
+  XDEF                 _vectorssimpleops_test36
+  XDEF                 _vectorssimpleops_test37
+  XDEF                 _vectorssimpleops_test38
+
+  include              "../../../libs/vectors/sqrt_q10_6_lookup_table.i"
 
   include              "../../../libs/rasterizers/globaloptions.s"
   include              "../../../libs/vectors/operations.s"
@@ -783,5 +788,48 @@ _vectorssimpleops_test35:
   MUL2DVECTOR1X2
 
   move.l               #VECTOR2,d0                                    ; returns addr in d0
+  move.l               (sp)+,d2
+  rts
+
+_vectorssimpleops_test36:
+  move.l               d2,-(sp)
+
+  ; vector 1 is 3*64,0*64
+  lea VECTOR1,a0
+  move.l #$00C00000,(a0) 
+  GET2DMAGNITUDE_Q10_6_TABLE_LOOKUP
+  move.w d0,(a0)
+  move.l               #VECTOR1,d0
+  move.l               (sp)+,d2
+  rts
+
+_vectorssimpleops_test37:
+  move.l               d2,-(sp)
+
+  ; vector 1 is -5,-6
+  move.w                #-5*64,d0
+  move.w                #-6*64,d1
+  CREATE2DVECTOR       VECTOR1
+
+  lea                  VECTOR1,a0
+  GET2DMAGNITUDE_Q10_6_TABLE_LOOKUP
+
+  move.w d0,(a0)
+  move.l               #VECTOR1,d0                                    ; returns addr in d0
+  move.l               (sp)+,d2
+  rts
+
+_vectorssimpleops_test38:
+  move.l               d2,-(sp)
+
+  ; vector 1 is 100,9
+  move.w                #30*64,d0
+  move.w                #9*64,d1
+  CREATE2DVECTOR       VECTOR1
+
+  lea                  VECTOR1,a0
+  GET2DMAGNITUDE_Q10_6_TABLE_LOOKUP
+  move.w               d0,VECTOR1
+  move.l               #VECTOR1,d0                                    ; returns addr in d0
   move.l               (sp)+,d2
   rts
