@@ -363,7 +363,7 @@
  ; here d0 holds the value 5 which is the magnitude
  ```
  
- ### GET2DMAGNITUDE_Q10_6_TABLE_LOOKUP - get magnitude of 2d vector in Q10.6 format using LOOKUP Table
+ ### GET2DMAGNITUDE_Q10_6_TABLE_LOOKUP - get magnitude of 2d vector in Q10.6 format using LOOKUP Table (MACRO)
 
  Input:
 
@@ -395,6 +395,7 @@
  ; $01.0100 is 0.25+0.0625 = 0.25625
  ; final result is 31.3125 (quite close to 31.3209195267)
  ```
+ Note: include file libs/vectors/sqrt_q10_6_lookup_table.i which contains the lookup table in order to use this macro
 
 ### SET2DMAGNITUDE - set magnitude of 2d vector
 
