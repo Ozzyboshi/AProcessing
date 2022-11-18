@@ -362,6 +362,39 @@
  GET2DMAGNITUDE
  ; here d0 holds the value 5 which is the magnitude
  ```
+ 
+ ### GET2DMAGNITUDE_Q10_6_TABLE_LOOKUP - get magnitude of 2d vector in Q10.6 format using LOOKUP Table
+
+ Input:
+
+- a0.l: address of vector
+
+ Output:
+
+- d0.w: magnitude of the vector (rounded to integer)
+
+ Trashes:
+
+- d0
+- d1
+- a1
+
+ Example: get the magnitude of vector 3,4
+
+ ```asm
+  move.w               #30*64,d0
+  move.w               #9*64,d1
+  CREATE2DVECTOR       VECTOR1
+
+  lea                  VECTOR1,a0
+  GET2DMAGNITUDE_Q10_6_TABLE_LOOKUP
+ ; here d0 holds the value $07d4 which is the magnitude in Q10.6 format
+ ; in binary : %0000 0111 1101 0100
+ ; in q10.6 format %11111.0101
+ ; $11111 is 31
+ ; $01.0100 is 0.25+0.0625 = 0.25625
+ ; final result is 31.3125 (quite close to 31.3209195267)
+ ```
 
 ### SET2DMAGNITUDE - set magnitude of 2d vector
 
