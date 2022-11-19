@@ -626,7 +626,6 @@ MUL2DVECTOR1X2 MACRO
 ;   - d0
 ;   - d1
 ;   - a1
-  IFD SQRT_TABLE_LOOKUP
 GET2DMAGNITUDE_Q10_6_TABLE_LOOKUP MACRO
 	move.w    (a0),d0
   muls.w     d0,d0
@@ -640,4 +639,3 @@ GET2DMAGNITUDE_Q10_6_TABLE_LOOKUP MACRO
   adda.l     d0,a1
   move.w     (a1),d0
   ENDM
-  ENDC
