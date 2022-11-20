@@ -626,6 +626,7 @@ MUL2DVECTOR1X2 MACRO
 ;   - d0
 ;   - d1
 ;   - a1
+  IFD Q10_6_TABLE_LOOKUP
 GET2DMAGNITUDE_Q10_6_TABLE_LOOKUP MACRO
 	move.w    (a0),d0
   muls.w     d0,d0
@@ -639,3 +640,30 @@ GET2DMAGNITUDE_Q10_6_TABLE_LOOKUP MACRO
   adda.l     d0,a1
   move.w     (a1),d0
   ENDM
+
+    ; set2dmagnitude
+; a0 pointer to vector
+; d7 magnitude
+SET2DMAGNITUDE_Q10_6_TABLE_LOOKUP:
+  GET2DMAGNITUDE_Q10_6_TABLE_LOOKUP
+SET2DMAGNITUDE_NOGET_Q10_6_TABLE_LOOKUP:
+  tst.w     d0
+  bne.s     GET2DMAGNITUDE_NODIV_Q10_6_TABLE_LOOKUP
+  move.l    #0,(a0)
+  rts
+GET2DMAGNITUDE_NODIV_Q10_6_TABLE_LOOKUP:
+
+  move.w    (a0),d1
+  move.w    2(a0),d2
+
+  muls      d7,d1
+  muls      d7,d2
+
+  divs      d0,d1
+  divs      d0,d2
+
+  move.w    d1,(a0)
+  move.w    d2,2(a0)
+  rts 
+
+  ENDC

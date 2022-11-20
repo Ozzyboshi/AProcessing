@@ -36,6 +36,9 @@
   XDEF                 _vectorssimpleops_test36
   XDEF                 _vectorssimpleops_test37
   XDEF                 _vectorssimpleops_test38
+  XDEF                 _vectorssimpleops_test39
+  XDEF                 _vectorssimpleops_test40
+  XDEF                 _vectorssimpleops_test41
 
   include              "../../../libs/vectors/sqrt_q10_6_lookup_table.i"
 
@@ -831,5 +834,53 @@ _vectorssimpleops_test38:
   GET2DMAGNITUDE_Q10_6_TABLE_LOOKUP
   move.w               d0,VECTOR1
   move.l               #VECTOR1,d0                                    ; returns addr in d0
+  move.l               (sp)+,d2
+  rts
+
+_vectorssimpleops_test39:
+  move.l               d2,-(sp)
+
+  ; vector 1 is -1.5,0
+  lea                  VECTOR1,a0
+  move.w               #$FFA0,d0
+  move.w               #$0,d1
+  CREATE2DVECTOR       a0
+  
+  moveq                #1,d7
+  jsr                  SET2DMAGNITUDE_Q10_6_TABLE_LOOKUP
+  move.l               #VECTOR1,d0
+  move.l               (sp)+,d2
+  rts
+
+_vectorssimpleops_test40:
+  move.l               d2,-(sp)
+
+  ; vector 1 is -1.5,1.5
+  lea                  VECTOR1,a0
+  move.w               #$FFA0,d0
+  move.w               #%1100000,d1
+  CREATE2DVECTOR       a0
+  
+  ; set mag 0.5
+  move.w               #%100000,d7
+  jsr                  SET2DMAGNITUDE_Q10_6_TABLE_LOOKUP
+  
+  move.l               #VECTOR1,d0
+  move.l               (sp)+,d2
+  rts
+
+_vectorssimpleops_test41:
+  move.l               d2,-(sp)
+
+  ; vector 1 is 3.33,-2.5
+  lea                  VECTOR1,a0
+  move.w               #%11010101,d0
+  move.w               #$FF60,d1
+  CREATE2DVECTOR       a0
+  
+  ; set mag 1.89
+  move.w               #%1111000,d7
+  jsr                  SET2DMAGNITUDE_Q10_6_TABLE_LOOKUP
+  move.l               #VECTOR1,d0
   move.l               (sp)+,d2
   rts
