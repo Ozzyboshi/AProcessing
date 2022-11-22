@@ -87,6 +87,19 @@
 
   LINEDRAW                  #0,#-HEIGHT/2,#0,#HEIGHT/2
   ```
+  
+  WARNING!!!! Do not use d0 and d1 for passing values, if you want to use data registers please use from d2 up to d7, for example:
+  ```asm
+  ; Go to the center
+  move.w #WIDTH/2,d0
+  move.w #HEIGHT/2,d1
+  jsr TRANSLATE
+
+  move.w DEBUGVECTOR,d2
+  move.w DEBUGVECTOR+2,d3
+  STROKE #2
+  LINEDRAW #0,#0,d2,d3
+  ```
 
 - #### RECT - Draws a rectangle (CPU)
 
