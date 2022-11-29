@@ -39,6 +39,7 @@
   XDEF                 _vectorssimpleops_test39
   XDEF                 _vectorssimpleops_test40
   XDEF                 _vectorssimpleops_test41
+  XDEF                 _vectorssimpleops_test42
 
   include              "../../../libs/vectors/sqrt_q10_6_lookup_table.i"
 
@@ -882,5 +883,24 @@ _vectorssimpleops_test41:
   move.w               #%1111000,d7
   jsr                  SET2DMAGNITUDE_Q10_6_TABLE_LOOKUP
   move.l               #VECTOR1,d0
+  move.l               (sp)+,d2
+  rts
+
+_vectorssimpleops_test42:
+  move.l               d2,-(sp)
+
+  ; vector 1 is 0.5625,-0.828125
+  lea                  VECTOR1,a0
+  move.w               #$0024,d0
+  move.w               #$FFCB,d1
+  CREATE2DVECTOR       a0
+  
+  ; set mag 2^-6 (0.015625)
+  move.w               #1,d7
+  jsr                  SET2DMAGNITUDE_Q10_6_TABLE_LOOKUP
+
+  move.l               #VECTOR1,d0
+  ;x: 0.008779422430984903, y: -0.012925260801172218
+  ;x: 0.000000100011... , y: 0.000000110100...
   move.l               (sp)+,d2
   rts
