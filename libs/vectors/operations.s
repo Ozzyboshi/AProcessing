@@ -621,7 +621,7 @@ MUL2DVECTOR1X2 MACRO
 ; Input: 
 ;   - a0.l: address of vector
 ; Output:
-;   - d0.w: magnitude of the vector (rounded to integer)
+;   - d0.w: magnitude of the vector
 ; Trashes:
 ;   - d0
 ;   - d1
@@ -666,4 +666,56 @@ GET2DMAGNITUDE_NODIV_Q10_6_TABLE_LOOKUP:
   move.w    d2,2(a0)
   rts 
 
+  ENDC
+
+  IFD Q4_12_TABLE_LOOKUP
+; GET2DMAGNITUDE_Q4_12_TABLE_LOOKUP - get magnitude of 2d vector
+; Input: 
+;   - a0.l: address of vector
+; Output:
+;   - d0.w: magnitude of the vector
+; Trashes:
+;   - d0
+;   - d1
+;   - a1
+GET2DMAGNITUDE_Q4_12_TABLE_LOOKUP MACRO
+	move.w    (a0),d0
+  muls.w    d0,d0
+  move.w    2(a0),d1
+  muls.w    d1,d1
+  lsr.l     #6,d0
+  lsr.l     #6,d0
+  lsr.l     #6,d1
+  lsr.l     #6,d1
+  add.l     d1,d0
+  lsl.l     #1,d0
+  lea       SQRT_TABLE_Q4_12,a1
+  adda.l    d0,a1
+  move.w    (a1),d0
+  ENDM
+
+; SET2DMAGNITUDE_Q4_12_TABLE_LOOKUP
+; a0 pointer to vector
+; d7 magnitude
+SET2DMAGNITUDE_Q4_12_TABLE_LOOKUP:
+  GET2DMAGNITUDE_Q4_12_TABLE_LOOKUP
+SET2DMAGNITUDE_NOGET_Q4_12_TABLE_LOOKUP:
+  tst.w     d0
+  bne.s     GET2DMAGNITUDE_NODIV_Q4_12_TABLE_LOOKUP
+  move.l    #0,(a0)
+  rts
+GET2DMAGNITUDE_NODIV_Q4_12_TABLE_LOOKUP:
+
+  move.w    (a0),d1
+  move.w    2(a0),d2
+
+  muls      d7,d1
+  muls      d7,d2
+
+  divs      d0,d1
+  divs      d0,d2
+
+  move.w    d1,(a0)
+  move.w    d2,2(a0)
+  rts
   ENDC
