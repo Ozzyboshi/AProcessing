@@ -478,6 +478,75 @@
 
   Note: in order to use SET2DMAGNITUDE_FAKE use SQRT_FAKE define
   
+### SET2DMAGNITUDE_Q10_6_TABLE_LOOKUP - set magnitude of 2d vector in Q10.6 format using a lookup table
+
+ Input:
+
+- a0.l: address of vector (least 6 significant bits are the decimal part)
+- d7.w: desired magnitude (least 6 significant bits are the decimal part)
+
+ Output:
+  Input vector at address a0 will hold the new vector with the given magnitude
+
+ Trashes:
+
+- d0
+- d1
+- a1
+
+ Example: of 2dvector  0.5625,-0.828125 q10.6 fmt to 0.015625
+
+ ```asm
+ ; vector 1 is 0.5625,-0.828125
+ lea                  VECTOR1,a0
+ move.w               #$0024,d0
+ move.w               #$FFCB,d1
+ CREATE2DVECTOR       a0
+ 
+ ; set mag 2^-6 (0.015625)
+ move.w               #1,d7
+  
+ jsr                  SET2DMAGNITUDE_Q10_6_TABLE_LOOKUP
+ ; here a0 holds the address of the vector with magnitude set to 0.015625
+ ```
+
+  Note: in order to use SET2DMAGNITUDE_Q10_6_TABLE_LOOKUP use Q10_6_TABLE_LOOKUP define and include libs/vectors/sqrt_q10_6_lookup_table.i
+
+
+### SET2DMAGNITUDE_Q4_12_TABLE_LOOKUP - set magnitude of 2d vector in Q4.12 format using a lookup table
+
+ Input:
+
+- a0.l: address of vector (least 6 significant bits are the decimal part)
+- d7.w: desired magnitude (least 6 significant bits are the decimal part)
+
+ Output:
+  Input vector at address a0 will hold the new vector with the given magnitude
+
+ Trashes:
+
+- d0
+- d1
+- a1
+
+ Example: of 2dvector  0.5625,-0.828125 q10.6 fmt to 0.015625
+
+ ```asm
+ ; vector 1 is 0.5625,-0.828125
+ lea                  VECTOR1,a0
+ move.w               #%0000100100000000,d0
+ move.w               #%0000110101000000,d1
+ neg.w                d1
+ CREATE2DVECTOR       a0
+ 
+ ; set mag 2^-6 (0.015625)
+ move.w               #%0000000001000000,d7
+  
+ jsr                  SET2DMAGNITUDE_Q4_12_TABLE_LOOKUP
+ ; here a0 holds the address of the vector with magnitude set to 0.015625
+ ```
+
+  Note: in order to use SET2DMAGNITUDE_Q4_12_TABLE_LOOKUP use Q4_12_TABLE_LOOKUP define and include libs/vectors/sqrt_q4_12_lookup_table.i
  
 ### LIMIT2DVECTOR - Limit the magnitude of this vector to the value used for the max parameter
 
