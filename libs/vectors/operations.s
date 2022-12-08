@@ -617,6 +617,25 @@ MUL2DVECTOR1X2 MACRO
     move.w    d1,2(a1)
     ENDM
 
+; DIV2DVECTOR1X2 - divide a scalar value with a 2d vector and place the result in the 2d vector
+; Input: 
+;   - a0.l: address of first monodimentional vector
+;   - a1.l: address of second 2d vector vector
+; Output: nothing
+; Trashes:
+;   - d0
+;   - d1
+DIV2DVECTOR1X2 MACRO
+    move.w   (a1),d0
+    ext.l    d0
+    move.w    2(a1),d1
+    ext.l    d1
+    divs.w    (a0),d0
+    divs.w    (a0),d1
+    move.w    d0,(a1)
+    move.w    d1,2(a1)
+    ENDM
+
 ; GET2DMAGNITUDE_Q10_6_TABLE_LOOKUP - get magnitude of 2d vector
 ; Input: 
 ;   - a0.l: address of vector

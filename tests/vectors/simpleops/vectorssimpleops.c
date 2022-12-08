@@ -45,6 +45,7 @@ unsigned char *vectorssimpleops_test40();
 unsigned char *vectorssimpleops_test41();
 unsigned char *vectorssimpleops_test42();
 unsigned char *vectorssimpleops_test43();
+unsigned char *vectorssimpleops_test44();
 
 struct _test TESTS[] = {
     {.testId = 1, .test_function = vectorssimpleops_test1, .nbitplanes=1, .nrows=2, .nbyterow=2,.title = "static add v1(3,4) with v2(5,6)", .verbose=0},
@@ -90,6 +91,7 @@ struct _test TESTS[] = {
     {.testId = 41, .test_function = vectorssimpleops_test41, .nbitplanes=1, .nrows=1, .nbyterow=4,.title = "set magnitude of 2dvector 3.33,-2.5 q10.6 fmt to 1.89", .verbose=0},
     {.testId = 42, .test_function = vectorssimpleops_test42, .nbitplanes=1, .nrows=1, .nbyterow=4,.title = "set magnitude of 2dvector  0.5625,-0.828125 q10.6 fmt to 0.015625", .verbose=0},
     {.testId = 43, .test_function = vectorssimpleops_test43, .nbitplanes=1, .nrows=1, .nbyterow=4,.title = "set magnitude of 2dvector  0.5625,-0.828125 q4.12 fmt to 0.015625", .verbose=0},
+    {.testId = 44, .test_function = vectorssimpleops_test44, .nbitplanes=1, .nrows=2, .nbyterow=2,.title = "mul v1(3) with v2(15,21)", .verbose=0},
 
     {.testId = 0, .test_function = NULL}
 

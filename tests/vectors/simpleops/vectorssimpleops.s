@@ -41,6 +41,7 @@
   XDEF                 _vectorssimpleops_test41
   XDEF                 _vectorssimpleops_test42
   XDEF                 _vectorssimpleops_test43
+  XDEF                 _vectorssimpleops_test44
 
   include              "../../../libs/vectors/sqrt_q10_6_lookup_table.i"
   include              "../../../libs/vectors/sqrt_q4_12_lookup_table.i"
@@ -924,5 +925,26 @@ _vectorssimpleops_test43:
   move.l               #VECTOR1,d0
   ;x: 0.008779422430984903, y: -0.012925260801172218
   ;x: 0.000000100011... , y: 0.000000110100...
+  move.l               (sp)+,d2
+  rts
+
+_vectorssimpleops_test44:
+  move.l               d2,-(sp)
+
+  ; vector 1 is 3
+  move.w #3,VECTOR1
+
+  ; vector 2 is 5,6
+  moveq                #15,d0
+  moveq                #21,d1
+  CREATE2DVECTOR       VECTOR2
+
+  lea                  VECTOR1,a0
+  lea                  VECTOR2,a1
+
+  ; mul them
+  DIV2DVECTOR1X2
+
+  move.l               #VECTOR2,d0                                    ; returns addr in d0
   move.l               (sp)+,d2
   rts
