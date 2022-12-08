@@ -317,7 +317,7 @@
   moveq                #21,d1
   CREATE2DVECTOR       VECTOR2 
   
-   ; mul them
+   ; div them
   lea                  VECTOR1,a0
   lea                  VECTOR2,a1
   DIV2DVECTOR1X2
