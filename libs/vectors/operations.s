@@ -617,6 +617,26 @@ MUL2DVECTOR1X2 MACRO
     move.w    d1,2(a1)
     ENDM
 
+; MUL2DVECTOR1X2_Q4_12 - multiply a scalar value with a 2d vector and place the result in the 2d vector, all data in q4,12 format
+; Input: 
+;   - a0.l: address of first monodimentional vector
+;   - a1.l: address of second 2d vector vector
+; Output: nothing
+; Trashes:
+;   - d0
+MUL2DVECTOR1X2_Q4_12 MACRO
+    move.w   (a1),d0
+    move.w    2(a1),d1
+    muls.w    (a0),d0
+    asr.l     #6,d0
+    asr.l     #6,d0
+    muls.w    (a0),d1
+    asr.l     #6,d1
+    asr.l     #6,d1
+    move.w    d0,(a1)
+    move.w    d1,2(a1)
+    ENDM
+
 ; DIV2DVECTOR1X2 - divide a scalar value with a 2d vector and place the result in the 2d vector
 ; Input: 
 ;   - a0.l: address of first monodimentional vector
