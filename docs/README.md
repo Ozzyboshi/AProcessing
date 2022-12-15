@@ -284,7 +284,48 @@
   lea                  VECTOR2,a1
   MUL2DVECTOR1X2
   ```
+
+#### MUL2DVECTOR1X2_Q4_12 - Multiply a scalar value with a 2d vector and place the result in the 2d vector, all vectors on Q4,12 format
+
+ Input:
+
+- a0.l: address of first monodimentional vector
+- a1.l: address of second 2d vector
+
+ Output: nothing
+
+ Trashes:
+ 
+ - d0
+ - d1
+ 
+ Example: Store SCALAR VALUE*VECTOR2 to VECTOR2
+
+  ```asm
+  VECTOR1:
+  dc.l                 0
   
+  VECTOR2:
+  dc.l                 0
+  
+  ...
+  ; vector 1 is 0.5 in q4,12 format
+  move.w #2048,VECTOR1
+
+  ; vector 2 is 3,3 in q4,12 format
+  move.w                #12288,d0
+  move.w                #12288,d1
+  CREATE2DVECTOR       VECTOR2 
+  
+   ; mul them
+  lea                  VECTOR1,a0
+  lea                  VECTOR2,a1
+  MUL2DVECTOR1X2_Q4_12
+  
+  ; result in vector 2 must be 1.5,1.5 (binary is 0001.100000000000)
+  ```
+
+
 #### DIV2DVECTOR1X2 - Divide a scalar value with a 2d vector and place the result in the 2d vector
 
  Input:
