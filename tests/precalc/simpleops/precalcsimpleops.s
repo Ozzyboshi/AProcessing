@@ -11,12 +11,14 @@
   XDEF                 _precalcsimpleops_test11
   XDEF                 _precalcsimpleops_test12
   XDEF                 _precalcsimpleops_test13
+  XDEF                 _precalcsimpleops_test14
 
   include              "../../../libs/rasterizers/globaloptions.s"
   include              "../../../libs/precalc/precalc_by_sin.s"
   include              "../../../libs/precalc/precalc_col_table.s"
   include              "../../../libs/precalc/double_byte.s"
   include              "../../../libs/precalc/map.s"
+  include              "../../../libs/precalc/dec2txt.s"
   include              "../../../libs/trigtables_sin.i"
   include              "../../../libs/trigtables.i"
   include              "../../../libs/ammxmacros.i"
@@ -206,5 +208,19 @@ _precalcsimpleops_test13:
   jsr MAP
   move.w d4,mapdata
   move.l #mapdata,d0
+  move.l               (sp)+,d2
+  rts
+
+buffer: dc.b 0,0,0,0,0,0
+
+_precalcsimpleops_test14:
+  move.l               d2,-(sp)
+  move.l #0,buffer
+  move.l #0,buffer+2
+  lea     buffer,a0    ;pointer to the buffer
+  move    #12345,d1     ;number to convert
+  jsr dec2txt
+
+  move.l #buffer,d0
   move.l               (sp)+,d2
   rts

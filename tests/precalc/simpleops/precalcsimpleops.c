@@ -15,6 +15,7 @@ unsigned char *precalcsimpleops_test10();
 unsigned char *precalcsimpleops_test11();
 unsigned char *precalcsimpleops_test12();
 unsigned char *precalcsimpleops_test13();
+unsigned char *precalcsimpleops_test14();
 
 struct _test TESTS[] = {
     {.testId = 1, .test_function = precalcsimpleops_test1, .nbitplanes=1, .nrows=361, .nbyterow=8,.title = "default table", .verbose=0},
@@ -30,6 +31,7 @@ struct _test TESTS[] = {
     {.testId = 11, .test_function = precalcsimpleops_test11, .nbitplanes=1, .nrows=1, .nbyterow=2,.title = "Map 700 - 500,5500  254,0", .verbose=0},
     {.testId = 12, .test_function = precalcsimpleops_test12, .nbitplanes=1, .nrows=1, .nbyterow=2,.title = "Map 10 - -10,10  -160,160", .verbose=0},
     {.testId = 13, .test_function = precalcsimpleops_test13, .nbitplanes=1, .nrows=1, .nbyterow=2,.title = "Map 10 - -160,160 -10,10 ", .verbose=0},
+    {.testId = 14, .test_function = precalcsimpleops_test14, .nbitplanes=1, .nrows=1, .nbyterow=6,.title = "Convert dec 1234 to ascii", .verbose=0},
 
 
     {.testId = 0, .test_function = NULL}
