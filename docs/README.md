@@ -775,3 +775,26 @@ Output: Nothing
   move.w #5500,d4
   jsr MAP
   ```
+
+- #### dec2txt -  Re-maps a number from word integer to string (useful for printing a number on screen)
+  Input:
+    - d0.w : Number to convert
+    - a0.l : Address where to store the converted string (must be at least 5 bytes)
+    
+  Output: Nothing
+
+  Defines: nothing
+
+  Trashes:
+    - d1
+    - a0
+    
+  Example: Convert word 12345 into string
+
+  ```asm
+  lea     buffer,a0    ;pointer to the buffer
+  move    #12345,d1     ;number to convert
+  jsr dec2txt ; after this call buffer will be 01 02 03 04 05
+  rts
+  buffer: dc.b 0,0,0,0,0,0
+  ```
