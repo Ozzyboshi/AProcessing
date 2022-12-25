@@ -11,6 +11,7 @@
 ; Trashes:
 ; - d1
 ; - a0
+; Inspired by http://wiki.amigaspirit.hu/index.php/Amiga_Machine_Language_(Chapter_4)
 
 dec2txt:
     divu    #10000,d1     ; get thounsand number
