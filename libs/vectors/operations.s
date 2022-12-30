@@ -757,4 +757,21 @@ GET2DMAGNITUDE_NODIV_Q4_12_TABLE_LOOKUP:
   move.w    d1,(a0)
   move.w    d2,2(a0)
   rts
+
+; LIMIT2DVECTOR_Q4_12_TABLE_LOOKUP - Limit the magnitude of this vector to the value used for the max parameter
+; Input: 
+;   - a0.l: address of the vector to check agains the limit
+;   - d7.w: the maximum magnitude for the vector
+; Output: nothing
+; Trashes:
+;   - d0
+;   - d1
+;   - d7
+LIMIT2DVECTOR_Q4_12_TABLE_LOOKUP:
+	GET2DMAGNITUDE_Q4_12_TABLE_LOOKUP
+	cmp.w     d0,d7
+	bgt.s     limit2dvector_q4_12_nochange
+	jsr       SET2DMAGNITUDE_NOGET_Q4_12_TABLE_LOOKUP
+limit2dvector_q4_12_nochange:
+	rts
   ENDC

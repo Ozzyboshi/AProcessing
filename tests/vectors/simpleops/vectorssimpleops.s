@@ -44,6 +44,8 @@
   XDEF                 _vectorssimpleops_test44
   XDEF                 _vectorssimpleops_test45
   XDEF                 _vectorssimpleops_test46
+  XDEF                 _vectorssimpleops_test47
+  XDEF                 _vectorssimpleops_test48
 
   include              "../../../libs/vectors/sqrt_q10_6_lookup_table.i"
   include              "../../../libs/vectors/sqrt_q4_12_lookup_table.i"
@@ -998,5 +1000,43 @@ _vectorssimpleops_test46:
   ; result must be 1.5,1.5
 
   move.l               #VECTOR2,d0                                    ; returns addr in d0
+  move.l               (sp)+,d2
+  rts
+
+_vectorssimpleops_test47:
+  move.l               d2,-(sp)
+
+  ; vector is 1,1
+  move.w                #%0001000000000000,d0
+  move.w                #%0001000000000000,d1
+  CREATE2DVECTOR       VECTOR1
+
+  ; limit to 0.5
+  move.w                #%0000100000000000,d7
+  lea                  VECTOR1,a0
+  jsr                  LIMIT2DVECTOR_Q4_12_TABLE_LOOKUP
+
+  ; result is 0.35355339059327373, y: 0.35355339059327373
+  ; see https://editor.p5js.org/gun10137/sketches/r7n88uKVp
+
+  move.l               #VECTOR1,d0
+  move.l               (sp)+,d2
+  rts
+
+_vectorssimpleops_test48:
+  move.l               d2,-(sp)
+
+  ; vector is 3,0
+  move.w                #%0011000000000000,d0
+  move.w                #%0000000000000000,d1
+  CREATE2DVECTOR       VECTOR1
+
+  ; limit to 1.5
+  move.w                #%0001100000000000,d7
+  lea                  VECTOR1,a0
+  jsr                  LIMIT2DVECTOR_Q4_12_TABLE_LOOKUP
+  ; result must be x: 1.5, y: 0
+  ; https://editor.p5js.org/gun10137/sketches/m8hjajOaq
+  move.l               #VECTOR1,d0
   move.l               (sp)+,d2
   rts

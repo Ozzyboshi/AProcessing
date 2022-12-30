@@ -48,6 +48,8 @@ unsigned char *vectorssimpleops_test43();
 unsigned char *vectorssimpleops_test44();
 unsigned char *vectorssimpleops_test45();
 unsigned char *vectorssimpleops_test46();
+unsigned char *vectorssimpleops_test47();
+unsigned char *vectorssimpleops_test48();
 
 struct _test TESTS[] = {
     {.testId = 1, .test_function = vectorssimpleops_test1, .nbitplanes=1, .nrows=2, .nbyterow=2,.title = "static add v1(3,4) with v2(5,6)", .verbose=0},
@@ -96,6 +98,8 @@ struct _test TESTS[] = {
     {.testId = 44, .test_function = vectorssimpleops_test44, .nbitplanes=1, .nrows=2, .nbyterow=2,.title = "mul v1(3) with v2(15,21)", .verbose=0},
     {.testId = 45, .test_function = vectorssimpleops_test45, .nbitplanes=1, .nrows=2, .nbyterow=2,.title = "mul v1(0.5) with v2(3,3)", .verbose=0},
     {.testId = 46, .test_function = vectorssimpleops_test46, .nbitplanes=1, .nrows=2, .nbyterow=2,.title = "mul v1(-0.5) with v2(3,3)", .verbose=0},
+    {.testId = 47, .test_function = vectorssimpleops_test47, .nbitplanes=1, .nrows=2, .nbyterow=2,.title = "limit v1(1,1) to 0.5 in q 4 12 fmt", .verbose=0},
+    {.testId = 48, .test_function = vectorssimpleops_test48, .nbitplanes=1, .nrows=2, .nbyterow=2,.title = "limit v1(3,0) to 1.5 in q 4 12 fmt", .verbose=0},
 
     {.testId = 0, .test_function = NULL}
 
