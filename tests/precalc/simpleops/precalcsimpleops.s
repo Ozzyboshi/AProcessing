@@ -12,6 +12,7 @@
   XDEF                 _precalcsimpleops_test12
   XDEF                 _precalcsimpleops_test13
   XDEF                 _precalcsimpleops_test14
+  XDEF                 _precalcsimpleops_test15
 
   include              "../../../libs/rasterizers/globaloptions.s"
   include              "../../../libs/precalc/precalc_by_sin.s"
@@ -218,7 +219,19 @@ _precalcsimpleops_test14:
   move.l #0,buffer
   move.l #0,buffer+2
   lea     buffer,a0    ;pointer to the buffer
-  move    #12345,d1     ;number to convert
+  move.w    #12345,d1     ;number to convert
+  jsr dec2txt
+
+  move.l #buffer,d0
+  move.l               (sp)+,d2
+  rts
+
+_precalcsimpleops_test15:
+  move.l               d2,-(sp)
+  move.l #0,buffer
+  move.l #0,buffer+2
+  lea     buffer,a0    ;pointer to the buffer
+  move.l    #$FFFF3039,d1     ;number to convert
   jsr dec2txt
 
   move.l #buffer,d0
