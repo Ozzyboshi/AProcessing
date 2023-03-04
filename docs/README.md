@@ -1,5 +1,27 @@
 # Quick reference guide
 
+### General math instructions
+- #### ABS_WORD - Get absolute value for a word (MACRO)
+  Input: 
+  - Dx.w or Address
+
+  Output:
+    Nothing
+    
+  Defines:
+    Nothing
+    
+  Trashes:
+    Nothing
+     
+  Example: Get abs of -1
+   
+  ```
+  move.w           #$1,OPERAND1
+  ABS_WORD         OPERAND1
+  ```
+  At address OPERAND1 (word) we have $0001
+
 ### CPU Drawing instructions
 
 - #### POINT - Plots a point (CPU)
