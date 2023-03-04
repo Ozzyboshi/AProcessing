@@ -69,6 +69,10 @@ tests/precalc/simpleops/precalcsimpleops
 tests/precalc/simpleops/precalcsimpleopsvampire
 tests/drawingtests/pointsrtg_640_400_3/drawingtestspointrtg
 tests/drawingtests/pointsrtg_640_400_3/drawingtestspointrtgvampire
+tests/math/simpleops/math
+tests/math/simpleops/math.o
+tests/math/simpleops/mathvampire
+tests/math/simpleops/mathvampire.o
 tests/testlibs/testlib.o
 build/blitfilllines.o
 build/globaloptions.o
