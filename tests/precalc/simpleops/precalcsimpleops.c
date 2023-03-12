@@ -17,6 +17,8 @@ unsigned char *precalcsimpleops_test12();
 unsigned char *precalcsimpleops_test13();
 unsigned char *precalcsimpleops_test14();
 unsigned char *precalcsimpleops_test15();
+unsigned char *precalcsimpleops_test16();
+unsigned char *precalcsimpleops_test17();
 
 struct _test TESTS[] = {
     {.testId = 1, .test_function = precalcsimpleops_test1, .nbitplanes=1, .nrows=361, .nbyterow=8,.title = "default table", .verbose=0},
@@ -34,6 +36,8 @@ struct _test TESTS[] = {
     {.testId = 13, .test_function = precalcsimpleops_test13, .nbitplanes=1, .nrows=1, .nbyterow=2,.title = "Map 10 - -160,160 -10,10 ", .verbose=0},
     {.testId = 14, .test_function = precalcsimpleops_test14, .nbitplanes=1, .nrows=1, .nbyterow=6,.title = "Convert dec 1234 to ascii", .verbose=0},
     {.testId = 15, .test_function = precalcsimpleops_test15, .nbitplanes=1, .nrows=1, .nbyterow=6,.title = "Convert dec 1234 to ascii with upper part trashed", .verbose=0},
+    {.testId = 16, .test_function = precalcsimpleops_test16, .nbitplanes=1, .nrows=1, .nbyterow=1,.title = "Half binary 0000111000001110", .verbose=0},
+    {.testId = 17, .test_function = precalcsimpleops_test17, .nbitplanes=1, .nrows=1, .nbyterow=1,.title = "Half binary 1101001000101110", .verbose=0},
 
     {.testId = 0, .test_function = NULL}
 

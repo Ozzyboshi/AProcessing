@@ -13,11 +13,14 @@
   XDEF                 _precalcsimpleops_test13
   XDEF                 _precalcsimpleops_test14
   XDEF                 _precalcsimpleops_test15
+  XDEF                 _precalcsimpleops_test16
+  XDEF                 _precalcsimpleops_test17
 
   include              "../../../libs/rasterizers/globaloptions.s"
   include              "../../../libs/precalc/precalc_by_sin.s"
   include              "../../../libs/precalc/precalc_col_table.s"
   include              "../../../libs/precalc/double_byte.s"
+  include              "../../../libs/precalc/half_word.s"
   include              "../../../libs/precalc/map.s"
   include              "../../../libs/precalc/dec2txt.s"
   include              "../../../libs/trigtables_sin.i"
@@ -235,5 +238,23 @@ _precalcsimpleops_test15:
   jsr dec2txt
 
   move.l #buffer,d0
+  move.l               (sp)+,d2
+  rts
+
+_precalcsimpleops_test16:
+  move.l               d2,-(sp)
+  move.w #%0000111000001110,d0
+  jsr HALF_WORD
+  move.b               d0,COLORSTABLE1
+  move.l               #COLORSTABLE1,d0                                    ; returns addr in d0
+  move.l               (sp)+,d2
+  rts
+
+_precalcsimpleops_test17:
+  move.l               d2,-(sp)
+  move.w #%1101001000101110,d0
+  jsr HALF_WORD
+  move.b               d0,COLORSTABLE1
+  move.l               #COLORSTABLE1,d0                                    ; returns addr in d0
   move.l               (sp)+,d2
   rts
