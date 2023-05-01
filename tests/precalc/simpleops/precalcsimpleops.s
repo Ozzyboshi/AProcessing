@@ -15,12 +15,15 @@
   XDEF                 _precalcsimpleops_test15
   XDEF                 _precalcsimpleops_test16
   XDEF                 _precalcsimpleops_test17
+  XDEF                 _precalcsimpleops_test18
+  XDEF                 _precalcsimpleops_test19
 
   include              "../../../libs/rasterizers/globaloptions.s"
   include              "../../../libs/precalc/precalc_by_sin.s"
   include              "../../../libs/precalc/precalc_col_table.s"
   include              "../../../libs/precalc/double_byte.s"
   include              "../../../libs/precalc/half_word.s"
+  include              "../../../libs/precalc/bubble_sort_4_bytes.s"
   include              "../../../libs/precalc/map.s"
   include              "../../../libs/precalc/dec2txt.s"
   include              "../../../libs/trigtables_sin.i"
@@ -257,4 +260,108 @@ _precalcsimpleops_test17:
   move.b               d0,COLORSTABLE1
   move.l               #COLORSTABLE1,d0                                    ; returns addr in d0
   move.l               (sp)+,d2
+  rts
+
+A: dc.l MOVERS
+   dc.l MOVERS2
+   dc.l MOVERS3
+
+B: dc.l MOVERS
+   dc.l MOVERS2
+   dc.l MOVERS3
+   dc.l MOVERS4
+   dc.l MOVERS5
+   dc.l MOVERS6
+   dc.l MOVERS7
+   dc.l MOVERS8
+   dc.l MOVERS9
+   dc.l MOVERS10
+
+
+MOVERS:
+    dc.w 1,20
+MOVERS2:
+    dc.w 2,100
+MOVERS3:
+    dc.w 3,5
+MOVERS4:
+    dc.w 4,20
+MOVERS5:
+    dc.w 5,11
+MOVERS6:
+    dc.w 6,9
+MOVERS7:
+    dc.w 7,7
+MOVERS8:
+    dc.w 8,2
+MOVERS9:
+    dc.w 9,3
+MOVERS10:
+    dc.w 10,256
+
+RES: dc.l 0,0,0
+
+RES2: dc.l 0,0,0,0,0,0,0,0,0,0
+
+compare_function:
+    movem.l d0/a5/a6,-(sp)
+    move.l (a5),a5
+    move.l (a6),a6
+    move.w 2(a5),d0
+    cmp.w 2(a6),d0
+    move SR,d5
+    andi.w #0008,d5
+    movem.l (sp)+,d0/a5/a6
+    rts
+
+_precalcsimpleops_test18:
+  move.l              d2,-(sp)
+  lea                 A,a0
+  move.w              #3,d7
+  lea                 compare_function,a2
+
+  jsr                 bubble_sort_4_bytes
+
+  lea RES,a1
+  move.l A,a0
+  move.l (a0),(a1)+    
+  move.l A+4,a0
+  move.l (a0),(a1)+
+  move.l A+8,a0
+  move.l (a0),(a1)+
+
+  move.l              #RES,d0                                    ; returns addr in d0
+  move.l              (sp)+,d2
+  rts
+
+_precalcsimpleops_test19:
+  move.l              d2,-(sp)
+  lea                 B,a0
+  move.w              #10,d7
+  lea                 compare_function,a2
+  jsr                 bubble_sort_4_bytes
+
+  lea RES2,a1
+  move.l B,a0
+  move.l (a0),(a1)+    
+  move.l B+4,a0
+  move.l (a0),(a1)+
+  move.l B+8,a0
+  move.l (a0),(a1)+
+  move.l B+12,a0
+  move.l (a0),(a1)+
+  move.l B+16,a0
+  move.l (a0),(a1)+
+  move.l B+20,a0
+  move.l (a0),(a1)+
+  move.l B+24,a0
+  move.l (a0),(a1)+
+  move.l B+28,a0
+  move.l (a0),(a1)+
+  move.l B+32,a0
+  move.l (a0),(a1)+
+  move.l B+36,a0
+  move.l (a0),(a1)+
+  move.l              #RES2,d0                                    ; returns addr in d0
+  move.l              (sp)+,d2
   rts
