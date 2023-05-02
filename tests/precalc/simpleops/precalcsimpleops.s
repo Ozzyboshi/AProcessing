@@ -308,9 +308,9 @@ compare_function:
     move.l (a5),a5
     move.l (a6),a6
     move.w 2(a5),d0
+    moveq #0,d5
     cmp.w 2(a6),d0
-    move SR,d5
-    andi.w #0008,d5
+    smi d5
     movem.l (sp)+,d0/a5/a6
     rts
 
