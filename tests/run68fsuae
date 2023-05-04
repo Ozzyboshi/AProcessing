@@ -71,3 +71,7 @@ cd math/simpleops
 math -o //results.txt
 cd /
 cd /
+cd powerpacker/unpack
+powerpacker -o //results.txt
+cd /
+cd /
