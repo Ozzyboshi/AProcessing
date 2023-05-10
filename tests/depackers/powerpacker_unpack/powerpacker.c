@@ -8,6 +8,8 @@ unsigned char *powerpacker_test3();
 unsigned char *powerpacker_test4();
 unsigned char *powerpacker_test5();
 unsigned char *powerpacker_test6();
+unsigned char *powerpacker_test7();
+unsigned char *powerpacker_test8();
 
 struct _test TESTS[] = {
     {.testId = 1, .test_function = powerpacker_test1, .nbitplanes=1, .nrows=1, .nbyterow=54,.title = "small file", .verbose=0},
@@ -16,7 +18,9 @@ struct _test TESTS[] = {
     {.testId = 4, .test_function = powerpacker_test4, .nbitplanes=1, .nrows=1, .nbyterow=51264,.title = "medium file 3", .verbose=0},
     {.testId = 5, .test_function = powerpacker_test5, .nbitplanes=1, .nrows=1, .nbyterow=51264,.title = "medium file 4", .verbose=0},
     {.testId = 6, .test_function = powerpacker_test6, .nbitplanes=1, .nrows=1, .nbyterow=51264,.title = "medium file 5", .verbose=0},
-    
+    {.testId = 7, .test_function = powerpacker_test7, .nbitplanes=1, .nrows=1, .nbyterow=124912,.title = "big file 1", .verbose=0},
+    {.testId = 8, .test_function = powerpacker_test8, .nbitplanes=1, .nrows=1, .nbyterow=124912,.title = "big file 2", .verbose=0},
+
     {.testId = 0, .test_function = NULL}
 
 };

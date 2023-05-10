@@ -74,7 +74,15 @@ cd math/simpleops
 math
 cd /
 cd /
-cd powerpacker/unpack
+cd depackers/powerpacker_unpack
 powerpacker
+cd /
+cd /
+cd depackers/shrinkler_unpack
+shrinkler
+cd /
+cd /
+cd depackers/lz4_unpack
+lz4
 cd /
 cd /

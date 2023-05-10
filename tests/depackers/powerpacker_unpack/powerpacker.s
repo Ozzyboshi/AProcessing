@@ -4,9 +4,10 @@
   XDEF                 _powerpacker_test4
   XDEF                 _powerpacker_test5
   XDEF                 _powerpacker_test6
-  
+  XDEF                 _powerpacker_test7
+  XDEF                 _powerpacker_test8 
 
-  include              "../../../libs/powerpacker/RNC_1.S"
+  include              "../../../libs/packers/RNC_1.S"
 
  
 _powerpacker_test1:
@@ -69,6 +70,26 @@ _powerpacker_test6:
   move.l               (sp)+,d2
   rts
 
+_powerpacker_test7:
+  move.l               d2,-(sp)
+  moveq #0,d0
+  lea POWERPACKER_TEST7_PACKED,a0
+  lea POWERPACKER_TEST7_UNPACKED,a1
+  jsr Unpack
+  move.l #POWERPACKER_TEST7_UNPACKED,d0
+  move.l               (sp)+,d2
+  rts
+
+_powerpacker_test8:
+  move.l               d2,-(sp)
+  moveq #0,d0
+  lea POWERPACKER_TEST8_PACKED,a0
+  lea POWERPACKER_TEST8_UNPACKED,a1
+  jsr Unpack
+  move.l #POWERPACKER_TEST8_UNPACKED,d0
+  move.l               (sp)+,d2
+  rts
+
 PACKEDLOL: INCBIN expected/powerpacker.test1.RNC
   even
 UNPACKEDLOL: dcb.b 54,0
@@ -93,3 +114,11 @@ POWERPACKER_TEST5_UNPACKED: dcb.b 51264,0
 POWERPACKER_TEST6_PACKED: INCBIN expected/powerpacker.test6.rnc
   even
 POWERPACKER_TEST6_UNPACKED: dcb.b 51264,0
+
+POWERPACKER_TEST7_PACKED: INCBIN expected/powerpacker.test7.rnc
+  even
+POWERPACKER_TEST7_UNPACKED: dcb.b 124912,0
+
+POWERPACKER_TEST8_PACKED: INCBIN expected/powerpacker.test8.rnc
+  even
+POWERPACKER_TEST8_UNPACKED: dcb.b 124912,0

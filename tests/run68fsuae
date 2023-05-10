@@ -71,7 +71,15 @@ cd math/simpleops
 math -o //results.txt
 cd /
 cd /
-cd powerpacker/unpack
+cd depackers/powerpacker_unpack
 powerpacker -o //results.txt
+cd /
+cd /
+cd depackers/shrinkler_unpack
+shrinkler -o //results.txt
+cd /
+cd /
+cd depackers/lz4_unpack
+lz4 -o //results.txt
 cd /
 cd /

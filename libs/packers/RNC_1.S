@@ -1,3 +1,5 @@
+; Taken from http://aminet.net/package/util/pack/RNC_ProPack
+;
 *------------------------------------------------------------------------------
 * PRO-PACK Unpack Source Code - MC68000, Method 1
 *

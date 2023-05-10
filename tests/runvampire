@@ -93,8 +93,18 @@ math
 mathvampire
 cd /
 cd /
-cd powerpacker/unpack
+cd depackers/powerpacker_unpack
 powerpacker
 powerpackervampire
+cd /
+cd /
+cd depackers/shrinkler_unpack
+shrinkler
+shrinklervampire
+cd /
+cd /
+cd depackers/lz4_unpack
+lz4
+lz4vampire
 cd /
 cd /
