@@ -83,3 +83,7 @@ cd depackers/lz4_unpack
 lz4 -o //results.txt
 cd /
 cd /
+cd depackers/cranker_unpack
+cranker -o //results.txt
+cd /
+cd /

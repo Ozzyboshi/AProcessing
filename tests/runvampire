@@ -108,3 +108,8 @@ lz4
 lz4vampire
 cd /
 cd /
+cd depackers/cranker_unpack
+cranker
+crankervampire
+cd /
+cd /

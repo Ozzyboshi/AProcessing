@@ -86,3 +86,7 @@ cd depackers/lz4_unpack
 lz4
 cd /
 cd /
+cd depackers/cranker_unpack
+cranker
+cd /
+cd /

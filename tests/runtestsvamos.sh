@@ -28,5 +28,6 @@ cd math/simpleops && make clean && make && make test && cd .. && cd ..
 cd depackers/powerpacker_unpack && make clean && make && make test && cd .. && cd ..
 cd depackers/shrinkler_unpack && make clean && make && make test && cd .. && cd ..
 cd depackers/lz4_unpack && make clean && make && make test && cd .. && cd ..
+cd depackers/cranker_unpack && make clean && make && make test && cd .. && cd ..
 
 echo "Result total cycles: $(cat /tmp/vamosinfo  | grep cycles | awk '{ print $NF }' | awk '{s+=$1} END {printf "%.0f", s}' )"
