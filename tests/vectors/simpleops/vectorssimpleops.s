@@ -46,6 +46,12 @@
   XDEF                 _vectorssimpleops_test46
   XDEF                 _vectorssimpleops_test47
   XDEF                 _vectorssimpleops_test48
+  XDEF                 _vectorssimpleops_test49
+  XDEF                 _vectorssimpleops_test50
+  XDEF                 _vectorssimpleops_test51
+  XDEF                 _vectorssimpleops_test52
+  XDEF                 _vectorssimpleops_test53
+  XDEF                 _vectorssimpleops_test54
 
   include              "../../../libs/vectors/sqrt_q10_6_lookup_table.i"
   include              "../../../libs/vectors/sqrt_q4_12_lookup_table.i"
@@ -54,6 +60,9 @@
   include              "../../../libs/vectors/operations.s"
   include              "../../../libs/ammxmacros.i"
   include              "../../../libs/vectors/trigtables.i"
+  include              "../../../libs/vectors/dot.s"
+  include              "../../../libs/vectors/anglebetweenvectors.s"
+
 
 VECTOR1:
   dc.l                 0
@@ -1037,6 +1046,144 @@ _vectorssimpleops_test48:
   jsr                  LIMIT2DVECTOR_Q4_12_TABLE_LOOKUP
   ; result must be x: 1.5, y: 0
   ; https://editor.p5js.org/gun10137/sketches/m8hjajOaq
+  move.l               #VECTOR1,d0
+  move.l               (sp)+,d2
+  rts
+
+_vectorssimpleops_test49:
+  move.l               d2,-(sp)
+
+  ; vector1 is 1,2
+  move.w                #1*64,d0
+  move.w                #2*64,d1
+  CREATE2DVECTOR       VECTOR1
+
+; vector2 is 3,4
+  move.w                #3*64,d0
+  move.w                #4*64,d1
+  CREATE2DVECTOR       VECTOR2
+
+  ; do dot product
+  lea                  VECTOR1,a0
+  lea                  VECTOR2,a1
+  jsr                  DOT_Q10_6
+  ; result must be 11 in Q10,6 format
+  move.l               d0,VECTOR1
+  move.l               #VECTOR1,d0
+  move.l               (sp)+,d2
+  rts
+
+_vectorssimpleops_test50:
+  move.l               d2,-(sp)
+
+  ; vector1 is 1,2
+  move.w                #1*64,d0
+  move.w                #-2*64,d1
+  CREATE2DVECTOR       VECTOR1
+
+; vector2 is 3,4
+  move.w                #3*64,d0
+  move.w                #4*64,d1
+  CREATE2DVECTOR       VECTOR2
+
+  ; do dot product
+  lea                  VECTOR1,a0
+  lea                  VECTOR2,a1
+  jsr                  DOT_Q10_6
+  ; result must be -5 in Q10,6 format
+  move.l               d0,VECTOR1
+  move.l               #VECTOR1,d0
+  move.l               (sp)+,d2
+  rts
+
+_vectorssimpleops_test51:
+  move.l               d2,-(sp)
+
+  ; vector1 is -0.5,-1
+  move.w                #-1*32,d0
+  move.w                #-1*64,d1
+  CREATE2DVECTOR       VECTOR1
+
+; vector2 is -0.25,-2
+  move.w                #-1*16,d0
+  move.w                #-2*64,d1
+  CREATE2DVECTOR       VECTOR2
+
+  ; do dot product
+  lea                  VECTOR1,a0
+  lea                  VECTOR2,a1
+  jsr                  DOT_Q10_6
+  ; result must be 2.125 in Q10,6 format
+  move.l               d0,VECTOR1
+  move.l               #VECTOR1,d0
+  move.l               (sp)+,d2
+  rts
+
+_vectorssimpleops_test52:
+  move.l               d2,-(sp)
+
+  ; vector1 is 1,2
+  move.w                #1*64,d0
+  move.w                #2*64,d1
+  CREATE2DVECTOR       VECTOR1
+
+; vector2 is 3,4
+  move.w                #3*64,d0
+  move.w                #4*64,d1
+  CREATE2DVECTOR       VECTOR2
+
+  ; do dot product
+  lea                  VECTOR1,a0
+  lea                  VECTOR2,a1
+  jsr                  ANGLE_BETWEEN_Q10_6_TABLE_LOOKUP
+  ; result must be 11 in Q10,6 format
+  move.w               d0,VECTOR1
+  move.l               #VECTOR1,d0
+  move.l               (sp)+,d2
+  rts
+
+_vectorssimpleops_test53:
+  move.l               d2,-(sp)
+
+  ; vector1 is 1,2
+  move.w                #10*64,d0
+  move.w                #20*64,d1
+  CREATE2DVECTOR       VECTOR1
+
+; vector2 is 3,4
+  move.w                #30*64,d0
+  move.w                #1*64,d1
+  CREATE2DVECTOR       VECTOR2
+
+  ; do dot product
+  lea                  VECTOR1,a0
+  lea                  VECTOR2,a1
+  jsr                  DOT_Q10_6
+  ; result must be 11 in Q10,6 format
+  move.l               d0,VECTOR1
+  move.l               #VECTOR1,d0
+  move.l               (sp)+,d2
+  rts
+
+_vectorssimpleops_test54:
+  move.l               d2,-(sp)
+
+  ; vector1 is 1,2
+  move.w                #10*64,d0
+  move.w                #20*64,d1
+  CREATE2DVECTOR        VECTOR1
+
+; vector2 is 3,4
+  move.w                #-30*64,d0
+  move.w                #1*64,d1
+  CREATE2DVECTOR        VECTOR2
+
+  ; do dot product
+  lea                  VECTOR1,a0
+  lea                  VECTOR2,a1
+  jsr                  ANGLE_BETWEEN_Q10_6_TABLE_LOOKUP
+
+  move.w               d0,VECTOR1
   move.l               #VECTOR1,d0
   move.l               (sp)+,d2
   rts

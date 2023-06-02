@@ -50,6 +50,12 @@ unsigned char *vectorssimpleops_test45();
 unsigned char *vectorssimpleops_test46();
 unsigned char *vectorssimpleops_test47();
 unsigned char *vectorssimpleops_test48();
+unsigned char *vectorssimpleops_test49();
+unsigned char *vectorssimpleops_test50();
+unsigned char *vectorssimpleops_test51();
+unsigned char *vectorssimpleops_test52();
+unsigned char *vectorssimpleops_test53();
+unsigned char *vectorssimpleops_test54();
 
 struct _test TESTS[] = {
     {.testId = 1, .test_function = vectorssimpleops_test1, .nbitplanes=1, .nrows=2, .nbyterow=2,.title = "static add v1(3,4) with v2(5,6)", .verbose=0},
@@ -100,6 +106,12 @@ struct _test TESTS[] = {
     {.testId = 46, .test_function = vectorssimpleops_test46, .nbitplanes=1, .nrows=2, .nbyterow=2,.title = "mul v1(-0.5) with v2(3,3)", .verbose=0},
     {.testId = 47, .test_function = vectorssimpleops_test47, .nbitplanes=1, .nrows=2, .nbyterow=2,.title = "limit v1(1,1) to 0.5 in q 4 12 fmt", .verbose=0},
     {.testId = 48, .test_function = vectorssimpleops_test48, .nbitplanes=1, .nrows=2, .nbyterow=2,.title = "limit v1(3,0) to 1.5 in q 4 12 fmt", .verbose=0},
+    {.testId = 49, .test_function = vectorssimpleops_test49, .nbitplanes=1, .nrows=1, .nbyterow=4,.title = "dot product of v1(1,2) and v2(3,4) in q 6 10 fmt", .verbose=0},
+    {.testId = 50, .test_function = vectorssimpleops_test50, .nbitplanes=1, .nrows=1, .nbyterow=4,.title = "dot product of v1(1,-2) and v2(3,4) in q 6 10 fmt", .verbose=0},
+    {.testId = 51, .test_function = vectorssimpleops_test51, .nbitplanes=1, .nrows=1, .nbyterow=4,.title = "dot product of v1(-0.5,-1) and v2(-0.25,-2) in q 6 10 fmt", .verbose=0},
+    {.testId = 52, .test_function = vectorssimpleops_test52, .nbitplanes=1, .nrows=1, .nbyterow=2,.title = "angle between v1(1,2) and v2(3,4) in q 6 10 fmt", .verbose=0},
+    {.testId = 53, .test_function = vectorssimpleops_test53, .nbitplanes=1, .nrows=1, .nbyterow=4,.title = "dot product of v1(10,20) and v2(30,1) in q 6 10 fmt", .verbose=0},
+    {.testId = 54, .test_function = vectorssimpleops_test54, .nbitplanes=1, .nrows=1, .nbyterow=2,.title = "angle between v1(10,20) and v2(-30,1) in q 6 10 fmt", .verbose=0},
 
     {.testId = 0, .test_function = NULL}
 

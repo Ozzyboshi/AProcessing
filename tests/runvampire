@@ -78,6 +78,11 @@ vectorssimpleops
 vectorssimpleopsvampire
 cd /
 cd /
+cd vectors/angles
+angleops
+angleopsvampire
+cd /
+cd /
 cd precalc/simpleops
 precalcsimpleops
 precalcsimpleopsvampire

@@ -62,6 +62,10 @@ cd vectors/simpleops
 vectorssimpleops
 cd /
 cd /
+cd vectors/angles
+angleops
+cd /
+cd /
 cd precalc/simpleops
 precalcsimpleops
 cd /

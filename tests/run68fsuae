@@ -63,6 +63,10 @@ cd vectors/simpleops
 vectorssimpleops -o //results.txt
 cd /
 cd /
+cd vectors/angles
+angleops -o //results.txt
+cd /
+cd /
 cd precalc/simpleops
 precalcsimpleops -o //results.txt
 cd /
