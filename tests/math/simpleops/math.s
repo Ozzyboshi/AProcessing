@@ -4,9 +4,11 @@
   XDEF                 _math_test4
   XDEF                 _math_test5
   XDEF                 _math_test6
+  XDEF                 _math_test7
 
   include              "../../../libs/math/operations.s"
   include              "../../../libs/math/sqrt_table_q16_0.i"
+  include              "../../../libs/math/sqrt.s"
 
 
 OPERAND1:
@@ -74,4 +76,15 @@ _math_test6:
   move.l           #OPERAND1,d0
   
   move.l               (sp)+,d2
+  rts
+
+_math_test7:
+  move.l          d2,-(sp)
+  move.l          #123455,d0
+  jsr             SQRT_FIG
+  move.w          d0,OPERAND1
+
+  move.l          #OPERAND1,d0
+  
+  move.l          (sp)+,d2
   rts
