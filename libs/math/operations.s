@@ -27,3 +27,20 @@ SQRT_Q16_0 MACRO
     lsl.w #1,d1
 .\@sqrt_16_0_end
     ENDM
+
+; BETWEEN_UWORD - Check if a data register unsigned word is between 2 values
+; Input: 
+;   - first parameter.w: number to check
+; Output:
+;   - fourth parameter.b: 0 if is in range, any other value if it's not
+; Trashes:
+;   Nothing
+BETWEEN_UWORD MACRO
+    cmpi.w \2,\1
+    scc \4
+    ror.l #1,\4
+    cmpi.w \3,\1
+    sls \4
+    rol.l #1,\4
+    not.b \4
+    ENDM
