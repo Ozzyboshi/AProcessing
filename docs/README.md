@@ -800,7 +800,7 @@ Output: Nothing
 
 - #### dec2txt -  Re-maps a number from word integer to string (useful for printing a number on screen)
   Input:
-    - d0.w : Number to convert
+    - d1.w : Number to convert
     - a0.l : Address where to store the converted string (must be at least 5 bytes)
     
   Output: Nothing
