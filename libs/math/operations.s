@@ -44,3 +44,301 @@ BETWEEN_UWORD MACRO
     rol.l #1,\4
     not.b \4
     ENDM
+
+; IF_1_GREATER_2_W_U - Check if a data in unsigned word format is greater of another value
+; Input: 
+;   - first parameter.w: number to check
+;   - second paramter.w: number to check
+;   - third parameter: label to jump if condition is false
+;   - fourth parameter: size of the jump (s,w)
+; Output:
+;   - nothing
+; Trashes:
+;   Nothing
+IF_1_GREATER_2_W_U MACRO
+    IFC '','\1'
+    fail missing first operand!
+    MEXIT
+    ENDC
+    IFC '','\2'
+    fail missing second operand!
+    MEXIT
+    ENDC
+    IFC '','\3'
+    fail missing label to jump
+    MEXIT
+    ENDC
+    IFNC 'w','\4'
+    IFNC 's','\4'
+    fail jump size unknown
+    MEXIT
+    ENDC
+    ENDC
+    cmp.w               \1,\2
+    bcc.\4              \3
+    ENDM
+
+; IF_1_GREATER_2_W_S - Check if a data in signed word format is greater of another value
+; Input: 
+;   - first parameter.w: number to check
+;   - second paramter.w: number to check
+;   - third parameter: label to jump if condition is false
+;   - fourth parameter: size of the jump (s,w)
+; Output:
+;   - nothing
+; Trashes:
+;   Nothing
+IF_1_GREATER_2_W_S MACRO
+    IFC '','\1'
+    fail missing first operand!
+    MEXIT
+    ENDC
+    IFC '','\2'
+    fail missing second operand!
+    MEXIT
+    ENDC
+    IFC '','\3'
+    fail missing label to jump
+    MEXIT
+    ENDC
+    IFNC 'w','\4'
+    IFNC 's','\4'
+    fail jump size unknown
+    MEXIT
+    ENDC
+    ENDC
+    cmp.w               \1,\2
+    bge.\4              \3
+    ENDM
+
+; IF_1_GREATER_EQ_2_W_U - Check if a data in unsigned word format is greater of another value
+; Input: 
+;   - first parameter.w: number to check
+;   - second paramter.w: number to check
+;   - third parameter: label to jump if condition is false
+;   - fourth parameter: size of the jump (s,w)
+; Output:
+;   - nothing
+; Trashes:
+;   Nothing
+IF_1_GREATER_EQ_2_W_U MACRO
+    IFC '','\1'
+    fail missing first operand!
+    MEXIT
+    ENDC
+    IFC '','\2'
+    fail missing second operand!
+    MEXIT
+    ENDC
+    IFC '','\3'
+    fail missing label to jump
+    MEXIT
+    ENDC
+    IFNC 'w','\4'
+    IFNC 's','\4'
+    fail jump size unknown
+    MEXIT
+    ENDC
+    ENDC
+    cmp.w               \1,\2
+    bhi.\4              \3
+    ENDM
+
+; IF_1_GREATER_EQ_2_W_U - Check if a data in unsigned word format is greater of another value
+; Input: 
+;   - first parameter.w: number to check
+;   - second paramter.w: number to check
+;   - third parameter: label to jump if condition is false
+;   - fourth parameter: size of the jump (s,w)
+; Output:
+;   - nothing
+; Trashes:
+;   Nothing
+IF_1_GREATER_EQ_2_W_U MACRO
+    IFC '','\1'
+    fail missing first operand!
+    MEXIT
+    ENDC
+    IFC '','\2'
+    fail missing second operand!
+    MEXIT
+    ENDC
+    IFC '','\3'
+    fail missing label to jump
+    MEXIT
+    ENDC
+    IFNC 'w','\4'
+    IFNC 's','\4'
+    fail jump size unknown
+    MEXIT
+    ENDC
+    ENDC
+    cmp.w               \1,\2
+    bhi.\4              \3
+    ENDM
+
+; IF_1_GREATER_EQ_2_W_S - Check if a data in signed word format is greater of another value
+; Input: 
+;   - first parameter.w: number to check
+;   - second paramter.w: number to check
+;   - third parameter: label to jump if condition is false
+;   - fourth parameter: size of the jump (s,w)
+; Output:
+;   - nothing
+; Trashes:
+;   Nothing
+IF_1_GREATER_EQ_2_W_S MACRO
+    IFC '','\1'
+    fail missing first operand!
+    MEXIT
+    ENDC
+    IFC '','\2'
+    fail missing second operand!
+    MEXIT
+    ENDC
+    IFC '','\3'
+    fail missing label to jump
+    MEXIT
+    ENDC
+    IFNC 'w','\4'
+    IFNC 's','\4'
+    fail jump size unknown
+    MEXIT
+    ENDC
+    ENDC
+    cmp.w               \1,\2
+    bgt.\4              \3
+    ENDM
+
+
+; IF_1_LESS_2_W_U - Check if a data in unsigned word format is LESS of another value
+; Input: 
+;   - first parameter.w: number to check
+;   - second paramter.w: number to check
+;   - third parameter: label to jump if condition is false
+;   - fourth parameter: size of the jump (s,w)
+; Output:
+;   - nothing
+; Trashes:
+;   Nothing
+IF_1_LESS_2_W_U MACRO
+    IFC '','\1'
+    fail missing first operand!
+    MEXIT
+    ENDC
+    IFC '','\2'
+    fail missing second operand!
+    MEXIT
+    ENDC
+    IFC '','\3'
+    fail missing label to jump
+    MEXIT
+    ENDC
+    IFNC 'w','\4'
+    IFNC 's','\4'
+    fail jump size unknown
+    MEXIT
+    ENDC
+    ENDC
+    cmp.w               \1,\2
+    bls.\4              \3
+    ENDM
+
+; IF_1_LESS_EQ_2_W_U - Check if a data in unsigned word format is LESS of another value
+; Input: 
+;   - first parameter.w: number to check
+;   - second paramter.w: number to check
+;   - third parameter: label to jump if condition is false
+;   - fourth parameter: size of the jump (s,w)
+; Output:
+;   - nothing
+; Trashes:
+;   Nothing
+IF_1_LESS_EQ_2_W_U MACRO
+    IFC '','\1'
+    fail missing first operand!
+    MEXIT
+    ENDC
+    IFC '','\2'
+    fail missing second operand!
+    MEXIT
+    ENDC
+    IFC '','\3'
+    fail missing label to jump
+    MEXIT
+    ENDC
+    IFNC 'w','\4'
+    IFNC 's','\4'
+    fail jump size unknown
+    MEXIT
+    ENDC
+    ENDC
+    cmp.w               \1,\2
+    bcs.\4              \3
+    ENDM
+
+; IF_1_LESS_2_W_S - Check if a data in signed word format is LESS of another value
+; Input: 
+;   - first parameter.w: number to check
+;   - second paramter.w: number to check
+;   - third parameter: label to jump if condition is false
+;   - fourth parameter: size of the jump (s,w)
+; Output:
+;   - nothing
+; Trashes:
+;   Nothing
+IF_1_LESS_2_W_S MACRO
+    IFC '','\1'
+    fail missing first operand!
+    MEXIT
+    ENDC
+    IFC '','\2'
+    fail missing second operand!
+    MEXIT
+    ENDC
+    IFC '','\3'
+    fail missing label to jump
+    MEXIT
+    ENDC
+    IFNC 'w','\4'
+    IFNC 's','\4'
+    fail jump size unknown
+    MEXIT
+    ENDC
+    ENDC
+    cmp.w               \1,\2
+    ble.\4              \3
+    ENDM
+
+; IF_1_LESS_EQ_2_W_S - Check if a data in signed word format is LESS of another value
+; Input: 
+;   - first parameter.w: number to check
+;   - second paramter.w: number to check
+;   - third parameter: label to jump if condition is false
+;   - fourth parameter: size of the jump (s,w)
+; Output:
+;   - nothing
+; Trashes:
+;   Nothing
+IF_1_LESS_EQ_2_W_S MACRO
+    IFC '','\1'
+    fail missing first operand!
+    MEXIT
+    ENDC
+    IFC '','\2'
+    fail missing second operand!
+    MEXIT
+    ENDC
+    IFC '','\3'
+    fail missing label to jump
+    MEXIT
+    ENDC
+    IFNC 'w','\4'
+    IFNC 's','\4'
+    fail jump size unknown
+    MEXIT
+    ENDC
+    ENDC
+    cmp.w               \1,\2
+    blt.\4              \3
+    ENDM
