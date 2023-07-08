@@ -22,6 +22,71 @@
   ```
   At address OPERAND1 (word) we have $0001
 
+- #### BETWEEN_UWORD - Check if a data register unsigned word is between 2 values (MACRO)
+  Input: 
+    - first parameter.w: number to check
+  Output:
+    - fourth parameter.b: 0 if is in range, any other value if it's not
+  
+  Defines:
+    Nothing
+    
+  Trashes:
+    Nothing
+     
+  Example: Get test if #15 is between #15 and #345
+   
+  ```
+    move.l          #15,d0
+    BETWEEN_UWORD   d0,#15,#345,d1
+    tst.b           d1
+    bne.s           .else
+    ; we are inside the range
+    bra.s           .endcheck
+  .else:
+    ; we are not inside the range
+  .endcheck:
+  ```
+  In this case #15 is inside the range and tst.b will have lower byte zeroed
+
+- #### IF_1_GREATER_2_X_Y - - Check if a data in signed/unsigned word format is greater/greater equal/less/less equal of another value (MACRO)
+
+  Variants:
+    - IF_1_GREATER_2_W_U - unsigned word comparison - if (a>b)
+    - IF_1_GREATER_2_W_S - signed word comparison   - if (a>b)
+    - IF_1_GREATER_EQ_2_W_U - unsigned word comparison - if (a>=b)
+    - IF_1_GREATER_EQ_2_W_S - signed word comparison   - if (a>b)
+    - IF_1_LESS_2_W_U - unsigned word comparison - if (a<b)
+    - IF_1_LESS_2_W_S - signed word comparison   - if (a<b)
+    - IF_1_LESS_EQ_2_W_U - unsigned word comparison - if (a<=b)
+    - IF_1_LESS_EQ_2_W_S - signed word comparison   - if (a<b)
+  Input: 
+    - first parameter.w: number to check
+    - second paramter.w: number to check
+    - third parameter: label to jump if condition is false
+    - fourth parameter: size of the jump (s,w)
+  Output:
+    Nothing
+  
+  Defines:
+    Nothing
+    
+  Trashes:
+    Nothing
+     
+  Example: Get test if #65535 > 346
+   
+  ```
+      move.w          #346,d0
+      IF_1_GREATER_2_W_U #65535,d0,.else,s
+      ; condition is true
+      bra.s .end
+    .else:
+      ; condition is not true
+    .end
+  ```
+  In this case #65535 > #346 is true, the short jump to .else won't be performed
+  
 ### CPU Drawing instructions
 
 - #### POINT - Plots a point (CPU)
