@@ -55,11 +55,11 @@
     - IF_1_GREATER_2_W_U - unsigned word comparison - if (a>b)
     - IF_1_GREATER_2_W_S - signed word comparison   - if (a>b)
     - IF_1_GREATER_EQ_2_W_U - unsigned word comparison - if (a>=b)
-    - IF_1_GREATER_EQ_2_W_S - signed word comparison   - if (a>b)
+    - IF_1_GREATER_EQ_2_W_S - signed word comparison   - if (a>=b)
     - IF_1_LESS_2_W_U - unsigned word comparison - if (a<b)
     - IF_1_LESS_2_W_S - signed word comparison   - if (a<b)
     - IF_1_LESS_EQ_2_W_U - unsigned word comparison - if (a<=b)
-    - IF_1_LESS_EQ_2_W_S - signed word comparison   - if (a<b)
+    - IF_1_LESS_EQ_2_W_S - signed word comparison   - if (a<=b)
   Input: 
     - first parameter.w: number to check
     - second paramter.w: number to check
