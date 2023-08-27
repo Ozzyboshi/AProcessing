@@ -11,7 +11,7 @@
 ; Trashes:
 ; - d1
 ; - a0
-; Inspired byhttps://gist.github.com/Ozzyboshi/7691cb8cbaeb95c407b29bd08375248a
+; Inspired by https://gist.github.com/Ozzyboshi/7691cb8cbaeb95c407b29bd08375248a
 
 bubble_sort_4_bytes:
     movem.l d0-d7/a0-a6,-(sp)
@@ -36,9 +36,9 @@ bubble_sort_second_loop:
     tst.w   d5
     beq     bubble_sort_do_not_swap
     ; here comes the swap
-    move.l (a6),a3
-    move.l (a5),(a6)
-    move.l a3,(a5)
+    move.l  (a6),a3
+    move.l  (a5),(a6)
+    move.l  a3,(a5)
     
 bubble_sort_do_not_swap:
     adda.w  #4,a5
@@ -48,5 +48,5 @@ bubble_sort_do_not_swap:
 
     addq    #1,d0
     dbra    d7,bubble_sort_first_loop
-    movem.l  (sp)+,d0-d7/a0-a6
+    movem.l (sp)+,d0-d7/a0-a6
     rts
