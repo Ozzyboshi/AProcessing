@@ -742,6 +742,35 @@
  ; here new vector will hold values 7,7 according to the new magnitude
  ```
 
+### ANGLE_Q10_6 - Get the angle for a 2dvector in Q10,6 format
+
+ Input:
+
+- a0.l: address of the vector we want to get the angle
+ 
+ Output:
+ - d0.w: the resulting angle in degrees (integer)
+
+ Trashes:
+
+- d0
+- d1
+- d2
+
+ Example: get the angle of vector -25,-8 in Q10,6 format
+
+ ```asm
+  move.w                #25*64,d0
+  neg.w                 d0
+  move.w                #8*64,d1
+  neg.w                 d1
+
+  CREATE2DVECTOR        VECTOR1
+
+  jsr                  ANGLE_Q10_6
+ ; here d0 will hold value 200
+ ```
+
 ### Matrix operation instructions
 
 #### RESETMATRIX - Resets current transformation matrix to defaults in Q16,6 format
