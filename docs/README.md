@@ -914,3 +914,40 @@ Output: Nothing
   rts
   buffer: dc.b 0,0,0,0,0,0
   ```
+
+- #### MEMCPY4 - Copy data from src to dest address in chunks of 4 bytes (MACRO)
+  Input:
+    - arg1 : Address where to copy from
+    - arg2 : Address where to copy
+    
+  Output: Nothing
+
+  Defines: nothing
+
+  Trashes:
+    - d7
+    - a0
+    - a1
+    
+  Example: Copy 64 bytes from address at label SOURCE to label DEST
+  ```asm
+  MEMCPY4				SOURCE,DEST,64/4
+  ```
+
+- #### BZERO4 - Reset data to dest address in chunks of 4 bytes (MACRO)
+  Input:
+    - arg1 : Address where to copy
+    
+  Output: Nothing
+
+  Defines: nothing
+
+  Trashes:
+    - d7
+    - a0
+    
+  Example: Zero 64 bytes at label DEST
+  ```asm
+  BZERO4				DEST,64/4
+  ```
+
