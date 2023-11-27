@@ -26,6 +26,7 @@ cd blittertests/lines && make clean && make && cd .. && cd ..
 cd blittertests/filllines && make clean && make && cd .. && cd ..
 cd blittertests/drawpolygon && make clean && make && cd .. && cd ..
 cd math/simpleops && make clean && make && make test && cd .. && cd ..
+cd math/atan2_pi_64 && make clean && make && make test && cd .. && cd ..
 cd depackers/powerpacker_unpack && make clean && make && make test && cd .. && cd ..
 cd depackers/shrinkler_unpack && make clean && make && make test && cd .. && cd ..
 cd depackers/lz4_unpack && make clean && make && make test && cd .. && cd ..
