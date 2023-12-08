@@ -79,6 +79,10 @@ cd math/atan2_pi_64
 math_atan2_pi_64 -o //results.txt
 cd /
 cd /
+cd math/atan2_pi_128
+math_atan2_pi_128 -o //results.txt
+cd /
+cd /
 cd depackers/powerpacker_unpack
 powerpacker -o //results.txt
 cd /

@@ -103,6 +103,11 @@ math_atan2_pi_64
 math_atan2_pi_64vampire
 cd /
 cd /
+cd math/atan2_pi_128
+math_atan2_pi_128
+math_atan2_pi_128vampire
+cd /
+cd /
 cd depackers/powerpacker_unpack
 powerpacker
 powerpackervampire
