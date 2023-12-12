@@ -22,6 +22,33 @@
   ```
   At address OPERAND1 (word) we have $0001
 
+- #### ATAN2_PI_64 - Execute ATAN2(Y,X)/PI (INPUTS BETWEEN -62 AND +62)
+  Input: 
+  - D0.w : Y component
+  - D0.w : X component
+
+  Output:
+    -D3.w : Result of atan2(y,x)/PI
+    
+  Defines:
+    Nothing
+    
+  Trashes:
+    - D0
+    - D1
+    - A0
+     
+  Example: Get atan2(Y,X)/PI
+   
+  ```
+  move.w           #-1,d0
+  move.w           #1,d1
+  jsr              ATAN2_PI_64
+  move.w           d3,OPERAND1
+  ```
+  At address OPERAND1 (word) we have $fff0 which represents -0.25 in Q2,14 format
+
+
 - #### BETWEEN_UWORD - Check if a data register unsigned word is between 2 values (MACRO)
   Input: 
     - first parameter.w: number to check
