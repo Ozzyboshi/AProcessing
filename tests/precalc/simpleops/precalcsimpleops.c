@@ -21,6 +21,7 @@ unsigned char *precalcsimpleops_test16();
 unsigned char *precalcsimpleops_test17();
 unsigned char *precalcsimpleops_test18();
 unsigned char *precalcsimpleops_test19();
+unsigned char *precalcsimpleops_test20();
 
 struct _test TESTS[] = {
     {.testId = 1, .test_function = precalcsimpleops_test1, .nbitplanes=1, .nrows=361, .nbyterow=8,.title = "default table", .verbose=0},
@@ -42,6 +43,7 @@ struct _test TESTS[] = {
     {.testId = 17, .test_function = precalcsimpleops_test17, .nbitplanes=1, .nrows=1, .nbyterow=1,.title = "Half binary 1101001000101110", .verbose=0},
     {.testId = 18, .test_function = precalcsimpleops_test18, .nbitplanes=1, .nrows=3, .nbyterow=4,.title = "Bubble sort ordering of 3 records", .verbose=0},
     {.testId = 19, .test_function = precalcsimpleops_test19, .nbitplanes=1, .nrows=10, .nbyterow=4,.title = "Bubble sort ordering of 10 records", .verbose=0},
+    {.testId = 20, .test_function = precalcsimpleops_test20, .nbitplanes=1, .nrows=1, .nbyterow=2,.title = "Mirror sequence 1101001000101110", .verbose=0},
 
     {.testId = 0, .test_function = NULL}
 

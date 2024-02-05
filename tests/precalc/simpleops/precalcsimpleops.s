@@ -17,6 +17,7 @@
   XDEF                 _precalcsimpleops_test17
   XDEF                 _precalcsimpleops_test18
   XDEF                 _precalcsimpleops_test19
+  XDEF                 _precalcsimpleops_test20
 
   include              "../../../libs/rasterizers/globaloptions.s"
   include              "../../../libs/precalc/precalc_by_sin.s"
@@ -29,6 +30,8 @@
   include              "../../../libs/trigtables_sin.i"
   include              "../../../libs/trigtables.i"
   include              "../../../libs/ammxmacros.i"
+  include              "../../../libs/precalc/mirror_word_macro.s"
+  include              "../../../libs/precalc/mirror_word_function.s"
 
  
 _precalcsimpleops_test1:
@@ -364,4 +367,13 @@ _precalcsimpleops_test19:
   move.l (a0),(a1)+
   move.l              #RES2,d0                                    ; returns addr in d0
   move.l              (sp)+,d2
+  rts
+
+_precalcsimpleops_test20:
+  move.l               d2,-(sp)
+  move.w #%1101001000101110,d0
+  jsr MIRROR_WORD_F
+  move.w               d1,COLORSTABLE1
+  move.l               #COLORSTABLE1,d0                                    ; returns addr in d0
+  move.l               (sp)+,d2
   rts

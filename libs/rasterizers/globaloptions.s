@@ -160,3 +160,7 @@ DEBUG2 MACRO
   move.w                 #$\1,d3
   ENDM
 
+DEBUGRAW MACRO
+  clr.w                  $100
+  move.w                 #$\1,\2
+  ENDM

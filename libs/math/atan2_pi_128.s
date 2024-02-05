@@ -38,7 +38,7 @@ atan2_no_special_case:
     swap d1
     move.w d3,d1
 
-    sub.w #1,d0
+    subq #1,d0
     bsr.s ATAN2_PI_128_ODD
 
     swap d0
@@ -65,7 +65,7 @@ atan2_pi_n128_x_even:
     swap d1
     move.w d3,d1
 
-    sub.w #1,d1
+    subq #1,d1
     bsr.s ATAN2_PI_128_ODD
 
     swap d0
@@ -92,8 +92,8 @@ atan2_pi_n128_xy_even:
     swap d1
     move.w d3,d1
 
-    sub.w #1,d0
-    sub.w #1,d1
+    subq #1,d0
+    subq #1,d1
     bsr.s ATAN2_PI_128_ODD
 
     swap d0

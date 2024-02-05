@@ -86,3 +86,5 @@ build/
 *.o
 tests/vectors/simpleops/vectorssimpleops
 tests/vectors/simpleops/vectorssimpleopsvampire
+tests/math/atan2_pi_128/math_atan2_pi_128
+tests/math/atan2_pi_128/math_atan2_pi_128vampire
