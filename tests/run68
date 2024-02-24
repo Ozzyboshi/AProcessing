@@ -70,6 +70,10 @@ cd precalc/simpleops
 precalcsimpleops
 cd /
 cd /
+cd precalc/trig_autogen
+math_sin_256
+cd /
+cd /
 cd drawingtests/pointsrtg_640_400_3
 drawingtestspointrtg
 cd /

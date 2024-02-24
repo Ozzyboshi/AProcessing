@@ -22,6 +22,7 @@ cd drawingtests/filledpolygons3d && make clean && make && make test && cd .. && 
 cd vectors/simpleops && make clean && make && make test && cd .. && cd ..
 cd vectors/angles && make clean && make && make test && cd .. && cd ..
 cd precalc/simpleops && make clean && make && make test && cd .. && cd ..
+cd precalc/trig_autogen && make clean && make && make test && cd .. && cd ..
 cd blittertests/lines && make clean && make && cd .. && cd ..
 cd blittertests/filllines && make clean && make && cd .. && cd ..
 cd blittertests/drawpolygon && make clean && make && cd .. && cd ..

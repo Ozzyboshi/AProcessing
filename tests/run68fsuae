@@ -71,6 +71,10 @@ cd precalc/simpleops
 precalcsimpleops -o //results.txt
 cd /
 cd /
+cd precalc/trig_autogen
+math_sin_256 -o //results.txt
+cd /
+cd /
 cd math/simpleops
 math -o //results.txt
 cd /

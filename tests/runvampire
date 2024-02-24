@@ -88,6 +88,11 @@ precalcsimpleops
 precalcsimpleopsvampire
 cd /
 cd /
+cd precalc/trig_autogen
+math_sin_256
+math_sin_256vampire
+cd /
+cd /
 cd drawingtests/pointsrtg_640_400_3
 drawingtestspointrtg
 drawingtestspointrtgvampire
