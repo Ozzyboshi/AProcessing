@@ -74,6 +74,33 @@
   ```
   At address OPERAND1 (word) we have $ff80 which represents -0.25 in Q7,9 format
 
+- #### PROTON_SINUS - Create pseudo sinus table programmatically (no use of lookup table and fpu) (MACRO)
+  Input: nothing
+
+  Output: nothing
+    
+  Defines:
+    Nothing
+    
+  Trashes:
+    - D0
+    - D1
+    - D2
+    - A0
+    - A1
+    - A2
+    - A3
+     
+  Example: Get build a pseudo sin table at address "sinus"
+   
+  ```
+  sinus:              dcb.w 1024,0
+  ...
+  ...
+  PROTON_SINUS
+  ```
+  At address sinus we have a pseudo sin table in word format, each word represents a number in Q8,8 format.
+  Full circle is represented by 1024 entries, this means each quadrant has 256.
 
 - #### BETWEEN_UWORD - Check if a data register unsigned word is between 2 values (MACRO)
   Input: 
