@@ -1,5 +1,5 @@
 PROTON_SINUS MACRO
-makesinus:      lea sinus+512(pc),a0
+                lea sinus+512(pc),a0
                 move.l a0,a3
                 lea 1026(a3),a1
                 move.l a1,a2
@@ -16,4 +16,8 @@ makesinus:      lea sinus+512(pc),a0
                 move.w d1,-(a1)
                 move.w d1,(a2)+
                 dbf d0,.gen
+  ENDM
+
+PROTON_COS_BY_SIN MACRO
+                MEMCPY4				sinus,sinus+256*4*2,256*2/4
   ENDM
