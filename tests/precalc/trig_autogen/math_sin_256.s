@@ -33,4 +33,4 @@ _math_sin_256_test3:
   move.l           #cosinus,d0
   move.l           (sp)+,d2
   rts
-
+  

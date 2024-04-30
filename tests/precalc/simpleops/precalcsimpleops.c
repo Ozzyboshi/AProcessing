@@ -22,6 +22,10 @@ unsigned char *precalcsimpleops_test17();
 unsigned char *precalcsimpleops_test18();
 unsigned char *precalcsimpleops_test19();
 unsigned char *precalcsimpleops_test20();
+unsigned char *precalcsimpleops_test21();
+unsigned char *precalcsimpleops_test22();
+unsigned char *precalcsimpleops_test23();
+unsigned char *precalcsimpleops_test24();
 
 struct _test TESTS[] = {
     {.testId = 1, .test_function = precalcsimpleops_test1, .nbitplanes=1, .nrows=361, .nbyterow=8,.title = "default table", .verbose=0},
@@ -44,6 +48,11 @@ struct _test TESTS[] = {
     {.testId = 18, .test_function = precalcsimpleops_test18, .nbitplanes=1, .nrows=3, .nbyterow=4,.title = "Bubble sort ordering of 3 records", .verbose=0},
     {.testId = 19, .test_function = precalcsimpleops_test19, .nbitplanes=1, .nrows=10, .nbyterow=4,.title = "Bubble sort ordering of 10 records", .verbose=0},
     {.testId = 20, .test_function = precalcsimpleops_test20, .nbitplanes=1, .nrows=1, .nbyterow=2,.title = "Mirror sequence 1101001000101110", .verbose=0},
+    {.testId = 21, .test_function = precalcsimpleops_test21, .nbitplanes=1, .nrows=16, .nbyterow=2,.title = "Color table from 000 to fff in 16 steps", .verbose=0},
+    {.testId = 22, .test_function = precalcsimpleops_test22, .nbitplanes=1, .nrows=16, .nbyterow=2,.title = "Color table from fff to 000 in 16 steps", .verbose=0},
+    {.testId = 23, .test_function = precalcsimpleops_test23, .nbitplanes=1, .nrows=16, .nbyterow=2,.title = "Color table from de8 to 315 in 16 steps", .verbose=0},
+    {.testId = 24, .test_function = precalcsimpleops_test24, .nbitplanes=1, .nrows=64, .nbyterow=2,.title = "Color table from de8 to 315 in 64 steps", .verbose=0},
+
 
     {.testId = 0, .test_function = NULL}
 

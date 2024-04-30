@@ -18,6 +18,10 @@
   XDEF                 _precalcsimpleops_test18
   XDEF                 _precalcsimpleops_test19
   XDEF                 _precalcsimpleops_test20
+  XDEF                 _precalcsimpleops_test21
+  XDEF                 _precalcsimpleops_test22
+  XDEF                 _precalcsimpleops_test23
+  XDEF                 _precalcsimpleops_test24
 
   include              "../../../libs/rasterizers/globaloptions.s"
   include              "../../../libs/precalc/precalc_by_sin.s"
@@ -32,7 +36,7 @@
   include              "../../../libs/ammxmacros.i"
   include              "../../../libs/precalc/mirror_word_macro.s"
   include              "../../../libs/precalc/mirror_word_function.s"
-
+  include              "../../../libs/precalc/precalc_col_table_small.s"
  
 _precalcsimpleops_test1:
   move.l               d2,-(sp)
@@ -375,5 +379,53 @@ _precalcsimpleops_test20:
   jsr MIRROR_WORD_F
   move.w               d1,COLORSTABLE1
   move.l               #COLORSTABLE1,d0                                    ; returns addr in d0
+  move.l               (sp)+,d2
+  rts
+
+COLORSTABLE21IN: dc.w $F,$0,$F,0,$F,0
+COLORSTABLE21OUT: dcb.w 16,$00
+_precalcsimpleops_test21:
+  move.l               d2,-(sp)
+  moveq #16-1,d7
+  lea COLORSTABLE21IN,a0
+  lea COLORSTABLE21OUT,a1
+  jsr BUILDCOLORTABLEMAP_SMALL
+  move.l               #COLORSTABLE21OUT,d0                                    ; returns addr in d0
+  move.l               (sp)+,d2
+  rts
+
+COLORSTABLE22IN: dc.w $0,$F,0,$F,0,$F
+COLORSTABLE22OUT: dcb.w 16,$00
+_precalcsimpleops_test22:
+  move.l               d2,-(sp)
+  moveq #16-1,d7
+  lea COLORSTABLE22IN,a0
+  lea COLORSTABLE22OUT,a1
+  jsr BUILDCOLORTABLEMAP_SMALL
+  move.l               #COLORSTABLE22OUT,d0                                    ; returns addr in d0
+  move.l               (sp)+,d2
+  rts
+
+COLORSTABLE23IN: dc.w $3,$d,1,$e,4,$8
+COLORSTABLE23OUT: dcb.w 16,$00
+_precalcsimpleops_test23:
+  move.l               d2,-(sp)
+  moveq #16-1,d7
+  lea COLORSTABLE23IN,a0
+  lea COLORSTABLE23OUT,a1
+  jsr BUILDCOLORTABLEMAP_SMALL
+  move.l               #COLORSTABLE23OUT,d0                                    ; returns addr in d0
+  move.l               (sp)+,d2
+  rts
+
+COLORSTABLE24IN: dc.w $3,$d,1,$e,4,$8
+COLORSTABLE24OUT: dcb.w 64,$00
+_precalcsimpleops_test24:
+  move.l               d2,-(sp)
+  moveq #64-1,d7
+  lea COLORSTABLE24IN,a0
+  lea COLORSTABLE24OUT,a1
+  jsr BUILDCOLORTABLEMAP_SMALL
+  move.l               #COLORSTABLE24OUT,d0                                    ; returns addr in d0
   move.l               (sp)+,d2
   rts
