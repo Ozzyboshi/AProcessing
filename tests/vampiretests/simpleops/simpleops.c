@@ -24,6 +24,8 @@ unsigned char *vampire_test19();
 unsigned char *vampire_test20();
 unsigned char *vampire_test21();
 unsigned char *vampire_test22();
+unsigned char *vampire_test23();
+
 
 struct _test TESTS[] = {
     {.testId = 1, .test_function = vampire_test1, .nbitplanes=1, .nrows=1, .nbyterow=8,.title = "Load", .verbose=0},
@@ -48,6 +50,7 @@ struct _test TESTS[] = {
     {.testId = 20, .test_function = vampire_test20, .nbitplanes=1, .nrows=1, .nbyterow=8,.title = "PMULH", .verbose=0},
     {.testId = 21, .test_function = vampire_test21, .nbitplanes=1, .nrows=1, .nbyterow=8,.title = "PMUL88", .verbose=0},            
     {.testId = 22, .test_function = vampire_test22, .nbitplanes=1, .nrows=1, .nbyterow=8,.title = "PMULA", .verbose=0},            
+    {.testId = 23, .test_function = vampire_test23, .nbitplanes=5, .nrows=1, .nbyterow=8,.title = "c2p", .verbose=3},            
             
     {.testId = 0, .test_function = NULL}
 };

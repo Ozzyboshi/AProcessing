@@ -20,6 +20,8 @@
   XDEF                 _vampire_test20
   XDEF                 _vampire_test21
   XDEF                 _vampire_test22
+  XDEF                 _vampire_test23
+ 
  RESULT: dc.l 0,0
 _vampire_test1:
   LOAD               #$1234567812345678,d1
@@ -216,4 +218,166 @@ _vampire_test22:
   PMULA            e0,e1,d0
   STORE            d0,RESULTTEST22
   move.l           #RESULTTEST22,d0
+  rts
+
+RESULTTEST23INPUT: dc.l $01070107,$01070107,$02080208,$02080208,$03090309,$03090309,$040A040A,$040A040A
+                   dc.l $050B050B,$050B050B,$060C060C,$070D070D,$070D070D,$080E080E,$090F090F,$090F090F
+
+RESULTTEST23OUPUT_BPL1: dc.l 0,0
+RESULTTEST23OUPUT_BPL2: dc.l 0,0
+RESULTTEST23OUPUT_BPL3: dc.l 0,0
+RESULTTEST23OUPUT_BPL4: dc.l 0,0
+RESULTTEST23OUPUT_BPL5: dc.l 0,0
+
+_vampire_test23:
+  lea                   RESULTTEST23INPUT,a0
+  lea                   RESULTTEST23OUPUT_BPL1,a1
+	lea                   RESULTTEST23OUPUT_BPL2,a2
+	lea                   RESULTTEST23OUPUT_BPL3,a3
+	lea                   RESULTTEST23OUPUT_BPL4,a4
+	lea                   RESULTTEST23OUPUT_BPL5,a5
+
+  LOAD                  #0,E23
+
+  
+  ; byte 1
+  C2P                   (a0)+,d0 ; take a chunk of 8 bytes into d0
+
+	; take information about bpl 0 and store into e1
+	vperm                 #$7FFFFFFF,D0,E23,E1
+
+	; take information about bpl 1 and store into e2
+	vperm                 #$6FFFFFFF,D0,E23,E2
+
+	; take information about bpl 2 and store into e3
+	vperm                 #$5FFFFFFF,D0,E23,E3
+
+	; take information about bpl 3 and store into e4
+	vperm                 #$4FFFFFFF,D0,E23,E4
+
+	; take information about bpl 4 and store into e5
+	vperm                 #$3FFFFFFF,D0,E23,E5
+
+
+
+  ; byte 2
+  C2P                   (a0)+,d0 ; take a chunk of 8 bytes into d0
+	; take information about bpl 0 and store into e1
+	vperm                 #$87ABCDEF,D0,E1,E1
+
+	; take information about bpl 1 and store into e2
+	vperm                 #$86ABCDEF,D0,E2,E2
+
+	; take information about bpl 2 and store into e3
+	vperm                 #$85ABCDEF,D0,E3,E3
+
+	; take information about bpl 3 and store into e4
+	vperm                 #$84ABCDEF,D0,E4,E4
+
+	; take information about bpl 4 and store into e5
+	vperm                 #$83ABCDEF,D0,E5,E5
+
+  ; byte 3
+  C2P                   (a0)+,d0 ; take a chunk of 8 bytes into d0
+	; take information about bpl 0 and store into e1
+	vperm                 #$897BCDEF,D0,E1,E1
+
+	; take information about bpl 1 and store into e2
+	vperm                 #$896BCDEF,D0,E2,E2
+
+	; take information about bpl 2 and store into e3
+	vperm                 #$895BCDEF,D0,E3,E3
+
+	; take information about bpl 3 and store into e4
+	vperm                 #$894BCDEF,D0,E4,E4
+
+	; take information about bpl 4 and store into e5
+	vperm                 #$893BCDEF,D0,E5,E5
+
+  ; byte 4
+  C2P                   (a0)+,d0 ; take a chunk of 8 bytes into d0
+	; take information about bpl 0 and store into e1
+	vperm                 #$89A7CDEF,D0,E1,E1
+
+	; take information about bpl 1 and store into e2
+	vperm                 #$89A6CDEF,D0,E2,E2
+
+	; take information about bpl 2 and store into e3
+	vperm                 #$89A5CDEF,D0,E3,E3
+
+	; take information about bpl 3 and store into e4
+	vperm                 #$89A4CDEF,D0,E4,E4
+
+	; take information about bpl 4 and store into e5
+	vperm                 #$89A3CDEF,D0,E5,E5
+
+  ; byte 5
+  C2P                   (a0)+,d0 ; take a chunk of 8 bytes into d0
+	; take information about bpl 0 and store into e1
+	vperm                 #$89AB7DEF,D0,E1,E1
+
+	; take information about bpl 1 and store into e2
+	vperm                 #$89AB6DEF,D0,E2,E2
+
+	; take information about bpl 2 and store into e3
+	vperm                 #$89AB5DEF,D0,E3,E3
+
+	; take information about bpl 3 and store into e4
+	vperm                 #$89AB4DEF,D0,E4,E4
+
+	; take information about bpl 4 and store into e5
+	vperm                 #$89AB3DEF,D0,E5,E5
+
+  ; byte 6
+  C2P                   (a0)+,d0 ; take a chunk of 8 bytes into d0
+	; take information about bpl 0 and store into e1
+	vperm                 #$89ABC7EF,D0,E1,E1
+
+	; take information about bpl 1 and store into e2
+	vperm                 #$89ABC6EF,D0,E2,E2
+
+	; take information about bpl 2 and store into e3
+	vperm                 #$89ABC5EF,D0,E3,E3
+
+	; take information about bpl 3 and store into e4
+	vperm                 #$89ABC4EF,D0,E4,E4
+
+	; take information about bpl 4 and store into e5
+	vperm                 #$89ABC3EF,D0,E5,E5
+
+  ; byte 7
+  C2P                   (a0)+,d0 ; take a chunk of 8 bytes into d0
+	; take information about bpl 0 and store into e1
+	vperm                 #$89ABCD7F,D0,E1,E1
+
+	; take information about bpl 1 and store into e2
+	vperm                 #$89ABCD6F,D0,E2,E2
+
+	; take information about bpl 2 and store into e3
+	vperm                 #$89ABCD5F,D0,E3,E3
+
+	; take information about bpl 3 and store into e4
+	vperm                 #$89ABCD4F,D0,E4,E4
+
+	; take information about bpl 4 and store into e5
+	vperm                 #$89ABCD3F,D0,E5,E5
+
+  ; byte 8
+  C2P                   (a0)+,d0 ; take a chunk of 8 bytes into d0
+	; take information about bpl 0 and store into e1
+	vperm                 #$89ABCDE7,D0,E1,E1
+
+	; take information about bpl 1 and store into e2
+	vperm                 #$89ABCDE6,D0,E2,E2
+
+	; take information about bpl 2 and store into e3
+	vperm                 #$89ABCDE5,D0,E3,E3
+
+	; take information about bpl 3 and store into e4
+	vperm                 #$89ABCDE4,D0,E4,E4
+
+	; take information about bpl 4 and store into e5
+	vperm                 #$89ABCDE3,D0,E5,E5
+  
+  move.l           #RESULTTEST23OUPUT_BPL1,d0
   rts
