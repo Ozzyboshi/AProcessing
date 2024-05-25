@@ -220,8 +220,16 @@ _vampire_test22:
   move.l           #RESULTTEST22,d0
   rts
 
-RESULTTEST23INPUT: dc.l $01070107,$01070107,$02080208,$02080208,$03090309,$03090309,$040A040A,$040A040A
-                   dc.l $050B050B,$050B050B,$060C060C,$070D070D,$070D070D,$080E080E,$090F090F,$090F090F
+;RESULTTEST23INPUT: dc.l $01070107,$01070107,$02080208,$02080208,$03090309,$03090309,$040A040A,$040A040A
+;                   dc.l $050B050B,$050B050B,$060C060C,$070D070D,$070D070D,$080E080E,$090F090F,$090F090F
+RESULTTEST23INPUT: dc.b $1,0,0,0,3,0,0,0
+                   dc.b $1,0,0,0,3,0,0,0
+                   dc.b $1,0,0,0,3,0,0,0
+                   dc.b $1,0,0,0,3,0,0,0
+                   dc.b $2,0,0,0,4,0,0,0
+                   dc.b $2,0,0,0,4,0,0,0
+                   dc.b $2,0,0,0,4,0,0,0
+                   dc.b $2,0,0,0,4,0,0,0
 
 RESULTTEST23OUPUT_BPL1: dc.l 0,0
 RESULTTEST23OUPUT_BPL2: dc.l 0,0
@@ -237,6 +245,46 @@ _vampire_test23:
 	lea                   RESULTTEST23OUPUT_BPL4,a4
 	lea                   RESULTTEST23OUPUT_BPL5,a5
 
+  C2P                   (a0)+,E0 ; take a chunk of 8 bytes into E0
+  C2P                   (a0)+,E1 ; take a chunk of 8 bytes into E1
+  C2P                   (a0)+,E2 ; take a chunk of 8 bytes into E2
+  C2P                   (a0)+,E3 ; take a chunk of 8 bytes into E3
+
+  ; 32 pixels are now loaded into data registers in planar format
+
+  TRANSLO               E0-E3,D0:D1 ; merge lower
+  TRANSHI               E0-E3,D2:D3 ; merge upper
+
+  C2P                   (a0)+,E0 ; take a chunk of 8 bytes into E10
+  C2P                   (a0)+,E1 ; take a chunk of 8 bytes into E11
+  C2P                   (a0)+,E2 ; take a chunk of 8 bytes into E12
+  C2P                   (a0)+,E3 ; take a chunk of 8 bytes into E13
+
+  TRANSLO               E0-E3,D4:D5 ; merge lower
+  TRANSHI               E0-E3,D6:D7 ; merge upper
+
+  VPERM                 #$13579BDF,d1,d5,e0 ; BPL0
+  VPERM                 #$02468ACE,d1,d5,e1 ;BPL1
+
+  VPERM                 #$13579BDF,d0,d4,e2 ;BPL2
+  VPERM                 #$02468ACE,d0,d4,e3 ;BPL3
+  
+
+  ; store data into actual bitplanes
+  store                 e0,(a1)+
+  store                 e1,(a2)+
+  store                 e2,(a3)+
+  store                 e3,(a4)+
+  store                 e4,(a5)+
+
+
+  
+
+
+
+  
+
+  IFD LOL
   LOAD                  #0,E23
 
   
@@ -378,6 +426,8 @@ _vampire_test23:
 
 	; take information about bpl 4 and store into e5
 	vperm                 #$89ABCDE3,D0,E5,E5
-  
+  ENDC
+
+
   move.l           #RESULTTEST23OUPUT_BPL1,d0
   rts
