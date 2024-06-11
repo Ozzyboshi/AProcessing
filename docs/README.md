@@ -997,8 +997,8 @@ Output: Nothing
 
 - #### MEMCPY4 - Copy data from src to dest address in chunks of 4 bytes (MACRO)
   Input:
-    - arg1 : Address where to copy from
-    - arg2 : Address where to copy
+    - arg1 : Address where to copy from (or a0)
+    - arg2 : Address where to copy (or a1)
     
   Output: Nothing
 

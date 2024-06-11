@@ -134,8 +134,12 @@ FILLTABLE_FRAME_MAX_Y:  dc.w                        0
 MEMCPY4 MACRO
 	move.l #\3,d7
 	subq   #1,d7
-	lea \1,a0
+	IFNC 'a0','\1'
+  lea \1,a0
+  ENDC
+  IFNC 'a1','\2'
 	lea \2,a1
+  ENDC
 .1\@
 	move.l (a0)+,(a1)+
 	dbra d7,.1\@

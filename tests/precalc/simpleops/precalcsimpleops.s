@@ -22,6 +22,9 @@
   XDEF                 _precalcsimpleops_test22
   XDEF                 _precalcsimpleops_test23
   XDEF                 _precalcsimpleops_test24
+  XDEF                 _precalcsimpleops_test25
+  XDEF                 _precalcsimpleops_test26
+  XDEF                 _precalcsimpleops_test27
 
   include              "../../../libs/rasterizers/globaloptions.s"
   include              "../../../libs/precalc/precalc_by_sin.s"
@@ -427,5 +430,34 @@ _precalcsimpleops_test24:
   lea COLORSTABLE24OUT,a1
   jsr BUILDCOLORTABLEMAP_SMALL
   move.l               #COLORSTABLE24OUT,d0                                    ; returns addr in d0
+  move.l               (sp)+,d2
+  rts
+
+TABLE25IN: dc.w $3,$d,1,$e
+TABLE25OUT: dc.w 0,0,0,0,0,0
+_precalcsimpleops_test25:
+  move.l               d2,-(sp)
+  MEMCPY4 TABLE25IN,TABLE25OUT,8/4
+  move.l               #TABLE25OUT,d0                                    ; returns addr in d0
+  move.l               (sp)+,d2
+  rts
+
+TABLE26IN: dc.w $4,$e,2,$f
+TABLE26OUT: dc.w 0,0,0,0,0,0
+_precalcsimpleops_test26:
+  move.l               d2,-(sp)
+  lea TABLE26IN,a0
+  MEMCPY4 a0,TABLE26OUT,8/4
+  move.l               #TABLE26OUT,d0                                    ; returns addr in d0
+  move.l               (sp)+,d2
+  rts
+
+TABLE27IN: dc.w $5,$e,2,$f
+TABLE27OUT: dc.w 0,0,0,0,0,0
+_precalcsimpleops_test27:
+  move.l               d2,-(sp)
+  lea TABLE27OUT,a1
+  MEMCPY4 TABLE27IN,a1,8/4
+  move.l               #TABLE27OUT,d0                                    ; returns addr in d0
   move.l               (sp)+,d2
   rts
