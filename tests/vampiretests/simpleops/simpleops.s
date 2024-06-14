@@ -21,6 +21,10 @@
   XDEF                 _vampire_test21
   XDEF                 _vampire_test22
   XDEF                 _vampire_test23
+  XDEF                 _vampire_test24
+
+  include              "../../../libs/rasterizers/globaloptions.s"
+
  
  RESULT: dc.l 0,0
 _vampire_test1:
@@ -239,12 +243,15 @@ RESULTTEST23OUPUT_BPL4: dc.l 0,0
 RESULTTEST23OUPUT_BPL5: dc.l 0,0
 
 _vampire_test23:
+  movem.l d1-d7/a0-a6,-(sp)
+     
   lea                   RESULTTEST23INPUT,a0
   lea                   RESULTTEST23OUPUT_BPL1,a1
 	lea                   RESULTTEST23OUPUT_BPL2,a2
 	lea                   RESULTTEST23OUPUT_BPL3,a3
 	lea                   RESULTTEST23OUPUT_BPL4,a4
 	lea                   RESULTTEST23OUPUT_BPL5,a5
+
 
   C2P                   (a0)+,E0 ; take a chunk of 8 bytes into E0
   C2P                   (a0)+,E1 ; take a chunk of 8 bytes into E1
@@ -271,7 +278,6 @@ _vampire_test23:
   VPERM                 #$02468ACE,d0,d4,e3 ;BPL3
 
   VPERM                 #$13579BDF,d3,d7,e4 ; BPL5
-  
 
   ; store data into actual bitplanes
   store                 e0,(a1)+
@@ -280,5 +286,16 @@ _vampire_test23:
   store                 e3,(a4)+
   store                 e4,(a5)+
 
+  movem.l (sp)+,d1-d7/a0-a6
   move.l           #RESULTTEST23OUPUT_BPL1,d0
+  rts
+
+TABLE24IN: dc.w $5,$e,2,$f,$4,$d,1,$e,$3,$d,1,$e,$1,$2,3,4
+TABLE24OUT: dc.w 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+_vampire_test24:
+  move.l               d2,-(sp)
+  lea TABLE24OUT,a1
+  MEMCPY16 TABLE24IN,a1,32/16
+  move.l               #TABLE24OUT,d0                                    ; returns addr in d0
+  move.l               (sp)+,d2
   rts

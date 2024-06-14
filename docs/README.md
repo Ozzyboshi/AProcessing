@@ -995,6 +995,25 @@ Output: Nothing
   buffer: dc.b 0,0,0,0,0,0
   ```
 
+- #### MEMCPY16 - Copy data from src to dest address in chunks of 16 bytes (MACRO)
+  Input:
+    - arg1 : Address where to copy from (or a0)
+    - arg2 : Address where to copy (or a1)
+    
+  Output: Nothing
+
+  Defines: nothing
+
+  Trashes:
+    - d7
+    - a0
+    - a1
+    
+  Example: Copy 64 bytes from address at label SOURCE to label DEST
+  ```asm
+  MEMCPY16				SOURCE,DEST,64/16
+  ```
+
 - #### MEMCPY4 - Copy data from src to dest address in chunks of 4 bytes (MACRO)
   Input:
     - arg1 : Address where to copy from (or a0)
