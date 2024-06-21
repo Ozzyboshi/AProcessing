@@ -25,7 +25,9 @@
   XDEF                 _precalcsimpleops_test25
   XDEF                 _precalcsimpleops_test26
   XDEF                 _precalcsimpleops_test27
+  XDEF                 _precalcsimpleops_test28
 
+  include              "../../../libs/precalc/rgbto0r0b0g.s"
   include              "../../../libs/rasterizers/globaloptions.s"
   include              "../../../libs/precalc/precalc_by_sin.s"
   include              "../../../libs/precalc/precalc_col_table.s"
@@ -459,5 +461,15 @@ _precalcsimpleops_test27:
   lea TABLE27OUT,a1
   MEMCPY4 TABLE27IN,a1,8/4
   move.l               #TABLE27OUT,d0                                    ; returns addr in d0
+  move.l               (sp)+,d2
+  rts
+
+TABLE28OUT: dc.w 0
+_precalcsimpleops_test28:
+  move.l               d2,-(sp)
+  move.w #$0123,d0
+  RGBTO0R0B0G d0,d1,d2,d3
+  move.l d1,TABLE28OUT
+  move.l               #TABLE28OUT,d0                                    ; returns addr in d0
   move.l               (sp)+,d2
   rts

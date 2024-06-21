@@ -43,7 +43,7 @@
             char filename[100];\
             snprintf(filename, sizeof(filename), "expected/%s%d",var2, var[testcounter].testId);\
             if (argc==2 && atoi(argv[1]) == var[testcounter].testId) var[testcounter].verbose = 3;\
-                    fprintf(writeresult?fdres:stdout,"alessio qui file name vale %s*\n",filename);\
+            if (var[testcounter].verbose == 3) fprintf(writeresult?fdres:stdout,"file name is --%s--\n",filename);\
             error = make_test_patched( var[testcounter],filename,var[testcounter]);\
             if (!error)\
                 fprintf(writeresult?fdres:stdout,"Test succeeded\n");\

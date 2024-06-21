@@ -1,12 +1,18 @@
   XDEF                 _vampire_fpu_test1
+  XDEF                 _vampire_fpu_test2
+  XDEF                 _vampire_fpu_test3
+  XDEF                 _vampire_fpu_test4
+  XDEF                 _vampire_fpu_test5
 
+  include              "../../../libs/precalc/rgbto0r0b0g.s"
   include              "../../../libs/rasterizers/globaloptions.s"
+  include              "../../../libs/vampfpu/copfade.s"
+  include              "../../../libs/vampfpu/coldistance.s"
 
- 
 RESULT: dc.l 0,0
 _vampire_fpu_test1:
 
-    movem.l d1-d7,-(sp)
+    movem.l d1-d7/a0-a6,-(sp)
 
     moveq #1,d0
     moveq #2,d1
@@ -16,34 +22,87 @@ _vampire_fpu_test1:
     moveq #$F,d4
     moveq #$F,d5
 
-  ; Carica i valori dei punti nei registri FP
-    fmove.w d0,fp0      ; Carica x1 in fp0
-    fmove.w d1,fp1      ; Carica y1 in fp1
-    fmove.w d2,fp2      ; Carica z1 in fp2
-    fmove.w d3,fp3      ; Carica x2 in fp3
-    fmove.w d4,fp4      ; Carica y2 in fp4
-    fmove.w d5,fp5      ; Carica z2 in fp5
-
-    ; Calcola le differenze
-    fsub fp3,fp0        ; fp0 = x1 - x2
-    fsub fp4,fp1        ; fp1 = y1 - y2
-    fsub fp5,fp2        ; fp2 = z1 - z2
-
-    ; Eleva al quadrato le differenze
-    fmul fp0,fp0        ; fp0 = (x1 - x2)^2
-    fmul fp1,fp1        ; fp1 = (y1 - y2)^2
-    fmul fp2,fp2        ; fp2 = (z1 - z2)^2
-
-    ; Somma i quadrati
-    fadd fp1,fp0        ; fp0 = (x1 - x2)^2 + (y1 - y2)^2
-    fadd fp2,fp0        ; fp0 = (x1 - x2)^2 + (y1 - y2)^2 + (z1 - z2)^2
-
-    ; Calcola la radice quadrata della somma
-    fsqrt fp0,fp0       ; fp0 = sqrt((x1 - x2)^2 + (y1 - y2)^2 + (z1 - z2)^2)
+    jsr COLDIST
 
     fmove.d fp0,RESULT
 
-    movem.l (sp)+,d1-d7
+    movem.l (sp)+,d1-d7/a0-a6
 
     move.l             #RESULT,d0
     rts
+ 
+INPUT2: dc.l $01800975,$01800EEC
+RESULT2: dc.w 0
+_vampire_fpu_test2:
+  movem.l d1-d7,-(sp)
+
+  lea INPUT2,a0
+  LOAD #0,D1
+  LOAD (a0),D3
+  vperm #$FFFFFF23,d3,d1,d0
+  vperm #$FFFFFF67,d3,d1,d1
+
+  fmove #50,fp1
+  fmove #25,fp2
+
+  jsr COPFADEFPU
+  move.w d0,RESULT2
+  movem.l (sp)+,d1-d7
+
+  move.l             #RESULT2,d0
+  rts
+
+INPUT3: dc.l $01800EEC,$01800975
+RESULT3: dc.w 0
+_vampire_fpu_test3:
+  movem.l d1-d7,-(sp)
+
+  lea INPUT3,a0
+  LOAD #0,D1
+  LOAD (a0),D3
+  vperm #$FFFFFF23,d3,d1,d0
+  vperm #$FFFFFF67,d3,d1,d1
+
+  fmove #50,fp1
+  fmove #25,fp2
+
+  jsr COPFADEFPU
+  move.w d0,RESULT3
+  movem.l (sp)+,d1-d7
+
+  move.l             #RESULT3,d0
+  rts
+
+RESULT4: dc.w 0
+_vampire_fpu_test4:
+  movem.l d1-d7,-(sp)
+
+  move.l #$0000,d0
+  move.l #$0FFF,d1
+
+  fmove #16,fp1
+  fmove #1,fp2
+
+  jsr COPFADEFPU
+  move.w d0,RESULT4
+  movem.l (sp)+,d1-d7
+
+  move.l             #RESULT4,d0
+  rts
+
+RESULT5: dc.w 0
+_vampire_fpu_test5:
+  movem.l d1-d7,-(sp)
+
+  move.l #$0000,d1
+  move.l #$0FFF,d0
+
+  fmove #16,fp1
+  fmove #1,fp2
+
+  jsr COPFADEFPU
+  move.w d0,RESULT5
+  movem.l (sp)+,d1-d7
+
+  move.l             #RESULT5,d0
+  rts

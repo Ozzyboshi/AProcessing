@@ -29,6 +29,7 @@ unsigned char *precalcsimpleops_test24();
 unsigned char *precalcsimpleops_test25();
 unsigned char *precalcsimpleops_test26();
 unsigned char *precalcsimpleops_test27();
+unsigned char *precalcsimpleops_test28();
 
 struct _test TESTS[] = {
     {.testId = 1, .test_function = precalcsimpleops_test1, .nbitplanes=1, .nrows=361, .nbyterow=8,.title = "default table", .verbose=0},
@@ -58,6 +59,8 @@ struct _test TESTS[] = {
     {.testId = 25, .test_function = precalcsimpleops_test25, .nbitplanes=1, .nrows=1, .nbyterow=8,.title = "Copy 8 bytes", .verbose=0},
     {.testId = 26, .test_function = precalcsimpleops_test26, .nbitplanes=1, .nrows=1, .nbyterow=8,.title = "Copy 8 bytes", .verbose=0},
     {.testId = 27, .test_function = precalcsimpleops_test27, .nbitplanes=1, .nrows=1, .nbyterow=8,.title = "Copy 8 bytes", .verbose=0},
+    {.testId = 28, .test_function = precalcsimpleops_test28, .nbitplanes=1, .nrows=1, .nbyterow=4,.title = "RGB $123 to $010203", .verbose=0},
+
 
 
     {.testId = 0, .test_function = NULL}
