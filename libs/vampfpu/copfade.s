@@ -24,6 +24,7 @@ COPFADEFPU:
   RGBTO0R0B0G d0,d2,d6,d7
   RGBTO0R0B0G d1,d3,d6,d7
 
+  IFD VAMPIRE
   load d2,e0
   psubb d2,d3,d4 ;d4 #$F9F9FA
 
@@ -74,4 +75,5 @@ COPFADEFPU:
   andi.w #$FF,d0
 
   or.w d2,d0
+  ENDC
   rts

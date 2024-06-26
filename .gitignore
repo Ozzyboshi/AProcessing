@@ -92,3 +92,4 @@ tests/precalc/trig_autogen/math_sin_256
 tests/precalc/trig_autogen/math_sin_256vampire
 tests/vampiretests/simpleops/simpleopsvampire
 tests/vampiretests/fpu/fpuvampire
+tests/vampiretests/fpu/fpu
