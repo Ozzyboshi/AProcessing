@@ -9,6 +9,7 @@
   XDEF                 _vampire_fpu_test9
 
   include              "../../../libs/precalc/rgbto0r0b0g.s"
+  include              "../../../libs/precalc/rgbtoregs.s"
   include              "../../../libs/rasterizers/globaloptions.s"
   include              "../../../libs/vampfpu/copfade.s"
   include              "../../../libs/vampfpu/coldistance.s"
@@ -144,22 +145,6 @@ _vampire_fpu_test6:
 
   move.l             #RESULT6,d0
   rts
-
-RGBTOREGS MACRO
-  ; R
-  move.w \1,\2
-  lsr.w #8,\2
-
-  ; G
-  move.l \1,\3
-  andi.l #$F0,\3
-  lsr.w #4,\3
-
-  ; B
-  move.l \1,\4
-  andi.l #$F,\4
-
-  ENDM
 
 RESULT7: dc.w 0
 COPLIST7:
