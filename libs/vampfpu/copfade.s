@@ -30,10 +30,7 @@ COPFADEFPU:
 
 
 ; start of BLUE
-  move.b d4,d5
-  ext.w d5
-  ext.l d5 ; qui abbiamo $FFFFFFFA
-  fmove.l d5,fp0
+  fmove.b d4,fp0
 
   fdiv fp1,fp0
   fmul fp2,fp0
@@ -45,10 +42,7 @@ COPFADEFPU:
   lsr.l #8,d4
   ;...
 
-  move.b d4,d5
-  ext.w d5
-  ext.l d5
-  fmove.l d5,fp0
+  fmove.b d4,fp0
   fdiv fp1,fp0
   fmul fp2,fp0
   fmove.l fp0,d1
@@ -57,10 +51,7 @@ COPFADEFPU:
 
   ; start of red
   lsr.l #8,d4
-  move.b d4,d5
-  ext.w d5
-  ext.l d5
-  fmove.l d5,fp0
+  fmove.b d4,fp0
 
   fdiv fp1,fp0
   fmul fp2,fp0
