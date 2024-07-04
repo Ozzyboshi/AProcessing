@@ -379,7 +379,7 @@ _vampire_test30:
   move.l               d2,-(sp)
 
   load #$0233023401210112,E1
-  CMP8BYTESEX #$0233023401210112,e1,e2,test30uguali,test30nouguali
+  CMP8BYTESEXS #$0233023401210112,e1,e2,test30uguali,test30nouguali
   
 test30nouguali:
   load #$FFFFFFFFFFFFFFFF,e0
@@ -399,7 +399,7 @@ _vampire_test31:
   move.l               d2,-(sp)
 
   load #$0233023401210112,E1
-  CMP8BYTESEX #$0233123401210112,e1,e2,test31uguali,test31nouguali
+  CMP8BYTESEXS #$0233123401210112,e1,e2,test31uguali,test31nouguali
   
 test31nouguali:
   load #$FFFFFFFFFFFFFFFF,e0
