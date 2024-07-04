@@ -26,6 +26,13 @@ unsigned char *vampire_test21();
 unsigned char *vampire_test22();
 unsigned char *vampire_test23();
 unsigned char *vampire_test24();
+unsigned char *vampire_test25();
+unsigned char *vampire_test26();
+unsigned char *vampire_test27();
+unsigned char *vampire_test28();
+unsigned char *vampire_test29();
+unsigned char *vampire_test30();
+unsigned char *vampire_test31();
 
 struct _test TESTS[] = {
     {.testId = 1, .test_function = vampire_test1, .nbitplanes=1, .nrows=1, .nbyterow=8,.title = "Load", .verbose=0},
@@ -52,7 +59,15 @@ struct _test TESTS[] = {
     {.testId = 22, .test_function = vampire_test22, .nbitplanes=1, .nrows=1, .nbyterow=8,.title = "PMULA", .verbose=0},            
     {.testId = 23, .test_function = vampire_test23, .nbitplanes=5, .nrows=1, .nbyterow=8,.title = "c2p", .verbose=0},            
     {.testId = 24, .test_function = vampire_test24, .nbitplanes=1, .nrows=2, .nbyterow=16,.title = "MEMCPY16", .verbose=0},            
-         
+    {.testId = 25, .test_function = vampire_test25, .nbitplanes=1, .nrows=1, .nbyterow=8,.title = "vector byte comparison pcmpeqb all equal", .verbose=0},            
+    {.testId = 26, .test_function = vampire_test26, .nbitplanes=1, .nrows=1, .nbyterow=8,.title = "vector byte comparison pcmpeqb 1 byte diff", .verbose=0},            
+    {.testId = 27, .test_function = vampire_test27, .nbitplanes=1, .nrows=1, .nbyterow=8,.title = "vector byte comparison pcmphib 2 byte diff", .verbose=0},
+    {.testId = 28, .test_function = vampire_test28, .nbitplanes=1, .nrows=1, .nbyterow=8,.title = "vector byte comparison pcmpgeb 2 byte diff", .verbose=0},            
+    {.testId = 29, .test_function = vampire_test29, .nbitplanes=1, .nrows=1, .nbyterow=8,.title = "vector byte comparison pcmpgtb 2 byte diff", .verbose=0},            
+    {.testId = 30, .test_function = vampire_test30, .nbitplanes=1, .nrows=1, .nbyterow=8,.title = "check if e1 equal to immediate", .verbose=0},            
+    {.testId = 31, .test_function = vampire_test31, .nbitplanes=1, .nrows=1, .nbyterow=8,.title = "check if e1 not equal to immediate", .verbose=0},            
+
+
     {.testId = 0, .test_function = NULL}
 };
 

@@ -22,8 +22,15 @@
   XDEF                 _vampire_test22
   XDEF                 _vampire_test23
   XDEF                 _vampire_test24
-
+  XDEF                 _vampire_test25
+  XDEF                 _vampire_test26
+  XDEF                 _vampire_test27
+  XDEF                 _vampire_test28
+  XDEF                 _vampire_test29
+  XDEF                 _vampire_test30
+  XDEF                 _vampire_test31
   include              "../../../libs/rasterizers/globaloptions.s"
+  include              "../../../libs/vampfpu/cmp8bytesex.s"
 
  
  RESULT: dc.l 0,0
@@ -297,5 +304,112 @@ _vampire_test24:
   lea TABLE24OUT,a1
   MEMCPY16 TABLE24IN,a1,32/16
   move.l               #TABLE24OUT,d0                                    ; returns addr in d0
+  move.l               (sp)+,d2
+  rts
+
+TABLE25OUT: dc.l $11111111,$11111111
+_vampire_test25:
+  move.l               d2,-(sp)
+
+  load #$0233023401210112,E0
+  load #$0233023401210112,E1
+  pcmpeqb e0,e1,e2
+  store e2,TABLE25OUT
+
+  move.l               #TABLE25OUT,d0                                    ; returns addr in d0
+  move.l               (sp)+,d2
+  rts
+
+TABLE26OUT: dc.l $11111111,$11111111
+_vampire_test26:
+  move.l               d2,-(sp)
+
+  load #$0233023401210112,E0
+  load #$0233023401210113,E1
+  pcmpeqb e0,e1,e2
+  store e2,TABLE26OUT
+
+  move.l               #TABLE26OUT,d0                                    ; returns addr in d0
+  move.l               (sp)+,d2
+  rts
+
+TABLE27OUT: dc.l $11111111,$11111111
+_vampire_test27:
+  move.l               d2,-(sp)
+
+  load #$0233023401210112,E0
+  load #$02330234012100FF,E1
+  pcmphib e0,e1,e2
+  store e2,TABLE27OUT
+
+  move.l               #TABLE27OUT,d0                                    ; returns addr in d0
+  move.l               (sp)+,d2
+  rts
+
+TABLE28OUT: dc.l $11111111,$11111111
+_vampire_test28:
+  move.l               d2,-(sp)
+
+  load #$0233023401210112,E0
+  load #$02330234012100FF,E1
+  pcmpgeb e0,e1,e2
+  store e2,TABLE28OUT
+
+  move.l               #TABLE28OUT,d0                                    ; returns addr in d0
+  move.l               (sp)+,d2
+  rts
+
+TABLE29OUT: dc.l $11111111,$11111111
+_vampire_test29:
+  move.l               d2,-(sp)
+
+  load #$0233023401210112,E0
+  load #$02330234012100FF,E1
+  pcmpgtb e0,e1,e2
+  store e2,TABLE29OUT
+
+  move.l               #TABLE29OUT,d0                                    ; returns addr in d0
+  move.l               (sp)+,d2
+  rts
+
+
+
+TABLE30OUT: dc.l $11111111,$11111111
+_vampire_test30:
+  move.l               d2,-(sp)
+
+  load #$0233023401210112,E1
+  CMP8BYTESEX #$0233023401210112,e1,e2,test30uguali,test30nouguali
+  
+test30nouguali:
+  load #$FFFFFFFFFFFFFFFF,e0
+  store e0,TABLE30OUT
+  move.l               #TABLE30OUT,d0                                    ; returns addr in d0
+  move.l               (sp)+,d2
+  rts
+test30uguali:
+  load #$0000000000000000,e0
+  store e0,TABLE30OUT
+  move.l               #TABLE30OUT,d0                                    ; returns addr in d0
+  move.l               (sp)+,d2
+  rts
+
+TABLE31OUT: dc.l $11111111,$11111111
+_vampire_test31:
+  move.l               d2,-(sp)
+
+  load #$0233023401210112,E1
+  CMP8BYTESEX #$0233123401210112,e1,e2,test31uguali,test31nouguali
+  
+test31nouguali:
+  load #$FFFFFFFFFFFFFFFF,e0
+  store e0,TABLE31OUT
+  move.l               #TABLE31OUT,d0                                    ; returns addr in d0
+  move.l               (sp)+,d2
+  rts
+test31uguali:
+  load #$0000000000000000,e0
+  store e0,TABLE31OUT
+  move.l               #TABLE31OUT,d0                                    ; returns addr in d0
   move.l               (sp)+,d2
   rts
