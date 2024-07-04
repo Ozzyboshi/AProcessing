@@ -14,7 +14,7 @@ CMP8BYTESEXS MACRO
   bra.s \4
   ENDM
 
-CMP8BYTESEXSW MACRO
+CMP8BYTESEXW MACRO
   pcmpeqb \1,\2,\3
   not.l \3
   bne.w \5
