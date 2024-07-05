@@ -15,14 +15,14 @@
 ; Defines: nothing
 ;
 ; Trashes: 
-; - d0-d7
+; - d0-d6
 ; - fp0
 ; - e0
 ; Depends on RGBTO0R0B0G macro
 COPFADEFPU:
 
-  RGBTO0R0B0G d0,d2,d6,d7
-  RGBTO0R0B0G d1,d3,d6,d7
+  RGBTO0R0B0G d0,d2,d6,d4
+  RGBTO0R0B0G d1,d3,d6,d4
 
   IFD VAMPIRE
   load d2,e0
