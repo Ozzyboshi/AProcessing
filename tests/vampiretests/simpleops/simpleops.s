@@ -29,6 +29,7 @@
   XDEF                 _vampire_test29
   XDEF                 _vampire_test30
   XDEF                 _vampire_test31
+  XDEF                 _vampire_test32
   include              "../../../libs/rasterizers/globaloptions.s"
   include              "../../../libs/vampfpu/cmp8bytesex.s"
 
@@ -411,5 +412,23 @@ test31uguali:
   load #$0000000000000000,e0
   store e0,TABLE31OUT
   move.l               #TABLE31OUT,d0                                    ; returns addr in d0
+  move.l               (sp)+,d2
+  rts
+
+TABLE32OUT: dc.l $0,$0
+_vampire_test32:
+  move.l               d2,-(sp)
+
+  load #$0123456789ABCDEF,E0
+  load #$02330234012100FF,E1
+  load #$5555555555555555,E2
+
+  load #$e2,e3
+
+  minterm e0-e3,e0
+
+  store e0,TABLE32OUT
+
+  move.l               #TABLE32OUT,d0                                    ; returns addr in d0
   move.l               (sp)+,d2
   rts

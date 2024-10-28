@@ -33,6 +33,7 @@ unsigned char *vampire_test28();
 unsigned char *vampire_test29();
 unsigned char *vampire_test30();
 unsigned char *vampire_test31();
+unsigned char *vampire_test32();
 
 struct _test TESTS[] = {
     {.testId = 1, .test_function = vampire_test1, .nbitplanes=1, .nrows=1, .nbyterow=8,.title = "Load", .verbose=0},
@@ -66,6 +67,7 @@ struct _test TESTS[] = {
     {.testId = 29, .test_function = vampire_test29, .nbitplanes=1, .nrows=1, .nbyterow=8,.title = "vector byte comparison pcmpgtb 2 byte diff", .verbose=0},            
     {.testId = 30, .test_function = vampire_test30, .nbitplanes=1, .nrows=1, .nbyterow=8,.title = "check if e1 equal to immediate", .verbose=0},            
     {.testId = 31, .test_function = vampire_test31, .nbitplanes=1, .nrows=1, .nbyterow=8,.title = "check if e1 not equal to immediate", .verbose=0},            
+    {.testId = 32, .test_function = vampire_test32, .nbitplanes=1, .nrows=1, .nbyterow=8,.title = "minterm", .verbose=0},            
 
 
     {.testId = 0, .test_function = NULL}
